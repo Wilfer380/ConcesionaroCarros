@@ -17,7 +17,7 @@ namespace ConcesionaroCarros.Views
     /// <summary>
     /// Lógica de interacción para CarrosView.xaml
     /// </summary>
-    public partial class CarrosView : Window
+    public partial class CarrosView
     {
         public CarrosView()
         {

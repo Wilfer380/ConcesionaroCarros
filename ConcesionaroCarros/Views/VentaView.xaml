@@ -1,9 +1,6 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.VentaView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Configuración de Venta" Height="750" Width="1000"
-        WindowStartupLocation="CenterScreen">
-
+﻿<UserControl x:Class="ConcesionaroCarros.Views.VentaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
@@ -140,4 +137,4 @@
             </Grid>
         </Border>
     </Grid>
-</Window>
+</UserControl>

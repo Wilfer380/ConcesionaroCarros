@@ -1,11 +1,6 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.CarrosView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ConcesionaroCarros.Views"
-        mc:Ignorable="d"
-        Title="CarrosView" Height="557" Width="800">
+﻿<UserControl x:Class="ConcesionaroCarros.Views.CarrosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
         <Grid.Background>
@@ -100,4 +95,4 @@
             </ListView>
         </Grid>
     </Grid>
-</Window>
+</UserControl>

@@ -55,6 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\NullVisibilityConverters.cs" />
+    <Compile Include="Models\Carro.cs" />
+    <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\DetalleFactura.cs" />
+    <Compile Include="Models\Empleado.cs" />
+    <Compile Include="Models\Factura.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CarrosViewModel.cs" />
+    <Compile Include="ViewModels\ClientesViewModel.cs" />
+    <Compile Include="ViewModels\EmpleadosViewModel.cs" />
+    <Compile Include="ViewModels\FacturaViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\VentaViewModel.cs" />
     <Compile Include="Views\CarrosView.xaml.cs">
       <DependentUpon>CarrosView.xaml</DependentUpon>
     </Compile>
@@ -130,12 +144,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Db\" />
     <Folder Include="Factory\" />
-    <Folder Include="Models\" />
     <Folder Include="Resources\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,7 +17,7 @@ namespace ConcesionaroCarros.Views
     /// <summary>
     /// Lógica de interacción para FacturaView.xaml
     /// </summary>
-    public partial class FacturaView : Window
+    public partial class FacturaView : UserControl
     {
         public FacturaView()
         {

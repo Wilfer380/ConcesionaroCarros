@@ -1,8 +1,6 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.ClientesView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Registro de Clientes" Height="550" Width="850"
-        WindowStartupLocation="CenterScreen">
+﻿<UserControl x:Class="ConcesionaroCarros.Views.ClientesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
         <Grid.Background>
@@ -91,4 +89,4 @@
             </StackPanel>
         </Border>
     </Grid>
-</Window>
+</UserControl>

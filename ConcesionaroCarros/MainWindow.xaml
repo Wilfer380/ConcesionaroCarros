@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ConcesionaroCarros.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ConcesionaroCarros"
         Title="DRIVE &amp; DREAM | Elite Automotive Management" 
         Height="750" Width="1200"
         WindowStartupLocation="CenterScreen">
@@ -38,12 +39,12 @@
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
-                    <Button Content="🚗 Inventario de Carros" Style="{StaticResource MenuButtonStyle}"/>
-                    <Button Content="👥 Directorio de Clientes" Style="{StaticResource MenuButtonStyle}"/>
-                    <Button Content="👔 Gestión de Empleados" Style="{StaticResource MenuButtonStyle}"/>
+                    <Button Content="🚗 Inventario de Carros" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowCarrosCommand}"/>
+                    <Button Content="👥 Directorio de Clientes" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowClientesCommand}"/>
+                    <Button Content="👔 Gestión de Empleados" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowEmpleadosCommand}"/>
                     <Separator Background="#222" Margin="20,15"/>
-                    <Button Content="💰 Punto de Venta" Style="{StaticResource MenuButtonStyle}"/>
-                    <Button Content="📄 Registro de Facturas" Style="{StaticResource MenuButtonStyle}"/>
+                    <Button Content="💰 Punto de Venta" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowVentaCommand}"/>
+                    <Button Content="📄 Registro de Facturas" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowFacturaCommand}"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
@@ -140,7 +141,7 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <ContentControl x:Name="MainContentFrame" Panel.ZIndex="10"/>
+            <ContentControl Content="{Binding CurrentView}" Panel.ZIndex="10"/>
         </Grid>
     </Grid>
 </Window>
