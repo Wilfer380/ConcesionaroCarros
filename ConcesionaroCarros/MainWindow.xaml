@@ -1,12 +1,15 @@
 ﻿<Window x:Class="ConcesionaroCarros.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:ConcesionaroCarros"
-        Title="DRIVE &amp; DREAM | Elite Automotive Management" 
-        Height="750" Width="1200"
+        Title="DRIVE &amp; DREAM Elite Automotive Management"
+        Height="800" Width="1250"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <DropShadowEffect x:Key="CardShadow" BlurRadius="12" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+
         <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#CCCCCC"/>
@@ -33,95 +36,142 @@
 
         <Border Grid.Column="0" Background="#111111">
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Margin="25,40,25,50">
+                <StackPanel DockPanel.Dock="Top" Margin="25,40,25,40">
                     <TextBlock Text="DRIVE &amp; DREAM" Foreground="White" FontSize="22" FontWeight="Black"/>
-                    <TextBlock Text="SISTEMA DE GESTIÓN" Foreground="#D4AF37" FontSize="10" FontWeight="Bold" Margin="2,2,0,0"/>
+                    <TextBlock Text="SISTEMA DE GESTIÓN" Foreground="#D4AF37" FontSize="10" FontWeight="Bold"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
-                    <Button Content="🚗 Inventario de Carros" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowCarrosCommand}"/>
-                    <Button Content="👥 Directorio de Clientes" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowClientesCommand}"/>
-                    <Button Content="👔 Gestión de Empleados" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowEmpleadosCommand}"/>
+                    <Button Content="🏠 Dashboard" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowDashboardCommand}"/>
+                    
+                    <Button Content="🚗 Inventario de Carros" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowCarrosCommand}"/>
+                    
+                    <Button Content="👥 Directorio de Clientes" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowClientesCommand}"/>
+                    
+                    <Button Content="👔 Gestión de Empleados" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowEmpleadosCommand}"/>
+                    
                     <Separator Background="#222" Margin="20,15"/>
-                    <Button Content="💰 Punto de Venta" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowVentaCommand}"/>
-                    <Button Content="📄 Registro de Facturas" Style="{StaticResource MenuButtonStyle}" Command="{Binding ShowFacturaCommand}"/>
+                    <Button Content="💰 Punto de Venta" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowVentaCommand}"/>
+
+                    <Button Content="📄 Registro de Facturas" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowFacturaCommand}"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
                     <TextBlock Text="Estado: Conectado" Foreground="#44BB44" FontSize="10" HorizontalAlignment="Center"/>
-                    <TextBlock Text="v2.0.1 - Premium Edition" Foreground="#444" FontSize="9" HorizontalAlignment="Center" Margin="0,5"/>
+                    <TextBlock Text="v2.0.1 - Enterprise Edition" Foreground="#444" FontSize="9" HorizontalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
         </Border>
 
         <Grid Grid.Column="1">
             <Grid.Background>
-                <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
-                            Stretch="UniformToFill" Opacity="0.12"/>
+                <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7"
+                            Stretch="UniformToFill" 
+                            Opacity="0.15"/>
             </Grid.Background>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Visibility="{Binding IsDashboardVisible, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel Margin="45">
-                    <TextBlock Text="Dashboard Operativo" FontSize="34" FontWeight="Bold" Foreground="#1A1A1A"/>
-                    <TextBlock Text="Gestión de activos de alto rendimiento y atención al cliente premium." FontSize="15" Foreground="#666" Margin="0,5,0,40"/>
 
-                    <UniformGrid Columns="3" Margin="0,0,0,40">
-                        <Border Background="White" Margin="8" CornerRadius="15" Padding="25">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.08"/>
-                            </Border.Effect>
+                    <TextBlock Text="Dashboard General" FontSize="34" FontWeight="Bold" Foreground="#1A1A1A"/>
+                    <TextBlock Text="Resumen ejecutivo y analítica de activos en tiempo real." FontSize="15" Foreground="#666" Margin="0,5,0,40"/>
+
+                    <UniformGrid Columns="4" Margin="0,0,0,40">
+
+                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="VALOR EN STOCK" Foreground="#888" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="$3.850.000.000" FontSize="22" FontWeight="Black" Foreground="#1A1A1A" Margin="0,8,0,0"/>
+                                <TextBlock Text="🚗 Vehículos Disponibles" Foreground="#3498DB" FontSize="11" FontWeight="Bold"/>
+                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="White" Margin="8" CornerRadius="15" Padding="25">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.08"/>
-                            </Border.Effect>
+                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="UNIDADES VENDIDAS" Foreground="#888" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="14 Vehículos" FontSize="22" FontWeight="Black" Foreground="#44BB44" Margin="0,8,0,0"/>
+                                <TextBlock Text="👥 Clientes Registrados" Foreground="#9B59B6" FontSize="11" FontWeight="Bold"/>
+                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="White" Margin="8" CornerRadius="15" Padding="25">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.08"/>
-                            </Border.Effect>
+                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="PROMEDIO DE VENTA" Foreground="#888" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="$275.000.000" FontSize="22" FontWeight="Black" Foreground="#D4AF37" Margin="0,8,0,0"/>
+                                <TextBlock Text="👔 Empleados Activos" Foreground="#E67E22" FontSize="11" FontWeight="Bold"/>
+                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
+
+                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
+                            <StackPanel>
+                                <TextBlock Text="📄 Facturas Registradas" Foreground="#2ECC71" FontSize="11" FontWeight="Bold"/>
+                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+
                     </UniformGrid>
 
-                    <Border Background="#FDFDFD" CornerRadius="20" Padding="35" BorderBrush="#EEE" BorderThickness="1">
+                    <Border Background="White" CornerRadius="20" Padding="35" Margin="0,0,0,40" Effect="{StaticResource CardShadow}">
                         <StackPanel>
-                            <TextBlock Text="DESCRIPCIÓN DE OPERACIONES" FontSize="18" FontWeight="Bold" Foreground="#333" Margin="0,0,0,25"/>
+                            <TextBlock Text="Análisis Financiero de Activos" FontSize="18" FontWeight="Bold" Margin="0,0,0,25" Foreground="#1A1A1A"/>
 
-                            <Grid Margin="0,0,0,20">
+                            <Grid Margin="0,0,0,15">
+                                <TextBlock Text="💰 Valorización de Inventario (Real-Time)" Foreground="#555" FontSize="14"/>
+                                <TextBlock Text="$3.850.000.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#2C3E50" FontSize="16"/>
+                            </Grid>
+
+                            <Grid Margin="0,0,0,15">
+                                <TextBlock Text="📈 Rendimiento de Ventas Mensuales" Foreground="#555" FontSize="14"/>
+                                <TextBlock Text="$1.250.000.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#27AE60" FontSize="16"/>
+                            </Grid>
+
+                            <Grid Margin="0,0,0,15">
+                                <TextBlock Text="⭐ Modelos de Mayor Rentabilidad" Foreground="#555" FontSize="14"/>
+                                <TextBlock Text="Audi RS5 Sportback, BMW M4 Competition" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#D4AF37" FontSize="14"/>
+                            </Grid>
+
+                            <Grid>
+                                <TextBlock Text="📉 Costos Operativos Estimados" Foreground="#555" FontSize="14"/>
+                                <TextBlock Text="$45.200.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#E74C3C" FontSize="14"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#F0F0F0" CornerRadius="20" Padding="35" Effect="{StaticResource CardShadow}">
+                        <StackPanel>
+                            <TextBlock Text="Protocolos de Operación" FontSize="18" FontWeight="Bold" Margin="0,0,0,25" Foreground="#D4AF37"/>
+
+                            <Grid Margin="0,0,0,18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="🛒" FontSize="20" VerticalAlignment="Top"/>
+                                <TextBlock Text="🛒" FontSize="20" VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Módulo de Inventario" FontWeight="Bold" FontSize="14"/>
-                                    <TextBlock Text="Control total sobre el catálogo de vehículos. Permite la edición de especificaciones técnicas, motorización y disponibilidad en sala." Foreground="#666" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Gestión de Activos y Logística" Foreground="Black" FontWeight="Bold"/>
+                                    <TextBlock Text="Optimización de stock premium mediante inspección técnica de 110 puntos y valorización de mercado." Foreground="#666" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,20">
+                            <Grid Margin="0,0,0,18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="💳" FontSize="20" VerticalAlignment="Top"/>
+                                <TextBlock Text="💳" FontSize="20" VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Pasarela de Ventas" FontWeight="Bold" FontSize="14"/>
-                                    <TextBlock Text="Configuración dinámica de precios finales incluyendo blindajes, planes de financiación y accesorios exclusivos de la marca." Foreground="#666" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Transacciones y Pasarela Financiera" Foreground="Black" FontWeight="Bold"/>
+                                    <TextBlock Text="Control centralizado de flujos de caja, planes de financiación bancaria y cierres de preventa." Foreground="#666" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
 
@@ -130,18 +180,18 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="📑" FontSize="20" VerticalAlignment="Top"/>
+                                <TextBlock Text="📑" FontSize="20" VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Inteligencia de Datos" FontWeight="Bold" FontSize="14"/>
-                                    <TextBlock Text="Generación de reportes de cumplimiento de metas para empleados y trazabilidad de facturación legal vigente." Foreground="#666" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Cumplimiento Legal y Auditoría" Foreground="Black" FontWeight="Bold"/>
+                                    <TextBlock Text="Seguimiento de facturación electrónica, trámites de tránsito y trazabilidad comercial según normativa." Foreground="#666" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
+
                 </StackPanel>
             </ScrollViewer>
-
-            <ContentControl Content="{Binding CurrentView}" Panel.ZIndex="10"/>
+            <ContentControl Content="{Binding CurrentView}"/>
         </Grid>
     </Grid>
 </Window>

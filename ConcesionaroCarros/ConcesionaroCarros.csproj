@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ConcesionaroCarros</RootNamespace>
     <AssemblyName>ConcesionaroCarros</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,7 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Converters\NullVisibilityConverters.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Db\CarrosDbService.cs" />
+    <Compile Include="Db\DatabaseInitializer.cs" />
     <Compile Include="Models\Carro.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarrosViewModel.cs" />
     <Compile Include="ViewModels\ClientesViewModel.cs" />
+    <Compile Include="ViewModels\EditarCarroViewModel.cs" />
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
     <Compile Include="ViewModels\FacturaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -74,6 +78,9 @@
     </Compile>
     <Compile Include="Views\ClientesView.xaml.cs">
       <DependentUpon>ClientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarcarroView.xaml.cs">
+      <DependentUpon>EditarcarroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EmpleadosView.xaml.cs">
       <DependentUpon>EmpleadosView.xaml</DependentUpon>
@@ -101,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarcarroView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,9 +155,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Db\" />
     <Folder Include="Factory\" />
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>10.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

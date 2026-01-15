@@ -2,97 +2,158 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <UserControl.Resources>
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ViewBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#F0F4F8"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+            <Setter Property="BorderBrush" Value="#D1D9E6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="EditBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#3498DB"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="DeleteBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#E74C3C"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="SelectBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
                         Stretch="UniformToFill" 
-                        Opacity="0.3"/>
+                        Opacity="0.12"/>
         </Grid.Background>
 
-        <Grid Margin="20">
+        <Grid Margin="30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Selección de Vehículo"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Foreground="#1E1E1E"/>
+            <DockPanel LastChildFill="False" Margin="0,0,0,25">
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Vehículos Disponibles" FontSize="28" FontWeight="Bold" Foreground="#1A1A1A"/>
+                    <TextBlock Text="Gestiona el catálogo completo de vehículos a disposición"
+                               FontSize="14" Foreground="#666" Margin="0,5,0,0"/>
+                </StackPanel>
 
-            <ListView Grid.Row="1" Margin="0 15 0 0" BorderThickness="0" Background="Transparent">
-                <ListView.Items>
+                <Button DockPanel.Dock="Right" 
+                        Content="+ Agregar Vehículo" 
+                        Width="180" Height="45"
+                        Style="{StaticResource SelectBtn}"
+                        Background="#D4AF37"
+                        Command="{Binding AgregarCarroCommand}"/>
+            </DockPanel>
 
-                    <ListViewItem HorizontalContentAlignment="Stretch">
-                        <Border BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,5" Background="#E6F9F9F9">
+            <ListView Grid.Row="1" ItemsSource="{Binding Carros}" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White" CornerRadius="15" Padding="15" Margin="0,8" Height="140">
                             <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                                <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.08"/>
                             </Border.Effect>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="150"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Border Grid.Column="0" Background="#333" Width="120" Height="70" CornerRadius="4">
-                                    <TextBlock Text="FOTO AUTO" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Border Grid.Column="0" Background="#111" Width="130" Height="90" CornerRadius="10" ClipToBounds="True">
+                                    <Image Source="{Binding ImagenPath}" Stretch="UniformToFill"/>
                                 </Border>
 
-                                <StackPanel Grid.Column="1" Margin="15 0" VerticalAlignment="Center">
-                                    <TextBlock Text="Audi RS5 Coupé" FontWeight="Bold" FontSize="16" Foreground="#111"/>
-                                    <TextBlock Text="Año: 2024" Foreground="#555"/>
-                                    <TextBlock Text="Color: Negro Mito" Foreground="#777" FontSize="11"/>
-                                    <TextBlock Text="$350.000.000 COP" FontWeight="Bold" Foreground="#007ACC" Margin="0 5 0 0"/>
+                                <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Modelo}"
+                                               FontWeight="Bold"
+                                               FontSize="19"
+                                               Foreground="#1A1A1A"/>   
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                                        <Border Background="#E3F2FD" Padding="8,2" CornerRadius="4">
+                                            <TextBlock Text="{Binding Año}"
+                                                       FontSize="11"
+                                                       Foreground="#1976D2"
+                                                       FontWeight="Bold"/>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding Color}"
+                                                   Foreground="#777"
+                                                   FontSize="13"
+                                                   Margin="10,0,0,0"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding PrecioVenta, StringFormat={}{0:N0} COP}"
+                                                FontWeight="Black"
+                                                FontSize="17"
+                                                Foreground="Black"/>
+
+                                    <TextBlock Text="{Binding Estado}"
+                                               Foreground="#2ECC71"
+                                               FontSize="11"
+                                               FontWeight="Bold"/>  
+
                                 </StackPanel>
 
-                                <Button Grid.Column="2" Content="Seleccionar" Height="35" Background="#222" Foreground="White" BorderThickness="0" VerticalAlignment="Center" Cursor="Hand">
-                                    <Button.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="5"/>
-                                        </Style>
-                                    </Button.Resources>
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </ListViewItem>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Ver detalles" Width="100" Height="38" Margin="0,0,8,0" 
+                                            Style="{StaticResource ViewBtn}"
+                                            Command="{Binding DataContext.VerDetalleCommand,RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
 
-                    <ListViewItem HorizontalContentAlignment="Stretch">
-                        <Border BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,5" Background="#E6FFFFFF">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
-                            </Border.Effect>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Border Grid.Column="0" Background="#555" Width="120" Height="70" CornerRadius="4">
-                                    <TextBlock Text="FOTO AUTO" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </Border>
-
-                                <StackPanel Grid.Column="1" Margin="15 0" VerticalAlignment="Center">
-                                    <TextBlock Text="BMW M4 Competition" FontWeight="Bold" FontSize="16" Foreground="#111"/>
-                                    <TextBlock Text="Año: 2023" Foreground="#555"/>
-                                    <TextBlock Text="Color: Azul Portimao" Foreground="#777" FontSize="11"/>
-                                    <TextBlock Text="$420.000.000 COP" FontWeight="Bold" Foreground="#007ACC" Margin="0 5 0 0"/>
+                                    <Button Content="✏️" Width="42" Height="38" Margin="0,0,8,0" 
+                                            Style="{StaticResource EditBtn}"
+                                            Command="{Binding DataContext.EditarCarroCommand,RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
+                                    
+                                    <Button Content="🗑️" Width="42" Height="38" Margin="0,0,8,0" 
+                                            Style="{StaticResource DeleteBtn}"
+                                            Command="{Binding DataContext.EliminarCarroCommand,RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
                                 </StackPanel>
-
-                                <Button Grid.Column="2" Content="Seleccionar" Height="35" Background="#222" Foreground="White" BorderThickness="0" VerticalAlignment="Center" Cursor="Hand">
-                                    <Button.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="5"/>
-                                        </Style>
-                                    </Button.Resources>
-                                </Button>
                             </Grid>
                         </Border>
-                    </ListViewItem>
-
-                </ListView.Items>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
+            <ContentControl Content="{Binding ModalView}" Panel.ZIndex="99"/>
         </Grid>
     </Grid>
 </UserControl>

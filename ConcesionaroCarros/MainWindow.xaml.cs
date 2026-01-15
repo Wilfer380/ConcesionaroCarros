@@ -1,4 +1,5 @@
-﻿using ConcesionaroCarros.ViewModels;
+﻿using ConcesionaroCarros.Db;
+using ConcesionaroCarros.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace ConcesionaroCarros
         public MainWindow()
         {
             InitializeComponent();
+            DatabaseInitializer.Initialize();
             DataContext = new MainViewModel();
         }
     }
