@@ -12,6 +12,7 @@ namespace ConcesionaroCarros.ViewModels
         private readonly MainViewModel _main;
         private readonly CarrosDbService _db;
 
+
         public ObservableCollection<Carro> Carros { get; }
 
         public ICommand SeleccionarCarroCommand { get; }
@@ -42,8 +43,9 @@ namespace ConcesionaroCarros.ViewModels
 
             SeleccionarCarroCommand = new RelayCommand(c =>
             {
-                if (c is Carro carro)
-                    _main.CarroSeleccionado = carro;
+                var carro = c as Carro;
+                if (carro == null) return;
+                _main.CarroSeleccionado = carro;
             });
 
             VolverDashboardCommand = new RelayCommand(_ =>
@@ -53,6 +55,8 @@ namespace ConcesionaroCarros.ViewModels
 
             EditarCarroCommand = new RelayCommand(c =>
             {
+                var carro = c as Carro;
+                if (carro == null) return;
                 ModalView = new EditarCarroView
                 {
                     DataContext = new EditarCarroViewModel((Carro)c, false, this)
@@ -61,6 +65,8 @@ namespace ConcesionaroCarros.ViewModels
 
             VerDetalleCommand = new RelayCommand(c =>
             {
+                var carro = c as Carro;
+                if (carro == null) return;
                 ModalView = new EditarCarroView
                 {
                     DataContext = new EditarCarroViewModel((Carro)c, true, this)
@@ -69,12 +75,13 @@ namespace ConcesionaroCarros.ViewModels
 
             EliminarCarroCommand = new RelayCommand(c =>
             {
-                if (c is Carro carro)
-                {
-                    _db.Eliminar(carro.Id);
+                var carro = c as Carro;
+                if (carro == null) return;
+
+                _db.Eliminar(carro.Id);
 
                     Carros.Remove(carro);
-                }
+                
             });
 
             AgregarCarroCommand = new RelayCommand(_ =>

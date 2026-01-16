@@ -14,6 +14,7 @@ namespace ConcesionaroCarros.ViewModels
     {
         private readonly CarrosViewModel _parent;
         private readonly CarrosDbService _db;
+        private readonly bool _esNuevo;
 
         public Carro Carro { get; }
         public bool SoloLectura { get; }
@@ -29,23 +30,21 @@ namespace ConcesionaroCarros.ViewModels
             SoloLectura = soloLectura;
             _parent = parent;
             _db = new CarrosDbService();
+            _esNuevo = carro.Id == 0;
 
             GuardarCommand = new RelayCommand(_ =>
             {
                 if (SoloLectura) return;
-
-
-                if (Carro.Id == 0)
+                if (_esNuevo)
                 {
                     _db.Insertar(Carro);
                     _parent.Carros.Add(Carro);
                 }
-
                 else
                 {
                     _db.Actualizar(Carro);
                 }
-
+                
                 _parent.CerrarModal();
             });
 
@@ -61,6 +60,7 @@ namespace ConcesionaroCarros.ViewModels
                 };
                 if (dlg.ShowDialog() == true)
                     Carro.ImagenPath = dlg.FileName;
+                OnPropertyChanged(nameof(Carro));
             });
         }
     }

@@ -22,6 +22,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowCarrosCommand { get; }
+        public ICommand ShowClientesCommand { get; }
 
         public MainViewModel()
         {
@@ -38,11 +39,11 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
-            // Al iniciar → Dashboard
+
+
             CurrentView = null;
         }
-
-        // Estado compartido
+        
         public Models.Carro CarroSeleccionado { get; set; }
     }
 }

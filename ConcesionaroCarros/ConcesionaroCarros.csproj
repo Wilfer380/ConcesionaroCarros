@@ -57,7 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ColumnsByWidthConverter .cs" />
     <Compile Include="Db\CarrosDbService.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
     <Compile Include="Models\Carro.cs" />

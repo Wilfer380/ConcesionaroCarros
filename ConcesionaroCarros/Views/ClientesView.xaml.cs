@@ -17,7 +17,7 @@ namespace ConcesionaroCarros.Views
     /// <summary>
     /// Lógica de interacción para ClientesView.xaml
     /// </summary>
-    public partial class ClientesView : UserControl
+    public partial class ClientesView 
     {
         public ClientesView()
         {
