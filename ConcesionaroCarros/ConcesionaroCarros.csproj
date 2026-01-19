@@ -59,6 +59,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\ColumnsByWidthConverter .cs" />
     <Compile Include="Db\CarrosDbService.cs" />
+    <Compile Include="Db\ClientesDbService.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
     <Compile Include="Models\Carro.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="ViewModels\CarrosViewModel.cs" />
     <Compile Include="ViewModels\ClientesViewModel.cs" />
     <Compile Include="ViewModels\EditarCarroViewModel.cs" />
+    <Compile Include="ViewModels\EditarClienteViewModel.cs" />
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
     <Compile Include="ViewModels\FacturaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -81,6 +83,9 @@
     </Compile>
     <Compile Include="Views\EditarcarroView.xaml.cs">
       <DependentUpon>EditarcarroView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarClienteView.xaml.cs">
+      <DependentUpon>EditarClienteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EmpleadosView.xaml.cs">
       <DependentUpon>EmpleadosView.xaml</DependentUpon>
@@ -112,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditarcarroView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarClienteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,10 +8,16 @@ namespace ConcesionaroCarros.Models
 {
     public class Cliente
     {
-        public string Nombre { get; set; }
+        public int Id { get; set; }             
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
         public string Cedula { get; set; }
-        public string Email { get; set; }
+        public string Correo { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+
+        public string TipoCliente { get; set; }    
+        public DateTime FechaRegistro { get; set; }
     }
+
 }

@@ -39,6 +39,14 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
+            ShowClientesCommand = new RelayCommand(_ =>
+            {
+                CurrentView = new ClientesView
+                {
+                    DataContext = new ClientesViewModel()
+                };
+            });
+
 
 
             CurrentView = null;

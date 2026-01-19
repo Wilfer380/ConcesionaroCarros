@@ -7,13 +7,14 @@ namespace ConcesionaroCarros.Db
 {
     public class CarrosDbService
     {
-        private string _connection => DatabaseInitializer.ConnectionString;
+        private readonly string _connectionString =
+            DatabaseInitializer.ConnectionString;
 
         public List<Carro> ObtenerTodos()
         {
             var lista = new List<Carro>();
 
-            var conn = new SqliteConnection(_connection);
+            var conn = new SqliteConnection(_connectionString);
             conn.Open();
 
             var cmd = conn.CreateCommand();
@@ -42,7 +43,7 @@ namespace ConcesionaroCarros.Db
 
         public void Insertar(Carro c)
         {
-            var conn = new SqliteConnection(_connection);
+            var conn = new SqliteConnection(_connectionString);
             conn.Open();
 
             var cmd = conn.CreateCommand();
@@ -66,7 +67,7 @@ namespace ConcesionaroCarros.Db
 
         public void Actualizar(Carro c)
         {
-            var conn = new SqliteConnection(_connection);
+            var conn = new SqliteConnection(_connectionString);
             conn.Open();
 
             var cmd = conn.CreateCommand();
@@ -99,7 +100,7 @@ namespace ConcesionaroCarros.Db
 
         public void Eliminar(int id)
         {
-             var conn = new SqliteConnection(_connection);
+             var conn = new SqliteConnection(_connectionString);
             conn.Open();
 
             var cmd = conn.CreateCommand();
