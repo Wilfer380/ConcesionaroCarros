@@ -57,10 +57,10 @@ namespace ConcesionaroCarros.ViewModels
             _db = new ClientesDbService();
             Clientes = new ObservableCollection<Cliente>();
 
-            // 🔹 PASO 2: cargar lista base
+          
             _todos = _db.ObtenerTodos();
 
-            // 🔹 PASO 3: pintar UI
+      
             ActualizarLista(_todos);
 
             AgregarClienteCommand = new RelayCommand(_ =>

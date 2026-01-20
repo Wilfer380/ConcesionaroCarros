@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace ConcesionaroCarros.Views
 {
     /// <summary>
-    /// Lógica de interacción para EditarClienteView.xaml
+    /// Lógica de interacción para EditarEmpleadoView.xaml
     /// </summary>
-    public partial class EditarClienteView : UserControl
+    public partial class EditarEmpleadoView : UserControl
     {
-        public EditarClienteView()
+        public EditarEmpleadoView()
         {
             InitializeComponent();
         }

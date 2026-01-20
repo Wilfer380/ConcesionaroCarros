@@ -23,6 +23,7 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowCarrosCommand { get; }
         public ICommand ShowClientesCommand { get; }
+        public ICommand ShowEmpleadosCommand { get; }
 
         public MainViewModel()
         {
@@ -44,6 +45,14 @@ namespace ConcesionaroCarros.ViewModels
                 CurrentView = new ClientesView
                 {
                     DataContext = new ClientesViewModel()
+                };
+            });
+
+            ShowEmpleadosCommand = new RelayCommand(_ =>
+            {
+                CurrentView = new EmpleadosView
+                {
+                    DataContext = new EmpleadosViewModel()
                 };
             });
 

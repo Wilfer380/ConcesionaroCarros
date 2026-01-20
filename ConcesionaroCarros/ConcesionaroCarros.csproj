@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Converters\BooleanNegationConverter.cs" />
     <Compile Include="Converters\ColumnsByWidthConverter .cs" />
     <Compile Include="Db\CarrosDbService.cs" />
     <Compile Include="Db\ClientesDbService.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="ViewModels\ClientesViewModel.cs" />
     <Compile Include="ViewModels\EditarCarroViewModel.cs" />
     <Compile Include="ViewModels\EditarClienteViewModel.cs" />
+    <Compile Include="ViewModels\EditarEmpleadoViewModel.cs" />
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
     <Compile Include="ViewModels\FacturaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -86,6 +88,9 @@
     </Compile>
     <Compile Include="Views\EditarClienteView.xaml.cs">
       <DependentUpon>EditarClienteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditarEmpleadoView.xaml.cs">
+      <DependentUpon>EditarEmpleadoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EmpleadosView.xaml.cs">
       <DependentUpon>EmpleadosView.xaml</DependentUpon>
@@ -121,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditarClienteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditarEmpleadoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
