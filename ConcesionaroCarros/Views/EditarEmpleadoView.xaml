@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:conv="clr-namespace:ConcesionaroCarros.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900">
+             mc:Ignorable="d"
+             d:DesignHeight="700"
+             d:DesignWidth="900">
 
     <UserControl.Resources>
         <Style x:Key="FieldLabel" TargetType="TextBlock">
@@ -19,150 +19,158 @@
             <Setter Property="Height" Value="38"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="10,0"/>
-            <Setter Property="Background" Value="#FCFCFC"/>
-            <Setter Property="BorderBrush" Value="#DDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border x:Name="border" CornerRadius="8" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false"/>
+                        <Border CornerRadius="8"
+                                Background="#FCFCFC"
+                                BorderBrush="#DDD"
+                                BorderThickness="1">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"/>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#D4AF37"/>
-                                <Setter TargetName="border" Property="BorderThickness" Value="1.5"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
-                        Stretch="UniformToFill" Opacity="0.15"/>
-        </Grid.Background>
-
-        <Border Background="White" Width="650" VerticalAlignment="Center" HorizontalAlignment="Center"
-                CornerRadius="30" Padding="40" BorderBrush="#EEE" BorderThickness="1">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="40" ShadowDepth="10" Opacity="0.12"/>
-            </Border.Effect>
+    <Grid Background="#95000000">
+        <Border Background="White"
+                Width="650"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                CornerRadius="30"
+                Padding="40">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/> <RowDefinition Height="*"/>    <RowDefinition Height="Auto"/> </Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <!-- HEADER -->
                 <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,30">
                     <Grid Width="100" Height="100">
                         <Ellipse Stroke="#D4AF37" StrokeThickness="3">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="https://i.pravatar.cc/150?u=12"/> 
+                                <ImageBrush ImageSource="https://i.pravatar.cc/150?u=12"/>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <Button Content="📷" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
-                                Width="30" Height="30" Background="#1A1A1A" Foreground="White" 
-                                BorderThickness="0" Cursor="Hand">
-                            <Button.Resources>
-                                <Style TargetType="Border"><Setter Property="CornerRadius" Value="15"/></Style>
-                            </Button.Resources>
-                        </Button>
                     </Grid>
-                    <TextBlock Text="Editar Perfil de Empleado" FontSize="22" FontWeight="ExtraBold" Margin="0,15,0,0" HorizontalAlignment="Center"/>
-                    <TextBlock Text="ID Empleado: EMP-8422" FontSize="12" Foreground="#999" HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Editar Perfil de Empleado"
+                               FontSize="22"
+                               FontWeight="ExtraBold"
+                               Margin="0,15,0,0"/>
+
+                    <TextBlock Text="{Binding Empleado.Id, StringFormat=ID Empleado: EMP-{0}}"
+                               FontSize="12"
+                               Foreground="#999"/>
                 </StackPanel>
 
+                <!-- FORMULARIO -->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- IZQUIERDA -->
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Nombre" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="Juan" Style="{StaticResource EditTextBox}"/>
+                        <TextBox Text="{Binding Empleado.Nombres, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Correo Electrónico" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="juan.perez@concesionario.com" Style="{StaticResource EditTextBox}"/>
+                        <TextBox Text="{Binding Empleado.Correo, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Cargo" Style="{StaticResource FieldLabel}"/>
-                        <ComboBox Height="38" SelectedIndex="1">
+                        <ComboBox Height="38"
+                                  SelectedValue="{Binding Empleado.Cargo}"
+                                  SelectedValuePath="Content">
                             <ComboBoxItem Content="Asesor Junior"/>
                             <ComboBoxItem Content="Asesor Senior"/>
                             <ComboBoxItem Content="Gerente de Ventas"/>
                         </ComboBox>
 
+                        <!-- 🔥 ESTADO FUNCIONAL -->
                         <TextBlock Text="Estado del Asesor" Style="{StaticResource FieldLabel}"/>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <RadioButton Content="Activo" IsChecked="True" Foreground="#2E7D32" FontWeight="Bold" Margin="0,0,20,0"/>
-                            <RadioButton Content="Inactivo" Foreground="#C62828" FontWeight="Bold"/>
+
+                            <RadioButton Content="Activo"
+                                         GroupName="Estado"
+                                         IsChecked="{Binding Empleado.Activo, Mode=TwoWay}"
+                                         Foreground="#2E7D32"
+                                         FontWeight="Bold"
+                                         Margin="0,0,20,0"/>
+
+                            <RadioButton Content="Inactivo"
+                                         GroupName="Estado"
+                                         Checked="RadioButton_Inactivo_Checked"
+                                         Foreground="#C62828"
+                                         FontWeight="Bold"/>
+
                         </StackPanel>
                     </StackPanel>
 
+                    <!-- DERECHA -->
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Apellido" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="Pérez" Style="{StaticResource EditTextBox}"/>
+                        <TextBox Text="{Binding Empleado.Apellidos, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Teléfono" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="+57 300 000 0000" Style="{StaticResource EditTextBox}"/>
+                        <TextBox Text="{Binding Empleado.Telefono, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Meta de Ventas Mensual (%)" Style="{StaticResource FieldLabel}"/>
-                        <Grid>
-                            <Slider x:Name="metaSlider" 
-                                    Minimum="0" 
-                                    Maximum="100" 
-                                    Value="85" 
-                                    VerticalAlignment="Center" 
-                                    Margin="0,10"/>
-                           <TextBlock Text="{Binding ElementName=metaSlider, Path=Value, StringFormat={}{0:0}%}" 
-                                       HorizontalAlignment="Right" 
-                                       VerticalAlignment="Top" 
-                                       FontSize="11" 
-                                       Foreground="#D4AF37" 
-                                       FontWeight="Bold"/>
-                        </Grid>
-                        
-                        <TextBlock Text="Última Venta Registrada" 
-                                   Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="15/10/2023 - Chevrolet Joy" 
-                                 IsEnabled="False" Opacity="0.7" 
-                                 Style="{StaticResource EditTextBox}"/>
+                        <Slider Minimum="0"
+                                Maximum="100"
+                                Value="{Binding Empleado.MetaVentas}"
+                                Margin="0,10"/>
+
+                        <TextBlock Text="{Binding Empleado.MetaVentas, StringFormat={}{0}%}"
+                                   FontSize="11"
+                                   Foreground="#D4AF37"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,40,0,0">
+                <!-- BOTONES -->
+                <Grid Grid.Row="2" Margin="0,40,0,0">
                     <Button Content="Cancelar"
                             Command="{Binding CancelarCommand}"
-                            Width="150" Height="40" 
-                            Background="Transparent" 
-                            Foreground="#999" 
-                            BorderThickness="0" 
-                            Margin="0,0,10,0" 
-                            Cursor="Hand"/>
-                    
-                    <Button Content="Guardar Cambios" 
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="#999"
+                            HorizontalAlignment="Left"/>
+
+                    <Button Content="Guardar Cambios"
                             Command="{Binding GuardarCommand}"
-                            Width="200" 
-                            Height="45" 
-                            Background="#D4AF37" 
-                            Foreground="White" 
-                            FontWeight="Bold" 
-                            Cursor="Hand">
-                        <Button.Resources>
-                            <Style TargetType="Border"><Setter Property="CornerRadius" Value="12"/></Style>
-                        </Button.Resources>
-                        <Button.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="4" Opacity="0.2" Color="#D4AF37"/>
-                        </Button.Effect>
+                            Width="200"
+                            Height="45"
+                            Background="#D4AF37"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Right">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="12">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
-                </StackPanel>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

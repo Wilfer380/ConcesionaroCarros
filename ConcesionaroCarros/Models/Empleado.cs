@@ -18,6 +18,7 @@ namespace ConcesionaroCarros.Models
 
         public string Cargo { get; set; }
         public bool Activo { get; set; }
+        public bool Inactivo { get; set; }
 
         public int MetaVentas { get; set; }
 

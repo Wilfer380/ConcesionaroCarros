@@ -1,4 +1,5 @@
 ﻿using ConcesionaroCarros.Commands;
+using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
 using ConcesionaroCarros.Views;
 using System.Collections.ObjectModel;
@@ -8,6 +9,8 @@ namespace ConcesionaroCarros.ViewModels
 {
     public class EmpleadosViewModel : BaseViewModel
     {
+        private readonly EmpleadosDbService _db;
+
         public ObservableCollection<Empleado> Empleados { get; }
 
         private object _modalView;
@@ -22,43 +25,60 @@ namespace ConcesionaroCarros.ViewModels
 
         public EmpleadosViewModel()
         {
-            Empleados = new ObservableCollection<Empleado>
-            {
-                new Empleado
-                {
-                    Id = 1,
-                    Nombres = "Juan",
-                    Apellidos = "Pérez",
-                    Cargo = "Asesor Senior",
-                    Correo = "juan.p@concesionario.com",
-                    Telefono = "+57 300 000 0000",
-                    Activo = true,
-                    MetaVentas = 85
-                }
-            };
+            _db = new EmpleadosDbService();
+
+            Empleados = new ObservableCollection<Empleado>();
+
+            CargarEmpleados();
 
             NuevoEmpleadoCommand = new RelayCommand(_ =>
             {
                 ModalView = new EditarEmpleadoView
                 {
-                    DataContext = new EditarEmpleadoViewModel(this, new Empleado())
+                    DataContext = new EditarEmpleadoViewModel(
+                        this,
+                        new Empleado
+                        {
+                            Nombres = "",
+                            Apellidos = "",
+                            Correo = "",
+                            Telefono = "",
+                            Cargo = "Asesor Junior",
+                            Activo = true,
+                            MetaVentas = 0
+                        })
                 };
             });
 
             EditarEmpleadoCommand = new RelayCommand(e =>
             {
+                var empleado = e as Empleado;
+                if (empleado == null)
+                    return;
+
                 ModalView = new EditarEmpleadoView
                 {
-                    DataContext = new EditarEmpleadoViewModel(this, (Empleado)e)
+                    DataContext = new EditarEmpleadoViewModel(this, empleado)
                 };
             });
         }
 
+        private void CargarEmpleados()
+        {
+            Empleados.Clear();
+
+            foreach (var e in _db.ObtenerTodos())
+                Empleados.Add(e);
+        }
+
         public void GuardarEmpleado(Empleado empleado)
         {
-            if (!Empleados.Contains(empleado))
-                Empleados.Add(empleado);
+            if (empleado.Id == 0)
+                _db.Insertar(empleado);
+            else
+                _db.Actualizar(empleado);
 
+            CargarEmpleados();
             ModalView = null;
         }
 

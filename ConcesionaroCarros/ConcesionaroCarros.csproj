@@ -62,6 +62,7 @@
     <Compile Include="Db\CarrosDbService.cs" />
     <Compile Include="Db\ClientesDbService.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
+    <Compile Include="Db\EmpleadosDbService.cs" />
     <Compile Include="Models\Carro.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\DetalleFactura.cs" />

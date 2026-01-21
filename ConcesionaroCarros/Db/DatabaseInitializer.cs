@@ -42,6 +42,17 @@ namespace ConcesionaroCarros.Db
                 TipoCliente TEXT,
                 FechaRegistro TEXT
             );
+
+            CREATE TABLE IF NOT EXISTS Empleados (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Nombres TEXT NOT NULL,
+                Apellidos TEXT NOT NULL,
+                Correo TEXT,
+                Telefono TEXT,
+                Cargo TEXT,
+                Activo INTEGER,
+                MetaVentas INTEGER
+            );
             ";
             cmd.ExecuteNonQuery();
         }

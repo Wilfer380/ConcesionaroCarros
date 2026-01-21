@@ -14,9 +14,7 @@ using System.Windows.Shapes;
 
 namespace ConcesionaroCarros.Views
 {
-    /// <summary>
-    /// Lógica de interacción para EmpleadosView.xaml
-    /// </summary>
+
     public partial class EmpleadosView : UserControl
     {
         public EmpleadosView()

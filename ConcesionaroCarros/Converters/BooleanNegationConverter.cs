@@ -16,10 +16,11 @@ namespace ConcesionaroCarros.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool b)
-                return !b;
+            
+            if (value is bool b && b)
+                return false;
 
-            return false;
+            return Binding.DoNothing;
         }
     }
 }
