@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="ConcesionaroCarros.Views.VentaView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="ConcesionaroCarros.Views.DetalleOperacionVentaView"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.Background>

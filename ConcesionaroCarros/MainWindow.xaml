@@ -8,7 +8,10 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-        <DropShadowEffect x:Key="CardShadow" BlurRadius="12" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+        <DropShadowEffect x:Key="CardShadow" 
+                          BlurRadius="12"
+                          ShadowDepth="2" Opacity="0.1" 
+                          Color="Black"/>
 
         <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -26,6 +29,17 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="MenuVentaActivo"
+               TargetType="Button"
+               BasedOn="{StaticResource MenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding VistaActiva}" Value="Venta">
+                    <Setter Property="Background" Value="#2A2A2A"/>
+                    <Setter Property="Foreground" Value="#D4AF37"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -37,8 +51,14 @@
         <Border Grid.Column="0" Background="#111111">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="25,40,25,40">
-                    <TextBlock Text="DRIVE &amp; DREAM" Foreground="White" FontSize="22" FontWeight="Black"/>
-                    <TextBlock Text="SISTEMA DE GESTIÓN" Foreground="#D4AF37" FontSize="10" FontWeight="Bold"/>
+                    <TextBlock Text="DRIVE &amp; DREAM" 
+                               Foreground="White" 
+                               FontSize="22" 
+                               FontWeight="Black"/>
+                    <TextBlock Text="SISTEMA DE GESTIÓN"
+                               Foreground="#D4AF37" 
+                               FontSize="10" 
+                               FontWeight="Bold"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
@@ -60,7 +80,7 @@
                     
                     <Separator Background="#222" Margin="20,15"/>
                     <Button Content="💰 Punto de Venta" 
-                            Style="{StaticResource MenuButtonStyle}"
+                            Style="{StaticResource MenuVentaActivo}"
                             Command="{Binding ShowVentaCommand}"/>
 
                     <Button Content="📄 Registro de Facturas" 

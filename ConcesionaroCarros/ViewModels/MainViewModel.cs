@@ -1,5 +1,7 @@
 ﻿using ConcesionaroCarros.Commands;
+using ConcesionaroCarros.Models;
 using ConcesionaroCarros.Views;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
@@ -20,20 +22,49 @@ namespace ConcesionaroCarros.ViewModels
 
         public bool IsDashboardVisible => CurrentView == null;
 
+        // 🔹 ESTADO GLOBAL DE LA VISTA ACTIVA
+        private string _vistaActiva;
+        public string VistaActiva
+        {
+            get => _vistaActiva;
+            set
+            {
+                _vistaActiva = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // 🔹 CARRITO GLOBAL
+        public ObservableCollection<Carro> Carrito { get; } =
+            new ObservableCollection<Carro>();
+
+        public int CarritoCount => Carrito.Count;
+
+        public void ActualizarCarrito()
+        {
+            OnPropertyChanged(nameof(CarritoCount));
+        }
+
+        public Carro CarroSeleccionado { get; set; }
+
+        // 🔹 COMANDOS
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowCarrosCommand { get; }
         public ICommand ShowClientesCommand { get; }
         public ICommand ShowEmpleadosCommand { get; }
+        public ICommand ShowVentaCommand { get; }
 
         public MainViewModel()
         {
             ShowDashboardCommand = new RelayCommand(_ =>
             {
+                VistaActiva = null;
                 CurrentView = null;
             });
 
             ShowCarrosCommand = new RelayCommand(_ =>
             {
+                VistaActiva = "Carros";
                 CurrentView = new CarrosView
                 {
                     DataContext = new CarrosViewModel(this)
@@ -42,6 +73,7 @@ namespace ConcesionaroCarros.ViewModels
 
             ShowClientesCommand = new RelayCommand(_ =>
             {
+                VistaActiva = "Clientes";
                 CurrentView = new ClientesView
                 {
                     DataContext = new ClientesViewModel()
@@ -50,17 +82,27 @@ namespace ConcesionaroCarros.ViewModels
 
             ShowEmpleadosCommand = new RelayCommand(_ =>
             {
+                VistaActiva = "Empleados";
                 CurrentView = new EmpleadosView
                 {
                     DataContext = new EmpleadosViewModel()
                 };
             });
 
-
+            // 🛒 PUNTO DE VENTA UNIFICADO (MENÚ + CARRITO)
+            ShowVentaCommand = new RelayCommand(_ =>
+            {
+                if (Carrito.Count > 0)
+                {
+                    VistaActiva = "Venta";
+                    CurrentView = new PuntoVentaView
+                    {
+                        DataContext = new PuntoVentaViewModel(this)
+                    };
+                }
+            });
 
             CurrentView = null;
         }
-        
-        public Models.Carro CarroSeleccionado { get; set; }
     }
 }

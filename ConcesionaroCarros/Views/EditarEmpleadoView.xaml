@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ConcesionaroCarros.Converters"
              mc:Ignorable="d"
              d:DesignHeight="700"
              d:DesignWidth="900">
 
     <UserControl.Resources>
+        <local:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
         <Style x:Key="FieldLabel" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -53,7 +55,9 @@
                 </Grid.RowDefinitions>
 
                 <!-- HEADER -->
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,30">
+                <StackPanel Grid.Row="0" 
+                            HorizontalAlignment="Center" 
+                            Margin="0,0,0,30">
                     <Grid Width="100" Height="100">
                         <Ellipse Stroke="#D4AF37" StrokeThickness="3">
                             <Ellipse.Fill>
@@ -99,7 +103,7 @@
                             <ComboBoxItem Content="Gerente de Ventas"/>
                         </ComboBox>
 
-                        <!-- 🔥 ESTADO FUNCIONAL -->
+                   
                         <TextBlock Text="Estado del Asesor" Style="{StaticResource FieldLabel}"/>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
 
@@ -112,18 +116,18 @@
 
                             <RadioButton Content="Inactivo"
                                          GroupName="Estado"
-                                         Checked="RadioButton_Inactivo_Checked"
+                                         IsChecked="{Binding Empleado.Activo, Mode=TwoWay,
+                                                             Converter={StaticResource BooleanNegationConverter}}"
                                          Foreground="#C62828"
-                                         FontWeight="Bold"/>
-
+                                         FontWeight="Bold"/> 
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- DERECHA -->
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Apellido" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Empleado.Apellidos, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"/>
+                        
 
                         <TextBlock Text="Teléfono" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Empleado.Telefono, UpdateSourceTrigger=PropertyChanged}"
@@ -143,7 +147,7 @@
                     </StackPanel>
                 </Grid>
 
-                <!-- BOTONES -->
+            
                 <Grid Grid.Row="2" Margin="0,40,0,0">
                     <Button Content="Cancelar"
                             Command="{Binding CancelarCommand}"

@@ -9,6 +9,9 @@ namespace ConcesionaroCarros.Db
         private readonly string _connectionString =
             DatabaseInitializer.ConnectionString;
 
+        // =========================
+        // OBTENER
+        // =========================
         public List<Empleado> ObtenerTodos()
         {
             var lista = new List<Empleado>();
@@ -38,6 +41,9 @@ namespace ConcesionaroCarros.Db
             return lista;
         }
 
+        // =========================
+        // INSERTAR
+        // =========================
         public void Insertar(Empleado e)
         {
             var conn = new SqliteConnection(_connectionString);
@@ -45,13 +51,11 @@ namespace ConcesionaroCarros.Db
 
             var cmd = conn.CreateCommand();
             cmd.CommandText =
-             @"
+            @"
             INSERT INTO Empleados
             (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas)
             VALUES
             ($n,$a,$c,$t,$cargo,$activo,$meta);
-
-            SELECT last_insert_rowid();
             ";
 
             cmd.Parameters.AddWithValue("$n", e.Nombres ?? "");
@@ -62,9 +66,12 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$activo", e.Activo ? 1 : 0);
             cmd.Parameters.AddWithValue("$meta", e.MetaVentas);
 
-            e.Id = (int)(long)cmd.ExecuteScalar();
+            cmd.ExecuteNonQuery();
         }
 
+        // =========================
+        // ACTUALIZAR
+        // =========================
         public void Actualizar(Empleado e)
         {
              var conn = new SqliteConnection(_connectionString);
@@ -92,6 +99,21 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$cargo", e.Cargo ?? "");
             cmd.Parameters.AddWithValue("$activo", e.Activo ? 1 : 0);
             cmd.Parameters.AddWithValue("$meta", e.MetaVentas);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        // =========================
+        // ELIMINAR (FALTABA)
+        // =========================
+        public void Eliminar(int id)
+        {
+            var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "DELETE FROM Empleados WHERE Id = $id";
+            cmd.Parameters.AddWithValue("$id", id);
 
             cmd.ExecuteNonQuery();
         }

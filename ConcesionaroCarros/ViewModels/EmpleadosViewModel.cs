@@ -22,6 +22,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public ICommand NuevoEmpleadoCommand { get; }
         public ICommand EditarEmpleadoCommand { get; }
+        public ICommand EliminarEmpleadoCommand { get; }
 
         public EmpleadosViewModel()
         {
@@ -44,7 +45,7 @@ namespace ConcesionaroCarros.ViewModels
                             Correo = "",
                             Telefono = "",
                             Cargo = "Asesor Junior",
-                            Activo = true,
+                            Activo = false,
                             MetaVentas = 0
                         })
                 };
@@ -56,11 +57,34 @@ namespace ConcesionaroCarros.ViewModels
                 if (empleado == null)
                     return;
 
+               
+                var copia = new Empleado
+                {
+                    Id = empleado.Id,
+                    Nombres = empleado.Nombres,
+                    Apellidos = empleado.Apellidos,
+                    Correo = empleado.Correo,
+                    Telefono = empleado.Telefono,
+                    Cargo = empleado.Cargo,
+                    Activo = empleado.Activo,
+                    MetaVentas = empleado.MetaVentas
+                };
+
                 ModalView = new EditarEmpleadoView
                 {
-                    DataContext = new EditarEmpleadoViewModel(this, empleado)
+                    DataContext = new EditarEmpleadoViewModel(this, copia)
                 };
             });
+
+            EliminarEmpleadoCommand = new RelayCommand(e =>
+            {
+                if (e is Empleado emp)
+                {
+                    _db.Eliminar(emp.Id);
+                    CargarEmpleados();
+                }
+            });
+
         }
 
         private void CargarEmpleados()

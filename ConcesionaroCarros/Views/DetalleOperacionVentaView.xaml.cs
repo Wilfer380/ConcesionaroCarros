@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace ConcesionaroCarros.Views
 {
     /// <summary>
-    /// Lógica de interacción para VentaView.xaml
+    /// Lógica de interacción para DetalleOperacionVentaView.xaml
     /// </summary>
-    public partial class VentaView : UserControl
+    public partial class DetalleOperacionVentaView : UserControl
     {
-        public VentaView()
+        public DetalleOperacionVentaView()
         {
             InitializeComponent();
         }

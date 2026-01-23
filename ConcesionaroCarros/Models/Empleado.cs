@@ -1,26 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace ConcesionaroCarros.Models
 {
-    public class Empleado
+    public class Empleado : INotifyPropertyChanged
     {
-       public int Id { get; set; }
+        public int Id { get; set; }
+
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
-        public string NombreCompleto => $"{Nombres} {Apellidos}";
 
         public string Correo { get; set; }
         public string Telefono { get; set; }
 
         public string Cargo { get; set; }
-        public bool Activo { get; set; }
-        public bool Inactivo { get; set; }
+
+        private bool _activo;
+        public bool Activo
+        {
+            get => _activo;
+            set
+            {
+                if (_activo != value)
+                {
+                    _activo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Activo)));
+                }
+            }
+        }
 
         public int MetaVentas { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

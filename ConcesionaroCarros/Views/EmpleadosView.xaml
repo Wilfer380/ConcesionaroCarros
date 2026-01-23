@@ -114,12 +114,44 @@
                                             </ProgressBar.Resources>
                                         </ProgressBar>
                                     </Grid>
-                                    <TextBlock Text="{Binding MetaVentas, StringFormat={}{0}%}" FontSize="10" HorizontalAlignment="Right" Foreground="#D4AF37" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding MetaVentas, StringFormat={}{0}%}" 
+                                               FontSize="10" 
+                                               HorizontalAlignment="Right" 
+                                               Foreground="#D4AF37" 
+                                               FontWeight="Bold"/>
                                 </StackPanel>
 
                                 <DockPanel Grid.Row="2" Margin="0,10,0,0">
-                                    <Border Background="#E8F5E9" CornerRadius="6" Padding="8,4" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <TextBlock Text="ACTIVO" FontSize="10" FontWeight="Bold" Foreground="#2E7D32"/>
+                                    <Border CornerRadius="6"
+                                            Padding="8,4"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#FDECEA"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Activo}" Value="True">
+                                                        <Setter Property="Background" Value="#E8F5E9"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <TextBlock FontSize="10" FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="INACTIVO"/>
+                                                    <Setter Property="Foreground" Value="#C62828"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Activo}" Value="True">
+                                                            <Setter Property="Text" Value="ACTIVO"/>
+                                                            <Setter Property="Foreground" Value="#2E7D32"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                     </Border>
 
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">

@@ -63,6 +63,7 @@
     <Compile Include="Db\ClientesDbService.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
     <Compile Include="Db\EmpleadosDbService.cs" />
+    <Compile Include="Enums\PasoVenta.cs" />
     <Compile Include="Models\Carro.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
@@ -77,12 +78,15 @@
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
     <Compile Include="ViewModels\FacturaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\VentaViewModel.cs" />
+    <Compile Include="ViewModels\PuntoVentaViewModel.cs" />
     <Compile Include="Views\CarrosView.xaml.cs">
       <DependentUpon>CarrosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClientesView.xaml.cs">
       <DependentUpon>ClientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DetalleOperacionVentaView.xaml.cs">
+      <DependentUpon>DetalleOperacionVentaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditarcarroView.xaml.cs">
       <DependentUpon>EditarcarroView.xaml</DependentUpon>
@@ -99,8 +103,8 @@
     <Compile Include="Views\FacturaView.xaml.cs">
       <DependentUpon>FacturaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VentaView.xaml.cs">
-      <DependentUpon>VentaView.xaml</DependentUpon>
+    <Compile Include="Views\PuntoVentaView.xaml.cs">
+      <DependentUpon>PuntoVentaView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -119,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetalleOperacionVentaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,7 +150,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VentaView.xaml">
+    <Page Include="Views\PuntoVentaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

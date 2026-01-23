@@ -11,7 +11,14 @@ namespace ConcesionaroCarros.Views
             InitializeComponent();
         }
 
-        // 🔥 CLAVE ABSOLUTA
+        private void RadioButton_Activo_Checked(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is EditarEmpleadoViewModel vm)
+            {
+                vm.Empleado.Activo = true;
+            }
+        }
+
         private void RadioButton_Inactivo_Checked(object sender, RoutedEventArgs e)
         {
             if (DataContext is EditarEmpleadoViewModel vm)

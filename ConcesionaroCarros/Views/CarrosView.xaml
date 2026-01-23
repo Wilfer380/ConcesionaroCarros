@@ -4,7 +4,7 @@
              xmlns:conv="clr-namespace:ConcesionaroCarros.Converters">
 
     <UserControl.Resources>
-        <conv:ColumnsByWidthConverter x:Key="ColumnsByWidthConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
         <Style x:Key="ModernButtonStyle" TargetType="Button">
             <Setter Property="Padding" Value="10,5"/>
@@ -13,7 +13,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -61,15 +61,73 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <DockPanel LastChildFill="False" Margin="0,0,0,25">
+            <DockPanel LastChildFill="False" 
+                       Margin="0,0,0,25">
                 <StackPanel DockPanel.Dock="Left">
-                    <TextBlock Text="Vehículos Disponibles" FontSize="28" FontWeight="Bold"/>
-                    <TextBlock Text="Gestiona el catálogo completo de vehículos a disposición" FontSize="14" Foreground="#666"/>
+                    <TextBlock Text="Vehículos Disponibles" 
+                               FontSize="28" 
+                               FontWeight="Bold"/>
+                    <TextBlock Text="Gestiona el catálogo completo de vehículos a disposición" 
+                               FontSize="14" 
+                               Foreground="#666"/>
                 </StackPanel>
-                <Button DockPanel.Dock="Right" Content="+ Agregar Vehículo" Width="180" Height="45"
-                        Style="{StaticResource SelectBtn}" Background="#D4AF37"
+
+                <StackPanel DockPanel.Dock="Right"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <!-- CARRITO -->
+                    <Button Width="60"
+                            Height="45"
+                            Margin="0,0,10,0"
+                            Background="#9C9C9C"
+                            Foreground="Black"
+                            Command="{Binding DataContext.ShowVentaCommand,
+                                              RelativeSource={RelativeSource AncestorType=Window}}">
+                        <Grid>
+                            <TextBlock Text="🛒"
+                                       FontSize="37"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+
+                            <Border Background="#E74C3C"
+                                    CornerRadius="10"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,-6,-6,0">
+
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DataContext.CarritoCount,
+                                               RelativeSource={RelativeSource AncestorType=Window}}"
+                             Value="0">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <TextBlock Text="{Binding DataContext.CarritoCount,
+                                                          RelativeSource={RelativeSource AncestorType=Window}}"
+                                           Foreground="White"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           Padding="5,1"/>
+                            </Border>
+                        </Grid>
+                    </Button>
+
+                    <Button DockPanel.Dock="Right" 
+                        Content="+ Agregar Vehículo" 
+                        Width="180" Height="45"
+                        Style="{StaticResource SelectBtn}" 
+                        Background="#D4AF37"
                         Command="{Binding AgregarCarroCommand}"/>
+                </StackPanel>
             </DockPanel>
+            
 
             <ListView x:Name="ListaCarros"
                       Grid.Row="1"
@@ -119,16 +177,44 @@
                                     <TextBlock Text="{Binding Estado}" FontSize="11" Foreground="#27AE60" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Button Content="Ver detalles" Width="90" Height="35" Style="{StaticResource ViewBtn}"
-                                            Command="{Binding DataContext.VerDetalleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                <StackPanel Grid.Column="2" 
+                                            VerticalAlignment="Center">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                    <Button Content="Ver detalles" 
+                                            Width="90" 
+                                            Height="35" 
+                                            Style="{StaticResource ViewBtn}"
+                                            Command="{Binding DataContext.VerDetalleCommand, 
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"/>
-                                    <Button Content="✏️" Width="38" Height="35" Margin="5,0" Style="{StaticResource EditBtn}"
-                                            Command="{Binding DataContext.EditarCarroCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    
+                                    <Button Content="✏️" 
+                                            Width="38" Height="35" 
+                                            Margin="5,0" Style="{StaticResource EditBtn}"
+                                            Command="{Binding DataContext.EditarCarroCommand, 
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"/>
-                                    <Button Content="🗑️" Width="38" Height="35" Style="{StaticResource DeleteBtn}"
-                                            Command="{Binding DataContext.EliminarCarroCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    
+                                    <Button Content="🗑️" 
+                                            Width="38" 
+                                            Height="35" 
+                                            Style="{StaticResource DeleteBtn}"
+                                            Command="{Binding DataContext.EliminarCarroCommand, 
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"/>
+                                </StackPanel>
+
+                                <Button Content="Seleccionar"
+                                        Background="#2C3E50"
+                                        Width="120"
+                                        Height="30"
+                                        Margin="0,8,0,0"
+                                        Style="{StaticResource SelectBtn}"
+                                        Command="{Binding DataContext.AgregarAlCarritoCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
