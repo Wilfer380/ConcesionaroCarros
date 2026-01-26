@@ -72,6 +72,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarrosViewModel.cs" />
     <Compile Include="ViewModels\ClientesViewModel.cs" />
+    <Compile Include="ViewModels\DetalleOperacionViewModel.cs" />
     <Compile Include="ViewModels\EditarCarroViewModel.cs" />
     <Compile Include="ViewModels\EditarClienteViewModel.cs" />
     <Compile Include="ViewModels\EditarEmpleadoViewModel.cs" />
@@ -85,8 +86,14 @@
     <Compile Include="Views\ClientesView.xaml.cs">
       <DependentUpon>ClientesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DetalleOperacionVentaView.xaml.cs">
-      <DependentUpon>DetalleOperacionVentaView.xaml</DependentUpon>
+    <Compile Include="Views\ConfirmarVentaView.xaml.cs">
+      <DependentUpon>ConfirmarVentaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DatosClientesView.xaml.cs">
+      <DependentUpon>DatosClientesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DetalleOperacionView.xaml.cs">
+      <DependentUpon>DetalleOperacionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditarcarroView.xaml.cs">
       <DependentUpon>EditarcarroView.xaml</DependentUpon>
@@ -126,7 +133,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DetalleOperacionVentaView.xaml">
+    <Page Include="Views\ConfirmarVentaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DatosClientesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetalleOperacionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

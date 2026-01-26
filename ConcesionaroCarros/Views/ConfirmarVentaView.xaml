@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="ConcesionaroCarros.Views.ConfirmarVentaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="40">
+        <Border Background="White" CornerRadius="20" Padding="30">
+            <StackPanel>
+
+                <TextBlock Text="Confirmar Venta"
+                           FontSize="26"
+                           FontWeight="Black"/>
+
+                <TextBlock Text="Revise la información antes de confirmar"
+                           Foreground="#64748B"
+                           Margin="0,10,0,25"/>
+
+                <Border Background="#F8FAFC"
+                        CornerRadius="12"
+                        Padding="20">
+                    <TextBlock Text="Resumen de la venta (cliente, vehículos, total)"
+                               FontWeight="SemiBold"/>
+                </Border>
+
+                <Button Content="Confirmar y Emitir Factura"
+                        Height="50"
+                        Margin="0,25,0,0"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Background="#16A34A"
+                        Foreground="White"
+                        Command="{Binding ConfirmarVentaCommand}"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -10,6 +10,16 @@ namespace ConcesionaroCarros.ViewModels
     {
         private readonly MainViewModel _main;
 
+        private object _pasoActualView;
+        public object PasoActualView
+        {
+            get => _pasoActualView;
+            set
+            {
+                _pasoActualView = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Carro> Carrito => _main.Carrito;
 
         public decimal Total => Carrito.Sum(c => (decimal)c.PrecioVenta);
@@ -21,6 +31,7 @@ namespace ConcesionaroCarros.ViewModels
         {
             _main = main;
 
+            PasoActualView = new DetalleOperacionViewModel();
             QuitarDelCarritoCommand = new RelayCommand(c =>
             {
                 var carro = c as Carro;
