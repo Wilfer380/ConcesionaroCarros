@@ -15,6 +15,8 @@ namespace ConcesionaroCarros.Models
         private string _estado;
         private string _descripcion;
         private string _imagenPath;
+        private string _placa;
+        private string _estadoAntiguedad;
 
         public string Marca
         {
@@ -68,6 +70,18 @@ namespace ConcesionaroCarros.Models
         {
             get => _imagenPath;
             set { _imagenPath = value; OnPropertyChanged(nameof(ImagenPath)); }
+        }
+
+        public string Placa
+        {
+            get => _placa;
+            set { _placa = value; OnPropertyChanged(nameof(Placa)); }
+        }
+
+        public string EstadoAntiguedad
+        {
+            get => _estadoAntiguedad;
+            set { _estadoAntiguedad = value; OnPropertyChanged(nameof(EstadoAntiguedad)); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

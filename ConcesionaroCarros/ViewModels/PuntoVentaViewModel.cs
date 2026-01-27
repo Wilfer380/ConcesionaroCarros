@@ -3,6 +3,7 @@ using ConcesionaroCarros.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace ConcesionaroCarros.ViewModels
 {
@@ -20,9 +21,10 @@ namespace ConcesionaroCarros.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<Carro> Carrito => _main.Carrito;
 
-        public decimal Total => Carrito.Sum(c => (decimal)c.PrecioVenta);
+        public ObservableCollection<DetalleOperacionViewModel> DetallesOperacion { get; }
 
         public ICommand QuitarDelCarritoCommand { get; }
         public ICommand FinalizarVentaCommand { get; }
@@ -31,26 +33,57 @@ namespace ConcesionaroCarros.ViewModels
         {
             _main = main;
 
-            PasoActualView = new DetalleOperacionViewModel();
+            PasoActualView = this;
+
+            DetallesOperacion = new ObservableCollection<DetalleOperacionViewModel>();
+
+            // 🔹 Cargamos lo que ya exista en el carrito
+            foreach (var carro in _main.Carrito)
+            {
+                DetallesOperacion.Add(new DetalleOperacionViewModel(carro));
+            }
+
+            // 🔥 ESCUCHAR CAMBIOS DEL CARRITO
+            _main.Carrito.CollectionChanged += (s, e) =>
+            {
+                // Cuando se agrega
+                if (e.NewItems != null)
+                {
+                    foreach (Carro carro in e.NewItems)
+                    {
+                        DetallesOperacion.Add(new DetalleOperacionViewModel(carro));
+                    }
+                }
+
+                // Cuando se quita
+                if (e.OldItems != null)
+                {
+                    foreach (Carro carro in e.OldItems)
+                    {
+                        var item = DetallesOperacion
+                            .FirstOrDefault(d => d.Vehiculo == carro);
+
+                        if (item != null)
+                            DetallesOperacion.Remove(item);
+                    }
+                }
+            };
+
+            // 🟥 QUITAR DEL CARRITO (YA FUNCIONA EN TIEMPO REAL)
             QuitarDelCarritoCommand = new RelayCommand(c =>
             {
                 var carro = c as Carro;
                 if (carro == null) return;
 
+                carro.Estado = "Disponible";
                 _main.Carrito.Remove(carro);
                 _main.ActualizarCarrito();
-                OnPropertyChanged(nameof(Total));
-
-                if (_main.Carrito.Count == 0)
-                {
-                    _main.VistaActiva = null;
-                    _main.ShowDashboardCommand.Execute(null);
-                }
             });
 
             FinalizarVentaCommand = new RelayCommand(_ =>
             {
                 _main.Carrito.Clear();
+                DetallesOperacion.Clear();
                 _main.ActualizarCarrito();
                 _main.VistaActiva = null;
                 _main.ShowDashboardCommand.Execute(null);

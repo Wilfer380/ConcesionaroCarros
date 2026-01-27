@@ -39,7 +39,7 @@ namespace ConcesionaroCarros.ViewModels
             foreach (var carro in _db.ObtenerTodos())
                 Carros.Add(carro);
 
-            // 🛒 SELECCIONAR → AGREGAR AL CARRITO
+ 
             SeleccionarCarroCommand = new RelayCommand(c =>
             {
                 var carro = c as Carro;
@@ -103,6 +103,17 @@ namespace ConcesionaroCarros.ViewModels
                 var carro = c as Carro;
                 if (carro == null) return;
 
+                if (_main.Carrito.Contains(carro))
+                {
+                    System.Windows.MessageBox.Show(
+                        "Este vehículo no está disponible.",
+                        "No disponible",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
+                carro.Estado = "Agotado";          // 🔴
                 _main.Carrito.Add(carro);
                 _main.ActualizarCarrito();
             });

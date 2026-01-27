@@ -2,6 +2,7 @@
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls.Primitives;
 
 namespace ConcesionaroCarros.Db
 {
@@ -14,28 +15,36 @@ namespace ConcesionaroCarros.Db
         {
             var lista = new List<Carro>();
 
-            var conn = new SqliteConnection(_connectionString);
-            conn.Open();
-
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT * FROM Carros";
-
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (var conn = new SqliteConnection(_connectionString))
             {
-                lista.Add(new Carro
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
                 {
-                    Id = reader.GetInt32(0),
-                    Marca = reader.GetString(1),
-                    Modelo = reader.GetString(2),
-                    Año = reader.GetInt32(3),
-                    Color = reader.GetString(4),
-                    Costo = reader.GetDouble(5),
-                    PrecioVenta = reader.GetDouble(6),
-                    Estado = reader.IsDBNull(7) ? "Disponible" : reader.GetString(7),
-                    Descripcion = reader.IsDBNull(8) ? null : reader.GetString(8),
-                    ImagenPath = reader.IsDBNull(9) ? null : reader.GetString(9)
-                });
+                    cmd.CommandText = "SELECT * FROM Carros";
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new Carro
+                            {
+                                Id = reader.GetInt32(0),
+                                Marca = reader.GetString(1),
+                                Modelo = reader.GetString(2),
+                                Año = reader.GetInt32(3),
+                                Color = reader.GetString(4),
+                                Costo = reader.GetDouble(5),
+                                PrecioVenta = reader.GetDouble(6),
+                                Estado = reader.IsDBNull(7) ? "Disponible" : reader.GetString(7),
+                                Descripcion = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                ImagenPath = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                Placa = reader.IsDBNull(10) ? null : reader.GetString(10),
+                                EstadoAntiguedad = reader.IsDBNull(11) ? null : reader.GetString(11)
+                            });
+                        }
+                    }
+                }
             }
 
             return lista;
@@ -43,71 +52,92 @@ namespace ConcesionaroCarros.Db
 
         public void Insertar(Carro c)
         {
-            var conn = new SqliteConnection(_connectionString);
-            conn.Open();
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
 
-            var cmd = conn.CreateCommand();
-            cmd.CommandText =
-            @"INSERT INTO Carros
-                (Marca, Modelo, Año, Color, Costo, PrecioVenta, Estado, Descripcion, ImagenPath)
-                VALUES (@Marca,@Modelo,@Año,@Color,@Costo,@Precio,@Estado,@Desc,@Img)";
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                    @"INSERT INTO Carros
+                      (Marca, Modelo, Año, Color, Costo, PrecioVenta, Estado, Descripcion, ImagenPath, Placa, EstadoAntiguedad)
+                      VALUES
+                      (@Marca,@Modelo,@Año,@Color,@Costo,@Precio,@Estado,@Desc,@Img,@Placa,@EstadoAnt)";
 
-            cmd.Parameters.AddWithValue("@Marca", c.Marca ?? "");
-            cmd.Parameters.AddWithValue("@Modelo", c.Modelo ?? "");
-            cmd.Parameters.AddWithValue("@Año", c.Año);
-            cmd.Parameters.AddWithValue("@Color", c.Color ?? "");
-            cmd.Parameters.AddWithValue("@Costo", c.Costo);
-            cmd.Parameters.AddWithValue("@Precio", c.PrecioVenta);
-            cmd.Parameters.AddWithValue("@Estado", c.Estado ?? "Disponible");
-            cmd.Parameters.AddWithValue("@Desc", (object)c.Descripcion ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
+                      
 
-            cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@Marca", c.Marca ?? "");
+                    cmd.Parameters.AddWithValue("@Modelo", c.Modelo ?? "");
+                    cmd.Parameters.AddWithValue("@Año", c.Año);
+                    cmd.Parameters.AddWithValue("@Color", c.Color ?? "");
+                    cmd.Parameters.AddWithValue("@Costo", c.Costo);
+                    cmd.Parameters.AddWithValue("@Precio", c.PrecioVenta);
+                    cmd.Parameters.AddWithValue("@Estado", c.Estado ?? "Disponible");
+                    cmd.Parameters.AddWithValue("@Desc", (object)c.Descripcion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Placa", (object)c.Placa ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@EstadoAnt", (object)c.EstadoAntiguedad ?? DBNull.Value);
+
+                    var id = (long)cmd.ExecuteNonQuery();
+                    c.Id = (int)id;
+                }
+            }
         }
 
         public void Actualizar(Carro c)
         {
-            var conn = new SqliteConnection(_connectionString);
-            conn.Open();
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
 
-            var cmd = conn.CreateCommand();
-            cmd.CommandText =
-            @"UPDATE Carros SET
-                Marca=@Marca,
-                Modelo=@Modelo,
-                Año=@Año,
-                Color=@Color,
-                Costo=@Costo,
-                PrecioVenta=@Precio,
-                Estado=@Estado,
-                Descripcion=@Desc,
-                ImagenPath=@Img
-              WHERE Id=@Id";
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                    @"UPDATE Carros SET
+                        Marca=@Marca,
+                        Modelo=@Modelo,
+                        Año=@Año,
+                        Color=@Color,
+                        Costo=@Costo,
+                        PrecioVenta=@Precio,
+                        Estado=@Estado,
+                        Descripcion=@Desc,
+                        ImagenPath=@Img,
+                        Placa=@Placa,
+                        EstadoAntiguedad=@EstadoAnt
+                      WHERE Id=@Id";
 
-            cmd.Parameters.AddWithValue("@Id", c.Id);
-            cmd.Parameters.AddWithValue("@Marca", c.Marca ?? "");
-            cmd.Parameters.AddWithValue("@Modelo", c.Modelo ?? "");
-            cmd.Parameters.AddWithValue("@Año", c.Año);
-            cmd.Parameters.AddWithValue("@Color", c.Color ?? "");
-            cmd.Parameters.AddWithValue("@Costo", c.Costo);
-            cmd.Parameters.AddWithValue("@Precio", c.PrecioVenta);
-            cmd.Parameters.AddWithValue("@Estado", c.Estado ?? "Disponible");
-            cmd.Parameters.AddWithValue("@Desc", (object)c.Descripcion ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Id", c.Id);
+                    cmd.Parameters.AddWithValue("@Marca", c.Marca ?? "");
+                    cmd.Parameters.AddWithValue("@Modelo", c.Modelo ?? "");
+                    cmd.Parameters.AddWithValue("@Año", c.Año);
+                    cmd.Parameters.AddWithValue("@Color", c.Color ?? "");
+                    cmd.Parameters.AddWithValue("@Costo", c.Costo);
+                    cmd.Parameters.AddWithValue("@Precio", c.PrecioVenta);
+                    cmd.Parameters.AddWithValue("@Estado", c.Estado ?? "Disponible");
+                    cmd.Parameters.AddWithValue("@Desc", (object)c.Descripcion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Placa", (object)c.Placa ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@EstadoAnt", (object)c.EstadoAntiguedad ?? DBNull.Value);
 
-            cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void Eliminar(int id)
         {
-             var conn = new SqliteConnection(_connectionString);
-            conn.Open();
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
 
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = "DELETE FROM Carros WHERE Id=@Id";
-            cmd.Parameters.AddWithValue("@Id", id);
-
-            cmd.ExecuteNonQuery();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Carros WHERE Id=@Id";
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

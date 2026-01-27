@@ -75,14 +75,52 @@
                            VerticalAlignment="Top"
                            Margin="100,27,100,0"/>
 
-                <StackPanel Grid.Column="0">
-                    <Border Style="{StaticResource StepIconBorder}" BorderBrush="#F59E0B">
-                        <TextBlock Text="&#xE7BF;" FontFamily="Segoe MDL2 Assets"
-                                   Foreground="#F59E0B"
-                                   FontSize="20"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-                    </Border>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+
+                    
+                    <Grid Width="55" Height="55">
+
+                      
+                        <Border Style="{StaticResource StepIconBorder}"
+                                BorderBrush="#F59E0B">
+                            <TextBlock Text="&#xE7BF;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       Foreground="#F59E0B"
+                                       FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+
+                     
+                        <Border Background="#E74C3C"
+                                CornerRadius="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,-6,-6,0">
+
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.CarritoCount,
+                                                RelativeSource={RelativeSource AncestorType=Window}}"
+                                                     Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <TextBlock Text="{Binding DataContext.CarritoCount,
+                                              RelativeSource={RelativeSource AncestorType=Window}}"
+                                       Foreground="White"
+                                       FontSize="10"
+                                       FontWeight="Bold"
+                                       Padding="5,1"/>
+                        </Border>
+
+                    </Grid>
+
                     <TextBlock Text="Detalle Operación"
                                Style="{StaticResource StepText}"
                                Foreground="#F59E0B"/>
@@ -143,17 +181,34 @@
                           Opacity="0.05"/>
                 </Border.Effect>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Disabled"
-                  Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <ContentControl Content="{Binding PasoActualView}" />
+                   
+                    <ScrollViewer Grid.Row="0"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Padding="10">
 
-                </ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding DetallesOperacion}"/>
+
+                    </ScrollViewer>
+
+                    <Button Grid.Row="1"
+                            Content="PROCESAR DETALLE DE VENTA"
+                            Height="55"
+                            Margin="20"
+                            Background="#1E1E1E"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            FontSize="16"
+                            Cursor="Hand"/>
+                </Grid>
 
             </Border>
-
         </Grid>
     </Grid>
 </UserControl>
- 

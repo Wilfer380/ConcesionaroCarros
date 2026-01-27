@@ -21,8 +21,7 @@ namespace ConcesionaroCarros.ViewModels
         }
 
         public bool IsDashboardVisible => CurrentView == null;
-
-        // 🔹 ESTADO GLOBAL DE LA VISTA ACTIVA
+        
         private string _vistaActiva;
         public string VistaActiva
         {
@@ -34,7 +33,6 @@ namespace ConcesionaroCarros.ViewModels
             }
         }
 
-        // 🔹 CARRITO GLOBAL
         public ObservableCollection<Carro> Carrito { get; } =
             new ObservableCollection<Carro>();
 
@@ -47,7 +45,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public Carro CarroSeleccionado { get; set; }
 
-        // 🔹 COMANDOS
+   
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowCarrosCommand { get; }
         public ICommand ShowClientesCommand { get; }
@@ -89,7 +87,7 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
-            // 🛒 PUNTO DE VENTA UNIFICADO (MENÚ + CARRITO)
+    
             ShowVentaCommand = new RelayCommand(_ =>
             {
                 if (Carrito.Count > 0)
