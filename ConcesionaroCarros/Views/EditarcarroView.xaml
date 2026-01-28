@@ -114,14 +114,76 @@
                         </StackPanel>
                     </Grid>
 
-                    <StackPanel Margin="6,0,6,15">
-                        <TextBlock Text="Más detalles del vehículo" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
-                        <TextBox Text="{Binding Carro.Descripcion}"
+                    <StackPanel Margin="6,0,6,15"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="Unidades disponibles"
+                                   Foreground="Black"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"/>
+                        <TextBox Text="{Binding Carro.UnidadesDisponibles}"
                                  IsReadOnly="{Binding EsSoloLectura}"
-                                 Height="80" Padding="10,8"
-                                 Foreground="Black" Background="#F8FAFC" BorderThickness="0"
-                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top"/>
+                                 Width="180"
+                                 Height="42"
+                                 Padding="10,8"
+                                 Foreground="Black"
+                                 Background="#F8FAFC"
+                                 BorderThickness="0"
+                                 HorizontalContentAlignment="Center"/>
                     </StackPanel>
+
+                    <Grid Margin="6,0,6,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Más detalles del vehículo"
+                                       Foreground="Black"
+                                       Margin="0,0,0,5"
+                                       FontSize="14"/>
+
+
+                            <ScrollViewer Height="80"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled"> 
+                                <TextBox Text="{Binding Carro.Descripcion}"
+                                     IsReadOnly="{Binding EsSoloLectura}"
+                                     Height="80"
+                                     Padding="10,8"
+                                     Foreground="Black"
+                                     Background="#F8FAFC"
+                                     BorderThickness="0"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     VerticalContentAlignment="Top"/>
+                            </ScrollViewer>
+                        </StackPanel>
+
+                      
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Estado de garantía"
+                                       Foreground="Black"
+                                       Margin="0,0,0,5"
+                                       FontSize="14"/>
+
+                            <ScrollViewer Height="80"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                               <TextBox Text="{Binding Carro.EstadoGarantia}"
+                                         IsReadOnly="{Binding EsSoloLectura}"
+                                         Padding="10,8"
+                                         Foreground="Black"
+                                         Background="#F8FAFC"
+                                         BorderThickness="0"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         VerticalContentAlignment="Top"/>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Grid>
+
 
                     <Button Content="📷 Cargar Nueva Imagen"
                             Command="{Binding CargarImagenCommand}"

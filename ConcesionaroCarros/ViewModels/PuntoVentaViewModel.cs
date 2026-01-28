@@ -37,16 +37,16 @@ namespace ConcesionaroCarros.ViewModels
 
             DetallesOperacion = new ObservableCollection<DetalleOperacionViewModel>();
 
-            // 🔹 Cargamos lo que ya exista en el carrito
+         
             foreach (var carro in _main.Carrito)
             {
                 DetallesOperacion.Add(new DetalleOperacionViewModel(carro));
             }
 
-            // 🔥 ESCUCHAR CAMBIOS DEL CARRITO
+          
             _main.Carrito.CollectionChanged += (s, e) =>
             {
-                // Cuando se agrega
+          
                 if (e.NewItems != null)
                 {
                     foreach (Carro carro in e.NewItems)
@@ -54,8 +54,7 @@ namespace ConcesionaroCarros.ViewModels
                         DetallesOperacion.Add(new DetalleOperacionViewModel(carro));
                     }
                 }
-
-                // Cuando se quita
+                
                 if (e.OldItems != null)
                 {
                     foreach (Carro carro in e.OldItems)
@@ -69,13 +68,13 @@ namespace ConcesionaroCarros.ViewModels
                 }
             };
 
-            // 🟥 QUITAR DEL CARRITO (YA FUNCIONA EN TIEMPO REAL)
+        
             QuitarDelCarritoCommand = new RelayCommand(c =>
             {
                 var carro = c as Carro;
                 if (carro == null) return;
 
-                carro.Estado = "Disponible";
+                carro.UnidadesDisponibles++;
                 _main.Carrito.Remove(carro);
                 _main.ActualizarCarrito();
             });

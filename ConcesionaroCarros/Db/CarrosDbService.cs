@@ -40,7 +40,9 @@ namespace ConcesionaroCarros.Db
                                 Descripcion = reader.IsDBNull(8) ? null : reader.GetString(8),
                                 ImagenPath = reader.IsDBNull(9) ? null : reader.GetString(9),
                                 Placa = reader.IsDBNull(10) ? null : reader.GetString(10),
-                                EstadoAntiguedad = reader.IsDBNull(11) ? null : reader.GetString(11)
+                                EstadoAntiguedad = reader.IsDBNull(11) ? null : reader.GetString(11),
+                                UnidadesDisponibles = reader.IsDBNull(12) ? 0 : reader.GetInt32(12),
+                                EstadoGarantia = reader.IsDBNull(13) ? null : reader.GetString(13)
                             });
                         }
                     }
@@ -60,11 +62,11 @@ namespace ConcesionaroCarros.Db
                 {
                     cmd.CommandText =
                     @"INSERT INTO Carros
-                      (Marca, Modelo, Año, Color, Costo, PrecioVenta, Estado, Descripcion, ImagenPath, Placa, EstadoAntiguedad)
+                      (Marca, Modelo, Año, Color, Costo, PrecioVenta, Estado, Descripcion, ImagenPath, Placa, EstadoAntiguedad, UnidadesDisponibles, EstadoGarantia)
                       VALUES
-                      (@Marca,@Modelo,@Año,@Color,@Costo,@Precio,@Estado,@Desc,@Img,@Placa,@EstadoAnt)";
+                      (@Marca,@Modelo,@Año,@Color,@Costo,@Precio,@Estado,@Desc,@Img,@Placa,@EstadoAnt,@Unidades,@EstadoGarantia)";
 
-                      
+
 
                     cmd.Parameters.AddWithValue("@Marca", c.Marca ?? "");
                     cmd.Parameters.AddWithValue("@Modelo", c.Modelo ?? "");
@@ -77,6 +79,9 @@ namespace ConcesionaroCarros.Db
                     cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Placa", (object)c.Placa ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@EstadoAnt", (object)c.EstadoAntiguedad ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Unidades", c.UnidadesDisponibles);
+                    cmd.Parameters.AddWithValue("@EstadoGarantia", (object)c.EstadoGarantia ?? DBNull.Value);
+
 
                     var id = (long)cmd.ExecuteNonQuery();
                     c.Id = (int)id;
@@ -104,7 +109,9 @@ namespace ConcesionaroCarros.Db
                         Descripcion=@Desc,
                         ImagenPath=@Img,
                         Placa=@Placa,
-                        EstadoAntiguedad=@EstadoAnt
+                        EstadoAntiguedad=@EstadoAnt,
+                        UnidadesDisponibles=@Unidades,
+                        EstadoGarantia=@EstadoGarantia
                       WHERE Id=@Id";
 
                     cmd.Parameters.AddWithValue("@Id", c.Id);
@@ -119,6 +126,8 @@ namespace ConcesionaroCarros.Db
                     cmd.Parameters.AddWithValue("@Img", (object)c.ImagenPath ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Placa", (object)c.Placa ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@EstadoAnt", (object)c.EstadoAntiguedad ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Unidades", c.UnidadesDisponibles);
+                    cmd.Parameters.AddWithValue("@EstadoGarantia", (object)c.EstadoGarantia ?? DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }

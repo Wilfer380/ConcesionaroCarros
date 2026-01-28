@@ -17,6 +17,8 @@ namespace ConcesionaroCarros.Models
         private string _imagenPath;
         private string _placa;
         private string _estadoAntiguedad;
+        private int _unidadesDisponibles;
+        private string _estadoGarantia;
 
         public string Marca
         {
@@ -82,6 +84,24 @@ namespace ConcesionaroCarros.Models
         {
             get => _estadoAntiguedad;
             set { _estadoAntiguedad = value; OnPropertyChanged(nameof(EstadoAntiguedad)); }
+        }
+
+        public int UnidadesDisponibles
+        {
+            get => _unidadesDisponibles;
+            set{_unidadesDisponibles = value;
+                OnPropertyChanged(nameof(UnidadesDisponibles));
+
+                Estado = _unidadesDisponibles > 0 ? "Disponible" : "Agotado";
+            }
+        }
+
+        public string EstadoGarantia
+        {
+            get => _estadoGarantia;
+            set{_estadoGarantia = value;
+                OnPropertyChanged(nameof(EstadoGarantia));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

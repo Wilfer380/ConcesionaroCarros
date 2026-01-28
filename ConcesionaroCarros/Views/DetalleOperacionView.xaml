@@ -1,13 +1,12 @@
 ﻿<UserControl x:Class="ConcesionaroCarros.Views.DetalleOperacionView"
              xmlns:views="clr-namespace:ConcesionaroCarros.Views"
-
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
                         Stretch="UniformToFill" 
-                        Opacity="0.2"/>
+                        Opacity="0.1"/>
         </Grid.Background>
 
         <Border Background="#F9FFFFFF" 
@@ -15,9 +14,7 @@
                 Margin="20" 
                 Padding="25">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="15" 
-                                  ShadowDepth="2" 
-                                  Opacity="0.3"/>
+                <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
             </Border.Effect>
 
             <Grid>
@@ -30,142 +27,90 @@
 
                 <Grid Grid.Row="0" Margin="0,0,0,15">
                     <StackPanel>
-                        <TextBlock Text="ESPECIFICACIÓN DE VENTA" 
-                                   FontSize="22" 
-                                   FontWeight="Black" 
-                                   Foreground="#1A1A1A"/>
-                        <TextBlock Text="Resumen de compra y configuración técnica" 
-                                   FontSize="12" 
-                                   Foreground="#777"/>
+                        <TextBlock Text="ESPECIFICACIÓN DE VENTA" FontSize="22" FontWeight="Black" Foreground="#1A1A1A"/>
+                        <TextBlock Text="Resumen de compra y configuración técnica" FontSize="12" Foreground="#777"/>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Right" 
-                                VerticalAlignment="Center">
-                        <TextBlock Text="FACTURA BASE PROMEDIA" 
-                                   FontWeight="Bold" 
-                                   Foreground="#D4AF37"
-                                   HorizontalAlignment="Right"/>
-
-                        <TextBlock Text="{Binding FechaActual, StringFormat=FECHA: {0:yyyy-MM-dd}}"
-                                   FontSize="11" 
-                                   Foreground="#555"/>
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="VALOR TOTAL OPERACIÓN" FontWeight="Bold" Foreground="#D4AF37" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding FechaActual, StringFormat=FECHA: {0:yyyy-MM-dd}}" FontSize="11" Foreground="#555" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Grid>
 
-                <Border Grid.Row="1" 
-                        Background="White" 
-                        BorderBrush="#EEE" 
-                        BorderThickness="1" 
-                        CornerRadius="10" 
-                        Padding="15" 
-                        Margin="0,0,0,20">
+                <Border Grid.Row="1" Background="White" BorderBrush="#EEE" BorderThickness="1" CornerRadius="10" Padding="15" Margin="0,0,0,20">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="320"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="0" 
-                                CornerRadius="8" 
-                                Height="180"
-                                BorderBrush="#DDD" 
-                                BorderThickness="1">
+                        <Border Grid.Column="0" CornerRadius="8" Height="180" BorderBrush="#DDD" BorderThickness="1">
                             <Border.Background>
-                                <ImageBrush ImageSource="{Binding Vehiculo.ImagenPath}" 
-                                            Stretch="UniformToFill"/>
+                                <ImageBrush ImageSource="{Binding Vehiculo.ImagenPath}" Stretch="UniformToFill"/>
                             </Border.Background>
                         </Border>
 
-                        <StackPanel Grid.Column="1" 
-                                    Margin="20,0,0,0">
-                            <TextBlock Text="DETALLES DEL VEHÍCULO" 
-                                       FontSize="14" 
-                                       FontWeight="Bold" 
-                                       Margin="0,0,0,10" 
-                                       Foreground="#333"/>
-
+                        <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                            <TextBlock Text="DETALLES TÉCNICOS" FontSize="14" FontWeight="Bold" Margin="0,0,0,10" Foreground="#333"/>
                             <UniformGrid Columns="2">
-                                <StackPanel Margin="0,2">
+                                <StackPanel Margin="0,5">
                                     <TextBlock Text="Marca:" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.Marca}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Vehiculo.Marca}" FontWeight="SemiBold" FontSize="14"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,2">
+                                <StackPanel Margin="0,5">
                                     <TextBlock Text="Modelo:" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.Modelo}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Vehiculo.Modelo}" FontWeight="SemiBold" FontSize="14"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,2">
+                                <StackPanel Margin="0,5">
                                     <TextBlock Text="Placa:" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.Placa}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Vehiculo.Placa}" FontWeight="SemiBold" FontSize="14"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,2">
+                                <StackPanel Margin="0,5">
                                     <TextBlock Text="Año:" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.Año}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Vehiculo.Año}" FontWeight="SemiBold" FontSize="14"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,2">
-                                    <TextBlock Text="Color" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.Color}" FontWeight="SemiBold"/>
+                                <StackPanel Margin="0,5">
+                                    <TextBlock Text="Color:" FontSize="11" Foreground="#888"/>
+                                    <TextBlock Text="{Binding Vehiculo.Color}" FontWeight="SemiBold" FontSize="14"/>
                                 </StackPanel>
-                                <StackPanel Margin="0,2">
-                                    <TextBlock Text="Estado Antiguedad:" FontSize="11" Foreground="#888"/>
-                                    <TextBlock Text="{Binding Vehiculo.EstadoAntiguedad}" FontWeight="SemiBold"/>
+                                <StackPanel Margin="0,5">
+                                    <TextBlock Text="Estado:" FontSize="11" Foreground="#888"/>
+                                    <TextBlock Text="{Binding Vehiculo.EstadoAntiguedad}" FontWeight="SemiBold" Foreground="#10B981" FontSize="14"/>
                                 </StackPanel>
                             </UniformGrid>
 
-                            <Border Background="#F1F1F1" 
-                                    Margin="0,15,0,0" 
-                                    Padding="10" 
-                                    CornerRadius="5">
+                            <Border Background="#F8FAFC" Margin="0,15,0,0" Padding="15" CornerRadius="8">
                                 <DockPanel>
-                                    <TextBlock Text="PRECIO BASE VEHÍCULO:" 
-                                               FontWeight="Bold" 
-                                               VerticalAlignment="Center"/>
-                                    
-                                    <TextBlock Text="{Binding PrecioBase, StringFormat={}{0:N0} COP}" 
-                                              FontSize="18"
-                                               FontWeight="Black"
-                                               Foreground="#007ACC"
-                                               HorizontalAlignment="Right"/>
+                                    <TextBlock Text="PRECIO BASE VEHÍCULO:" FontWeight="Bold" VerticalAlignment="Center" Foreground="#64748B"/>
+                                    <TextBlock Text="{Binding PrecioBase, StringFormat={}{0:N0} COP}" FontSize="24" FontWeight="Black" Foreground="#1E293B" HorizontalAlignment="Right"/>
                                 </DockPanel>
                             </Border>
-
-                            <Button Content="Quitar del carrito"
-                                    Height="32"
-                                    Margin="0,10,0,0"
-                                    Background="#E74C3C"
-                                    Foreground="White"
-                                    FontWeight="Bold"
-                                    Cursor="Hand"
-                                    Command="{Binding DataContext.QuitarDelCarritoCommand,
-                                              RelativeSource={RelativeSource AncestorType=views:PuntoVentaView}}"
-                                    CommandParameter="{Binding Vehiculo}"/>
                         </StackPanel>
                     </Grid>
                 </Border>
 
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0"
+                    <Border Grid.Column="0" 
                             Background="White" 
                             BorderBrush="#EEE" 
                             BorderThickness="1" 
                             CornerRadius="10" 
                             Padding="15" 
                             Margin="0,0,10,0">
-
                         <StackPanel>
-                            <TextBlock Text="MÁS DETALLES DEL VEHÍCULO" 
-                                       FontSize="14" 
+                            <TextBlock Text="NOTAS Y CARACTERÍSTICAS" 
+                                       FontSize="13" 
                                        FontWeight="Bold" 
+                                       Foreground="#475569" 
                                        Margin="0,0,0,10"/>
-
-                            <TextBlock Text="{Binding Vehiculo.Descripcion}"
-                                       TextWrapping="Wrap"
-                                       FontSize="13"
-                                       Foreground="#444"/>
-
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                                          MaxHeight="120">
+                                <TextBlock Text="{Binding Vehiculo.Descripcion}" TextWrapping="Wrap" FontSize="13" Foreground="#444" LineHeight="20"/>
+                            </ScrollViewer>
                         </StackPanel>
                     </Border>
 
@@ -176,21 +121,31 @@
                             CornerRadius="10" 
                             Padding="15" 
                             Margin="10,0,0,0">
-
                         <StackPanel>
-                            <TextBlock Text="FORMA DE PAGO" 
-                                       FontSize="14" 
+                            <TextBlock Text="ESTADO LEGAL Y GARANTÍA" 
+                                       FontSize="13" 
                                        FontWeight="Bold" 
-                                       Margin="0,0,0,10"/>
+                                       Foreground="#475569" 
+                                       Margin="0,0,0,12"/>
 
-                            <RadioButton Content="Pago de Contado" 
-                                         IsChecked="True" 
-                                         Margin="0,5"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                        MaxHeight="120">
+                                <TextBlock Text="{Binding Vehiculo.EstadoGarantia}"
+                                           TextWrapping="Wrap"
+                                           FontSize="13"
+                                           Foreground="#334155"
+                                           LineHeight="20"/>
+                            </ScrollViewer>
 
-                            <RadioButton Content="Crédito Bancario" 
-                                         Margin="0,5"/>
-
-
+                            <Button Content="Eliminar del Carrito" Height="32" Margin="0,15,0,0" Background="#FFF1F2" Foreground="#BE123C" FontWeight="Bold" BorderThickness="0" Cursor="Hand"
+                                    Command="{Binding DataContext.QuitarDelCarritoCommand, RelativeSource={RelativeSource AncestorType=views:PuntoVentaView}}"
+                                    CommandParameter="{Binding Vehiculo}">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="6"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -198,4 +153,3 @@
         </Border>
     </Grid>
 </UserControl>
- 
