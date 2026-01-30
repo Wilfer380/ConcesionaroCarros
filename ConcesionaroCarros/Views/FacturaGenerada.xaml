@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="ConcesionaroCarros.Views.FacturaView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="ConcesionaroCarros.Views.FacturaGenerada"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
@@ -130,4 +130,4 @@
             </Border>
         </ScrollViewer>
     </Grid>
-</UserControl>
+    </UserControl>

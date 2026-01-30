@@ -72,12 +72,14 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarrosViewModel.cs" />
     <Compile Include="ViewModels\ClientesViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmarVentaViewModel.cs" />
+    <Compile Include="ViewModels\DatosClientesViewModel.cs" />
     <Compile Include="ViewModels\DetalleOperacionViewModel.cs" />
     <Compile Include="ViewModels\EditarCarroViewModel.cs" />
     <Compile Include="ViewModels\EditarClienteViewModel.cs" />
     <Compile Include="ViewModels\EditarEmpleadoViewModel.cs" />
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
-    <Compile Include="ViewModels\FacturaViewModel.cs" />
+    <Compile Include="ViewModels\FacturaGeneradaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PuntoVentaViewModel.cs" />
     <Compile Include="Views\CarrosView.xaml.cs">
@@ -107,8 +109,8 @@
     <Compile Include="Views\EmpleadosView.xaml.cs">
       <DependentUpon>EmpleadosView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FacturaView.xaml.cs">
-      <DependentUpon>FacturaView.xaml</DependentUpon>
+    <Compile Include="Views\FacturaGenerada.xaml.cs">
+      <DependentUpon>FacturaGenerada.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PuntoVentaView.xaml.cs">
       <DependentUpon>PuntoVentaView.xaml</DependentUpon>
@@ -161,7 +163,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FacturaView.xaml">
+    <Page Include="Views\FacturaGenerada.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

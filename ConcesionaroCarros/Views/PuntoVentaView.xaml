@@ -5,9 +5,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <UserControl.Resources>
-
         <DataTemplate DataType="{x:Type vm:DetalleOperacionViewModel}">
             <views:DetalleOperacionView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type views:DatosClientesView}">
+            <views:DatosClientesView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:PuntoVentaViewModel}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="10">
+                <ItemsControl ItemsSource="{Binding DetallesOperacion}"/>
+            </ScrollViewer>
         </DataTemplate>
 
         <Style x:Key="StepIconBorder" TargetType="Border">
@@ -16,6 +27,7 @@
             <Setter Property="CornerRadius" Value="28"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
@@ -23,14 +35,12 @@
             </Setter>
         </Style>
 
-
         <Style x:Key="StepText" TargetType="TextBlock">
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="0,10,0,0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
-
     </UserControl.Resources>
 
     <Grid Background="#F8FAFC">
@@ -39,27 +49,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-
         <Border Grid.Row="0" Padding="50,40,50,20">
             <StackPanel>
-                <TextBlock Text="Punto de Venta"
-                           FontSize="34"
-                           FontWeight="Black"
+                <TextBlock Text="Punto de Venta" 
+                           FontSize="34" 
+                           FontWeight="Black" 
                            Foreground="#1E293B"/>
-                <TextBlock Text="Gestión de flujo de caja y facturación electrónica"
-                           FontSize="15"
+                <TextBlock Text="Gestión de flujo de caja y facturación electrónica" 
+                           FontSize="15" 
                            Foreground="#64748B"
                            Margin="0,5,0,0"/>
             </StackPanel>
         </Border>
-
 
         <Grid Grid.Row="1" Margin="50,10,50,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
 
             <Grid Grid.Row="0" Margin="0,0,0,35">
                 <Grid.ColumnDefinitions>
@@ -69,145 +76,293 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Rectangle Grid.ColumnSpan="4"
-                           Height="2"
-                           Fill="#E2E8F0"
-                           VerticalAlignment="Top"
-                           Margin="100,27,100,0"/>
+                <Rectangle Grid.ColumnSpan="4" 
+                           Height="2" 
+                           VerticalAlignment="Top" 
+                           Margin="100,27,100,0" 
+                           Fill="#E2E8F0"/>
+
+                <Rectangle Grid.ColumnSpan="4" 
+                           Height="2" 
+                           VerticalAlignment="Top" 
+                           Margin="100,27,100,0" 
+                           HorizontalAlignment="Left" 
+                           Fill="#F59E0B">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Width" Value="0"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                    <Setter Property="Width" Value="320"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                    <Setter Property="Width" Value="600"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                    <Setter Property="Width" Value="900"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-
-                    
                     <Grid Width="55" Height="55">
-
-                      
-                        <Border Style="{StaticResource StepIconBorder}"
-                                BorderBrush="#F59E0B">
-                            <TextBlock Text="&#xE7BF;"
-                                       FontFamily="Segoe MDL2 Assets"
-                                       Foreground="#F59E0B"
-                                       FontSize="20"
+                        <Border Style="{StaticResource StepIconBorder}" BorderBrush="#F59E0B">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="20" 
                                        HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="&#xE7BF;"/>
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                                <Setter Property="Text" Value="&#xE73E;"/>
+                                                <Setter Property="Foreground" Value="#10B981"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                                <Setter Property="Text" Value="&#xE73E;"/>
+                                                <Setter Property="Foreground" Value="#10B981"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                                <Setter Property="Text" Value="&#xE73E;"/>
+                                                <Setter Property="Foreground" Value="#10B981"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </Border>
 
-                     
-                        <Border Background="#E74C3C"
-                                CornerRadius="10"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
+                        <Border Background="#E74C3C" 
+                                CornerRadius="10" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
                                 Margin="0,-6,-6,0">
-
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Visibility" Value="Visible"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.CarritoCount,
-                                                RelativeSource={RelativeSource AncestorType=Window}}"
-                                                     Value="0">
+                                        <DataTrigger Binding="{Binding DataContext.CarritoCount, RelativeSource={RelativeSource AncestorType=Window}}" Value="0">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-
-                            <TextBlock Text="{Binding DataContext.CarritoCount,
-                                              RelativeSource={RelativeSource AncestorType=Window}}"
-                                       Foreground="White"
-                                       FontSize="10"
-                                       FontWeight="Bold"
+                            <TextBlock Text="{Binding DataContext.CarritoCount, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                       Foreground="White" 
+                                       FontSize="10" 
+                                       FontWeight="Bold" 
                                        Padding="5,1"/>
                         </Border>
-
                     </Grid>
-
-                    <TextBlock Text="Detalle Operación"
-                               Style="{StaticResource StepText}"
+                    <TextBlock Text="Detalle Operación" 
+                               Style="{StaticResource StepText}" 
                                Foreground="#F59E0B"/>
                 </StackPanel>
 
-
                 <StackPanel Grid.Column="1">
-                    <Border Style="{StaticResource StepIconBorder}" BorderBrush="#CBD5E1">
-                        <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets"
-                                   Foreground="#CBD5E1"
-                                   FontSize="20"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource StepIconBorder}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" 
+                                   FontSize="20" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="&#xE77B;"/>
+                                    <Setter Property="Foreground" Value="#CBD5E1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                            <Setter Property="Foreground" Value="#F59E0B"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                            <Setter Property="Text" Value="&#xE73E;"/>
+                                            <Setter Property="Foreground" Value="#10B981"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                            <Setter Property="Text" Value="&#xE73E;"/>
+                                            <Setter Property="Foreground" Value="#10B981"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Border>
-                    <TextBlock Text="Datos del Cliente"
-                               Style="{StaticResource StepText}"
-                               Foreground="#CBD5E1"/>
+                    <TextBlock Text="Datos del Cliente">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StepText}">
+                                <Setter Property="Foreground" Value="#CBD5E1"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
-
 
                 <StackPanel Grid.Column="2">
-                    <Border Style="{StaticResource StepIconBorder}" BorderBrush="#CBD5E1">
-                        <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets"
-                                   Foreground="#CBD5E1"
-                                   FontSize="20"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource StepIconBorder}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" 
+                                   FontSize="20" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="&#xE73E;"/>
+                                    <Setter Property="Foreground" Value="#CBD5E1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                            <Setter Property="Foreground" Value="#F59E0B"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                            <Setter Property="Text" Value="&#xE73E;"/>
+                                            <Setter Property="Foreground" Value="#10B981"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Border>
-                    <TextBlock Text="Confirmar Venta"
-                               Style="{StaticResource StepText}"
-                               Foreground="#CBD5E1"/>
+                    <TextBlock Text="Confirmar Venta">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StepText}">
+                                <Setter Property="Foreground" Value="#CBD5E1"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
 
-
                 <StackPanel Grid.Column="3">
-                    <Border Style="{StaticResource StepIconBorder}" BorderBrush="#CBD5E1">
-                        <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets"
-                                   Foreground="#CBD5E1"
-                                   FontSize="20"
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource StepIconBorder}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" 
+                                   FontSize="20" 
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="&#xE8A5;"/>
+                                    <Setter Property="Foreground" Value="#CBD5E1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                            <Setter Property="Foreground" Value="#F59E0B"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Border>
-                    <TextBlock Text="Factura Generada"
-                               Style="{StaticResource StepText}"
-                               Foreground="#CBD5E1"/>
+                    <TextBlock Text="Factura Generada">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StepText}">
+                                <Setter Property="Foreground" Value="#CBD5E1"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="Foreground" Value="#F59E0B"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
             </Grid>
 
-
-            <Border Grid.Row="1"
-                    Background="White"
-                    CornerRadius="24"
-                    Padding="0">
-
+            <Border Grid.Row="1" Background="White" 
+                    CornerRadius="24">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="30"
-                          ShadowDepth="5"
-                          Opacity="0.05"/>
+                    <DropShadowEffect BlurRadius="30" ShadowDepth="5" Opacity="0.05"/>
                 </Border.Effect>
-
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
-                   
-                    <ScrollViewer Grid.Row="0"
-                                  VerticalScrollBarVisibility="Auto"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  Padding="10">
-
-                        <ItemsControl ItemsSource="{Binding DetallesOperacion}"/>
-
-                    </ScrollViewer>
-
-                    <Button Grid.Row="1"
-                            Content="PROCESAR DETALLE DE VENTA"
+                    <ContentControl Grid.Row="0" Content="{Binding ContenidoCentral}"/>
+                    <Button Grid.Row="1" 
+                            Content="PROCESAR DETALLE DE VENTA" 
                             Height="55"
-                            Margin="20"
-                            Background="#1E1E1E"
-                            Foreground="White"
-                            FontWeight="Bold"
-                            FontSize="16"
-                            Cursor="Hand"/>
-                </Grid>
+                            Margin="20" 
+                            Background="#1E1E1E" 
+                            Foreground="White" 
+                            FontWeight="Bold" 
+                            FontSize="16" 
+                            Command="{Binding ProcesarDetalleVentaCommand}">
+                        
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="DatosCliente">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
 
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="ConfirmarVenta">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding PasoActual}" Value="FacturaGenerada">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

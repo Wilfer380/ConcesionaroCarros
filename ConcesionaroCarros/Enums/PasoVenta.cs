@@ -8,9 +8,9 @@ namespace ConcesionaroCarros.Enums
 {
     public enum PasoVenta
     {
-        DatosCliente = 0,
-        DetalleOperacion = 1,
-        ConfirmarVenta = 2,
-        Factura = 3
+        DetalleOperacion,
+        DatosCliente,
+        ConfirmarVenta,
+        FacturaGenerada
     }
 }

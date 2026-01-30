@@ -27,117 +27,164 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- HEADER -->
         <Border Grid.Row="0" Background="#1E293B" CornerRadius="16,16,0,0" Padding="30,20">
             <Grid>
                 <StackPanel Orientation="Horizontal">
-                    <Border Width="60" Height="60" CornerRadius="30" Background="#334155" BorderBrush="#475569" BorderThickness="2">
-                        <TextBlock Text="👤" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Width="60"
+                            Height="60"
+                            CornerRadius="30"
+                            Background="#334155"
+                            BorderBrush="#475569"
+                            BorderThickness="2">
+                        <TextBlock Text="👤"
+                                   FontSize="30"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Border>
+
                     <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ClienteSeleccionado.NombreCompleto, FallbackValue='ALEXANDER PIERCE RIVERA'}" 
-                                   FontSize="22" FontWeight="Black" Foreground="White"/>
-                        <TextBlock Text="DOCUMENTO OFICIAL DE IDENTIDAD" FontSize="10" Foreground="#94A3B8" FontWeight="Bold"/>
+                        <TextBlock Text="ALEXANDER PIERCE RIVERA"
+                                   FontSize="22"
+                                   FontWeight="Black"
+                                   Foreground="White"/>
+                        <TextBlock Text="DOCUMENTO OFICIAL DE IDENTIDAD"
+                                   FontSize="10"
+                                   Foreground="#94A3B8"
+                                   FontWeight="Bold"/>
                     </StackPanel>
                 </StackPanel>
+
                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock Text="ID DE CLIENTE" FontSize="10" Foreground="#94A3B8" FontWeight="Bold" HorizontalAlignment="Right"/>
-                    <TextBlock Text="{Binding ClienteSeleccionado.Cedula, FallbackValue='1.082.990.445'}" 
-                               FontSize="18" FontWeight="Bold" Foreground="#F5B301" HorizontalAlignment="Right"/>
+                    <TextBlock Text="ID DE CLIENTE"
+                               FontSize="10"
+                               Foreground="#94A3B8"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="1.082.990.445"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#F5B301"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <Border Grid.Row="1" Background="White" CornerRadius="0,0,16,16" Padding="30" Effect="{StaticResource CardShadow}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <!-- CONTENIDO CON SCROLL -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="DATOS DE LOCALIZACIÓN" FontSize="12" FontWeight="Bold" Foreground="#0284C7" Margin="0,0,0,20"/>
+            <Border Background="White"
+                    CornerRadius="0,0,16,16"
+                    Padding="30"
+                    Effect="{StaticResource CardShadow}">
 
-                    <UniformGrid Columns="1">
-                        <StackPanel Margin="0,0,0,15">
+                <Grid>
+                    <!-- 🔹 CAMBIO CLAVE AQUÍ -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- COLUMNA IZQUIERDA -->
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="DATOS PERSONALES"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Foreground="#0284C7"
+                                   Margin="0,0,0,25"/>
+
+                        <StackPanel Margin="0,0,0,18">
+                            <TextBlock Text="FECHA DE NACIMIENTO" Style="{StaticResource FieldLabel}"/>
+                            <TextBlock Text="21/08/2005" Style="{StaticResource FieldValue}"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="0,0,0,18">
                             <TextBlock Text="TELÉFONO MÓVIL" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="{Binding ClienteSeleccionado.Telefono, FallbackValue='+57 310 455 8899'}" Style="{StaticResource FieldValue}"/>
+                            <TextBlock Text="3214567898" Style="{StaticResource FieldValue}"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,0,0,15">
+                        <StackPanel Margin="0,0,0,18">
                             <TextBlock Text="CORREO ELECTRÓNICO" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="{Binding ClienteSeleccionado.Email, FallbackValue='alex.pierce@corporativo.com'}" Style="{StaticResource FieldValue}"/>
+                            <TextBlock Text="wilfer@gmail.com" Style="{StaticResource FieldValue}" TextWrapping="Wrap"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,0,0,15">
-                            <TextBlock Text="DIRECCIÓN DE RESIDENCIA" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="{Binding ClienteSeleccionado.Direccion, FallbackValue='Transversal 45 # 12 - 80 Edificio Platino'}" Style="{StaticResource FieldValue}" TextWrapping="Wrap"/>
-                        </StackPanel>
-
-                        <StackPanel Margin="0,0,0,15">
-                            <TextBlock Text="CIUDAD / DEPARTAMENTO" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="{Binding ClienteSeleccionado.Ciudad, FallbackValue='Bucaramanga, Santander'}" Style="{StaticResource FieldValue}"/>
-                        </StackPanel>
-                    </UniformGrid>
-                </StackPanel>
-
-                <Rectangle Grid.Column="1" Width="1" Fill="#F1F5F9" Margin="0,10"/>
-
-                <StackPanel Grid.Column="2" Margin="20,0,0,0">
-                    <TextBlock Text="INFORMACIÓN COMPLEMENTARIA" FontSize="12" FontWeight="Bold" Foreground="#0284C7" Margin="0,0,0,20"/>
-
-                    <UniformGrid Columns="1">
-                        <StackPanel Margin="0,0,0,15">
+                        <StackPanel Margin="0,0,0,18">
                             <TextBlock Text="ACTIVIDAD ECONÓMICA" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="Empleado Sector Privado / Independiente" Style="{StaticResource FieldValue}"/>
+                            <TextBlock Text="Empleado" Style="{StaticResource FieldValue}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- SEPARADOR -->
+                    <Rectangle Grid.Column="1"
+                               Width="1"
+                               Fill="#F1F5F9"
+                               Margin="0,10"/>
+
+                    <!-- COLUMNA DERECHA -->
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="INFORMACIÓN COMPLEMENTARIA"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Foreground="#0284C7"
+                                   Margin="0,0,0,25"/>
+
+                        <StackPanel Margin="0,0,0,18">
+                            <TextBlock Text="CIUDAD / DEPARTAMENTO" Style="{StaticResource FieldLabel}"/>
+                            <TextBlock Text="Medellín, Antioquia" Style="{StaticResource FieldValue}"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,0,0,15">
-                            <TextBlock Text="LICENCIA DE CONDUCCIÓN" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="Categoría B1 - Vigente hasta 2028" Style="{StaticResource FieldValue}"/>
+                        <StackPanel Margin="0,0,0,18">
+                            <TextBlock Text="DIRECCIÓN DE RESIDENCIA" Style="{StaticResource FieldLabel}"/>
+                            <TextBlock Text="Avenida el Poblado 45-67" Style="{StaticResource FieldValue}" TextWrapping="Wrap"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0,0,0,15">
-                            <TextBlock Text="REFERENCIA PERSONAL" Style="{StaticResource FieldLabel}"/>
-                            <TextBlock Text="Claudia Rivera (Familiar) - 300 123 4567" Style="{StaticResource FieldValue}"/>
+                        <StackPanel Margin="0,0,0,18">
+                            <TextBlock Text="CÓDIGO POSTAL" Style="{StaticResource FieldLabel}"/>
+                            <TextBlock Text="00055576" Style="{StaticResource FieldValue}"/>
                         </StackPanel>
 
-                        <Border Background="#F8FAFC" Padding="15" CornerRadius="10" Margin="0,10,0,0">
+                        <Border Background="#F8FAFC"
+                                Padding="15"
+                                CornerRadius="12"
+                                BorderBrush="#F1F5F9"
+                                BorderThickness="1">
                             <StackPanel>
-                                <TextBlock Text="OBSERVACIONES DE SEGURIDAD" Style="{StaticResource FieldLabel}"/>
-                                <TextBlock Text="Sin antecedentes de tránsito. Documentación del cliente validada mediante central de riesgos." 
-                                           FontSize="13" Foreground="#64748B" TextWrapping="Wrap" FontStyle="Italic"/>
+                                <TextBlock Text="OBSERVACIÓN DE SEGURIDAD" Style="{StaticResource FieldLabel}"/>
+                                <TextBlock Text="Datos importantes para la gestión de compra"
+                                           FontSize="12"
+                                           Foreground="#64748B"
+                                           TextWrapping="Wrap"
+                                           FontStyle="Italic"/>
                             </StackPanel>
                         </Border>
-                    </UniformGrid>
-                </StackPanel>
-            </Grid>
-        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </ScrollViewer>
 
+        
         <Grid Grid.Row="2" Margin="0,30,0,0">
-            <Button Content="← VOLVER ATRÁS" 
-                    HorizontalAlignment="Left" Width="200" Height="50"
-                    Background="Transparent" Foreground="#64748B" 
-                    FontWeight="Bold" BorderBrush="#CBD5E1" BorderThickness="1"
-                    Command="{Binding VolverCommand}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Button Content="← VOLVER ATRÁS"
+                    HorizontalAlignment="Left"
+                    Width="200"
+                    Height="50"
+                    Background="Transparent"
+                    Foreground="#64748B"
+                    FontWeight="Bold"
+                    BorderBrush="#CBD5E1"
+                    BorderThickness="1"
+                    Command="{Binding VolverAtrasCommand}"/>
 
-            <Button Content="CONFIRMAR DATOS Y CONTINUAR →" 
-                    HorizontalAlignment="Right" Width="320" Height="55"
-                    Background="#1E293B" Foreground="White" 
-                    FontWeight="Bold" FontSize="14"
-                    Command="{Binding IrAPagoCommand}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <Button Content="CONFIRMAR DATOS Y CONTINUAR →"
+                    HorizontalAlignment="Right"
+                    Width="320"
+                    Height="55"
+                    Background="#1E293B"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    FontSize="14"
+                    Command="{Binding ConfirmarDatosCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

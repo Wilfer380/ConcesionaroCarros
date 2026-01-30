@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace ConcesionaroCarros.Views
 {
     /// <summary>
-    /// Lógica de interacción para FacturaView.xaml
+    /// Lógica de interacción para FacturaGenerada.xaml
     /// </summary>
-    public partial class FacturaView : UserControl
+    public partial class FacturaGenerada : UserControl
     {
-        public FacturaView()
+        public FacturaGenerada()
         {
             InitializeComponent();
         }
