@@ -91,7 +91,17 @@
                                     <StackPanel VerticalAlignment="Center" Margin="15,0,0,0">
                                         <TextBlock Text="{Binding Nombres}" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A"/>
                                         <TextBlock Text="{Binding Cargo}" FontSize="12" Foreground="#D4AF37" FontWeight="SemiBold"/>
-                                    </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                            <TextBlock Text="🪪 C.C. "
+                                                   FontSize="11"
+                                                   Foreground="#999"
+                                                   FontWeight="SemiBold"/>
+
+                                            <TextBlock Text="{Binding Cedula}"
+                                                       FontSize="11"
+                                                       Foreground="#666"/>
+                                        </StackPanel>
+                                </StackPanel>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Margin="0,15,0,0">
@@ -99,9 +109,21 @@
                                         <TextBlock Text="✉ " Foreground="#D4AF37"/>
                                         <TextBlock Text="{Binding Correo}" FontSize="11" Foreground="#666"/>
                                     </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,2">
+                                            <TextBlock Text="📞 " Foreground="#D4AF37"/>
+                                            <TextBlock Text="{Binding Telefono}" FontSize="11" Foreground="#666"/>
+                                        </StackPanel>
+                                    
+                                        <!-- 🔹 NUEVO: CIUDAD -->
                                     <StackPanel Orientation="Horizontal" Margin="0,2">
-                                        <TextBlock Text="📞 " Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Telefono}" FontSize="11" Foreground="#666"/>
+                                        <TextBlock Text="📍 " Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Ciudad}" FontSize="11" Foreground="#666"/>
+                                    </StackPanel>
+
+                                    <!-- 🔹 NUEVO: DEPARTAMENTO -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                                        <TextBlock Text="🏢 " Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Departamento}" FontSize="11" Foreground="#666"/>
                                     </StackPanel>
 
                                     <TextBlock Text="Progreso de Metas" FontSize="11" FontWeight="Bold" Margin="0,12,0,5" Foreground="#333"/>

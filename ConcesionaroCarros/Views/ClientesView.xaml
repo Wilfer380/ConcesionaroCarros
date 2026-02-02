@@ -247,45 +247,47 @@
                                             Grid.Column="1" 
                                             Grid.ColumnSpan="2" 
                                             Margin="0,15,0,0">
-                                    <StackPanel Orientation="Horizontal" 
-                                                Margin="0,0,0,5">
-                                        <TextBlock Text="📧" 
-                                                   Width="20" 
-                                                   Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Correo}" 
-                                                   Foreground="#555"/>
+
+                                    <!-- CORREO -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="📧" Width="20" Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Correo}" Foreground="#555"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" 
-                                                Margin="0,0,0,5">
-                                        <TextBlock Text="📞" 
-                                                   Width="20" 
-                                                   Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Telefono}" 
-                                                   Foreground="#555"/>
+
+                                    <!-- TELÉFONO -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="📞" Width="20" Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Telefono}" Foreground="#555"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="📍" 
-                                                   Width="20" 
-                                                   Foreground="#D4AF37"/>
+
+                                    <!-- DIRECCIÓN -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="📍" Width="20" Foreground="#D4AF37"/>
                                         <TextBlock Text="{Binding Direccion}" 
                                                    Foreground="#1A1A1A" 
-                                                   FontWeight="SemiBold" 
+                                                   FontWeight="SemiBold"
                                                    TextTrimming="CharacterEllipsis"/>
                                     </StackPanel>
-                                    <StackPanel Orientation ="Horizontal">
-                                        <Border Background="#E8F5E9" 
-                                                CornerRadius="4" 
-                                                Margin="10,0,0,0" 
-                                                Padding="8,2" 
-                                                VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding TipoCliente}" 
-                                                       FontSize="8" 
-                                                       FontWeight="Bold" 
-                                                       Foreground="#2E7D32"/>
-                                        </Border>
-                                    </StackPanel>
-                                </StackPanel>
 
+                                    <!-- 🔹 NUEVO: CIUDAD / DEPARTAMENTO -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="🌎" Width="20" Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CiudadDepartamento}" Foreground="#555"/>
+                                    </StackPanel>
+
+                                    <!-- 🔹 NUEVO: CARGO ACTUAL -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="💼" Width="20" Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CargoActual}" Foreground="#555"/>
+                                    </StackPanel>
+
+                                    <!-- 🔹 NUEVO: CÓDIGO POSTAL -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="🏷️" Width="20" Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CodigoPostal}" Foreground="#555"/>
+                                    </StackPanel>
+
+                                </StackPanel>
                                 <StackPanel Grid.Row="2" 
                                             Grid.Column="0" 
                                             Grid.ColumnSpan="3"

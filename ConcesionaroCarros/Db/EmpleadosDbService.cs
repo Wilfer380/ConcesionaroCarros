@@ -34,7 +34,10 @@ namespace ConcesionaroCarros.Db
                     Telefono = reader.IsDBNull(4) ? "" : reader.GetString(4),
                     Cargo = reader.IsDBNull(5) ? "" : reader.GetString(5),
                     Activo = reader.GetInt32(6) == 1,
-                    MetaVentas = reader.GetInt32(7)
+                    MetaVentas = reader.GetInt32(7),
+                    Cedula = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                    Ciudad = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                    Departamento = reader.IsDBNull(10) ? "" : reader.GetString(10)
                 });
             }
 
@@ -51,11 +54,11 @@ namespace ConcesionaroCarros.Db
 
             var cmd = conn.CreateCommand();
             cmd.CommandText =
-            @"
+             @"
             INSERT INTO Empleados
-            (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas)
+            (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas, Cedula, Ciudad, Departamento)
             VALUES
-            ($n,$a,$c,$t,$cargo,$activo,$meta);
+            ($n,$a,$c,$t,$cargo,$activo,$meta,$cedula,$ciudad,$dep);
             ";
 
             cmd.Parameters.AddWithValue("$n", e.Nombres ?? "");
@@ -65,6 +68,9 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$cargo", e.Cargo ?? "");
             cmd.Parameters.AddWithValue("$activo", e.Activo ? 1 : 0);
             cmd.Parameters.AddWithValue("$meta", e.MetaVentas);
+            cmd.Parameters.AddWithValue("$cedula", e.Cedula ?? "");
+            cmd.Parameters.AddWithValue("$ciudad", e.Ciudad ?? "");
+            cmd.Parameters.AddWithValue("$dep", e.Departamento ?? "");
 
             cmd.ExecuteNonQuery();
         }
@@ -87,7 +93,12 @@ namespace ConcesionaroCarros.Db
                 Telefono=$t,
                 Cargo=$cargo,
                 Activo=$activo,
-                MetaVentas=$meta
+                MetaVentas=$meta,
+
+                -- 🔹 NUEVO
+                Cedula=$cedula,
+                Ciudad=$ciudad,
+                Departamento=$dep
             WHERE Id=$id;
             ";
 
@@ -99,6 +110,9 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$cargo", e.Cargo ?? "");
             cmd.Parameters.AddWithValue("$activo", e.Activo ? 1 : 0);
             cmd.Parameters.AddWithValue("$meta", e.MetaVentas);
+            cmd.Parameters.AddWithValue("$cedula", e.Cedula ?? "");
+            cmd.Parameters.AddWithValue("$ciudad", e.Ciudad ?? "");
+            cmd.Parameters.AddWithValue("$dep", e.Departamento ?? "");
 
             cmd.ExecuteNonQuery();
         }

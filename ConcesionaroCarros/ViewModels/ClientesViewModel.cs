@@ -110,8 +110,8 @@ namespace ConcesionaroCarros.ViewModels
                     c.Telefono.ToLower().Contains(t));
             }
 
-            if (FiltroTipo != "Todos")
-                lista = lista.Where(c => c.TipoCliente == FiltroTipo);
+            //if (FiltroTipo != "Todos")
+               // lista = lista.Where(c => c.TipoCliente == FiltroTipo);
 
             ActualizarLista(lista);
         }

@@ -46,7 +46,10 @@ namespace ConcesionaroCarros.ViewModels
                             Telefono = "",
                             Cargo = "Asesor Junior",
                             Activo = false,
-                            MetaVentas = 0
+                            MetaVentas = 0,
+                            Cedula = "",
+                            Ciudad = "",
+                            Departamento = ""
                         })
                 };
             });
@@ -67,7 +70,10 @@ namespace ConcesionaroCarros.ViewModels
                     Telefono = empleado.Telefono,
                     Cargo = empleado.Cargo,
                     Activo = empleado.Activo,
-                    MetaVentas = empleado.MetaVentas
+                    MetaVentas = empleado.MetaVentas,
+                    Cedula = empleado.Cedula,
+                    Ciudad = empleado.Ciudad,
+                    Departamento = empleado.Departamento
                 };
 
                 ModalView = new EditarEmpleadoView

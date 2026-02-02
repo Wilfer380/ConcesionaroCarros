@@ -19,9 +19,11 @@ namespace ConcesionaroCarros.Db
             cmd.CommandText =
             @"
             INSERT INTO Clientes 
-            (Nombres, Apellidos, Cedula, Correo, Telefono, Direccion, TipoCliente, FechaRegistro)
+            (Nombres, Apellidos, Cedula, Correo, Telefono, Direccion,
+             FechaNacimiento, CiudadDepartamento, CargoActual, CodigoPostal, FechaRegistro)
             VALUES 
-            ($nombres, $apellidos, $cedula, $correo, $telefono, $direccion, $tipo, $fecha);
+            ($nombres, $apellidos, $cedula, $correo, $telefono, $direccion,
+             $fechaNac, $ciudadDep, $cargo, $postal, $fecha);
             ";
 
             cmd.Parameters.AddWithValue("$nombres", cliente.Nombres);
@@ -30,7 +32,13 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$correo", cliente.Correo);
             cmd.Parameters.AddWithValue("$telefono", cliente.Telefono);
             cmd.Parameters.AddWithValue("$direccion", cliente.Direccion);
-            cmd.Parameters.AddWithValue("$tipo", cliente.TipoCliente);
+            cmd.Parameters.AddWithValue("$fechaNac",
+                cliente.FechaNacimiento.HasValue
+                    ? cliente.FechaNacimiento.Value.ToString("yyyy-MM-dd")
+                    : null);
+            cmd.Parameters.AddWithValue("$ciudadDep", cliente.CiudadDepartamento);
+            cmd.Parameters.AddWithValue("$cargo", cliente.CargoActual);
+            cmd.Parameters.AddWithValue("$postal", cliente.CodigoPostal);
             cmd.Parameters.AddWithValue("$fecha", cliente.FechaRegistro.ToString("yyyy-MM-dd"));
 
             cmd.ExecuteNonQuery();
@@ -51,7 +59,10 @@ namespace ConcesionaroCarros.Db
                 Correo = $correo,
                 Telefono = $telefono,
                 Direccion = $direccion,
-                TipoCliente = $tipo
+                FechaNacimiento = $fechaNac,
+                CiudadDepartamento = $ciudadDep,
+                CargoActual = $cargo,
+                CodigoPostal = $postal
             WHERE Id = $id;
             ";
 
@@ -62,14 +73,20 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$correo", cliente.Correo);
             cmd.Parameters.AddWithValue("$telefono", cliente.Telefono);
             cmd.Parameters.AddWithValue("$direccion", cliente.Direccion);
-            cmd.Parameters.AddWithValue("$tipo", cliente.TipoCliente);
+            cmd.Parameters.AddWithValue("$fechaNac",
+                cliente.FechaNacimiento.HasValue
+                    ? cliente.FechaNacimiento.Value.ToString("yyyy-MM-dd")
+                    : null);
+            cmd.Parameters.AddWithValue("$ciudadDep", cliente.CiudadDepartamento);
+            cmd.Parameters.AddWithValue("$cargo", cliente.CargoActual);
+            cmd.Parameters.AddWithValue("$postal", cliente.CodigoPostal);
 
             cmd.ExecuteNonQuery();
         }
 
         public void Eliminar(int id)
         {
-             var conn = new SqliteConnection(_connectionString);
+            var conn = new SqliteConnection(_connectionString);
             conn.Open();
 
             var cmd = conn.CreateCommand();
@@ -92,6 +109,22 @@ namespace ConcesionaroCarros.Db
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                DateTime? fechaNacimiento = null;
+                if (!reader.IsDBNull(7))
+                {
+                    fechaNacimiento = DateTime.Parse(reader.GetString(7));
+                }
+
+                DateTime fechaRegistro;
+                if (!reader.IsDBNull(11))
+                {
+                    fechaRegistro = DateTime.Parse(reader.GetString(11));
+                }
+                else
+                {
+                    fechaRegistro = DateTime.Now;
+                }
+
                 lista.Add(new Cliente
                 {
                     Id = reader.GetInt32(0),
@@ -101,8 +134,11 @@ namespace ConcesionaroCarros.Db
                     Correo = reader.GetString(4),
                     Telefono = reader.GetString(5),
                     Direccion = reader.GetString(6),
-                    TipoCliente = reader.GetString(7),
-                    FechaRegistro = DateTime.Parse(reader.GetString(8))
+                    FechaNacimiento = fechaNacimiento,
+                    CiudadDepartamento = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                    CargoActual = reader.IsDBNull(9) ? "" : reader.GetString(9),
+                    CodigoPostal = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                    FechaRegistro = fechaRegistro
                 });
             }
 

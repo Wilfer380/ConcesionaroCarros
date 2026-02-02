@@ -13,6 +13,9 @@ namespace ConcesionaroCarros.Models
         public string Telefono { get; set; }
 
         public string Cargo { get; set; }
+        public string Cedula { get; set; }
+        public string Ciudad { get; set; }
+        public string Departamento { get; set; }
 
         private bool _activo;
         public bool Activo

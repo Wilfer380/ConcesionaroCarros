@@ -18,11 +18,13 @@ namespace ConcesionaroCarros.ViewModels
         {
             _parent = parent;
 
-            Cliente = new Cliente
+            Cliente = cliente;
+
+            // 🔹 SOLO inicializa si es nuevo
+            if (Cliente.Id == 0)
             {
-                FechaRegistro = DateTime.Now,
-                TipoCliente = "PROSPECTRO"
-            };
+                Cliente.FechaRegistro = DateTime.Now;
+            }
 
             GuardarCommand = new RelayCommand(_ =>
             {

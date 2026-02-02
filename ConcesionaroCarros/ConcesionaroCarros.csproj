@@ -112,8 +112,14 @@
     <Compile Include="Views\FacturaGenerada.xaml.cs">
       <DependentUpon>FacturaGenerada.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PuntoVentaView.xaml.cs">
       <DependentUpon>PuntoVentaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -167,7 +173,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PuntoVentaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -54,7 +54,6 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- HEADER -->
                 <StackPanel Grid.Row="0" 
                             HorizontalAlignment="Center" 
                             Margin="0,0,0,30">
@@ -73,10 +72,10 @@
 
                     <TextBlock Text="{Binding Empleado.Id, StringFormat=ID Empleado: EMP-{0}}"
                                FontSize="12"
-                               Foreground="#999"/>
+                               Foreground="#999"
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- FORMULARIO -->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -84,10 +83,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- IZQUIERDA -->
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Nombre" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Empleado.Nombres, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
+
+                        <TextBlock Text="Cédula / Documento" Style="{StaticResource FieldLabel}"/>
+                        <TextBox Text="{Binding Empleado.Cedula, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Correo Electrónico" Style="{StaticResource FieldLabel}"/>
@@ -103,10 +105,8 @@
                             <ComboBoxItem Content="Gerente de Ventas"/>
                         </ComboBox>
 
-                   
                         <TextBlock Text="Estado del Asesor" Style="{StaticResource FieldLabel}"/>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
-
                             <RadioButton Content="Activo"
                                          GroupName="Estado"
                                          IsChecked="{Binding Empleado.Activo, Mode=TwoWay}"
@@ -117,9 +117,9 @@
                             <RadioButton Content="Inactivo"
                                          GroupName="Estado"
                                          IsChecked="{Binding Empleado.Activo, Mode=TwoWay,
-                                                             Converter={StaticResource BooleanNegationConverter}}"
+                                                     Converter={StaticResource BooleanNegationConverter}}"
                                          Foreground="#C62828"
-                                         FontWeight="Bold"/> 
+                                         FontWeight="Bold"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -127,7 +127,14 @@
                         <TextBlock Text="Apellido" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Empleado.Apellidos, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"/>
-                        
+
+                        <TextBlock Text="Departamento" Style="{StaticResource FieldLabel}"/>
+                        <TextBox Text="{Binding Empleado.Departamento, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
+
+                        <TextBlock Text="Ciudad" Style="{StaticResource FieldLabel}"/>
+                        <TextBox Text="{Binding Empleado.Ciudad, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource EditTextBox}"/>
 
                         <TextBlock Text="Teléfono" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Empleado.Telefono, UpdateSourceTrigger=PropertyChanged}"
@@ -147,7 +154,6 @@
                     </StackPanel>
                 </Grid>
 
-            
                 <Grid Grid.Row="2" Margin="0,40,0,0">
                     <Button Content="Cancelar"
                             Command="{Binding CancelarCommand}"

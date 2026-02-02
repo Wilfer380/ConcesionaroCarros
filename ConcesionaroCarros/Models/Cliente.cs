@@ -15,8 +15,10 @@ namespace ConcesionaroCarros.Models
         public string Correo { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
-
-        public string TipoCliente { get; set; }    
+        public DateTime? FechaNacimiento { get; set; }
+        public string CiudadDepartamento { get; set; }
+        public string CargoActual { get; set; }
+        public string CodigoPostal { get; set; }
         public DateTime FechaRegistro { get; set; }
     }
 
