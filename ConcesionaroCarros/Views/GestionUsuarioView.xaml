@@ -1,0 +1,268 @@
+﻿<UserControl x:Class="ConcesionaroCarros.Views.GestionUsuarioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="800"
+             d:DesignWidth="1200">
+
+    <!-- 🎨 RECURSOS -->
+    <UserControl.Resources>
+
+        <!-- Botón icono -->
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EAEAEA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Título sección -->
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#1A1A1A"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <!-- 🧱 CONTENEDOR PRINCIPAL -->
+    <Grid Margin="30">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 🧠 HEADER -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,25">
+            <TextBlock Text="Gestión de Usuarios"
+                       FontSize="32"
+                       FontWeight="ExtraBold"
+                       Foreground="#1A2A3A"/>
+            <TextBlock Text="Administración central de usuarios, clientes y empleados"
+                       FontSize="14"
+                       Foreground="#666"/>
+        </StackPanel>
+
+        <!-- 📊 CONTENIDO -->
+        <TabControl Grid.Row="1">
+
+            <!-- ===================== USUARIOS ===================== -->
+            <TabItem Header="Usuarios">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Usuarios Registrados"
+                               Style="{StaticResource SectionTitle}"/>
+
+                    <!-- ➕ AGREGAR USUARIO -->
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,10">
+                        <Button Style="{StaticResource IconButton}"
+                                Content="➕"
+                                FontSize="16"
+                                Foreground="#2ECC71"
+                                ToolTip="Agregar usuario"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Usuarios}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombres" Binding="{Binding Nombres}"/>
+                            <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}"/>
+                            <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="*"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}"/>
+                            <DataGridTextColumn Header="Rol" Binding="{Binding Rol}"/>
+                            <DataGridTextColumn Header="Fecha Registro" Binding="{Binding FechaRegistro}"/>
+
+                            <DataGridTemplateColumn Header="Acciones" Width="110">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="✏"
+                                                    Foreground="#3498DB"
+                                                    ToolTip="Editar usuario"/>
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="🗑"
+                                                    Foreground="#E74C3C"
+                                                    ToolTip="Eliminar usuario"
+                                                    Command="{Binding DataContext.EliminarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== CLIENTES ===================== -->
+            <TabItem Header="Clientes">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Clientes"
+                               Style="{StaticResource SectionTitle}"/>
+
+                    <!-- ➕ AGREGAR CLIENTE -->
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,10">
+                        <Button Style="{StaticResource IconButton}"
+                                Content="➕"
+                                FontSize="16"
+                                Foreground="#2ECC71"
+                                ToolTip="Agregar cliente"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Clientes}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombres" Binding="{Binding Nombres}"/>
+                            <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}"/>
+                            <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}"/>
+                            <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="*"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}"/>
+                            <DataGridTextColumn Header="Dirección" Binding="{Binding Direccion}" Width="*"/>
+                            <DataGridTextColumn Header="Ciudad / Depto" Binding="{Binding CiudadDepartamento}"/>
+                            <DataGridTextColumn Header="Cargo" Binding="{Binding CargoActual}"/>
+                            <DataGridTextColumn Header="Código Postal" Binding="{Binding CodigoPostal}"/>
+
+                            <DataGridTemplateColumn Header="Acciones" Width="110">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="✏"
+                                                    Foreground="#3498DB"
+                                                    ToolTip="Editar empleado"/> 
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="🗑"
+                                                    Foreground="#E74C3C"
+                                                    ToolTip="Eliminar cliente"
+                                                    Command="{Binding DataContext.EliminarClienteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                            
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== EMPLEADOS ===================== -->
+            <TabItem Header="Empleados">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Empleados"
+                               Style="{StaticResource SectionTitle}"/>
+
+                    <!-- ➕ AGREGAR EMPLEADO -->
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,10">
+                        <Button Style="{StaticResource IconButton}"
+                                Content="➕"
+                                FontSize="16"
+                                Foreground="#2ECC71"
+                                ToolTip="Agregar empleado"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Empleados}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombres" Binding="{Binding Nombres}"/>
+                            <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}"/>
+                            <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="*"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}"/>
+                            <DataGridTextColumn Header="Cargo" Binding="{Binding Cargo}"/>
+                            <DataGridTextColumn Header="Activo" Binding="{Binding Activo}"/>
+                            <DataGridTextColumn Header="Meta Ventas" Binding="{Binding MetaVentas}"/>
+                            <DataGridTextColumn Header="Cédula" Binding="{Binding Cedula}"/>
+                            <DataGridTextColumn Header="Ciudad" Binding="{Binding Ciudad}"/>
+                            <DataGridTextColumn Header="Departamento" Binding="{Binding Departamento}"/>
+
+                            <DataGridTemplateColumn Header="Acciones" Width="110">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="✏"
+                                                    Foreground="#3498DB"
+                                                    ToolTip="Editar empleado"/>
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Content="🗑"
+                                                    Foreground="#E74C3C"
+                                                    ToolTip="Eliminar empleado"
+                                                    Command="{Binding DataContext.EliminarEmpleadoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</UserControl>

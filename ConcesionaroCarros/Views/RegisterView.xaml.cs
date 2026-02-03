@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConcesionaroCarros.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,21 @@ namespace ConcesionaroCarros.Views
         public RegisterView()
         {
             InitializeComponent();
+            DataContext = new RegisterViewModel();
+        }
+
+        // 🔹 NUEVO: Captura contraseña
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((RegisterViewModel)DataContext).Password =
+                ((PasswordBox)sender).Password;
+        }
+
+        // 🔹 NUEVO: Captura confirmar contraseña
+        private void ConfirmPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((RegisterViewModel)DataContext).ConfirmPassword =
+                ((PasswordBox)sender).Password;
         }
     }
 }

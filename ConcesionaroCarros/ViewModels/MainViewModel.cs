@@ -50,6 +50,7 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowCarrosCommand { get; }
         public ICommand ShowClientesCommand { get; }
         public ICommand ShowEmpleadosCommand { get; }
+        public ICommand ShowGestionUsuariosCommand { get; }
         public ICommand ShowVentaCommand { get; }
 
         public MainViewModel()
@@ -87,7 +88,13 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
-    
+            ShowGestionUsuariosCommand = new RelayCommand(_ =>
+            {
+                CurrentView = new GestionUsuarioView();
+            });
+
+
+
             ShowVentaCommand = new RelayCommand(_ =>
             {
                 if (Carrito.Count > 0)

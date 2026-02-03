@@ -78,6 +78,10 @@
                             Style="{StaticResource MenuButtonStyle}"
                             Command="{Binding ShowEmpleadosCommand}"/>
 
+                    <Button Content="🛠 Gestión de Usuarios"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowGestionUsuariosCommand}"/>
+
                     <Separator Background="#222" Margin="20,15"/>
                     <Button Content="💰 Punto de Venta" 
                             Style="{StaticResource MenuVentaActivo}"

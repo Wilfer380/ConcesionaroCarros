@@ -66,7 +66,9 @@
                         <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Correo}"/>
 
                         <TextBlock Text="Contraseña" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
-                        <PasswordBox Style="{StaticResource FrostyInput}"/>
+                        <PasswordBox Style="{StaticResource FrostyInput}"
+                                     x:Name="txtPassword"
+                                     PasswordChanged="PasswordChanged"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
@@ -77,12 +79,21 @@
                         <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Telefono}"/>
 
                         <TextBlock Text="Confirmar contraseña" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
-                        <PasswordBox Style="{StaticResource FrostyInput}"/>
+                        <PasswordBox Style="{StaticResource FrostyInput}"
+                                     x:Name="txtConfirmarPassword"
+                                     PasswordChanged="ConfirmPasswordChanged"/>
                     </StackPanel>
                 </Grid>
 
-                <Button Content="Registrarse Ahora" Margin="0,40,0,0" Height="55" Width="260"
-                        Foreground="White" FontWeight="Bold" FontSize="20" Cursor="Hand">
+                <Button Content="Registrar" 
+                        Margin="0,40,0,0" 
+                        Height="55" 
+                        Width="260"
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        FontSize="20" 
+                        Cursor="Hand"
+                        Command="{Binding RegistrarCommand}">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="btnBdr" CornerRadius="27">

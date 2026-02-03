@@ -53,6 +53,17 @@ namespace ConcesionaroCarros.Db
                 Activo INTEGER,
                 MetaVentas INTEGER
             );
+
+            CREATE TABLE IF NOT EXISTS Usuarios (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Nombres TEXT NOT NULL,
+                Apellidos TEXT NOT NULL,
+                Correo TEXT NOT NULL UNIQUE,
+                Telefono TEXT,
+                PasswordHash TEXT NOT NULL,
+                Rol TEXT NOT NULL,
+                FechaRegistro TEXT NOT NULL
+            );
             ";
             cmd.ExecuteNonQuery();
         }
