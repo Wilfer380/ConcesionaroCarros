@@ -17,15 +17,23 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
                             <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
+                                <DropShadowEffect BlurRadius="10" 
+                                                  ShadowDepth="2" 
+                                                  Opacity="0.2"/>
                             </Border.Effect>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#C59F2B"/>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="border" 
+                                        Property="Background" 
+                                        Value="#C59F2B"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -42,12 +50,17 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="bdr" Background="{TemplateBinding Background}" CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="bdr" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bdr" Property="Background" Value="#F0F0F0"/>
+                            <Trigger Property="IsMouseOver" 
+                                     Value="True">
+                                <Setter TargetName="bdr" 
+                                        Property="Background" Value="#F0F0F0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -55,7 +68,8 @@
             </Setter>
         </Style>
 
-        <Style x:Key="ActionIconStyle" TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+        <Style x:Key="ActionIconStyle" TargetType="Button" 
+               BasedOn="{StaticResource IconButtonStyle}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Width" Value="32"/>
@@ -69,7 +83,8 @@
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
-                        Stretch="UniformToFill" Opacity="0.08"/>
+                        Stretch="UniformToFill" 
+                        Opacity="0.08"/>
         </Grid.Background>
 
         <Grid Margin="40">
@@ -95,7 +110,9 @@
 
                 <Button DockPanel.Dock="Right" 
                         Content="+ Nuevo Cliente" 
-                        Style="{StaticResource GoldButtonStyle}" Width="180" Height="45"
+                        Style="{StaticResource GoldButtonStyle}" 
+                        Width="180" 
+                        Height="45"
                         Command="{Binding AgregarClienteCommand}"/>
             </DockPanel>
 
@@ -107,7 +124,9 @@
                     BorderBrush="#EEE" 
                     BorderThickness="1">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.05"/>
+                    <DropShadowEffect BlurRadius="10" 
+                                      ShadowDepth="2" 
+                                      Opacity="0.05"/>
                 </Border.Effect>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -125,8 +144,10 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text, ElementName=TxtBusqueda}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
+                                        <DataTrigger Binding="{Binding Text, ElementName=TxtBusqueda}" 
+                                                     Value="">
+                                            <Setter Property="Visibility" 
+                                                    Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -141,8 +162,11 @@
                                  Padding="5"/>
                     </Grid>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <ComboBox Width="150" Margin="10,0" Padding="10,5" 
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal">
+                        <ComboBox Width="150" 
+                                  Margin="10,0" 
+                                  Padding="10,5" 
                                   SelectedValuePath="Content"
                                   SelectedValue="{Binding FiltroTipo, UpdateSourceTrigger=PropertyChanged}">
                             <ComboBoxItem Content="Todos"/>
@@ -213,7 +237,8 @@
 
                                 <StackPanel Grid.Row="0" Grid.Column="1">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#222">
+                                        <TextBlock FontSize="18" FontWeight="Bold" 
+                                                   Foreground="#222">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
                                                     <Binding Path="Nombres"/>
@@ -237,7 +262,8 @@
                                             Margin="0,0,5,0"
                                             Command="{Binding DataContext.EditarClienteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                             CommandParameter="{Binding}"/>
-                                    <Button Content="🗑" Style="{StaticResource ActionIconStyle}" 
+                                    <Button Content="🗑" 
+                                            Style="{StaticResource ActionIconStyle}" 
                                             Background="#e74c3c"
                                             Command="{Binding DataContext.EliminarClienteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                             CommandParameter="{Binding}"/>
@@ -248,19 +274,16 @@
                                             Grid.ColumnSpan="2" 
                                             Margin="0,15,0,0">
 
-                                    <!-- CORREO -->
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                         <TextBlock Text="📧" Width="20" Foreground="#D4AF37"/>
                                         <TextBlock Text="{Binding Correo}" Foreground="#555"/>
                                     </StackPanel>
 
-                                    <!-- TELÉFONO -->
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                         <TextBlock Text="📞" Width="20" Foreground="#D4AF37"/>
                                         <TextBlock Text="{Binding Telefono}" Foreground="#555"/>
                                     </StackPanel>
 
-                                    <!-- DIRECCIÓN -->
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                         <TextBlock Text="📍" Width="20" Foreground="#D4AF37"/>
                                         <TextBlock Text="{Binding Direccion}" 
@@ -269,22 +292,29 @@
                                                    TextTrimming="CharacterEllipsis"/>
                                     </StackPanel>
 
-                                    <!-- 🔹 NUEVO: CIUDAD / DEPARTAMENTO -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                        <TextBlock Text="🌎" Width="20" Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding CiudadDepartamento}" Foreground="#555"/>
+                     
+                                    <StackPanel Orientation="Horizontal" 
+                                                Margin="0,0,0,5">
+                                        <TextBlock Text="🌎"
+                                                   Width="20" 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CiudadDepartamento}" 
+                                                   Foreground="#555"/>
                                     </StackPanel>
 
-                                    <!-- 🔹 NUEVO: CARGO ACTUAL -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                        <TextBlock Text="💼" Width="20" Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding CargoActual}" Foreground="#555"/>
+                                    <StackPanel Orientation="Horizontal" 
+                                                Margin="0,0,0,5">
+                                        <TextBlock Text="💼" Width="20" 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CargoActual}" 
+                                                   Foreground="#555"/>
                                     </StackPanel>
 
-                                    <!-- 🔹 NUEVO: CÓDIGO POSTAL -->
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="🏷️" Width="20" Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding CodigoPostal}" Foreground="#555"/>
+                                        <TextBlock Text="🏷️" Width="20" 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding CodigoPostal}" 
+                                                   Foreground="#555"/>
                                     </StackPanel>
 
                                 </StackPanel>
@@ -304,7 +334,8 @@
                                             Margin="0,0,10,0">
                                         <Button.Resources>
                                             <Style TargetType="Border">
-                                                <Setter Property="CornerRadius" Value="15"/>
+                                                <Setter Property="CornerRadius" 
+                                                        Value="15"/>
                                             </Style>
                                         </Button.Resources>
                                     </Button>

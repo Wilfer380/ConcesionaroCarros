@@ -61,6 +61,19 @@
                                FontWeight="Bold"/>
                 </StackPanel>
 
+                <StackPanel Margin="0,10" HorizontalAlignment="Center">
+                    <Ellipse Width="70" Height="70">
+                       
+                    </Ellipse>
+
+                    <TextBlock Text="{Binding NombreUsuario}"
+                               Foreground="White"
+                               FontWeight="Bold"
+                               FontSize="13"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+
                 <StackPanel DockPanel.Dock="Top">
                     <Button Content="🏠 Dashboard" 
                             Style="{StaticResource MenuButtonStyle}"
@@ -92,9 +105,20 @@
                             Command="{Binding ShowFacturaCommand}"/>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
-                    <TextBlock Text="Estado: Conectado" Foreground="#44BB44" FontSize="10" HorizontalAlignment="Center"/>
-                    <TextBlock Text="v2.0.1 - Enterprise Edition" Foreground="#444" FontSize="9" HorizontalAlignment="Center"/>
+                <Button Content="🚪 Cerrar sesión"
+                        Command="{Binding CerrarSesionCommand}"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Foreground="#E74C3C"/>
+
+                <StackPanel DockPanel.Dock="Bottom" 
+                            Margin="0,0,0,20">
+                    <TextBlock Text="Estado: Conectado" 
+                               Foreground="#44BB44" 
+                               FontSize="10" HorizontalAlignment="Center"/>
+                    <TextBlock Text="v2.0.1 - Enterprise Edition" 
+                               Foreground="#444" 
+                               FontSize="9" 
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
         </Border>
@@ -110,80 +134,168 @@
                           Visibility="{Binding IsDashboardVisible, Converter={StaticResource BoolToVisibility}}">
                 <StackPanel Margin="45">
 
-                    <TextBlock Text="Dashboard General" FontSize="34" FontWeight="Bold" Foreground="#1A1A1A"/>
-                    <TextBlock Text="Resumen ejecutivo y analítica de activos en tiempo real." FontSize="15" Foreground="#666" Margin="0,5,0,40"/>
+                    <TextBlock Text="Dashboard General" 
+                               FontSize="34" 
+                               FontWeight="Bold" 
+                               Foreground="#1A1A1A"/>
+                    <TextBlock Text="Resumen ejecutivo y analítica de activos en tiempo real." 
+                               FontSize="15" 
+                               Foreground="#666" 
+                               Margin="0,5,0,40"/>
 
                     <UniformGrid Columns="4" Margin="0,0,0,40">
 
-                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
+                        <Border Background="White" 
+                                CornerRadius="15" 
+                                Margin="8" 
+                                Padding="25" 
+                                Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="🚗 Vehículos Disponibles" Foreground="#3498DB" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
+                                <TextBlock Text="🚗 Vehículos Disponibles" 
+                                           Foreground="#3498DB"
+                                           FontSize="11" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="0" 
+                                           FontSize="28" 
+                                           FontWeight="Black" 
+                                           Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
+                        <Border Background="White" 
+                                CornerRadius="15" 
+                                Margin="8" 
+                                Padding="25"
+                                Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="👥 Clientes Registrados" Foreground="#9B59B6" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
+                                <TextBlock Text="👥 Clientes Registrados" 
+                                           Foreground="#9B59B6" 
+                                           FontSize="11" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="0" 
+                                           FontSize="28" 
+                                           FontWeight="Black" 
+                                           Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
+                        <Border Background="White" 
+                                CornerRadius="15"
+                                Margin="8" 
+                                Padding="25" 
+                                Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="👔 Empleados Activos" Foreground="#E67E22" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
+                                <TextBlock Text="👔 Empleados Activos" 
+                                           Foreground="#E67E22" 
+                                           FontSize="11" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="0" 
+                                           FontSize="28"
+                                           FontWeight="Black"
+                                           Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="White" CornerRadius="15" Margin="8" Padding="25" Effect="{StaticResource CardShadow}">
+                        <Border Background="White" 
+                                CornerRadius="15" 
+                                Margin="8" Padding="25"
+                                Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <TextBlock Text="📄 Facturas Registradas" Foreground="#2ECC71" FontSize="11" FontWeight="Bold"/>
-                                <TextBlock Text="0" FontSize="28" FontWeight="Black" Margin="0,5,0,0"/>
+                                <TextBlock Text="📄 Facturas Registradas" 
+                                           Foreground="#2ECC71" 
+                                           FontSize="11" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="0" 
+                                           FontSize="28"
+                                           FontWeight="Black" 
+                                           Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
                     </UniformGrid>
 
-                    <Border Background="White" CornerRadius="20" Padding="35" Margin="0,0,0,40" Effect="{StaticResource CardShadow}">
+                    <Border Background="White" 
+                            CornerRadius="20" 
+                            Padding="35" 
+                            Margin="0,0,0,40" 
+                            Effect="{StaticResource CardShadow}">
                         <StackPanel>
-                            <TextBlock Text="Análisis Financiero de Activos" FontSize="18" FontWeight="Bold" Margin="0,0,0,25" Foreground="#1A1A1A"/>
+                            <TextBlock Text="Análisis Financiero de Activos" 
+                                       FontSize="18" 
+                                       FontWeight="Bold" 
+                                       Margin="0,0,0,25" 
+                                       Foreground="#1A1A1A"/>
 
                             <Grid Margin="0,0,0,15">
-                                <TextBlock Text="💰 Valorización de Inventario (Real-Time)" Foreground="#555" FontSize="14"/>
-                                <TextBlock Text="$3.850.000.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#2C3E50" FontSize="16"/>
+                                <TextBlock Text="💰 Valorización de Inventario (Real-Time)" 
+                                           Foreground="#555" FontSize="14"/>
+                                <TextBlock Text="$3.850.000.000 COP" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="Bold" 
+                                           Foreground="#2C3E50" 
+                                           FontSize="16"/>
                             </Grid>
 
                             <Grid Margin="0,0,0,15">
-                                <TextBlock Text="📈 Rendimiento de Ventas Mensuales" Foreground="#555" FontSize="14"/>
-                                <TextBlock Text="$1.250.000.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#27AE60" FontSize="16"/>
+                                <TextBlock Text="📈 Rendimiento de Ventas Mensuales" 
+                                           Foreground="#555" 
+                                           FontSize="14"/>
+                                <TextBlock Text="$1.250.000.000 COP" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="Bold" 
+                                           Foreground="#27AE60" 
+                                           FontSize="16"/>
                             </Grid>
 
                             <Grid Margin="0,0,0,15">
-                                <TextBlock Text="⭐ Modelos de Mayor Rentabilidad" Foreground="#555" FontSize="14"/>
-                                <TextBlock Text="Audi RS5 Sportback, BMW M4 Competition" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#D4AF37" FontSize="14"/>
+                                <TextBlock Text="⭐ Modelos de Mayor Rentabilidad" 
+                                           Foreground="#555" 
+                                           FontSize="14"/>
+                                <TextBlock Text="Audi RS5 Sportback, BMW M4 Competition" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="Bold" 
+                                           Foreground="#D4AF37" 
+                                           FontSize="14"/>
                             </Grid>
 
                             <Grid>
-                                <TextBlock Text="📉 Costos Operativos Estimados" Foreground="#555" FontSize="14"/>
-                                <TextBlock Text="$45.200.000 COP" HorizontalAlignment="Right" FontWeight="Bold" Foreground="#E74C3C" FontSize="14"/>
+                                <TextBlock Text="📉 Costos Operativos Estimados" 
+                                           Foreground="#555" 
+                                           FontSize="14"/>
+                                <TextBlock Text="$45.200.000 COP" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="Bold" 
+                                           Foreground="#E74C3C" 
+                                           FontSize="14"/>
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <Border Background="#F0F0F0" CornerRadius="20" Padding="35" Effect="{StaticResource CardShadow}">
+                    <Border Background="#F0F0F0" 
+                            CornerRadius="20" 
+                            Padding="35" 
+                            Effect="{StaticResource CardShadow}">
                         <StackPanel>
-                            <TextBlock Text="Protocolos de Operación" FontSize="18" FontWeight="Bold" Margin="0,0,0,25" Foreground="#D4AF37"/>
+                            <TextBlock Text="Protocolos de Operación" 
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,25" 
+                                       Foreground="#D4AF37"/>
 
                             <Grid Margin="0,0,0,18">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="🛒" FontSize="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="🛒" FontSize="20" 
+                                           VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Gestión de Activos y Logística" Foreground="Black" FontWeight="Bold"/>
-                                    <TextBlock Text="Optimización de stock premium mediante inspección técnica de 110 puntos y valorización de mercado." Foreground="#666" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Gestión de Activos y Logística" 
+                                               Foreground="Black" 
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="Optimización de stock premium mediante inspección técnica de 110 puntos y valorización de mercado." 
+                                               Foreground="#666" 
+                                               TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
 
@@ -192,10 +304,16 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="💳" FontSize="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="💳" 
+                                           FontSize="20"
+                                           VerticalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Transacciones y Pasarela Financiera" Foreground="Black" FontWeight="Bold"/>
-                                    <TextBlock Text="Control centralizado de flujos de caja, planes de financiación bancaria y cierres de preventa." Foreground="#666" TextWrapping="Wrap"/>
+                                    <TextBlock Text="Transacciones y Pasarela Financiera" 
+                                               Foreground="Black" 
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="Control centralizado de flujos de caja, planes de financiación bancaria y cierres de preventa." 
+                                               Foreground="#666" 
+                                               TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
 
@@ -204,10 +322,16 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="📑" FontSize="20" VerticalAlignment="Center"/>
-                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <TextBlock Text="Cumplimiento Legal y Auditoría" Foreground="Black" FontWeight="Bold"/>
-                                    <TextBlock Text="Seguimiento de facturación electrónica, trámites de tránsito y trazabilidad comercial según normativa." Foreground="#666" TextWrapping="Wrap"/>
+                                <TextBlock Text="📑" FontSize="20" 
+                                           VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" 
+                                            Margin="10,0,0,0">
+                                    <TextBlock Text="Cumplimiento Legal y Auditoría" 
+                                               Foreground="Black" 
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="Seguimiento de facturación electrónica, trámites de tránsito y trazabilidad comercial según normativa." 
+                                               Foreground="#666"
+                                               TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>

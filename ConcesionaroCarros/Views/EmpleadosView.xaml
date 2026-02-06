@@ -7,29 +7,46 @@
              d:DesignHeight="720" d:DesignWidth="1080">
 
     <UserControl.Resources>
-        <Style x:Key="EmployeeCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="20"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Width" Value="320"/>
-            <Setter Property="Height" Value="280"/>
+        <Style x:Key="EmployeeCardStyle" 
+               TargetType="Border">
+            <Setter Property="Background" 
+                    Value="White"/>
+            <Setter Property="CornerRadius"
+                    Value="20"/>
+            <Setter Property="Margin" 
+                    Value="10"/>
+            <Setter Property="Width" 
+                    Value="320"/>
+            <Setter Property="Height" 
+                    Value="280"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.1" Color="Black"/>
+                    <DropShadowEffect BlurRadius="20" 
+                                      ShadowDepth="4" 
+                                      Opacity="0.1" 
+                                      Color="Black"/>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="ActionButton" TargetType="Button">
-            <Setter Property="Width" Value="36"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Cursor" Value="Hand"/>
+        <Style x:Key="ActionButton" 
+               TargetType="Button">
+            <Setter Property="Width" 
+                    Value="36"/>
+            <Setter Property="Height" 
+                    Value="36"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
+            <Setter Property="Cursor" 
+                    Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -43,10 +60,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" Margin="0,0,0,30">
+        <DockPanel Grid.Row="0" 
+                   Margin="0,0,0,30">
             <StackPanel>
-                <TextBlock Text="EQUIPO DE VENTAS" FontSize="32" FontWeight="ExtraBold" Foreground="#1A1A1A"/>
-                <TextBlock Text="Panel de administración de talento" FontSize="16" Foreground="#666"/>
+                <TextBlock Text="EQUIPO DE VENTAS" 
+                           FontSize="32" 
+                           FontWeight="ExtraBold" 
+                           Foreground="#1A1A1A"/>
+                <TextBlock Text="Panel de administración de talento" 
+                           FontSize="16"
+                           Foreground="#666"/>
             </StackPanel>
 
             <Button DockPanel.Dock="Right" 
@@ -58,13 +81,15 @@
                     Command="{Binding NuevoEmpleadoCommand}">
                 <Button.Resources>
                     <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
+                        <Setter Property="CornerRadius" 
+                                Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
         </DockPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Empleados}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -82,16 +107,27 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                    <Ellipse Width="55" Height="55" Stroke="#D4AF37" StrokeThickness="1">
+                                <StackPanel Orientation="Horizontal" 
+                                            Grid.Row="0">
+                                    <Ellipse Width="55" Height="55" 
+                                             Stroke="#D4AF37" 
+                                             StrokeThickness="1">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="https://i.pravatar.cc/150?u=employee"/>
                                         </Ellipse.Fill>
                                     </Ellipse>
-                                    <StackPanel VerticalAlignment="Center" Margin="15,0,0,0">
-                                        <TextBlock Text="{Binding Nombres}" FontWeight="Bold" FontSize="16" Foreground="#1A1A1A"/>
-                                        <TextBlock Text="{Binding Cargo}" FontSize="12" Foreground="#D4AF37" FontWeight="SemiBold"/>
-                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <StackPanel VerticalAlignment="Center"
+                                                Margin="15,0,0,0">
+                                        <TextBlock Text="{Binding Nombres}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="16" 
+                                                   Foreground="#1A1A1A"/>
+                                        <TextBlock Text="{Binding Cargo}" 
+                                                   FontSize="12" 
+                                                   Foreground="#D4AF37" 
+                                                   FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Horizontal" 
+                                                    Margin="0,4,0,0">
                                             <TextBlock Text="🪪 C.C. "
                                                    FontSize="11"
                                                    Foreground="#999"
@@ -104,34 +140,60 @@
                                 </StackPanel>
                                 </StackPanel>
 
-                                <StackPanel Grid.Row="1" Margin="0,15,0,0">
-                                    <StackPanel Orientation="Horizontal" Margin="0,2">
-                                        <TextBlock Text="✉ " Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Correo}" FontSize="11" Foreground="#666"/>
+                                <StackPanel Grid.Row="1" 
+                                            Margin="0,15,0,0">
+                                    <StackPanel Orientation="Horizontal" 
+                                                Margin="0,2">
+                                        <TextBlock Text="✉ " 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Correo}" 
+                                                   FontSize="11" 
+                                                   Foreground="#666"/>
                                     </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,2">
-                                            <TextBlock Text="📞 " Foreground="#D4AF37"/>
-                                            <TextBlock Text="{Binding Telefono}" FontSize="11" Foreground="#666"/>
+                                        <StackPanel Orientation="Horizontal" 
+                                                    Margin="0,2">
+                                            <TextBlock Text="📞 " 
+                                                       Foreground="#D4AF37"/>
+                                            <TextBlock Text="{Binding Telefono}" 
+                                                       FontSize="11" 
+                                                       Foreground="#666"/>
                                         </StackPanel>
                                     
                                         <!-- 🔹 NUEVO: CIUDAD -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,2">
-                                        <TextBlock Text="📍 " Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Ciudad}" FontSize="11" Foreground="#666"/>
+                                    <StackPanel Orientation="Horizontal" 
+                                                Margin="0,2">
+                                        <TextBlock Text="📍 " 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Ciudad}" 
+                                                   FontSize="11" 
+                                                   Foreground="#666"/>
                                     </StackPanel>
 
                                     <!-- 🔹 NUEVO: DEPARTAMENTO -->
-                                    <StackPanel Orientation="Horizontal" Margin="0,2">
-                                        <TextBlock Text="🏢 " Foreground="#D4AF37"/>
-                                        <TextBlock Text="{Binding Departamento}" FontSize="11" Foreground="#666"/>
+                                    <StackPanel Orientation="Horizontal" 
+                                                Margin="0,2">
+                                        <TextBlock Text="🏢 " 
+                                                   Foreground="#D4AF37"/>
+                                        <TextBlock Text="{Binding Departamento}"
+                                                   FontSize="11" 
+                                                   Foreground="#666"/>
                                     </StackPanel>
 
-                                    <TextBlock Text="Progreso de Metas" FontSize="11" FontWeight="Bold" Margin="0,12,0,5" Foreground="#333"/>
+                                    <TextBlock Text="Progreso de Metas" 
+                                               FontSize="11" 
+                                               FontWeight="Bold" 
+                                               Margin="0,12,0,5" 
+                                               Foreground="#333"/>
                                     <Grid>
-                                        <ProgressBar Value="{Binding MetaVentas}" Maximum="100" Height="8" Foreground="#D4AF37" Background="#F0F0F0">
+                                        <ProgressBar Value="{Binding MetaVentas}" 
+                                                     Maximum="100" 
+                                                     Height="8" 
+                                                     Foreground="#D4AF37" 
+                                                     Background="#F0F0F0">
                                             <ProgressBar.Resources>
                                                 <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="4"/>
+                                                    <Setter Property="CornerRadius" 
+                                                            Value="4"/>
                                                 </Style>
                                             </ProgressBar.Resources>
                                         </ProgressBar>
@@ -151,24 +213,33 @@
 
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <Setter Property="Background" Value="#FDECEA"/>
+                                                <Setter Property="Background" 
+                                                        Value="#FDECEA"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="True">
-                                                        <Setter Property="Background" Value="#E8F5E9"/>
+                                                    <DataTrigger Binding="{Binding Activo}"
+                                                                 Value="True">
+                                                        <Setter Property="Background" 
+                                                                Value="#E8F5E9"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
 
-                                        <TextBlock FontSize="10" FontWeight="Bold">
+                                        <TextBlock FontSize="10" 
+                                                   FontWeight="Bold">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="INACTIVO"/>
-                                                    <Setter Property="Foreground" Value="#C62828"/>
+                                                    <Setter Property="Text" 
+                                                            Value="INACTIVO"/>
+                                                    <Setter Property="Foreground" 
+                                                            Value="#C62828"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Activo}" Value="True">
-                                                            <Setter Property="Text" Value="ACTIVO"/>
-                                                            <Setter Property="Foreground" Value="#2E7D32"/>
+                                                        <DataTrigger Binding="{Binding Activo}" 
+                                                                     Value="True">
+                                                            <Setter Property="Text" 
+                                                                    Value="ACTIVO"/>
+                                                            <Setter Property="Foreground" 
+                                                                    Value="#2E7D32"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -176,7 +247,9 @@
                                         </TextBlock>
                                     </Border>
 
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                                    <StackPanel Orientation="Horizontal" 
+                                                DockPanel.Dock="Right" 
+                                                HorizontalAlignment="Right">
                                         <Button Content="✎" 
                                                 Background="#3498db" 
                                                 Style="{StaticResource ActionButton}" 

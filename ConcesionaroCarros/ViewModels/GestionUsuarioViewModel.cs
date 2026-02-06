@@ -1,8 +1,10 @@
-﻿using ConcesionaroCarros.Db;
+﻿using ConcesionaroCarros.Commands;
+using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
-using ConcesionaroCarros.Commands;          // 🔹 AGREGADO
+using ConcesionaroCarros.Views;
 using System.Collections.ObjectModel;
-using System.Windows.Input;                 // 🔹 AGREGADO
+using System.Linq;
+using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
 {
@@ -16,10 +18,9 @@ namespace ConcesionaroCarros.ViewModels
         public ObservableCollection<Cliente> Clientes { get; set; }
         public ObservableCollection<Empleado> Empleados { get; set; }
 
-        // 🔹 AGREGADO — COMANDOS
         public ICommand EliminarUsuarioCommand { get; }
-        public ICommand EliminarClienteCommand { get; }
-        public ICommand EliminarEmpleadoCommand { get; }
+        public ICommand AgregarUsuarioCommand { get; }
+        public ICommand EditarUsuarioCommand { get; }
 
         public GestionUsuarioViewModel()
         {
@@ -27,31 +28,112 @@ namespace ConcesionaroCarros.ViewModels
             _clientesDb = new ClientesDbService();
             _empleadosDb = new EmpleadosDbService();
 
-            // 🔹 AGREGADO — INICIALIZACIÓN DE COMANDOS
+            // ================= AGREGAR =================
+            AgregarUsuarioCommand = new RelayCommand(_ =>
+            {
+                new FormularioUsuarioView().ShowDialog();
+                CargarDatos();
+            });
+
+            // ================= EDITAR =================
+            EditarUsuarioCommand = new RelayCommand(usuario =>
+            {
+                if (usuario is Usuario u)
+                {
+                    string rolAnterior = u.Rol;
+
+                    new FormularioUsuarioView(u).ShowDialog();
+
+                    // Usuario actualizado desde BD
+                    var usuarioActualizado =
+                        _usuariosDb.ObtenerTodos().FirstOrDefault(x => x.Id == u.Id);
+
+                    if (usuarioActualizado == null)
+                        return;
+
+                    string rolNuevo = usuarioActualizado.Rol;
+
+                    // ======================
+                    // SINCRONIZAR DATOS
+                    // ======================
+
+                    if (rolNuevo == "CLIENTE")
+                    {
+                        var cliente = Clientes.FirstOrDefault(c => c.Correo == usuarioActualizado.Correo);
+
+                        if (cliente != null)
+                        {
+                            cliente.Nombres = usuarioActualizado.Nombres;
+                            cliente.Apellidos = usuarioActualizado.Apellidos;
+                            cliente.Correo = usuarioActualizado.Correo;
+                            cliente.Telefono = usuarioActualizado.Telefono;
+
+                            _clientesDb.Actualizar(cliente);
+                        }
+                    }
+
+                    if (rolNuevo == "EMPLEADO")
+                    {
+                        var empleado = Empleados.FirstOrDefault(e => e.Correo == usuarioActualizado.Correo);
+
+                        if (empleado != null)
+                        {
+                            empleado.Nombres = usuarioActualizado.Nombres;
+                            empleado.Apellidos = usuarioActualizado.Apellidos;
+                            empleado.Correo = usuarioActualizado.Correo;
+                            empleado.Telefono = usuarioActualizado.Telefono;
+
+                            _empleadosDb.Actualizar(empleado);
+                        }
+                    }
+
+                    // ======================
+                    // CAMBIO DE ROL
+                    // ======================
+
+                    if (rolAnterior != rolNuevo)
+                    {
+                        if (rolNuevo == "CLIENTE")
+                        {
+                            _empleadosDb.EliminarPorCorreo(usuarioActualizado.Correo);
+                            _clientesDb.InsertarDesdeUsuario(usuarioActualizado);
+                        }
+
+                        if (rolNuevo == "EMPLEADO")
+                        {
+                            _clientesDb.EliminarPorCorreo(usuarioActualizado.Correo);
+                            _empleadosDb.InsertarDesdeUsuario(usuarioActualizado);
+                        }
+                    }
+
+                    CargarDatos();
+                }
+            });
+
+
+            // ================= ELIMINAR =================
             EliminarUsuarioCommand = new RelayCommand(usuario =>
             {
                 if (usuario is Usuario u)
                 {
+                    if (u.Rol == "CLIENTE")
+                    {
+                        _clientesDb.EliminarPorCorreo(u.Correo);
+                        var cliente = Clientes.FirstOrDefault(x => x.Correo == u.Correo);
+                        if (cliente != null)
+                            Clientes.Remove(cliente);
+                    }
+
+                    if (u.Rol == "EMPLEADO")
+                    {
+                        _empleadosDb.EliminarPorCorreo(u.Correo);
+                        var empleado = Empleados.FirstOrDefault(x => x.Correo == u.Correo);
+                        if (empleado != null)
+                            Empleados.Remove(empleado);
+                    }
+
                     _usuariosDb.Eliminar(u.Id);
                     Usuarios.Remove(u);
-                }
-            });
-
-            EliminarClienteCommand = new RelayCommand(cliente =>
-            {
-                if (cliente is Cliente c)
-                {
-                    _clientesDb.Eliminar(c.Id);
-                    Clientes.Remove(c);
-                }
-            });
-
-            EliminarEmpleadoCommand = new RelayCommand(empleado =>
-            {
-                if (empleado is Empleado e)
-                {
-                    _empleadosDb.Eliminar(e.Id);
-                    Empleados.Remove(e);
                 }
             });
 

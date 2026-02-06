@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\EditarEmpleadoViewModel.cs" />
     <Compile Include="ViewModels\EmpleadosViewModel.cs" />
     <Compile Include="ViewModels\FacturaGeneradaViewModel.cs" />
+    <Compile Include="ViewModels\FormularioUsuarioViewModel.cs" />
     <Compile Include="ViewModels\GestionUsuarioViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -117,6 +118,9 @@
     </Compile>
     <Compile Include="Views\FacturaGenerada.xaml.cs">
       <DependentUpon>FacturaGenerada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FormularioUsuarioView.xaml.cs">
+      <DependentUpon>FormularioUsuarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GestionUsuarioView.xaml.cs">
       <DependentUpon>GestionUsuarioView.xaml</DependentUpon>
@@ -179,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FacturaGenerada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FormularioUsuarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

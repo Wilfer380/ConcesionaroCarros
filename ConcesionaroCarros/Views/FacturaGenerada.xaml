@@ -5,13 +5,23 @@
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
-                        Stretch="UniformToFill" Opacity="0.3"/>
+                        Stretch="UniformToFill" 
+                        Opacity="0.3"/>
         </Grid.Background>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,5,0,-26">
-            <Border Margin="50" Padding="40" Background="White" BorderBrush="#CCC" BorderThickness="1" CornerRadius="5" Height="764">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      Margin="0,5,0,-26">
+            <Border Margin="50" 
+                    Padding="40" 
+                    Background="White" 
+                    BorderBrush="#CCC"
+                    BorderThickness="1" 
+                    CornerRadius="5" 
+                    Height="764">
                 <Border.Effect>
-                    <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
+                    <DropShadowEffect BlurRadius="15" 
+                                      ShadowDepth="2" 
+                                      Opacity="0.1"/>
                 </Border.Effect>
 
                 <StackPanel>
@@ -22,50 +32,115 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="DRIVE &amp; DREAM" FontSize="28" FontWeight="Black" Foreground="#1A1A1A"/>
-                            <TextBlock Text="CONCESIONARIO PREMIUM" FontSize="12" Foreground="#D4AF37" FontWeight="Bold"/>
-                            <TextBlock Text="NIT: 900.123.456-1" FontSize="10" Foreground="#666"/>
+                            <TextBlock Text="DRIVE &amp; DREAM" 
+                                       FontSize="28" 
+                                       FontWeight="Black" 
+                                       Foreground="#1A1A1A"/>
+                            <TextBlock Text="CONCESIONARIO PREMIUM"
+                                       FontSize="12" 
+                                       Foreground="#D4AF37" 
+                                       FontWeight="Bold"/>
+                            <TextBlock Text="NIT: 900.123.456-1" 
+                                       FontSize="10" 
+                                       Foreground="#666"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="FACTURA ELECTRÓNICA" FontSize="12" FontWeight="Bold" HorizontalAlignment="Right"/>
-                            <TextBlock Text="N° FV-2024-001" FontSize="16" Foreground="Red" FontWeight="Bold" HorizontalAlignment="Right"/>
-                            <TextBlock Text="Fecha: 22/05/2024" FontSize="11" Foreground="#555" HorizontalAlignment="Right"/>
+                            <TextBlock Text="FACTURA ELECTRÓNICA" 
+                                       FontSize="12" 
+                                       FontWeight="Bold" 
+                                       HorizontalAlignment="Right"/>
+                            
+                            <TextBlock Text="N° FV-2024-001" 
+                                       FontSize="16" 
+                                       Foreground="Red" 
+                                       FontWeight="Bold" 
+                                       HorizontalAlignment="Right"/>
+                            
+                            <TextBlock Text="Fecha: 22/05/2024" 
+                                       FontSize="11" 
+                                       Foreground="#555" 
+                                       HorizontalAlignment="Right"/>
                         </StackPanel>
                     </Grid>
 
-                    <Separator Background="#333" Height="2" Margin="0,0,0,20"/>
+                    <Separator Background="#333" 
+                               Height="2" 
+                               Margin="0,0,0,20"/>
 
-                    <UniformGrid Columns="2" Margin="0,0,0,30">
+                    <UniformGrid Columns="2" 
+                                 Margin="0,0,0,30">
+                        
                         <StackPanel Margin="0,0,20,0">
-                            <TextBlock Text="DATOS DEL COMPRADOR" FontSize="11" FontWeight="Bold" Foreground="#888" Margin="0,0,0,5"/>
-                            <TextBlock Text="Juan Alberto Pérez Gómez" FontSize="14" FontWeight="Bold"/>
-                            <TextBlock Text="C.C. 1.234.567.890" FontSize="12"/>
-                            <TextBlock Text="Calle 10 # 20-30, Medellín" FontSize="12"/>
-                            <TextBlock Text="Tel: +57 300 123 4567" FontSize="12"/>
+                            <TextBlock Text="DATOS DEL COMPRADOR" 
+                                       FontSize="11" 
+                                       FontWeight="Bold" 
+                                       Foreground="#888" 
+                                       Margin="0,0,0,5"/>
+                            
+                            <TextBlock Text="Juan Alberto Pérez Gómez" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"/>
+                            <TextBlock Text="C.C. 1.234.567.890" 
+                                       FontSize="12"/>
+                            <TextBlock Text="Calle 10 # 20-30, Medellín" 
+                                       FontSize="12"/>
+                            <TextBlock Text="Tel: +57 300 123 4567" 
+                                       FontSize="12"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Right">
-                            <TextBlock Text="DATOS DEL VENDEDOR" FontSize="11" FontWeight="Bold" Foreground="#888" Margin="0,0,0,5" HorizontalAlignment="Right"/>
-                            <TextBlock Text="María Rodríguez" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
-                            <TextBlock Text="Asesor Comercial Senior" FontSize="12" HorizontalAlignment="Right"/>
-                            <TextBlock Text="Ciudad: Medellín, Antioquia" FontSize="12" HorizontalAlignment="Right"/>
-                            <TextBlock Text="Tel: (604) 444-0000 Ext. 102" FontSize="12" HorizontalAlignment="Right"/>
+                            <TextBlock Text="DATOS DEL VENDEDOR" 
+                                       FontSize="11" 
+                                       FontWeight="Bold" 
+                                       Foreground="#888" 
+                                       Margin="0,0,0,5" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Text="María Rodríguez" 
+                                       FontSize="14" 
+                                       FontWeight="Bold" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Text="Asesor Comercial Senior" 
+                                       FontSize="12" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Text="Ciudad: Medellín, Antioquia" 
+                                       FontSize="12" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Text="Tel: (604) 444-0000 Ext. 102" 
+                                       FontSize="12" 
+                                       HorizontalAlignment="Right"/>
                         </StackPanel>
                     </UniformGrid>
 
-                    <TextBlock Text="DETALLE DEL VEHÍCULO" FontSize="12" FontWeight="Bold" Foreground="#888" Margin="0,0,0,10"/>
-                    <Border BorderBrush="#EEE" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20" Background="#FAFAFA">
+                    <TextBlock Text="DETALLE DEL VEHÍCULO" 
+                               FontSize="12" 
+                               FontWeight="Bold" 
+                               Foreground="#888" 
+                               Margin="0,0,0,10"/>
+                    <Border BorderBrush="#EEE" 
+                            BorderThickness="1" 
+                            CornerRadius="5" 
+                            Padding="15" 
+                            Margin="0,0,0,20" 
+                            Background="#FAFAFA">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel>
-                                <TextBlock Text="Audi RS5 Coupé - Modelo 2024" FontSize="16" FontWeight="Bold"/>
-                                <TextBlock Text="Motor 2.9 TFSI V6 | Color Negro Mito" FontSize="12" Foreground="#666"/>
+                                <TextBlock Text="Audi RS5 Coupé - Modelo 2024" 
+                                           FontSize="16" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="Motor 2.9 TFSI V6 | Color Negro Mito" 
+                                           FontSize="12" 
+                                           Foreground="#666"/>
                             </StackPanel>
-                            <TextBlock Grid.Column="1" Text="$350.000.000" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" 
+                                       Text="$350.000.000" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
 
@@ -74,38 +149,70 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="CONCEPTO ADICIONAL" FontWeight="Bold" Foreground="#666"/>
-                        <TextBlock Grid.Column="1" Text="SUBTOTAL" FontWeight="Bold" Foreground="#666" HorizontalAlignment="Right"/>
+                        <TextBlock Text="CONCEPTO ADICIONAL" 
+                                   FontWeight="Bold" 
+                                   Foreground="#666"/>
+                        <TextBlock Grid.Column="1" 
+                                   Text="SUBTOTAL" 
+                                   FontWeight="Bold" 
+                                   Foreground="#666" 
+                                   HorizontalAlignment="Right"/>
                     </Grid>
-                    <Separator Background="#EEE" Margin="0,0,0,10"/>
+                    <Separator Background="#EEE" 
+                               Margin="0,0,0,10"/>
 
                     <StackPanel Margin="5,0">
                         <Grid Margin="0,4">
-                            <TextBlock Text="Blindaje Nivel 3 Certificado" Foreground="#444"/>
-                            <TextBlock Text="$25.000.000" HorizontalAlignment="Right"/>
+                            <TextBlock Text="Blindaje Nivel 3 Certificado" 
+                                       Foreground="#444"/>
+                            <TextBlock Text="$25.000.000" 
+                                       HorizontalAlignment="Right"/>
                         </Grid>
                         <Grid Margin="0,4">
-                            <TextBlock Text="Sistema de Sonido Premium" Foreground="#444"/>
-                            <TextBlock Text="$5.500.000" HorizontalAlignment="Right"/>
+                            <TextBlock Text="Sistema de Sonido Premium" 
+                                       Foreground="#444"/>
+                            <TextBlock Text="$5.500.000"
+                                       HorizontalAlignment="Right"/>
                         </Grid>
                     </StackPanel>
 
-                    <Border Background="#F9F9F9" Margin="0,30,0,0" Padding="25" CornerRadius="5">
-                        <StackPanel HorizontalAlignment="Right" Width="280">
+                    <Border Background="#F9F9F9" 
+                            Margin="0,30,0,0" 
+                            Padding="25" 
+                            CornerRadius="5">
+                        <StackPanel HorizontalAlignment="Right" 
+                                    Width="280">
                             <Grid Margin="0,2">
-                                <TextBlock Text="Subtotal Bruto:" Foreground="#666"/>
-                                <TextBlock Text="$380.500.000" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                                <TextBlock Text="Subtotal Bruto:" 
+                                           Foreground="#666"/>
+                                <TextBlock Text="$380.500.000" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="SemiBold"/>
                             </Grid>
                             <Grid Margin="0,2">
-                                <TextBlock Text="IVA (19%):" Foreground="#666"/>
-                                <TextBlock Text="$72.295.000" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                                <TextBlock Text="IVA (19%):" 
+                                           Foreground="#666"/>
+                                <TextBlock Text="$72.295.000" 
+                                           HorizontalAlignment="Right" 
+                                           FontWeight="SemiBold"/>
                             </Grid>
-                            <Separator Margin="0,15" Background="#DDD"/>
+                            <Separator Margin="0,15" 
+                                       Background="#DDD"/>
                             <Grid>
-                                <TextBlock Text="TOTAL NETO" FontSize="16" FontWeight="Bold"/>
-                                <TextBlock Text="$452.795.000" FontSize="22" FontWeight="Black" Foreground="#1A1A1A" HorizontalAlignment="Right"/>
+                                <TextBlock Text="TOTAL NETO" 
+                                           FontSize="16" 
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="$452.795.000" 
+                                           FontSize="22" 
+                                           FontWeight="Black"
+                                           Foreground="#1A1A1A"
+                                           HorizontalAlignment="Right"/>
                             </Grid>
-                            <TextBlock Text="PESOS COLOMBIANOS (COP)" FontSize="9" Foreground="#999" HorizontalAlignment="Right" Margin="0,5,0,0"/>
+                            <TextBlock Text="PESOS COLOMBIANOS (COP)" 
+                                       FontSize="9" 
+                                       Foreground="#999"
+                                       HorizontalAlignment="Right" 
+                                       Margin="0,5,0,0"/>
                         </StackPanel>
                     </Border>
 
@@ -117,13 +224,21 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <Separator Background="Black" BorderThickness="0.5"/>
-                            <TextBlock Text="FIRMA DEL COMPRADOR" HorizontalAlignment="Center" FontSize="10" Margin="0,5"/>
+                            <Separator Background="Black" 
+                                       BorderThickness="0.5"/>
+                            <TextBlock Text="FIRMA DEL COMPRADOR" 
+                                       HorizontalAlignment="Center" 
+                                       FontSize="10" 
+                                       Margin="0,5"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
-                            <Separator Background="Black" BorderThickness="0.5"/>
-                            <TextBlock Text="FIRMA AUTORIZADA" HorizontalAlignment="Center" FontSize="10" Margin="0,5"/>
+                            <Separator Background="Black" 
+                                       BorderThickness="0.5"/>
+                            <TextBlock Text="FIRMA AUTORIZADA" 
+                                       HorizontalAlignment="Center"
+                                       FontSize="10" 
+                                       Margin="0,5"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

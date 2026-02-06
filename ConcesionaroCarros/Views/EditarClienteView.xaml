@@ -7,33 +7,55 @@
              d:DesignHeight="600" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <Color x:Key="PrimaryColor">#D4AF37</Color>
-        <Color x:Key="DarkColor">#1A1A1A</Color>
-        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
-        <SolidColorBrush x:Key="DarkBrush" Color="{StaticResource DarkColor}"/>
-        <SolidColorBrush x:Key="LightTextBrush" Color="#777777"/>
+        <Color x:Key="PrimaryColor">#D4AF37
+        </Color>
+        <Color x:Key="DarkColor">#1A1A1A
+        </Color>
+        <SolidColorBrush x:Key="PrimaryBrush" 
+                         Color="{StaticResource PrimaryColor}"/>
+        <SolidColorBrush x:Key="DarkBrush" 
+                         Color="{StaticResource DarkColor}"/>
+        <SolidColorBrush x:Key="LightTextBrush" 
+                         Color="#777777"/>
 
-        <Style x:Key="ModernTextBox" TargetType="TextBox">
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="Background" Value="#F9F9F9"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Style x:Key="ModernTextBox" 
+               TargetType="TextBox">
+            <Setter Property="Padding"
+                    Value="10"/>
+            <Setter Property="Height" 
+                    Value="40"/>
+            <Setter Property="FontSize" 
+                    Value="14"/>
+            <Setter Property="BorderBrush" 
+                    Value="#E0E0E0"/>
+            <Setter Property="Background"
+                    Value="#F9F9F9"/>
+            <Setter Property="VerticalContentAlignment" 
+                    Value="Center"/>
         </Style>
 
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="40"/>
+        <Style x:Key="PrimaryButton" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
+            <Setter Property="FontWeight" 
+                    Value="SemiBold"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
+            <Setter Property="Height" 
+                    Value="40"/>
         </Style>
 
-        <Style x:Key="SecondaryButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#777777"/>
-            <Setter Property="BorderThickness" Value="0"/>
+        <Style x:Key="SecondaryButton" 
+               TargetType="Button">
+            <Setter Property="Background" 
+                    Value="Transparent"/>
+            <Setter Property="Foreground" 
+                    Value="#777777"/>
+            <Setter Property="BorderThickness" 
+                    Value="0"/>
         </Style>
     </UserControl.Resources>
 
@@ -52,7 +74,6 @@
                     HorizontalAlignment="Center"
                     Padding="40">
 
-                <!-- 🔹 SCROLL AGREGADO (NO MODIFICA CONTENIDO) -->
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
 
@@ -78,87 +99,109 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- 🔹 FILA EXTRA AGREGADA (SOLUCIONA EL ERROR) -->
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <!-- 0 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 1 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 2 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 3 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 4 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 5 -->
                             </Grid.RowDefinitions>
 
-                            <!-- NOMBRES -->
-                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,15">
-                                <TextBlock Text="Nombres" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="0" 
+                                        Grid.Column="0" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Nombres" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Nombres}"/>
                             </StackPanel>
 
-                            <!-- APELLIDOS -->
-                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,15">
-                                <TextBlock Text="Apellidos" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="0" 
+                                        Grid.Column="2" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Apellidos" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Apellidos}"/>
                             </StackPanel>
 
-                            <!-- CÉDULA -->
-                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,15">
-                                <TextBlock Text="Cédula / ID" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="1" 
+                                        Grid.Column="0" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Cédula / ID" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Cedula}"/>
                             </StackPanel>
 
-                            <!-- TELÉFONO -->
-                            <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,15">
-                                <TextBlock Text="Teléfono" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="1" 
+                                        Grid.Column="2" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Teléfono" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Telefono}"/>
                             </StackPanel>
 
-                            <!-- CORREO -->
-                            <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,15">
-                                <TextBlock Text="Correo Electrónico" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="2" 
+                                        Grid.Column="0" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Correo Electrónico" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Correo}"/>
                             </StackPanel>
 
-                            <!-- FECHA NACIMIENTO -->
-                            <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,15">
-                                <TextBlock Text="Fecha de Nacimiento" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="2" 
+                                        Grid.Column="2" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Fecha de Nacimiento" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <DatePicker SelectedDate="{Binding Cliente.FechaNacimiento}"/>
                             </StackPanel>
 
-                            <!-- CIUDAD / DEPARTAMENTO -->
-                            <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Margin="0,0,0,15">
-                                <TextBlock Text="Ciudad / Departamento" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="3" 
+                                        Grid.ColumnSpan="3" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Ciudad / Departamento" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.CiudadDepartamento}"/>
                             </StackPanel>
 
-                            <!-- CARGO -->
-                            <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,15">
-                                <TextBlock Text="Cargo Actual" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="4" Grid.Column="0" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Cargo Actual" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.CargoActual}"/>
                             </StackPanel>
 
-                            <!-- CÓDIGO POSTAL -->
-                            <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,15">
-                                <TextBlock Text="Código Postal" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="4" 
+                                        Grid.Column="2" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Código Postal" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.CodigoPostal}"/>
                             </StackPanel>
 
-                            <!-- DIRECCIÓN (YA NO SE ROMPE) -->
-                            <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,15">
-                                <TextBlock Text="Dirección de Residencia" FontWeight="SemiBold" Foreground="#555"/>
+                            <StackPanel Grid.Row="5" 
+                                        Grid.ColumnSpan="3" 
+                                        Margin="0,0,0,15">
+                                <TextBlock Text="Dirección de Residencia" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#555"/>
                                 <TextBox Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Cliente.Direccion}"/>
                             </StackPanel>

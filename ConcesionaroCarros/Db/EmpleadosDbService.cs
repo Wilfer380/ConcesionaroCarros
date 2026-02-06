@@ -117,9 +117,7 @@ namespace ConcesionaroCarros.Db
             cmd.ExecuteNonQuery();
         }
 
-        // =========================
-        // ELIMINAR (FALTABA)
-        // =========================
+ 
         public void Eliminar(int id)
         {
             var conn = new SqliteConnection(_connectionString);
@@ -131,5 +129,41 @@ namespace ConcesionaroCarros.Db
 
             cmd.ExecuteNonQuery();
         }
+
+        public void EliminarPorCorreo(string correo)
+        {
+            var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "DELETE FROM Empleados WHERE Correo = $correo";
+            cmd.Parameters.AddWithValue("$correo", correo);
+
+            cmd.ExecuteNonQuery();
+        }
+        public void InsertarDesdeUsuario(Usuario u)
+        {
+            var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText =
+            @"
+    INSERT INTO Empleados
+    (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas)
+    VALUES
+    ($n,$a,$c,$t,'Empleado',1,0);
+    ";
+
+            cmd.Parameters.AddWithValue("$n", u.Nombres);
+            cmd.Parameters.AddWithValue("$a", u.Apellidos);
+            cmd.Parameters.AddWithValue("$c", u.Correo);
+            cmd.Parameters.AddWithValue("$t", u.Telefono);
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+
     }
 }

@@ -43,16 +43,17 @@ namespace ConcesionaroCarros.ViewModels
                 Rol = "CLIENTE"
             };
 
-            if (!_db.Registrar(usuario, Password))
-            {
-                MessageBox.Show("El correo ya está registrado");
-                return;
-            }
+            var usuarios = new UsuariosDbService();
+            var clientes = new ClientesDbService();
 
-            MessageBox.Show("Registro exitoso. Inicie sesión.");
+            usuarios.RegistrarYRetornarId(usuario, Password);
+            clientes.InsertarDesdeUsuario(usuario);
+
+            MessageBox.Show("Registro exitoso");
 
             new LoginView().Show();
             Application.Current.Windows[0]?.Close();
         }
+
     }
 }

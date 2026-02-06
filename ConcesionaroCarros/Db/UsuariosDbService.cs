@@ -4,7 +4,6 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Data.SqlClient;
 
 namespace ConcesionaroCarros.Db
 {
@@ -13,7 +12,6 @@ namespace ConcesionaroCarros.Db
         private readonly string _connectionString =
             DatabaseInitializer.ConnectionString;
 
-        // 🔐 HASH PASSWORD
         private string HashPassword(string password)
         {
              var sha = SHA256.Create();
@@ -22,7 +20,6 @@ namespace ConcesionaroCarros.Db
             return Convert.ToBase64String(hash);
         }
 
-        // ✅ REGISTRAR
         public bool Registrar(Usuario usuario, string password)
         {
             var conn = new SqliteConnection(_connectionString);
@@ -56,7 +53,6 @@ namespace ConcesionaroCarros.Db
             }
         }
 
-        // 🔑 LOGIN
         public Usuario Login(string correo, string password)
         {
             var conn = new SqliteConnection(_connectionString);
@@ -120,16 +116,96 @@ namespace ConcesionaroCarros.Db
             return usuarios;
         }
 
-        // Agregado para corregir CS1061
         public void Eliminar(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var conn = new SqliteConnection(_connectionString))
             {
-                connection.Open();
-                var command = new SqlCommand("DELETE FROM Usuarios WHERE Id = @Id", connection);
-                command.Parameters.AddWithValue("@Id", id);
-                command.ExecuteNonQuery();
+                conn.Open();
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM Usuarios WHERE Id = $id";
+                cmd.Parameters.AddWithValue("$id", id);
+
+                cmd.ExecuteNonQuery();
             }
         }
+        public void Actualizar(Usuario u)
+        {
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText =
+                @"
+                UPDATE Usuarios SET
+                    Nombres = $n,
+                    Apellidos = $a,
+                    Correo = $c,
+                    Telefono = $t,
+                    Rol = $r
+                WHERE Id = $id;
+                ";
+
+                cmd.Parameters.AddWithValue("$id", u.Id);
+                cmd.Parameters.AddWithValue("$n", u.Nombres);
+                cmd.Parameters.AddWithValue("$a", u.Apellidos);
+                cmd.Parameters.AddWithValue("$c", u.Correo);
+                cmd.Parameters.AddWithValue("$t", u.Telefono);
+                cmd.Parameters.AddWithValue("$r", u.Rol);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void ActualizarPassword(int id, string password)
+        {
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText =
+                @"
+                UPDATE Usuarios SET
+                    PasswordHash = $p
+                WHERE Id = $id;
+                ";
+
+                cmd.Parameters.AddWithValue("$id", id);
+                cmd.Parameters.AddWithValue("$p", HashPassword(password));
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public int RegistrarYRetornarId(Usuario usuario, string password)
+        {
+            var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText =
+            @"
+            INSERT INTO Usuarios
+            (Nombres, Apellidos, Correo, Telefono, PasswordHash, Rol, FechaRegistro)
+            VALUES
+            ($nombres, $apellidos, $correo, $telefono, $pass, $rol, $fecha);
+            SELECT last_insert_rowid();
+            ";
+
+            cmd.Parameters.AddWithValue("$nombres", usuario.Nombres);
+            cmd.Parameters.AddWithValue("$apellidos", usuario.Apellidos);
+            cmd.Parameters.AddWithValue("$correo", usuario.Correo);
+            cmd.Parameters.AddWithValue("$telefono", usuario.Telefono);
+            cmd.Parameters.AddWithValue("$pass", HashPassword(password));
+            cmd.Parameters.AddWithValue("$rol", usuario.Rol);
+            cmd.Parameters.AddWithValue("$fecha", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+            int id = Convert.ToInt32(cmd.ExecuteScalar());
+            conn.Close();
+
+            return id;
+        }
+
+
     }
 }

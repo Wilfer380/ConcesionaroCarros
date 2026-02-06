@@ -13,29 +13,48 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="ViewBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#F0F4F8"/>
-            <Setter Property="Foreground" Value="#2C3E50"/>
+        <Style x:Key="ViewBtn" 
+               TargetType="Button" 
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" 
+                    Value="#F0F4F8"/>
+            <Setter Property="Foreground" 
+                    Value="#2C3E50"/>
         </Style>
-        <Style x:Key="EditBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#3498DB"/>
-            <Setter Property="Foreground" Value="White"/>
+        <Style x:Key="EditBtn" 
+               TargetType="Button" 
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" 
+                    Value="#3498DB"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
         </Style>
-        <Style x:Key="DeleteBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#E74C3C"/>
-            <Setter Property="Foreground" Value="White"/>
+        <Style x:Key="DeleteBtn" 
+               TargetType="Button"
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" 
+                    Value="#E74C3C"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
         </Style>
-        <Style x:Key="SelectBtn" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#1A1A1A"/>
-            <Setter Property="Foreground" Value="White"/>
+        <Style x:Key="SelectBtn" 
+               TargetType="Button" 
+               BasedOn="{StaticResource ModernButtonStyle}">
+            <Setter Property="Background" 
+                    Value="#1A1A1A"/>
+            <Setter Property="Foreground" 
+                    Value="White"/>
         </Style>
 
         <Style TargetType="ListViewItem">
@@ -52,7 +71,8 @@
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop"
-                        Stretch="UniformToFill" Opacity="0.12"/>
+                        Stretch="UniformToFill"
+                        Opacity="0.12"/>
         </Grid.Background>
 
         <Grid Margin="30">
@@ -97,12 +117,14 @@
 
                                 <Border.Style>
                                     <Style TargetType="Border">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Visibility" 
+                                                Value="Visible"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding DataContext.CarritoCount,
                                                RelativeSource={RelativeSource AncestorType=Window}}"
                                                         Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="Visibility" 
+                                                        Value="Collapsed"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

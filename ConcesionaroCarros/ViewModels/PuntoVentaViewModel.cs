@@ -35,7 +35,7 @@ namespace ConcesionaroCarros.ViewModels
             }
         }
 
-        // 🔹 NUEVO – vista central
+       
         private object _contenidoCentral;
         public object ContenidoCentral
         {
@@ -118,7 +118,7 @@ namespace ConcesionaroCarros.ViewModels
 
             ContenidoCentral = this;
 
-            // 🔹 NUEVO – lógica del botón
+            
             ProcesarDetalleVentaCommand = new RelayCommand(_ =>
             {
                 PasoActual = PasoVenta.DatosCliente;
@@ -134,7 +134,7 @@ namespace ConcesionaroCarros.ViewModels
             VolverADetalleOperacionCommand = new RelayCommand(_ =>
             {
                 PasoActual = PasoVenta.DetalleOperacion;
-                ContenidoCentral = this; // vuelve a mostrar DetalleOperacion
+                ContenidoCentral = this; 
             });
         }
         public void IrAConfirmarVenta()

@@ -11,7 +11,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <DockPanel Margin="0,0,0,18">
                         <TextBlock Text="Editar Vehículo"
@@ -49,68 +50,132 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="6">
-                            <TextBlock Text="Marca" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="0" 
+                                    Grid.Column="0" 
+                                    Margin="6">
+                            <TextBlock Text="Marca" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Marca}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="6">
-                            <TextBlock Text="Modelo" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="0" 
+                                    Grid.Column="1" 
+                                    Margin="6">
+                            <TextBlock Text="Modelo" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Modelo}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="6">
-                            <TextBlock Text="Año" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="1" 
+                                    Grid.Column="0"
+                                    Margin="6">
+                            <TextBlock Text="Año" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Año}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="6">
-                            <TextBlock Text="Color" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="1" 
+                                    Grid.Column="1" 
+                                    Margin="6">
+                            <TextBlock Text="Color" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Color}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2" Grid.Column="0" Margin="6">
-                            <TextBlock Text="Costo (COP)" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="2" 
+                                    Grid.Column="0" 
+                                    Margin="6">
+                            <TextBlock Text="Costo (COP)" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Costo}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2" Grid.Column="1" Margin="6">
-                            <TextBlock Text="Precio Venta (COP)" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="2" 
+                                    Grid.Column="1" 
+                                    Margin="6">
+                            <TextBlock Text="Precio Venta (COP)" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.PrecioVenta}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="3" Grid.Column="0" Margin="6">
-                            <TextBlock Text="Placa" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="3" 
+                                    Grid.Column="0" 
+                                    Margin="6">
+                            <TextBlock Text="Placa" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5" 
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.Placa}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="3" Grid.Column="1" Margin="6">
-                            <TextBlock Text="Estado Antigüedad" Foreground="Black" Margin="0,0,0,5" FontSize="14"/>
+                        <StackPanel Grid.Row="3" 
+                                    Grid.Column="1" 
+                                    Margin="6">
+                            <TextBlock Text="Estado Antigüedad" 
+                                       Foreground="Black" 
+                                       Margin="0,0,0,5"
+                                       FontSize="14"/>
                             <TextBox Text="{Binding Carro.EstadoAntiguedad}"
                                      IsReadOnly="{Binding EsSoloLectura}"
-                                     Height="42" Padding="10,8"
-                                     Foreground="Black" Background="#F8FAFC" BorderThickness="0"/>
+                                     Height="42" 
+                                     Padding="10,8"
+                                     Foreground="Black" 
+                                     Background="#F8FAFC" 
+                                     BorderThickness="0"/>
                         </StackPanel>
                     </Grid>
 
@@ -162,7 +227,8 @@
                         </StackPanel>
 
                       
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                        <StackPanel Grid.Column="1" 
+                                    Margin="10,0,0,0">
                             <TextBlock Text="Estado de garantía"
                                        Foreground="Black"
                                        Margin="0,0,0,5"
@@ -188,18 +254,24 @@
                     <Button Content="📷 Cargar Nueva Imagen"
                             Command="{Binding CargarImagenCommand}"
                             Height="35" Margin="6,0,6,15"
-                            Background="#3a3f4b" Foreground="White" BorderThickness="0">
+                            Background="#3a3f4b" 
+                            Foreground="White" 
+                            BorderThickness="0">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8"/>
+                                <Setter Property="CornerRadius" 
+                                        Value="8"/>
                             </Style>
                         </Button.Resources>
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Visibility" 
+                                        Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EsSoloLectura}" Value="False">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                    <DataTrigger Binding="{Binding EsSoloLectura}"
+                                                 Value="False">
+                                        <Setter Property="Visibility" 
+                                                Value="Visible"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -215,11 +287,16 @@
                         <Button Grid.Column="0" 
                                 Content="Cerrar"
                                 Command="{Binding CerrarCommand}"
-                                Height="45" Margin="6,0"
-                                Background="#F8FAFC" Foreground="Black" FontWeight="SemiBold" Cursor="Hand">
+                                Height="45" 
+                                Margin="6,0"
+                                Background="#F8FAFC" 
+                                Foreground="Black" 
+                                FontWeight="SemiBold" 
+                                Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
+                                    <Setter Property="CornerRadius" 
+                                            Value="10"/>
                                 </Style>
                             </Button.Resources>
                         </Button>
@@ -228,19 +305,26 @@
                                 Content="Guardar Cambios"
                                 Command="{Binding GuardarCommand}"
                                 Height="45" Margin="6,0"
-                                Background="#F5B301" Foreground="Black" 
-                                FontWeight="Bold" FontSize="15" Cursor="Hand">
+                                Background="#F5B301" 
+                                Foreground="Black" 
+                                FontWeight="Bold" 
+                                FontSize="15" 
+                                Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
+                                    <Setter Property="CornerRadius" 
+                                            Value="10"/>
                                 </Style>
                             </Button.Resources>
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" 
+                                            Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding EsSoloLectura}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible"/>
+                                        <DataTrigger Binding="{Binding EsSoloLectura}" 
+                                                     Value="False">
+                                            <Setter Property="Visibility" 
+                                                    Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

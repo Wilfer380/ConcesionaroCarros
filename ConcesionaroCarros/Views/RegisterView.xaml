@@ -6,14 +6,21 @@
         Background="Black">
 
     <Window.Resources>
-        <Style x:Key="FrostyInput" TargetType="Control">
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="16"/>
+        <Style x:Key="FrostyInput" 
+               TargetType="Control">
+            <Setter Property="Height" 
+                    Value="45"/>
+            <Setter Property="VerticalContentAlignment" 
+                    Value="Center"/>
+            <Setter Property="FontSize" 
+                    Value="16"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Control">
-                        <Border Background="White" CornerRadius="15" BorderBrush="#70D8F0" BorderThickness="1.5">
+                        <Border Background="White" 
+                                CornerRadius="15" 
+                                BorderBrush="#70D8F0" 
+                                BorderThickness="1.5">
                             <ScrollViewer x:Name="PART_ContentHost" Margin="10,0"/>
                         </Border>
                     </ControlTemplate>
@@ -30,26 +37,47 @@
             </Image.Effect>
         </Image>
 
-        <Border Width="900" Height="620" VerticalAlignment="Center" HorizontalAlignment="Center"
-                CornerRadius="40" Padding="40" Background="#991A2A3A"
-                BorderBrush="#A0E9FF" BorderThickness="3">
+        <Border Width="900" 
+                Height="620" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                CornerRadius="40" 
+                Padding="40" 
+                Background="#991A2A3A"
+                BorderBrush="#A0E9FF" 
+                BorderThickness="3">
 
             <Border.Effect>
-                <DropShadowEffect BlurRadius="45" Color="#70D8F0" ShadowDepth="0" />
+                <DropShadowEffect BlurRadius="45" 
+                                  Color="#70D8F0" 
+                                  ShadowDepth="0" />
             </Border.Effect>
 
             <StackPanel>
                 <StackPanel Margin="0,0,0,15">
-                    <TextBlock Text="DRIVE &amp; DREAM" FontSize="32" FontWeight="ExtraBold" 
-                               Foreground="White" HorizontalAlignment="Center" />
-                    <TextBlock Text="SISTEMA DE GESTIÓN" FontSize="11" FontWeight="Bold" 
-                               Foreground="#70D8F0" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    <TextBlock Text="DRIVE &amp; DREAM" 
+                               FontSize="32"
+                               FontWeight="ExtraBold" 
+                               Foreground="White" 
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="SISTEMA DE GESTIÓN" 
+                               FontSize="11" 
+                               FontWeight="Bold" 
+                               Foreground="#70D8F0"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
                 </StackPanel>
 
-                <TextBlock Text="Únete a la Exclusividad" FontSize="36" FontWeight="Bold" 
-                           Foreground="#70D8F0" HorizontalAlignment="Center"/>
-                <TextBlock Text="Gestiona tu colección de autos con nosotros" Foreground="White" 
-                           FontSize="16" HorizontalAlignment="Center" Margin="0,5,0,30"/>
+                <TextBlock Text="Únete a la Exclusividad" 
+                           FontSize="36" 
+                           FontWeight="Bold" 
+                           Foreground="#70D8F0" 
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Gestiona tu colección de autos con nosotros" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,5,0,30"/>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -59,26 +87,48 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Nombres" Foreground="White" Margin="10,0,0,5" FontSize="16"/>
-                        <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Nombres}"/>
+                        <TextBlock Text="Nombres" 
+                                   Foreground="White" 
+                                   Margin="10,0,0,5" 
+                                   FontSize="16"/>
+                        <TextBox Style="{StaticResource FrostyInput}" 
+                                 Text="{Binding Nombres}"/>
 
-                        <TextBlock Text="Correo" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
-                        <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Correo}"/>
+                        <TextBlock Text="Correo" 
+                                   Foreground="White" 
+                                   Margin="10,20,0,5" 
+                                   FontSize="16"/>
+                        <TextBox Style="{StaticResource FrostyInput}" 
+                                 Text="{Binding Correo}"/>
 
-                        <TextBlock Text="Contraseña" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
+                        <TextBlock Text="Contraseña" 
+                                   Foreground="White" 
+                                   Margin="10,20,0,5" 
+                                   FontSize="16"/>
                         <PasswordBox Style="{StaticResource FrostyInput}"
                                      x:Name="txtPassword"
                                      PasswordChanged="PasswordChanged"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
-                        <TextBlock Text="Apellidos" Foreground="White" Margin="10,0,0,5" FontSize="16"/>
-                        <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Apellidos}"/>
+                        <TextBlock Text="Apellidos"
+                                   Foreground="White" 
+                                   Margin="10,0,0,5" 
+                                   FontSize="16"/>
+                        <TextBox Style="{StaticResource FrostyInput}" 
+                                 Text="{Binding Apellidos}"/>
 
-                        <TextBlock Text="Teléfono" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
-                        <TextBox Style="{StaticResource FrostyInput}" Text="{Binding Telefono}"/>
+                        <TextBlock Text="Teléfono" 
+                                   Foreground="White"
+                                   Margin="10,20,0,5" 
+                                   FontSize="16"/>
+                        <TextBox Style="{StaticResource FrostyInput}" 
+                                 Text="{Binding Telefono}"/>
 
-                        <TextBlock Text="Confirmar contraseña" Foreground="White" Margin="10,20,0,5" FontSize="16"/>
+                        <TextBlock Text="Confirmar contraseña" 
+                                   Foreground="White" 
+                                   Margin="10,20,0,5" 
+                                   FontSize="16"/>
                         <PasswordBox Style="{StaticResource FrostyInput}"
                                      x:Name="txtConfirmarPassword"
                                      PasswordChanged="ConfirmPasswordChanged"/>
@@ -98,16 +148,23 @@
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="btnBdr" CornerRadius="27">
                                 <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Color="#00E5FF" Offset="0"/>
-                                        <GradientStop Color="#007BFF" Offset="1"/>
+                                    <LinearGradientBrush StartPoint="0,0" 
+                                                         EndPoint="0,1">
+                                        <GradientStop Color="#00E5FF"
+                                                      Offset="0"/>
+                                        <GradientStop Color="#007BFF" 
+                                                      Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="btnBdr" Property="Opacity" Value="0.8"/>
+                                <Trigger Property="IsMouseOver" 
+                                         Value="True">
+                                    <Setter TargetName="btnBdr" 
+                                            Property="Opacity" 
+                                            Value="0.8"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

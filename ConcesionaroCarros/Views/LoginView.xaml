@@ -5,22 +5,35 @@
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <Window.Resources>
-        <Style x:Key="LuxInputStyle" TargetType="Control">
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="FontSize" Value="16"/>
+        <Style x:Key="LuxInputStyle" 
+               TargetType="Control">
+            <Setter Property="Height" 
+                    Value="50"/>
+            <Setter Property="FontSize" 
+                    Value="16"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Control">
-                        <Border Background="White" CornerRadius="15" BorderBrush="#70D8F0" BorderThickness="1.5">
+                        <Border Background="White" 
+                                CornerRadius="15" 
+                                BorderBrush="#70D8F0" 
+                                BorderThickness="1.5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="45"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{TemplateBinding Tag}" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                                           FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="#888"/>
-                                <ScrollViewer Grid.Column="1" x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                <TextBlock Grid.Column="0" 
+                                           Text="{TemplateBinding Tag}" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets" 
+                                           FontSize="20" 
+                                           Foreground="#888"/>
+                                <ScrollViewer Grid.Column="1" 
+                                              x:Name="PART_ContentHost" 
+                                              VerticalAlignment="Center" 
+                                              Margin="5,0,10,0"/>
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -37,33 +50,64 @@
             </Image.Effect>
         </Image>
 
-        <Border Width="480" Height="580" CornerRadius="40" Padding="40" 
-                Background="#991A2A3A" BorderBrush="#A0E9FF" BorderThickness="3">
+        <Border Width="480" 
+                Height="580" 
+                CornerRadius="40"
+                Padding="40" 
+                Background="#991A2A3A" 
+                BorderBrush="#A0E9FF" 
+                BorderThickness="3">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="45" Color="#70D8F0" ShadowDepth="0" Opacity="0.6"/>
+                <DropShadowEffect BlurRadius="45" 
+                                  Color="#70D8F0" 
+                                  ShadowDepth="0"
+                                  Opacity="0.6"/>
             </Border.Effect>
 
             <StackPanel VerticalAlignment="Center">
 
                 <StackPanel Margin="0,0,0,20">
-                    <TextBlock Text="DRIVE &amp; DREAM" FontSize="40" FontWeight="ExtraBold" 
-                               Foreground="White" HorizontalAlignment="Center" />
-                    <TextBlock Text="SISTEMA DE GESTIÓN" FontSize="10" FontWeight="Bold" 
-                               Foreground="#70D8F0" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                    <TextBlock Text="DRIVE &amp; DREAM" 
+                               FontSize="40" 
+                               FontWeight="ExtraBold" 
+                               Foreground="White" 
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="SISTEMA DE GESTIÓN" 
+                               FontSize="10" FontWeight="Bold" 
+                               Foreground="#70D8F0"
+                               HorizontalAlignment="Center" 
+                               Margin="0,5,0,0"/>
                 </StackPanel>
 
-                <TextBlock Text="Login" FontSize="45" FontWeight="Bold" Foreground="#70D8F0" HorizontalAlignment="Center"/>
+                <TextBlock Text="Login" 
+                           FontSize="45" 
+                           FontWeight="Bold" 
+                           Foreground="#70D8F0" 
+                           HorizontalAlignment="Center"/>
                 
 
-                <TextBlock Text="Correo" Foreground="White" Margin="10,0,0,5" FontSize="14"/>
-                <TextBox Style="{StaticResource LuxInputStyle}" Tag="&#xE715;" Margin="0,0,0,20" Text="{Binding Correo}"/>
+                <TextBlock Text="Correo" 
+                           Foreground="White" 
+                           Margin="10,0,0,5"
+                           FontSize="14"/>
+                <TextBox Style="{StaticResource LuxInputStyle}" 
+                         Tag="&#xE715;" 
+                         Margin="0,0,0,20" 
+                         Text="{Binding Correo}"/>
 
-                <TextBlock Text="Contraseña" Foreground="White" Margin="10,0,0,5" FontSize="14"/>
-                <PasswordBox Style="{StaticResource LuxInputStyle}" Tag="&#xE72E;" x:Name="txtPassword" 
+                <TextBlock Text="Contraseña" 
+                           Foreground="White" 
+                           Margin="10,0,0,5" 
+                           FontSize="14"/>
+                <PasswordBox Style="{StaticResource LuxInputStyle}" 
+                             Tag="&#xE72E;" 
+                             x:Name="txtPassword" 
                              PasswordChanged="PasswordBox_PasswordChanged"/>
 
-                <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center">
-                    <Run Text="No tienes una cuenta? " Foreground="White"/>
+                <TextBlock Margin="0,15,0,0" 
+                           HorizontalAlignment="Center">
+                    <Run Text="No tienes una cuenta? " 
+                         Foreground="White"/>
                     <Hyperlink Foreground="#70D8F0" 
                                FontWeight="Bold" 
                                TextDecorations="None"
@@ -83,14 +127,19 @@
                         Command="{Binding LoginCommand}">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border x:Name="btn" CornerRadius="27">
+                            <Border x:Name="btn" 
+                                    CornerRadius="27">
                                 <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Color="#00E5FF" Offset="0"/>
-                                        <GradientStop Color="#007BFF" Offset="1"/>
+                                    <LinearGradientBrush StartPoint="0,0" 
+                                                         EndPoint="0,1">
+                                        <GradientStop Color="#00E5FF" 
+                                                      Offset="0"/>
+                                        <GradientStop Color="#007BFF" 
+                                                      Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>

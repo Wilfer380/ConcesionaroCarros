@@ -1,5 +1,7 @@
-﻿using ConcesionaroCarros.Commands;
+﻿using System.Windows;
+using ConcesionaroCarros.Commands;
 using ConcesionaroCarros.Models;
+using ConcesionaroCarros.Services;
 using ConcesionaroCarros.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -37,6 +39,13 @@ namespace ConcesionaroCarros.ViewModels
             new ObservableCollection<Carro>();
 
         public int CarritoCount => Carrito.Count;
+
+        public string NombreUsuario =>
+            SesionUsuario.UsuarioActual != null
+                ? SesionUsuario.UsuarioActual.Nombres + " " + SesionUsuario.UsuarioActual.Apellidos
+                : "";
+
+        public ICommand CerrarSesionCommand { get; }
 
         public void ActualizarCarrito()
         {
@@ -105,6 +114,13 @@ namespace ConcesionaroCarros.ViewModels
                         DataContext = new PuntoVentaViewModel(this)
                     };
                 }
+            });
+
+            CerrarSesionCommand = new RelayCommand(_ =>
+            {
+                SesionUsuario.UsuarioActual = null;
+                new LoginView().Show();
+                Application.Current.Windows[0]?.Close();
             });
 
             CurrentView = null;
