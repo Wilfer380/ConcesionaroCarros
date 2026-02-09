@@ -1,5 +1,7 @@
 ﻿using ConcesionaroCarros.Commands;
 using ConcesionaroCarros.Models;
+using ConcesionaroCarros.Services;
+using Microsoft.Win32;
 using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
@@ -12,6 +14,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public ICommand GuardarCommand { get; }
         public ICommand CancelarCommand { get; }
+        public ICommand CambiarFotoCommand { get; }
 
         public EditarEmpleadoViewModel(EmpleadosViewModel parent, Empleado empleado)
         {
@@ -21,11 +24,28 @@ namespace ConcesionaroCarros.ViewModels
             GuardarCommand = new RelayCommand(_ =>
             {
                 _parent.GuardarEmpleado(Empleado);
+                if (SesionUsuario.UsuarioActual != null &&
+                        Empleado.Correo == SesionUsuario.UsuarioActual.Correo)
+                {
+                    SesionUsuario.ActualizarFoto(Empleado.FotoPerfil);
+                }
             });
 
             CancelarCommand = new RelayCommand(_ =>
             {
                 _parent.CerrarModal();
+            });
+
+            CambiarFotoCommand = new RelayCommand(_ =>
+            {
+                var dlg = new OpenFileDialog();
+                dlg.Filter = "Imagen (*.png;*.jpg)|*.png;*.jpg";
+
+                if (dlg.ShowDialog() == true)
+                {
+                    Empleado.FotoPerfil = dlg.FileName;
+                    OnPropertyChanged(nameof(Empleado));
+                }
             });
         }
     }

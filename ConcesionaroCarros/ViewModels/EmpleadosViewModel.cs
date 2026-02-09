@@ -73,7 +73,8 @@ namespace ConcesionaroCarros.ViewModels
                     MetaVentas = empleado.MetaVentas,
                     Cedula = empleado.Cedula,
                     Ciudad = empleado.Ciudad,
-                    Departamento = empleado.Departamento
+                    Departamento = empleado.Departamento,
+                    FotoPerfil = empleado.FotoPerfil
                 };
 
                 ModalView = new EditarEmpleadoView

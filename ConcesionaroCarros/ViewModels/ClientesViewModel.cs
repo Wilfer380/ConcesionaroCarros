@@ -1,6 +1,7 @@
 ﻿using ConcesionaroCarros.Commands;
 using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
+using ConcesionaroCarros.Services;
 using ConcesionaroCarros.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,10 +58,10 @@ namespace ConcesionaroCarros.ViewModels
             _db = new ClientesDbService();
             Clientes = new ObservableCollection<Cliente>();
 
-          
+
             _todos = _db.ObtenerTodos();
 
-      
+
             ActualizarLista(_todos);
 
             AgregarClienteCommand = new RelayCommand(_ =>
@@ -111,7 +112,7 @@ namespace ConcesionaroCarros.ViewModels
             }
 
             //if (FiltroTipo != "Todos")
-               // lista = lista.Where(c => c.TipoCliente == FiltroTipo);
+            // lista = lista.Where(c => c.TipoCliente == FiltroTipo);
 
             ActualizarLista(lista);
         }
@@ -135,13 +136,25 @@ namespace ConcesionaroCarros.ViewModels
                 _db.Actualizar(cliente);
             }
 
+            if (SesionUsuario.UsuarioActual != null &&
+         SesionUsuario.UsuarioActual.Id == cliente.Id)
+            {
+                SesionUsuario.UsuarioActual.FotoPerfil = cliente.FotoPerfil;
+
+                // avisa al MainViewModel
+               
+            }
+            // ========================================
+
             AplicarFiltros();
             ModalView = null;
         }
-
+        // ===================== NUEVO =====================
         public void CerrarModal()
         {
             ModalView = null;
         }
+        // =================================================
+
     }
 }

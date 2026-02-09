@@ -24,10 +24,10 @@ namespace ConcesionaroCarros.Db
             cmd.CommandText = @"
             INSERT INTO Clientes 
             (Nombres, Apellidos, Cedula, Correo, Telefono, Direccion,
-             FechaNacimiento, CiudadDepartamento, CargoActual, CodigoPostal, FechaRegistro)
+             FechaNacimiento, CiudadDepartamento, CargoActual, CodigoPostal, FechaRegistro, FotoPerfil)
             VALUES 
             ($nombres,$apellidos,$cedula,$correo,$telefono,$direccion,
-             $fechaNac,$ciudadDep,$cargo,$postal,$fecha);
+             $fechaNac,$ciudadDep,$cargo,$postal,$fecha,$foto);
             ";
 
             cmd.Parameters.AddWithValue("$nombres", cliente.Nombres);
@@ -59,6 +59,11 @@ namespace ConcesionaroCarros.Db
 
             cmd.Parameters.AddWithValue("$fecha", DateTime.Now.ToString("yyyy-MM-dd"));
 
+            cmd.Parameters.AddWithValue("$foto",
+                string.IsNullOrEmpty(cliente.FotoPerfil)
+                ? (object)DBNull.Value
+                : cliente.FotoPerfil);
+
             cmd.ExecuteNonQuery();
 
             conn.Close();
@@ -85,7 +90,8 @@ namespace ConcesionaroCarros.Db
                 FechaNacimiento=$fechaNac,
                 CiudadDepartamento=$ciudadDep,
                 CargoActual=$cargo,
-                CodigoPostal=$postal
+                CodigoPostal=$postal,
+                FotoPerfil=$foto
             WHERE Id=$id;
             ";
 
@@ -116,6 +122,11 @@ namespace ConcesionaroCarros.Db
                 string.IsNullOrWhiteSpace(cliente.CodigoPostal)
                 ? (object)DBNull.Value
                 : cliente.CodigoPostal);
+
+            cmd.Parameters.AddWithValue("$foto",
+                string.IsNullOrEmpty(cliente.FotoPerfil)
+                ? (object)DBNull.Value
+                : cliente.FotoPerfil);
 
             cmd.ExecuteNonQuery();
 
@@ -152,13 +163,28 @@ namespace ConcesionaroCarros.Db
                     CiudadDepartamento = reader.IsDBNull(8) ? "" : reader.GetString(8),
                     CargoActual = reader.IsDBNull(9) ? "" : reader.GetString(9),
                     CodigoPostal = reader.IsDBNull(10) ? "" : reader.GetString(10),
-                    FechaRegistro = DateTime.Parse(reader.GetString(11))
+                    FechaRegistro = DateTime.Parse(reader.GetString(11)),
+                    FotoPerfil = reader.IsDBNull(12) ? null : reader.GetString(12)
                 });
             }
 
             conn.Close();
 
             return lista;
+        }
+
+        public void ActualizarFotoPerfil(int idCliente, string rutaFoto)
+        {
+             var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = @"UPDATE Clientes SET FotoPerfil = $foto WHERE Id = $id";
+
+            cmd.Parameters.AddWithValue("$foto", rutaFoto);
+            cmd.Parameters.AddWithValue("$id", idCliente);
+
+            cmd.ExecuteNonQuery();
         }
 
         // =====================
@@ -193,9 +219,9 @@ namespace ConcesionaroCarros.Db
             cmd.CommandText =
             @"
     INSERT INTO Clientes
-    (Nombres, Apellidos, Cedula, Correo, Telefono, Direccion, FechaRegistro)
+    (Nombres, Apellidos, Cedula, Correo, Telefono, Direccion, FechaRegistro, FotoPerfil)
     VALUES
-    ($n,$a,'',$c,$t,'',$f);
+    ($n,$a,'',$c,$t,'',$f,$foto);
     ";
 
             cmd.Parameters.AddWithValue("$n", u.Nombres);
@@ -203,6 +229,10 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$c", u.Correo);
             cmd.Parameters.AddWithValue("$t", u.Telefono);
             cmd.Parameters.AddWithValue("$f", DateTime.Now.ToString("yyyy-MM-dd"));
+            cmd.Parameters.AddWithValue("$foto",
+                string.IsNullOrEmpty(u.FotoPerfil)
+                ? (object)DBNull.Value
+                : u.FotoPerfil);
 
             cmd.ExecuteNonQuery();
             conn.Close();

@@ -226,15 +226,26 @@
                                         Background="#F1F3F4" 
                                         Margin="0,0,15,0" 
                                         VerticalAlignment="Top">
-                                    
-                                    <TextBlock Text="👤" 
-                                               Foreground="#5F6368" 
-                                               FontSize="24" 
-                                               FontWeight="Bold" 
-                                               HorizontalAlignment="Center" 
-                                               VerticalAlignment="Center"/>
-                                </Border>
 
+                                    <Grid>
+
+                                        <TextBlock Text="👤" 
+                                                   Foreground="#5F6368" 
+                                                   FontSize="24" 
+                                                   FontWeight="Bold" 
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center"/>
+
+                                        <Ellipse>
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding FotoPerfil}"
+                                                            Stretch="UniformToFill"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+
+                                    </Grid>
+
+                                </Border>
                                 <StackPanel Grid.Row="0" Grid.Column="1">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontSize="18" FontWeight="Bold" 

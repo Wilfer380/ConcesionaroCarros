@@ -16,6 +16,7 @@ namespace ConcesionaroCarros.Models
         public string Cedula { get; set; }
         public string Ciudad { get; set; }
         public string Departamento { get; set; }
+        public string FotoPerfil { get; set; }
 
         private bool _activo;
         public bool Activo

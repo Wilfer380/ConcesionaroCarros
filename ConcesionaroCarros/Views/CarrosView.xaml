@@ -70,9 +70,8 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop"
-                        Stretch="UniformToFill"
-                        Opacity="0.12"/>
+            <ImageBrush ImageSource="{Binding FotoPerfil}"
+            Stretch="UniformToFill"/>
         </Grid.Background>
 
         <Grid Margin="30">

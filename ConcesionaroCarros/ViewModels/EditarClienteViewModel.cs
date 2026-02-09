@@ -2,6 +2,9 @@
 using ConcesionaroCarros.Models;
 using System;
 using System.Windows.Input;
+using Microsoft.Win32;
+using ConcesionaroCarros.Db;
+using ConcesionaroCarros.Services;
 
 namespace ConcesionaroCarros.ViewModels
 {
@@ -13,6 +16,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public ICommand GuardarCommand { get; }
         public ICommand CerrarCommand { get; }
+        public ICommand CambiarFotoCommand { get; }
 
         public EditarClienteViewModel(ClientesViewModel parent, Cliente cliente)
         {
@@ -20,7 +24,7 @@ namespace ConcesionaroCarros.ViewModels
 
             Cliente = cliente;
 
-            // 🔹 SOLO inicializa si es nuevo
+            
             if (Cliente.Id == 0)
             {
                 Cliente.FechaRegistro = DateTime.Now;
@@ -29,12 +33,44 @@ namespace ConcesionaroCarros.ViewModels
             GuardarCommand = new RelayCommand(_ =>
             {
                 _parent.GuardarCliente(Cliente);
+
+                if (SesionUsuario.UsuarioActual != null &&
+                    !string.IsNullOrEmpty(Cliente.Correo) &&
+                    Cliente.Correo == SesionUsuario.UsuarioActual.Correo)
+                {
+                    SesionUsuario.ActualizarFoto(Cliente.FotoPerfil);
+                }
             });
+
 
             CerrarCommand = new RelayCommand(_ =>
             {
                 _parent.CerrarModal();
             });
+
+            CambiarFotoCommand = new RelayCommand(_ =>
+            {
+                var dlg = new OpenFileDialog();
+                dlg.Filter = "Imagen (*.png;*.jpg)|*.png;*.jpg";
+
+                if (dlg.ShowDialog() == true)
+                {
+                    Cliente.FotoPerfil = dlg.FileName;
+                    OnPropertyChanged(nameof(Cliente));
+
+                    var db = new UsuariosDbService();
+                    db.ActualizarFotoPerfil(Cliente.Id, dlg.FileName);
+
+                    // 🔥 actualizar sesión
+                    if (SesionUsuario.UsuarioActual != null &&
+                        SesionUsuario.UsuarioActual.Id == Cliente.Id)
+                    {
+                        SesionUsuario.ActualizarFoto(dlg.FileName);
+                    }
+                }
+            });
+
         }
     }
 }
+        

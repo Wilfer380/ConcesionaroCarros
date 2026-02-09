@@ -29,9 +29,9 @@ namespace ConcesionaroCarros.Db
             cmd.CommandText =
             @"
             INSERT INTO Usuarios
-            (Nombres, Apellidos, Correo, Telefono, PasswordHash, Rol, FechaRegistro)
+            (Nombres, Apellidos, Correo, Telefono, PasswordHash, Rol, FechaRegistro, FotoPerfil)
             VALUES
-            ($nombres, $apellidos, $correo, $telefono, $pass, $rol, $fecha);
+            ($nombres, $apellidos, $correo, $telefono, $pass, $rol, $fecha, null);
             ";
 
             cmd.Parameters.AddWithValue("$nombres", usuario.Nombres);
@@ -55,34 +55,39 @@ namespace ConcesionaroCarros.Db
 
         public Usuario Login(string correo, string password)
         {
-            var conn = new SqliteConnection(_connectionString);
-            conn.Open();
-
-            var cmd = conn.CreateCommand();
-            cmd.CommandText =
-            @"
-            SELECT * FROM Usuarios
-            WHERE Correo = $correo AND PasswordHash = $pass;
-            ";
-
-            cmd.Parameters.AddWithValue("$correo", correo);
-            cmd.Parameters.AddWithValue("$pass", HashPassword(password));
-
-            var reader = cmd.ExecuteReader();
-            if (!reader.Read())
-                return null;
-
-            return new Usuario
+            using (var conn = new SqliteConnection(_connectionString))
             {
-                Id = reader.GetInt32(0),
-                Nombres = reader.GetString(1),
-                Apellidos = reader.GetString(2),
-                Correo = reader.GetString(3),
-                Telefono = reader.GetString(4),
-                PasswordHash = reader.GetString(5),
-                Rol = reader.GetString(6),
-                FechaRegistro = DateTime.Parse(reader.GetString(7))
-            };
+                conn.Open();
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText =
+                @"
+                SELECT * FROM Usuarios
+                WHERE Correo = $correo AND PasswordHash = $pass;
+                ";
+
+                cmd.Parameters.AddWithValue("$correo", correo);
+                cmd.Parameters.AddWithValue("$pass", HashPassword(password));
+
+                using (var reader = cmd.ExecuteReader()) // NUEVO using
+                {
+                    if (!reader.Read())
+                        return null;
+
+                    return new Usuario
+                    {
+                        Id = reader.GetInt32(0),
+                        Nombres = reader.GetString(1),
+                        Apellidos = reader.GetString(2),
+                        Correo = reader.GetString(3),
+                        Telefono = reader.GetString(4),
+                        PasswordHash = reader.GetString(5),
+                        Rol = reader.GetString(6),
+                        FechaRegistro = DateTime.Parse(reader.GetString(7)),
+                        FotoPerfil = reader.IsDBNull(8) ? null : reader.GetString(8)
+                    };
+                }
+            }
         }
 
         public IEnumerable<Usuario> ObtenerTodos()
@@ -109,7 +114,8 @@ namespace ConcesionaroCarros.Db
                     Telefono = reader.GetString(4),
                     PasswordHash = reader.GetString(5),
                     Rol = reader.GetString(6),
-                    FechaRegistro = DateTime.Parse(reader.GetString(7))
+                    FechaRegistro = DateTime.Parse(reader.GetString(7)),
+                    FotoPerfil = reader.IsDBNull(8) ? null : reader.GetString(8)
                 });
             }
 
@@ -157,6 +163,30 @@ namespace ConcesionaroCarros.Db
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public void ActualizarFotoPerfil(int idUsuario, string rutaFoto)
+        {
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                UPDATE Usuarios 
+                SET FotoPerfil = $foto 
+                WHERE Id = $id;
+            ";
+
+                    cmd.Parameters.AddWithValue("$foto", rutaFoto);
+                    cmd.Parameters.AddWithValue("$id", idUsuario);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         public void ActualizarPassword(int id, string password)
         {
             using (var conn = new SqliteConnection(_connectionString))

@@ -23,5 +23,7 @@ namespace ConcesionaroCarros.Models
         public string CodigoPostal { get; set; }
 
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
+
+        public string FotoPerfil { get; set; }
     }
 }

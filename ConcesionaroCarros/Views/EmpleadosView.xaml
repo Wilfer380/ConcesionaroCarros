@@ -113,7 +113,8 @@
                                              Stroke="#D4AF37" 
                                              StrokeThickness="1">
                                         <Ellipse.Fill>
-                                            <ImageBrush ImageSource="https://i.pravatar.cc/150?u=employee"/>
+                                            <ImageBrush ImageSource="{Binding FotoPerfil}"
+                                                        Stretch="UniformToFill"/>
                                         </Ellipse.Fill>
                                     </Ellipse>
                                     <StackPanel VerticalAlignment="Center"

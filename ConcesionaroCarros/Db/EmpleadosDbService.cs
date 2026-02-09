@@ -37,7 +37,8 @@ namespace ConcesionaroCarros.Db
                     MetaVentas = reader.GetInt32(7),
                     Cedula = reader.IsDBNull(8) ? "" : reader.GetString(8),
                     Ciudad = reader.IsDBNull(9) ? "" : reader.GetString(9),
-                    Departamento = reader.IsDBNull(10) ? "" : reader.GetString(10)
+                    Departamento = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                    FotoPerfil = reader.IsDBNull(11) ? null : reader.GetString(11)
                 });
             }
 
@@ -56,9 +57,9 @@ namespace ConcesionaroCarros.Db
             cmd.CommandText =
              @"
             INSERT INTO Empleados
-            (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas, Cedula, Ciudad, Departamento)
+            (Nombres, Apellidos, Correo, Telefono, Cargo, Activo, MetaVentas, Cedula, Ciudad, Departamento, FotoPerfil)
             VALUES
-            ($n,$a,$c,$t,$cargo,$activo,$meta,$cedula,$ciudad,$dep);
+            ($n,$a,$c,$t,$cargo,$activo,$meta,$cedula,$ciudad,$dep,$foto);
             ";
 
             cmd.Parameters.AddWithValue("$n", e.Nombres ?? "");
@@ -71,6 +72,7 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$cedula", e.Cedula ?? "");
             cmd.Parameters.AddWithValue("$ciudad", e.Ciudad ?? "");
             cmd.Parameters.AddWithValue("$dep", e.Departamento ?? "");
+            cmd.Parameters.AddWithValue("$foto", e.FotoPerfil ?? "");
 
             cmd.ExecuteNonQuery();
         }
@@ -94,11 +96,10 @@ namespace ConcesionaroCarros.Db
                 Cargo=$cargo,
                 Activo=$activo,
                 MetaVentas=$meta,
-
-                -- 🔹 NUEVO
                 Cedula=$cedula,
                 Ciudad=$ciudad,
-                Departamento=$dep
+                Departamento=$dep,
+                FotoPerfil=$foto
             WHERE Id=$id;
             ";
 
@@ -113,6 +114,7 @@ namespace ConcesionaroCarros.Db
             cmd.Parameters.AddWithValue("$cedula", e.Cedula ?? "");
             cmd.Parameters.AddWithValue("$ciudad", e.Ciudad ?? "");
             cmd.Parameters.AddWithValue("$dep", e.Departamento ?? "");
+            cmd.Parameters.AddWithValue("$foto", e.FotoPerfil ?? "");
 
             cmd.ExecuteNonQuery();
         }

@@ -15,5 +15,7 @@ namespace ConcesionaroCarros.Models
         public string Rol { get; set; }
 
         public DateTime FechaRegistro { get; set; }
+        public string FotoPerfil { get; set; }
+
     }
 }

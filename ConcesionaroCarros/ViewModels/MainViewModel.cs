@@ -5,6 +5,9 @@ using ConcesionaroCarros.Services;
 using ConcesionaroCarros.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System;
+
 
 namespace ConcesionaroCarros.ViewModels
 {
@@ -61,6 +64,38 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowEmpleadosCommand { get; }
         public ICommand ShowGestionUsuariosCommand { get; }
         public ICommand ShowVentaCommand { get; }
+       
+
+
+        private BitmapImage _fotoPerfil;
+        public BitmapImage FotoPerfil
+        {
+            get => _fotoPerfil;
+            set
+            {
+                _fotoPerfil = value;
+                OnPropertyChanged();
+            }
+        }
+        private BitmapImage CargarImagen(string ruta)
+        {
+            if (string.IsNullOrEmpty(ruta)) return null;
+
+            var bmp = new BitmapImage();
+            bmp.BeginInit();
+
+            bmp.CacheOption = BitmapCacheOption.OnLoad;
+            bmp.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            bmp.UriSource = new Uri(ruta, UriKind.Absolute);
+
+            bmp.EndInit();
+            bmp.Freeze();
+
+            return bmp;
+        }
+
+
+
 
         public MainViewModel()
         {
@@ -122,6 +157,17 @@ namespace ConcesionaroCarros.ViewModels
                 new LoginView().Show();
                 Application.Current.Windows[0]?.Close();
             });
+
+            FotoPerfil = CargarImagen(SesionUsuario.UsuarioActual?.FotoPerfil);
+
+        
+            SesionUsuario.FotoPerfilActualizada += ruta =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    FotoPerfil = CargarImagen(ruta);
+                });
+            };
 
             CurrentView = null;
         }
