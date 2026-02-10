@@ -104,6 +104,16 @@ namespace ConcesionaroCarros.Models
             }
         }
 
+        public string MarcaModelo => $"{Marca} {Modelo}";
+
+        public string Vin => Placa;
+
+        public string Motor => EstadoGarantia;
+
+        public string CaracteristicaEspecial => Color;
+
+        public string ImagenRuta => ImagenPath;
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string prop)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

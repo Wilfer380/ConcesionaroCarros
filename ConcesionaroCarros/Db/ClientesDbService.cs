@@ -238,5 +238,39 @@ namespace ConcesionaroCarros.Db
             conn.Close();
         }
 
+        public Cliente ObtenerPorCorreo(string correo)
+        {
+            var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Clientes WHERE Correo=$c";
+            cmd.Parameters.AddWithValue("$c", correo);
+
+            var r = cmd.ExecuteReader();
+
+            if (!r.Read()) return null;
+
+            return new Cliente
+            {
+                Id = r.GetInt32(0),
+                Nombres = r.GetString(1),
+                Apellidos = r.GetString(2),
+                Cedula = r.GetString(3),
+                Correo = r.GetString(4),
+                Telefono = r.GetString(5),
+                Direccion = r.IsDBNull(6) ? "" : r.GetString(6),
+                FechaNacimiento = r.IsDBNull(7) ? (DateTime?)null : DateTime.Parse(r.GetString(7)),
+                CiudadDepartamento = r.IsDBNull(8) ? "" : r.GetString(8),
+                CargoActual = r.IsDBNull(9) ? "" : r.GetString(9),
+                CodigoPostal = r.IsDBNull(10) ? "" : r.GetString(10),
+                FechaRegistro = r.IsDBNull(11)
+                ? DateTime.Now
+                : DateTime.Parse(r.GetString(11)),
+
+                FotoPerfil = r.IsDBNull(12) ? null : r.GetString(12)
+            };
+        }
+
     }
 }
