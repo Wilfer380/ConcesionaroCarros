@@ -23,7 +23,6 @@ namespace ConcesionaroCarros.ViewModels
         public ObservableCollection<string> Roles { get; } =
             new ObservableCollection<string> { "CLIENTE", "EMPLEADO" };
 
-        // Constructor
         public FormularioUsuarioViewModel(Window window, Usuario usuario = null)
         {
             _window = window;
@@ -39,7 +38,7 @@ namespace ConcesionaroCarros.ViewModels
             }
         }
 
-        // ESTE ES EL QUE LLAMA EL CODE BEHIND
+       
         public void Guardar(string password)
         {
             if (string.IsNullOrWhiteSpace(Nombres) ||
@@ -50,7 +49,6 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
-            // ================= EDITAR =================
             if (_usuarioEditando != null)
             {
                 _usuarioEditando.Nombres = Nombres;
@@ -59,7 +57,7 @@ namespace ConcesionaroCarros.ViewModels
                 _usuarioEditando.Telefono = Telefono;
                 _usuarioEditando.Rol = Rol;
 
-                // Solo cambia password si escribió uno nuevo
+               
                 if (!string.IsNullOrWhiteSpace(password))
                 {
                     _usuariosDb.ActualizarPassword(_usuarioEditando.Id, password);
@@ -71,8 +69,6 @@ namespace ConcesionaroCarros.ViewModels
                 _window.Close();
                 return;
             }
-
-            // ================= CREAR =================
 
             if (string.IsNullOrWhiteSpace(password))
             {

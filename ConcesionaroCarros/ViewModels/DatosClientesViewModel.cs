@@ -40,6 +40,7 @@ namespace ConcesionaroCarros.ViewModels
             }
         }
 
+        private Cliente _clienteActual;
         public ICommand VolverAtrasCommand { get; }
         public ICommand ConfirmarDatosCommand { get; }
 
@@ -56,8 +57,13 @@ namespace ConcesionaroCarros.ViewModels
                 _puntoVenta.ContenidoCentral = _puntoVenta;
             });
 
+
             ConfirmarDatosCommand = new RelayCommand(_ =>
             {
+                _puntoVenta.ClienteActual = _clienteActual;
+                _puntoVenta.AsesorSeleccionado = EmpleadoSeleccionado;
+
+
                 _puntoVenta.IrAConfirmarVenta();
             });
         }
@@ -91,6 +97,8 @@ namespace ConcesionaroCarros.ViewModels
                 FechaNacimiento = c.FechaNacimiento.HasValue
                     ? c.FechaNacimiento.Value.ToString("dd/MM/yyyy")
                     : "";
+                _clienteActual = c;
+
             }
 
             // ================= EMPLEADO / ADMIN =================

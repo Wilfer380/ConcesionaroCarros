@@ -21,12 +21,42 @@ namespace ConcesionaroCarros.ViewModels
         public double Iva => Subtotal * 0.19;
 
         public double TotalFinal => Subtotal + Iva;
+        public double Ganancia => CarritoVehiculos.Sum(c => c.PrecioVenta - c.Costo);
 
-        // opcional (ganancia)
-        public double Ganancia =>
-            CarritoVehiculos.Sum(c => c.PrecioVenta - c.Costo);
+        
+        public string ReferenciaPago { get; set; }
 
-        // NUEVO
+        public ObservableCollection<string> MetodosPago { get; } =
+            new ObservableCollection<string> { "Efectivo", "Tarjeta Crédito", "Tarjeta Débito", "Transferencia", "PSE" };
+
+        public string MetodoPagoSeleccionado { get; set; }
+
+        public ObservableCollection<string> TiposOperacion { get; } =
+            new ObservableCollection<string> { "Contado", "Crédito", "Leasing" };
+
+        public string TipoOperacionSeleccionada { get; set; }
+
+        public ObservableCollection<string> EstadosPago { get; } =
+            new ObservableCollection<string> { "Pendiente", "Pagado", "Parcial" };
+
+        public string EstadoPagoSeleccionado { get; set; }
+
+        public ObservableCollection<string> CanalesRecaudo { get; } =
+            new ObservableCollection<string> { "Caja Principal", "Banco", "Plataforma Digital" };
+
+        public string CanalSeleccionado { get; set; }
+
+        private string _asesorResponsable = "Usuario Activo";
+
+        public string AsesorResponsable
+        {
+            get => _asesorResponsable;
+            set
+            {
+                _asesorResponsable = value;
+                OnPropertyChanged(nameof(AsesorResponsable));
+            }
+        }
         public ConfirmarVentaViewModel(PuntoVentaViewModel puntoVenta)
         {
             _puntoVenta = puntoVenta;
@@ -40,8 +70,7 @@ namespace ConcesionaroCarros.ViewModels
                 OnPropertyChanged(nameof(TotalFinal));
                 OnPropertyChanged(nameof(Ganancia));
             };
-
-            // NUEVO → volver a datos del cliente
+            
             VolverADatosClienteCommand = new RelayCommand(_ =>
             {
                 _puntoVenta.PasoActual = PasoVenta.DatosCliente;
@@ -53,14 +82,16 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
-            // NUEVO → ir a factura generada
             ConfirmarVentaCommand = new RelayCommand(_ =>
             {
                 _puntoVenta.PasoActual = PasoVenta.FacturaGenerada;
 
+                var cliente = _puntoVenta.ClienteActual;
+                var empleado = _puntoVenta.AsesorSeleccionado;
+               
                 _puntoVenta.ContenidoCentral = new FacturaGenerada
                 {
-                    DataContext = new FacturaGeneradaViewModel()
+                    DataContext = new FacturaGeneradaViewModel(cliente, empleado, CarritoVehiculos)
                 };
             });
         }

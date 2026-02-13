@@ -101,29 +101,17 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                                <TextBlock Text="ID Transacción / Referencia" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <TextBox Height="42" VerticalContentAlignment="Center" Padding="15,0" BorderBrush="#E2E8F0" Background="#F8FAFC" Foreground="#1E293B" FontSize="13"/>
+                                <TextBlock Text="ID Transacción / Referencia" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBox Height="42"
+                                         Text="{Binding ReferenciaPago}"
+                                         VerticalContentAlignment="Center"/>
                             </StackPanel>
 
-                            <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                <TextBlock Text="MÉTODO DE PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <ComboBox Height="42" VerticalContentAlignment="Center" BorderBrush="#E2E8F0" Background="#F8FAFC">
-                                    <ComboBox.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="10"/>
-                                        </Style>
-                                    </ComboBox.Resources>
-                                    <ComboBoxItem IsSelected="True">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="💳" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                            <TextBlock Text="•••• 4242" VerticalAlignment="Center" Foreground="#1E293B"/>
-                                            <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
-                                                <Border Background="#EB001B" Width="12" Height="8" CornerRadius="2" Margin="2,0"/>
-                                                <Border Background="#F79E1B" Width="12" Height="8" CornerRadius="2" Margin="2,0"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ComboBoxItem>
-                                </ComboBox>
+                            <StackPanel Grid.Column="1" Margin="1,0,0,0">
+                                <TextBlock Text="MÉTODO DE PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <ComboBox Height="42"
+                                          ItemsSource="{Binding MetodosPago}"
+                                          SelectedItem="{Binding MetodoPagoSeleccionado}"/>
                             </StackPanel>
                         </Grid>
 
@@ -132,13 +120,19 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                                <TextBlock Text="TIPO DE OPERACIÓN" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <ComboBox Height="42" Background="#F8FAFC" BorderBrush="#E2E8F0"/>
+
+                            <StackPanel Grid.Column="0" >
+                                <TextBlock Text="TIPO DE OPERACIÓN" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <ComboBox Height="42"
+                                          ItemsSource="{Binding TiposOperacion}"
+                                          SelectedItem="{Binding TipoOperacionSeleccionada}"/>
                             </StackPanel>
+
                             <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                <TextBlock Text="ESTADO DEL PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <ComboBox Height="42" Background="#F8FAFC" BorderBrush="#E2E8F0"/>
+                                <TextBlock Text="ESTADO DEL PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <ComboBox Height="42"
+                                          ItemsSource="{Binding EstadosPago}"
+                                          SelectedItem="{Binding EstadoPagoSeleccionado}"/>
                             </StackPanel>
                         </Grid>
 
@@ -147,13 +141,19 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                                <TextBlock Text="CANAL DE RECAUDO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <ComboBox Height="42" Background="#F8FAFC" BorderBrush="#E2E8F0"/>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="CANAL DE RECAUDO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <ComboBox Height="42"
+                                          ItemsSource="{Binding CanalesRecaudo}"
+                                          SelectedItem="{Binding CanalSeleccionado}"/>
                             </StackPanel>
+
                             <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                <TextBlock Text="ASESOR RESPONSABLE" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8" Margin="0,0,0,8"/>
-                                <TextBox Height="42" IsReadOnly="True" Background="#F1F5F9" BorderBrush="#E2E8F0"/>
+                                <TextBlock Text="ASESOR RESPONSABLE" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBox Height="42"
+                                         Text="{Binding AsesorResponsable}"
+                                         IsReadOnly="True"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -207,14 +207,16 @@
                             </Grid>
 
                             <DockPanel Margin="0,5">
-                                <TextBlock Text="Subtotal Flota" Foreground="#64748B"/>
+                                <TextBlock Text="Subtotal Flota" 
+                                           Foreground="#64748B"/>
                                 <TextBlock Text="{Binding Subtotal, StringFormat={}{0:C0}}"
                                            HorizontalAlignment="Right"
                                            FontWeight="Bold"/>
                             </DockPanel>
 
                             <DockPanel Margin="0,5">
-                                <TextBlock Text="Impuestos (IVA)" Foreground="#64748B"/>
+                                <TextBlock Text="Impuestos (IVA)" 
+                                           Foreground="#64748B"/>
                                 <TextBlock Text="{Binding Iva, StringFormat={}{0:C0}}"
                                            HorizontalAlignment="Right"
                                            FontWeight="Bold"/>
@@ -227,9 +229,20 @@
         </ScrollViewer>
 
         <Grid Grid.Row="2" Margin="0,25,0,0">
-            <Button Content="← VOLVER A DATOS DEL CLIENTE" Background="Transparent" BorderThickness="0" Foreground="#94A3B8" FontWeight="Bold" HorizontalAlignment="Left"
+            <Button Content="← VOLVER A DATOS DEL CLIENTE" 
+                    Background="Transparent" 
+                    BorderThickness="0" 
+                    Foreground="#94A3B8" 
+                    FontWeight="Bold" 
+                    HorizontalAlignment="Left"
                     Command="{Binding VolverADatosClienteCommand}"/>
-            <Button Content="CONFIRMAR Y EMITIR FACTURA" Background="#10B981" Foreground="White" FontWeight="Bold" Padding="30,12" HorizontalAlignment="Right"
+            
+            <Button Content="CONFIRMAR Y EMITIR FACTURA" 
+                    Background="#10B981" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Padding="30,12" 
+                    HorizontalAlignment="Right"
                     Command="{Binding ConfirmarVentaCommand}"/>
         </Grid>
     </Grid>

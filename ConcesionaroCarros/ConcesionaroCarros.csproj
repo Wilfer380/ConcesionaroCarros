@@ -65,11 +65,11 @@
     <Compile Include="Db\EmpleadosDbService.cs" />
     <Compile Include="Db\UsuariosDbService.cs" />
     <Compile Include="Enums\PasoVenta.cs" />
+    <Compile Include="FontResolver.cs" />
     <Compile Include="Models\Carro.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\Empleado.cs" />
-    <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\SesionUsuario.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -118,6 +118,9 @@
     </Compile>
     <Compile Include="Views\FacturaGenerada.xaml.cs">
       <DependentUpon>FacturaGenerada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FacturaView.xaml.cs">
+      <DependentUpon>FacturaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FormularioUsuarioView.xaml.cs">
       <DependentUpon>FormularioUsuarioView.xaml</DependentUpon>
@@ -186,6 +189,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FacturaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FormularioUsuarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,6 +232,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Fonts\Roboto-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -239,6 +249,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite">
       <Version>10.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="PDFsharp">
+      <Version>6.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="QuestPDF">
+      <Version>2025.12.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

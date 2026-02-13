@@ -147,6 +147,10 @@ namespace ConcesionaroCarros.ViewModels
                 DataContext = vm
             };
         
-    }
+        }
+        public Cliente ClienteActual { get; set; }
+
+        public Empleado AsesorSeleccionado { get; set; }
+
     }
 }

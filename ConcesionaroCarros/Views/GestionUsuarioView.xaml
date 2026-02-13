@@ -31,20 +31,20 @@
 
                     <!-- BOTÓN AGREGAR -->
                     <StackPanel Grid.Row="0"
-                Orientation="Horizontal"
-                HorizontalAlignment="Right"
-                Margin="0,0,0,10">
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,0,10">
 
                         <Button Style="{StaticResource IconButton}"
-                Content="➕"
-                Command="{Binding AgregarUsuarioCommand}"/>
+                                Content="➕"
+                                Command="{Binding AgregarUsuarioCommand}"/>
                     </StackPanel>
 
                     <!-- TABLA -->
                     <DataGrid Grid.Row="1"
-              ItemsSource="{Binding Usuarios}"
-              AutoGenerateColumns="False"
-              IsReadOnly="True">
+                              ItemsSource="{Binding Usuarios}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
 
                         <DataGrid.Columns>
 
@@ -63,14 +63,14 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Button Style="{StaticResource IconButton}"
-        Content="✏"
-        Command="{Binding DataContext.EditarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        CommandParameter="{Binding}"/>
+                                                    Content="✏"
+                                                    Command="{Binding DataContext.EditarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"/>
 
                                             <Button Style="{StaticResource IconButton}"
-        Content="🗑"
-        Command="{Binding DataContext.EliminarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-        CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                                                    Content="🗑"
+                                                    Command="{Binding DataContext.EliminarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
 
                                         </StackPanel>
 

@@ -141,20 +141,16 @@ namespace ConcesionaroCarros.ViewModels
             {
                 SesionUsuario.UsuarioActual.FotoPerfil = cliente.FotoPerfil;
 
-                // avisa al MainViewModel
                
             }
-            // ========================================
 
             AplicarFiltros();
             ModalView = null;
         }
-        // ===================== NUEVO =====================
         public void CerrarModal()
         {
             ModalView = null;
         }
-        // =================================================
 
     }
 }

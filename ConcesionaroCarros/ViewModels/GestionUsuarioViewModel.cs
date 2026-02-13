@@ -28,14 +28,14 @@ namespace ConcesionaroCarros.ViewModels
             _clientesDb = new ClientesDbService();
             _empleadosDb = new EmpleadosDbService();
 
-            // ================= AGREGAR =================
+   
+
             AgregarUsuarioCommand = new RelayCommand(_ =>
             {
                 new FormularioUsuarioView().ShowDialog();
                 CargarDatos();
             });
 
-            // ================= EDITAR =================
             EditarUsuarioCommand = new RelayCommand(usuario =>
             {
                 if (usuario is Usuario u)
@@ -44,7 +44,6 @@ namespace ConcesionaroCarros.ViewModels
 
                     new FormularioUsuarioView(u).ShowDialog();
 
-                    // Usuario actualizado desde BD
                     var usuarioActualizado =
                         _usuariosDb.ObtenerTodos().FirstOrDefault(x => x.Id == u.Id);
 
@@ -53,9 +52,6 @@ namespace ConcesionaroCarros.ViewModels
 
                     string rolNuevo = usuarioActualizado.Rol;
 
-                    // ======================
-                    // SINCRONIZAR DATOS
-                    // ======================
 
                     if (rolNuevo == "CLIENTE")
                     {
@@ -87,9 +83,6 @@ namespace ConcesionaroCarros.ViewModels
                         }
                     }
 
-                    // ======================
-                    // CAMBIO DE ROL
-                    // ======================
 
                     if (rolAnterior != rolNuevo)
                     {
@@ -109,9 +102,6 @@ namespace ConcesionaroCarros.ViewModels
                     CargarDatos();
                 }
             });
-
-
-            // ================= ELIMINAR =================
             EliminarUsuarioCommand = new RelayCommand(usuario =>
             {
                 if (usuario is Usuario u)
