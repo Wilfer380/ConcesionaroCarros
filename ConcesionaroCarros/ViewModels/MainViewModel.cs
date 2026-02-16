@@ -64,7 +64,9 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowEmpleadosCommand { get; }
         public ICommand ShowGestionUsuariosCommand { get; }
         public ICommand ShowVentaCommand { get; }
-       
+        public ICommand AbrirInstaladorCommand { get; private set; }
+
+
 
 
         private BitmapImage _fotoPerfil;
@@ -168,6 +170,14 @@ namespace ConcesionaroCarros.ViewModels
                     FotoPerfil = CargarImagen(ruta);
                 });
             };
+        
+            AbrirInstaladorCommand = new RelayCommand(_ =>
+            {
+                CurrentView = new InstaladorView
+                {
+                    DataContext = new InstaladorViewModel()
+                };
+            });
 
             CurrentView = null;
         }

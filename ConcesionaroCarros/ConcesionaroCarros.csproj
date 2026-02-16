@@ -70,6 +70,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\Empleado.cs" />
+    <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\SesionUsuario.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="ViewModels\FacturaGeneradaViewModel.cs" />
     <Compile Include="ViewModels\FormularioUsuarioViewModel.cs" />
     <Compile Include="ViewModels\GestionUsuarioViewModel.cs" />
+    <Compile Include="ViewModels\InstaladorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PuntoVentaViewModel.cs" />
@@ -127,6 +129,9 @@
     </Compile>
     <Compile Include="Views\GestionUsuarioView.xaml.cs">
       <DependentUpon>GestionUsuarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstaladorView.xaml.cs">
+      <DependentUpon>InstaladorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -198,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GestionUsuarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InstaladorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

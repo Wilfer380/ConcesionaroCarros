@@ -137,6 +137,11 @@
                             Style="{StaticResource MenuVentaActivo}"
                             Command="{Binding ShowVentaCommand}"/>
 
+                    <Button Content="📦 Instalador"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding AbrirInstaladorCommand}"/>
+
+
                     <Button Content="📄 Registro de Facturas" 
                             Style="{StaticResource MenuButtonStyle}"
                             Command="{Binding ShowFacturaCommand}"/>
