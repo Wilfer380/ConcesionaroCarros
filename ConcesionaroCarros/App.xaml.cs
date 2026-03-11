@@ -1,4 +1,5 @@
-﻿using ConcesionaroCarros.Views;
+using ConcesionaroCarros.Db;
+using ConcesionaroCarros.Views;
 using System.Windows;
 
 namespace ConcesionaroCarros
@@ -9,7 +10,8 @@ namespace ConcesionaroCarros
         {
             base.OnStartup(e);
 
-            // 🔐 SIEMPRE EMPEZAMOS POR LOGIN
+            DatabaseInitializer.Initialize();
+
             var login = new LoginView();
             login.Show();
         }

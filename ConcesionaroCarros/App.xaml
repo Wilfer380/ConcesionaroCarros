@@ -4,6 +4,24 @@
              xmlns:local="clr-namespace:ConcesionaroCarros">
 
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="CorpWindowBrush" Color="#ECEFF3"/>
+        <SolidColorBrush x:Key="CorpSurfaceBrush" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="CorpPanelBrush" Color="#D7E6F1"/>
+        <SolidColorBrush x:Key="CorpPanelStrongBrush" Color="#C5D9E8"/>
+        <SolidColorBrush x:Key="CorpBorderBrush" Color="#9CBFD8"/>
+        <SolidColorBrush x:Key="CorpAccentBrush" Color="#3E5FC5"/>
+        <SolidColorBrush x:Key="CorpAccentDarkBrush" Color="#2F4EA7"/>
+        <SolidColorBrush x:Key="CorpAccentSoftBrush" Color="#7CC7D8"/>
+        <SolidColorBrush x:Key="CorpTextBrush" Color="#29436F"/>
+        <SolidColorBrush x:Key="CorpMutedBrush" Color="#6B7E95"/>
+        <SolidColorBrush x:Key="CorpDangerBrush" Color="#C94D4D"/>
+        <SolidColorBrush x:Key="CorpAuthPanelBrush" Color="#6A97BF"/>
+        <SolidColorBrush x:Key="CorpAuthPanelDarkBrush" Color="#5B87B0"/>
+        <SolidColorBrush x:Key="CorpAuthHeaderBrush" Color="#F3F5F7"/>
+        <SolidColorBrush x:Key="CorpAuthLineBrush" Color="#B7CFDF"/>
+        <SolidColorBrush x:Key="CorpMosaic1Brush" Color="#79B5DB"/>
+        <SolidColorBrush x:Key="CorpMosaic2Brush" Color="#BFE0EE"/>
+        <SolidColorBrush x:Key="CorpMosaic3Brush" Color="#8BC6DC"/>
+        <SolidColorBrush x:Key="CorpMosaic4Brush" Color="#AFCFDF"/>
     </Application.Resources>
 </Application>

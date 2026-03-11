@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
+            <ImageBrush ImageSource="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&amp;w=1983&amp;auto=format&amp;fit=crop" 
                         Stretch="UniformToFill" 
                         Opacity="0.1"/>
         </Grid.Background>

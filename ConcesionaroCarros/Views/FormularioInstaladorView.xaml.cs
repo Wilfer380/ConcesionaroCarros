@@ -2,9 +2,9 @@
 
 namespace ConcesionaroCarros.Views
 {
-    public partial class EditarCarroView : UserControl
+    public partial class FormularioInstaladorView : UserControl
     {
-        public EditarCarroView()
+        public FormularioInstaladorView()
         {
             InitializeComponent();
         }

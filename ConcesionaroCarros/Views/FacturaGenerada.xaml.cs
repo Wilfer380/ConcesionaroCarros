@@ -42,7 +42,7 @@ namespace ConcesionaroCarros.Views
 
                 foreach (var carro in vm.CarrosSeleccionados)
                 {
-                    // 🔁 cambiar carro actual
+                
                     vm.CarroActual = carro;
                     Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Render);
 

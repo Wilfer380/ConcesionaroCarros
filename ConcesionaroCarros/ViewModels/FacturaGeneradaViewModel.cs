@@ -12,10 +12,8 @@ namespace ConcesionaroCarros.ViewModels
         public Cliente Cliente { get; }
         public Empleado Empleado { get; }
 
-        // 🔥 LISTA DE CARROS
         public ObservableCollection<Carro> CarrosSeleccionados { get; }
 
-        // 🔥 carro que se está renderizando
         private Carro _carroActual;
         public Carro CarroActual
         {

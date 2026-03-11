@@ -20,33 +20,50 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="Confirmar Venta" FontSize="28" FontWeight="Black" Foreground="#1E293B"/>
+            <TextBlock Text="Confirmar Venta" 
+                       FontSize="28" 
+                       FontWeight="Black" 
+                       Foreground="#1E293B"/>
             <TextBlock Text="Resumen ejecutivo y analítica de facturación en tiempo real."
-                       Foreground="#64748B" FontSize="13"/>
+                       Foreground="#64748B" 
+                       FontSize="13"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
-            <Border Background="White" CornerRadius="20" Padding="25">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" 
+                      Padding="0,0,10,0">
+            <Border Background="White" 
+                    CornerRadius="20" 
+                    Padding="25">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="350"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Margin="0,0,25,0">
-                        <TextBlock Text="Resumen de la Orden" Style="{StaticResource SectionTitle}"/>
+                    <StackPanel Grid.Column="0" 
+                                Margin="0,0,25,0">
+                        <TextBlock Text="Resumen de la Orden" 
+                                   Style="{StaticResource SectionTitle}"/>
 
                         <Grid Margin="0,10,0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2.5*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="VEHÍCULOS" FontSize="11" FontWeight="Bold" Foreground="#94A3B8"/>
-                            <TextBlock Grid.Column="1" Text="CARACTERÍSTICAS " FontSize="11" FontWeight="Bold" Foreground="#94A3B8"/>
+                            <TextBlock Text="VEHÍCULOS" 
+                                       FontSize="11" 
+                                       FontWeight="Bold" 
+                                       Foreground="#94A3B8"/>
+                            <TextBlock Grid.Column="1" Text="CARACTERÍSTICAS " 
+                                       FontSize="11" 
+                                       FontWeight="Bold" 
+                                       Foreground="#94A3B8"/>
                         </Grid>
-                        <Separator Background="#F1F5F9" Margin="0,0,0,10"/>
+                        <Separator Background="#F1F5F9" 
+                                   Margin="0,0,0,10"/>
 
-                        <ScrollViewer MaxHeight="350" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer MaxHeight="350"
+                                      VerticalScrollBarVisibility="Auto">
                             <ItemsControl ItemsSource="{Binding CarritoVehiculos}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -57,23 +74,46 @@
                                                 <ColumnDefinition Width="2*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Border Width="80" Height="50" CornerRadius="8" Background="#F8FAFC" Margin="0,0,15,0">
-                                                <Image Source="{Binding ImagenRuta}" Stretch="UniformToFill"/>
+                                            <Border Width="80" 
+                                                    Height="50" 
+                                                    CornerRadius="8" 
+                                                    Background="#F8FAFC" 
+                                                    Margin="0,0,15,0">
+                                                <Image Source="{Binding ImagenRuta}" 
+                                                       Stretch="UniformToFill"/>
                                             </Border>
 
-                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding MarcaModelo}" FontWeight="Bold" Foreground="#1E293B" TextWrapping="Wrap"/>
-                                                <TextBlock Text="{Binding Vin}" FontSize="10" Foreground="#94A3B8"/>
+                                            <StackPanel Grid.Column="1" 
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding MarcaModelo}"
+                                                           FontWeight="Bold" 
+                                                           Foreground="#1E293B" 
+                                                           TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Vin}" 
+                                                           FontSize="10" 
+                                                           Foreground="#94A3B8"/>
                                             </StackPanel>
 
-                                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="20,0,0,0">
+                                            <StackPanel Grid.Column="2" 
+                                                        VerticalAlignment="Center" 
+                                                        Margin="20,0,0,0">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Ellipse Width="4" Height="4" Fill="#64748B" Margin="0,0,8,0"/>
-                                                    <TextBlock Text="{Binding Motor}" FontSize="12" Foreground="#475569"/>
+                                                    <Ellipse Width="4" Height="4" 
+                                                             Fill="#64748B" 
+                                                             Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{Binding Motor}" 
+                                                               FontSize="12" 
+                                                               Foreground="#475569"/>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                    <Ellipse Width="4" Height="4" Fill="#64748B" Margin="0,0,8,0"/>
-                                                    <TextBlock Text="{Binding CaracteristicaEspecial}" FontSize="12" Foreground="#475569"/>
+                                                <StackPanel Orientation="Horizontal" 
+                                                            Margin="0,4,0,0">
+                                                    <Ellipse Width="4" 
+                                                             Height="4" 
+                                                             Fill="#64748B" 
+                                                             Margin="0,0,8,0"/>
+                                                    <TextBlock Text="{Binding CaracteristicaEspecial}" 
+                                                               FontSize="12" 
+                                                               Foreground="#475569"/>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal"
                                                             Margin="0,4,0,0">
@@ -92,7 +132,8 @@
                             </ItemsControl>
                         </ScrollViewer>
 
-                        <TextBlock Text="Información de Pago" Style="{StaticResource SectionTitle}" Margin="0,25,0,10"/>
+                        <TextBlock Text="Información de Pago" Style="{StaticResource SectionTitle}" 
+                                   Margin="0,25,0,10"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -100,15 +141,21 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                                <TextBlock Text="ID Transacción / Referencia" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                            <StackPanel Grid.Column="0" 
+                                        Margin="0,0,12,0">
+                                <TextBlock Text="ID Transacción / Referencia" 
+                                           FontSize="11" FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <TextBox Height="42"
                                          Text="{Binding ReferenciaPago}"
                                          VerticalContentAlignment="Center"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="1,0,0,0">
-                                <TextBlock Text="MÉTODO DE PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBlock Text="MÉTODO DE PAGO" 
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <ComboBox Height="42"
                                           ItemsSource="{Binding MetodosPago}"
                                           SelectedItem="{Binding MetodoPagoSeleccionado}"/>
@@ -122,14 +169,20 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" >
-                                <TextBlock Text="TIPO DE OPERACIÓN" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBlock Text="TIPO DE OPERACIÓN" 
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <ComboBox Height="42"
                                           ItemsSource="{Binding TiposOperacion}"
                                           SelectedItem="{Binding TipoOperacionSeleccionada}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                <TextBlock Text="ESTADO DEL PAGO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBlock Text="ESTADO DEL PAGO" 
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <ComboBox Height="42"
                                           ItemsSource="{Binding EstadosPago}"
                                           SelectedItem="{Binding EstadoPagoSeleccionado}"/>
@@ -143,14 +196,20 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="CANAL DE RECAUDO" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBlock Text="CANAL DE RECAUDO" 
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <ComboBox Height="42"
                                           ItemsSource="{Binding CanalesRecaudo}"
                                           SelectedItem="{Binding CanalSeleccionado}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                <TextBlock Text="ASESOR RESPONSABLE" FontSize="11" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                <TextBlock Text="ASESOR RESPONSABLE"
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="#94A3B8"/>
                                 <TextBox Height="42"
                                          Text="{Binding AsesorResponsable}"
                                          IsReadOnly="True"/>
@@ -172,23 +231,18 @@
 
                             <Grid Height="160" Margin="0,15">
 
-                                <!-- FONDO GRIS -->
                                 <Ellipse Stroke="#E2E8F0"
                                          StrokeThickness="20"/>
 
-                                <!-- SUBTOTAL (VERDE) -->
                                 <Ellipse Stroke="#10B981"
                                          StrokeThickness="20"
                                          StrokeDashArray="3,1"
                                          Margin="2"/>
-
-                                <!-- IVA (AZUL) -->
                                 <Ellipse Stroke="#3B82F6"
                                          StrokeThickness="20"
                                          StrokeDashArray="2,6"
                                          Margin="2"/>
 
-                                <!-- SEPARACIÓN TOTAL (BLANCO) -->
                                 <Ellipse Stroke="White"
                                          StrokeThickness="12"
                                          Margin="12"/>

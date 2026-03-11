@@ -6,10 +6,12 @@ namespace ConcesionaroCarros.Services
     public static class SesionUsuario
     {
         public static Usuario UsuarioActual { get; set; }
+        public static bool ModoAdministrador { get; set; }
 
-        public static bool EsAdmin => UsuarioActual?.Rol == "ADMIN";
-        public static bool EsEmpleado => UsuarioActual?.Rol == "EMPLEADO";
-        public static bool EsCliente => UsuarioActual?.Rol == "CLIENTE";
+        public static bool EsAdmin =>
+            ModoAdministrador && RolesSistema.EsAdministrador(UsuarioActual?.Rol);
+        public static bool EsEmpleado => UsuarioActual != null && !EsAdmin;
+        public static bool EsCliente => UsuarioActual != null && !EsAdmin;
 
 
         public static event Action<string> FotoPerfilActualizada;

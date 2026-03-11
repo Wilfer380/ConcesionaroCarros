@@ -1,17 +1,15 @@
-<Window x:Class="ConcesionaroCarros.Views.RegisterView"
+<Window x:Class="ConcesionaroCarros.Views.AdminLoginView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Registro Lux Motors" Height="720" Width="520"
-        MinHeight="720" MinWidth="520" MaxHeight="720" MaxWidth="520"
+        Title="Login Administrador" Height="740" Width="520"
+        MinHeight="740" MinWidth="520" MaxHeight="740" MaxWidth="520"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         WindowStyle="None" AllowsTransparency="True"
-        PreviewKeyDown="Window_PreviewKeyDown"
         Background="Transparent">
 
     <Window.Resources>
-        <Style x:Key="FrostyInput" TargetType="Control">
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Style x:Key="LuxInputStyle" TargetType="Control">
+            <Setter Property="Height" Value="50"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -20,7 +18,23 @@
                                 CornerRadius="15"
                                 BorderBrush="{StaticResource CorpBorderBrush}"
                                 BorderThickness="1.5">
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="10,0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="45"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="{TemplateBinding Tag}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="20"
+                                           Foreground="{StaticResource CorpMutedBrush}"/>
+                                <ScrollViewer Grid.Column="1"
+                                              x:Name="PART_ContentHost"
+                                              VerticalAlignment="Center"
+                                              Margin="5,0,10,0"/>
+                            </Grid>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -30,19 +44,19 @@
 
     <Grid Background="Transparent">
         <Border Width="480"
-                Height="680"
+                Height="700"
                 CornerRadius="40"
                 Padding="40"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                MouseLeftButtonDown="RegisterShell_MouseLeftButtonDown"
+                MouseLeftButtonDown="LoginShell_MouseLeftButtonDown"
                 BorderBrush="{StaticResource CorpBorderBrush}"
                 BorderThickness="3">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Color="#F3F5F7" Offset="0"/>
-                    <GradientStop Color="#F3F5F7" Offset="0.40"/>
-                    <GradientStop Color="#7BA7CC" Offset="0.401"/>
+                    <GradientStop Color="#F3F5F7" Offset="0.43"/>
+                    <GradientStop Color="#7BA7CC" Offset="0.431"/>
                     <GradientStop Color="#7BA7CC" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
@@ -55,12 +69,12 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="252"/>
+                    <RowDefinition Height="268"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0"
-                        Margin="-40,-40,-40,-24"
+                        Margin="-40,-40,-40,-18"
                         CornerRadius="36,36,0,0"
                         ClipToBounds="True">
                     <Border.Background>
@@ -121,8 +135,8 @@
                 </Grid>
 
                 <Button Grid.Row="0"
-                        Content="&lt; Devolver"
-                        Width="120"
+                        Content="&lt; Volver al login usuarios"
+                        Width="190"
                         Height="30"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -133,91 +147,51 @@
                         BorderThickness="1"
                         FontWeight="SemiBold"
                         Cursor="Hand"
-                        Command="{Binding VolverLoginCommand}"/>
+                        Command="{Binding VolverLoginNormalCommand}"/>
 
                 <StackPanel Grid.Row="1"
                             VerticalAlignment="Top"
-                            Margin="0,-30,0,0">
+                            Margin="0,-34,0,0">
 
-                    <TextBlock Text="Registro de acceso al sistema"
+                    <TextBlock Text="Usuario"
                                Foreground="White"
                                Margin="10,0,0,5"
-                               FontSize="15"
-                               FontWeight="SemiBold"/>
-                    <TextBlock Text="Ingresa correo y contrasena para el registro."
-                               Foreground="#EAF3F8"
-                               Margin="10,0,0,8"
-                               FontSize="13"/>
-
-                    <TextBlock Text="Correo"
-                               Foreground="White"
-                               Margin="10,8,0,5"
-                               FontSize="16"/>
-                    <Grid Margin="0,0,0,14">
-                        <TextBox x:Name="txtCorreoRegistro"
-                                 Style="{StaticResource FrostyInput}"
-                                 Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="usuario@weg.net"
-                                   Foreground="{StaticResource CorpMutedBrush}"
-                                   Margin="18,0,0,0"
+                               FontSize="14"/>
+                    <Grid Margin="0,0,0,20">
+                        <TextBox Style="{StaticResource LuxInputStyle}"
+                                 x:Name="txtUsuarioAdmin"
+                                 Tag="&#xE77B;"
+                                 TextChanged="UsuarioAdminTextChanged"
+                                 Text="{Binding Usuario}"/>
+                        <TextBlock x:Name="txtUsuarioAdminPlaceholder"
+                                   Margin="56,0,0,0"
                                    VerticalAlignment="Center"
-                                   IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text, ElementName=txtCorreoRegistro}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Text, ElementName=txtCorreoRegistro}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                                   Foreground="#95A6B8"
+                                   FontSize="15"
+                                   IsHitTestVisible="False"
+                                   Text="admin.corporativo"/>
                     </Grid>
 
-                    <TextBlock Text="Contrasena"
+                    <TextBlock Text="Contrasena administrador"
                                Foreground="White"
                                Margin="10,0,0,5"
-                               FontSize="16"/>
+                               FontSize="14"/>
                     <Grid>
-                        <PasswordBox Style="{StaticResource FrostyInput}"
-                                     x:Name="txtPassword"
-                                     Tag=""
-                                     PasswordChanged="PasswordChanged"/>
-                        <TextBox Style="{StaticResource FrostyInput}"
-                                 x:Name="txtPasswordVisible"
+                        <PasswordBox Style="{StaticResource LuxInputStyle}"
+                                     Tag="&#xE72E;"
+                                     x:Name="txtPasswordAdmin"
+                                     PasswordChanged="PasswordAdminChanged"/>
+                        <TextBox Style="{StaticResource LuxInputStyle}"
+                                 x:Name="txtPasswordAdminVisible"
                                  Visibility="Collapsed"
-                                 TextChanged="PasswordVisibleChanged"/>
-                        <TextBlock Text="***********"
-                                   Foreground="{StaticResource CorpMutedBrush}"
-                                   Margin="18,0,44,0"
+                                 TextChanged="PasswordAdminVisibleChanged"/>
+                        <TextBlock x:Name="txtPasswordAdminPlaceholder"
+                                   Margin="56,0,48,0"
                                    VerticalAlignment="Center"
-                                   IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding Visibility, ElementName=txtPassword}" Value="Visible"/>
-                                                <Condition Binding="{Binding Tag, ElementName=txtPassword}" Value=""/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding Visibility, ElementName=txtPasswordVisible}" Value="Visible"/>
-                                                <Condition Binding="{Binding Text, ElementName=txtPasswordVisible}" Value=""/>
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                                   Foreground="#95A6B8"
+                                   FontSize="18"
+                                   IsHitTestVisible="False"
+                                   Text="************"/>
                         <ToggleButton Width="30"
                                       Height="30"
                                       HorizontalAlignment="Right"
@@ -226,8 +200,8 @@
                                       Background="Transparent"
                                       BorderThickness="0"
                                       Cursor="Hand"
-                                      Checked="ShowPassword_Checked"
-                                      Unchecked="ShowPassword_Unchecked">
+                                      Checked="ShowPasswordAdmin_Checked"
+                                      Unchecked="ShowPasswordAdmin_Unchecked">
                             <TextBlock FontFamily="Segoe MDL2 Assets"
                                        Text="&#xE890;"
                                        FontSize="16"
@@ -235,34 +209,52 @@
                         </ToggleButton>
                     </Grid>
 
-                    <Button Content="Registrar"
-                            Margin="0,28,0,10"
+                    <CheckBox Content="Recuerdame"
+                              IsChecked="{Binding Recordarme}"
+                              Foreground="White"
+                              Margin="5,12,0,0"
+                              FontSize="13"/>
+
+                    <TextBlock Margin="0,15,0,0"
+                               HorizontalAlignment="Center">
+                        <Run Text="No tienes una cuenta? "
+                             Foreground="White"/>
+                        <Hyperlink Foreground="{StaticResource CorpSurfaceBrush}"
+                                   FontWeight="Bold"
+                                   TextDecorations="None"
+                                   Command="{Binding IrRegistroAdminCommand}">
+                            Registrate
+                        </Hyperlink>
+                    </TextBlock>
+
+                    <Button Content="Ingresar"
+                            Margin="0,22,0,0"
                             Height="55"
-                            Width="260"
+                            Width="220"
+                            IsDefault="True"
                             Foreground="{StaticResource CorpAccentBrush}"
                             FontWeight="Bold"
                             FontSize="20"
                             Cursor="Hand"
-                            Command="{Binding RegistrarCommand}">
+                            Command="{Binding LoginAdminCommand}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border x:Name="btnBdr"
+                                <Border x:Name="btn"
                                         CornerRadius="27"
                                         BorderBrush="#D3E1EB"
                                         BorderThickness="1.2">
                                     <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#F7FAFC" Offset="0"/>
-                                            <GradientStop Color="#E9EFF4" Offset="1"/>
+                                        <LinearGradientBrush StartPoint="0,0"
+                                                             EndPoint="0,1">
+                                            <GradientStop Color="#F7FAFC"
+                                                          Offset="0"/>
+                                            <GradientStop Color="#E9EFF4"
+                                                          Offset="1"/>
                                         </LinearGradientBrush>
                                     </Border.Background>
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
                                 </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="btnBdr" Property="Opacity" Value="0.8"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>

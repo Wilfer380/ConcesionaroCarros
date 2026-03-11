@@ -37,5 +37,13 @@ namespace ConcesionaroCarros.Views
         {
             Close();
         }
+
+        private void Pwd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PwdPlaceholder.Visibility =
+                string.IsNullOrEmpty(pwd.Password)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+        }
     }
 }

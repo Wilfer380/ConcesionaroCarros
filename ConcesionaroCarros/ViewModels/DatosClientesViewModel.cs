@@ -13,7 +13,6 @@ namespace ConcesionaroCarros.ViewModels
     {
         private readonly PuntoVentaViewModel _puntoVenta;
 
-        // ===== CAMPOS MOSTRADOS EN LA VISTA =====
 
         public string NombreCompleto { get; set; }
         public string Cedula { get; set; }
@@ -68,23 +67,16 @@ namespace ConcesionaroCarros.ViewModels
             });
         }
 
-        // ===================================================
-        // CARGA AUTOMÁTICA CLIENTE / EMPLEADO SEGÚN LOGIN
-        // ===================================================
 
         private void CargarDatosUsuario()
         {
             var usuario = SesionUsuario.UsuarioActual;
             if (usuario == null) return;
 
-            // ================= CLIENTE =================
-            if (usuario.Rol == "CLIENTE")
+            var dbClientes = new ClientesDbService();
+            var c = dbClientes.ObtenerPorCorreo(usuario.Correo);
+            if (c != null)
             {
-                var db = new ClientesDbService();
-                var c = db.ObtenerPorCorreo(usuario.Correo);
-
-                if (c == null) return;
-
                 NombreCompleto = $"{c.Nombres} {c.Apellidos}";
                 Cedula = c.Cedula;
                 Telefono = c.Telefono;
@@ -101,7 +93,6 @@ namespace ConcesionaroCarros.ViewModels
 
             }
 
-            // ================= EMPLEADO / ADMIN =================
             else
             {
                 var db = new EmpleadosDbService();
@@ -142,4 +133,4 @@ namespace ConcesionaroCarros.ViewModels
         }
     }
 }
-    
+

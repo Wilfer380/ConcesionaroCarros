@@ -13,12 +13,12 @@
             <Setter Property="Margin" Value="0,5,0,15"/>
             <Setter Property="Padding" Value="12,0"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="#F9FAFB"/>
+            <Setter Property="Background" Value="#F8FBFE"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border CornerRadius="8" Background="{TemplateBinding Background}" 
-                                BorderBrush="#E5E7EB" BorderThickness="1.5">
+                                BorderBrush="#A9C6DD" BorderThickness="1.5">
                             <Grid>
                                 <ScrollViewer x:Name="PART_ContentHost"/>
                                 <TextBlock Text="{TemplateBinding Tag}" Margin="15,0" VerticalAlignment="Center"
@@ -42,7 +42,7 @@
         </Style>
     </Window.Resources>
 
-    <Border CornerRadius="20" Background="White" Margin="10">
+    <Border CornerRadius="20" Background="#FDFEFE" Margin="10">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" Opacity="0.15" ShadowDepth="0"/>
         </Border.Effect>
@@ -54,8 +54,26 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Background="#1A2A3A" CornerRadius="20,20,0,0" Padding="25,20">
-                <TextBlock Text="CONFIGURAR PERFIL" FontWeight="Bold" Foreground="White" FontSize="18"/>
+            <Border Grid.Row="0" Background="#BBD4E7" CornerRadius="20,20,0,0" Padding="25,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="CONFIGURAR PERFIL"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource CorpAccentBrush}"
+                               FontSize="18"
+                               VerticalAlignment="Center"/>
+                    <Image Grid.Column="1"
+                           Source="C:\Users\wandica\source\repos\ConcesionaroCarros\ConcesionaroCarros\Images\WEG-Logo.png"
+                           Width="54"
+                           Height="28"
+                           Stretch="Uniform"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Grid>
             </Border>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="25,15">
@@ -66,23 +84,37 @@
                     <TextBlock Text="Apellidos" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="Ingrese apellidos..." Text="{Binding Apellidos}"/>
 
-                    <TextBlock Text="Correo Electrónico" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
-                    <TextBox Style="{StaticResource ModernInput}" Tag="ejemplo@driveanddream.com" Text="{Binding Correo}"/>
+                    <TextBlock Text="Correo Corporativo" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBox Style="{StaticResource ModernInput}" Tag="usuario@weg.net" Text="{Binding Correo}"/>
 
                     <TextBlock Text="Teléfono" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="+57 300..." Text="{Binding Telefono}"/>
 
-                    <TextBlock Text="Contraseña Temporal" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
-                    <PasswordBox x:Name="pwd" Height="42" Margin="0,5,0,15">
-                        <PasswordBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-                        </PasswordBox.Resources>
-                    </PasswordBox>
+                    <TextBlock Text="Contraseña" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <Grid Margin="0,5,0,15">
+                        <PasswordBox x:Name="pwd"
+                                     Height="42"
+                                     PasswordChanged="Pwd_PasswordChanged">
+                            <PasswordBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </PasswordBox.Resources>
+                        </PasswordBox>
+                        <TextBlock x:Name="PwdPlaceholder"
+                                   Text="************"
+                                   Margin="14,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="#9CA3AF"
+                                   IsHitTestVisible="False"/>
+                    </Grid>
 
                     <TextBlock Text="Rol Asignado" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
-                    <ComboBox Height="42" Margin="0,5,0,10" ItemsSource="{Binding Roles}" SelectedItem="{Binding Rol}">
+                    <ComboBox Height="42"
+                              Margin="0,5,0,10"
+                              IsEnabled="{Binding PuedeEditarRol}"
+                              ItemsSource="{Binding Roles}"
+                              SelectedItem="{Binding Rol}">
                         <ComboBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
@@ -92,15 +124,16 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <Border Grid.Row="2" Background="#F3F4F6" CornerRadius="0,0,20,20" Padding="20,15">
+            <Border Grid.Row="2" Background="#EEF4F8" CornerRadius="0,0,20,20" Padding="20,15">
                 <DockPanel>
                     <Button Content="Cancelar" Click="Cerrar_Click" Background="Transparent" 
                             BorderThickness="0" Foreground="#6B7280" FontWeight="SemiBold" Cursor="Hand"/>
 
                     <Button x:Name="Guardar"
-                  
+                            Content="Guardar"
+                            MinWidth="110"
                             HorizontalAlignment="Right" 
-                            Background="#F1B434" 
+                            Background="{StaticResource CorpAccentBrush}" 
                             Foreground="White" FontWeight="Bold" Padding="25,10" BorderThickness="0"
                             Command="{Binding GuardarCommand}"
                             CommandParameter="{Binding ElementName=pwd, Path=Password}">
