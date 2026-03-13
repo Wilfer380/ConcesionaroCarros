@@ -1,0 +1,119 @@
+﻿<Window x:Class="ConcesionaroCarros.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WEG Installer Systems"
+        Height="800" Width="1250"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource CorpWindowBrush}">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="25,0,0,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MenuInstaladoresStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding VistaActiva}" Value="Instaladores">
+                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MenuUsuariosStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding VistaActiva}" Value="Usuarios">
+                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="{StaticResource CorpPanelBrush}">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Margin="20,28,20,10">
+                    <Image Source="/Images/WEG-Logo.png"
+                           Width="92"
+                           Height="46"
+                           HorizontalAlignment="Left"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,22,0,28" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding NombreUsuario}"
+                               Foreground="{StaticResource CorpTextBrush}"
+                               FontWeight="Bold"
+                               FontSize="13"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
+                    <TextBlock Text="Estado: Conectado"
+                               Foreground="{StaticResource CorpAccentBrush}"
+                               FontSize="10"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="v2.0.1 - Enterprise Edition"
+                               Foreground="{StaticResource CorpMutedBrush}"
+                               FontSize="9"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0">
+                    <Button Content="📦 Instaladores"
+                            Style="{StaticResource MenuInstaladoresStyle}"
+                            Command="{Binding ShowInstaladoresCommand}"/>
+
+                    <Button Content="🛠 Gestión de Usuarios"
+                            Visibility="{Binding EsAdministrador, Converter={StaticResource BoolToVisibility}}"
+                            Style="{StaticResource MenuUsuariosStyle}"
+                            Command="{Binding ShowGestionUsuariosCommand}"/>
+
+                    <Separator Background="{StaticResource CorpBorderBrush}" Margin="20,15"/>
+
+                    <Button Content="🚪 Cerrar sesión"
+                            Command="{Binding CerrarSesionCommand}"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Foreground="{StaticResource CorpDangerBrush}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#EEF2F5" Offset="0"/>
+                    <GradientStop Color="#DEEAF2" Offset="0.6"/>
+                    <GradientStop Color="#D3E4EE" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <ContentControl Content="{Binding CurrentView}" Margin="25"/>
+        </Grid>
+    </Grid>
+</Window>
+
+
