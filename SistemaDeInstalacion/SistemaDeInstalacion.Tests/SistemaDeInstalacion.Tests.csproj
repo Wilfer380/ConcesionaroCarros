@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>..\bin\Debug\Microsoft.Data.Sqlite.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\bin\Debug\SQLitePCLRaw.batteries_v2.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\bin\Debug\SQLitePCLRaw.core.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.dynamic_cdecl">
+      <HintPath>..\bin\Debug\SQLitePCLRaw.provider.dynamic_cdecl.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\bin\Debug\System.Memory.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>..\bin\Debug\System.Buffers.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Db\AdministradoresDbService.cs" Link="Source\Db\AdministradoresDbService.cs" />
+    <Compile Include="..\Db\DatabaseInitializer.cs" Link="Source\Db\DatabaseInitializer.cs" />
+    <Compile Include="..\Db\InstaladorDbService.cs" Link="Source\Db\InstaladorDbService.cs" />
+    <Compile Include="..\Db\UsuariosDbService.cs" Link="Source\Db\UsuariosDbService.cs" />
+    <Compile Include="..\Models\Administrador.cs" Link="Source\Models\Administrador.cs" />
+    <Compile Include="..\Models\Instalador.cs" Link="Source\Models\Instalador.cs" />
+    <Compile Include="..\Models\Usuario.cs" Link="Source\Models\Usuario.cs" />
+    <Compile Include="..\Services\RolesSistema.cs" Link="Source\Services\RolesSistema.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\bin\Debug\runtimes\**\*">
+      <Link>runtimes\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
