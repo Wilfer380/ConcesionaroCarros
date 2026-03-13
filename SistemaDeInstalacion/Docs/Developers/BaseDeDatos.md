@@ -8,21 +8,21 @@ La base de datos operativa del sistema es:
 
 La cadena de conexion se define en `Db/DatabaseInitializer.cs`.
 
-## 2. Politica de migracion
+## 2. Politica de migración
 
-Al iniciar la aplicacion, `DatabaseInitializer.Initialize()` verifica si ya existe `WegInstaladores.db`.
+Al iniciar la aplicación, `DatabaseInitializer.Initialize()` verifica si ya existe `WegInstaladores.db`.
 
 ### Si la base nueva no existe
 
-El sistema intenta migrar automaticamente desde alguna base heredada con estos nombres:
+El sistema intenta migrar automáticamente desde alguna base heredada con estos nombres:
 
 - `WegInstallerSystems.db`
 - `installer_systems.db`
 - `carros.db`
 
-### Despues de la migracion
+### Despues de la migración
 
-- la aplicacion abre la nueva base
+- la aplicación abre la nueva base
 - aplica migraciones de estructura si faltan columnas
 - elimina el archivo legacy migrado cuando la copia ya fue exitosa
 
@@ -32,7 +32,7 @@ El sistema intenta migrar automaticamente desde alguna base heredada con estos n
 
 ### Proposito
 
-Tabla principal de autenticacion y autorizacion para usuarios normales.
+Tabla principal de autenticación y autorización para usuarios normales.
 
 ### Columnas
 
@@ -51,14 +51,14 @@ Tabla principal de autenticacion y autorizacion para usuarios normales.
 
 - login normal
 - registro normal
-- sincronizacion del usuario base de administradores
+- sincronización del usuario base de administradores
 - lectura del rol del usuario
 - almacenamiento de aplicativos asignados
-- actualizacion de contrasena en recuperacion de acceso
+- actualización de contraseña en recuperación de acceso
 
 ### Observaciones
 
-- `Correo` es unico
+- `Correo` es único
 - `PasswordHash` se guarda con SHA-256
 - `AplicativosJson` contiene una lista JSON de rutas de instaladores asignadas al usuario
 - `FotoPerfil` existe en el esquema pero actualmente no forma parte del flujo funcional principal
@@ -67,7 +67,7 @@ Tabla principal de autenticacion y autorizacion para usuarios normales.
 
 ### Proposito
 
-Catalogo de instaladores disponibles en la aplicacion.
+Catálogo de instaladores disponibles en la aplicación.
 
 ### Columnas
 
@@ -82,7 +82,7 @@ Catalogo de instaladores disponibles en la aplicacion.
 
 - vista principal de instaladores
 - carga filtrada por carpeta funcional
-- edicion del catalogo por parte de administradores
+- edición del catálogo por parte de administradores
 
 ### Observaciones
 
@@ -111,7 +111,7 @@ Separar la credencial administrativa de la credencial normal del mismo usuario.
 
 - login administrativo
 - registro administrativo
-- sincronizacion cuando un usuario cambia a rol `ADMINISTRADOR`
+- sincronización cuando un usuario cambia a rol `ADMINISTRADOR`
 
 ### Observaciones
 
@@ -123,7 +123,7 @@ Separar la credencial administrativa de la credencial normal del mismo usuario.
 
 ### Proposito
 
-Tabla de auditoria para recuperaciones de contrasena.
+Tabla de auditoria para recuperaciones de contraseñas.
 
 ### Columnas
 
@@ -136,12 +136,12 @@ Tabla de auditoria para recuperaciones de contrasena.
 
 ### Uso funcional
 
-- registrar cada cambio de contrasena originado desde el flujo de recuperacion
+- registrar cada cambio de contraseña originado desde el flujo de recuperación
 
 ### Observaciones
 
-- el flujo actual de recuperacion es local
-- `ValidadoMicrosoft` permanece por compatibilidad historica, pero hoy no representa una autenticacion activa contra Microsoft
+- el flujo actual de recuperación es local
+- `ValidadoMicrosoft` permanece por compatibilidad historica, pero hoy no representa una autenticación activa contra Microsoft
 
 ## 4. Migraciones de columnas
 
@@ -155,7 +155,7 @@ Esto permite:
 
 ## 5. Limpieza de legado
 
-Despues de migrar, el inicializador elimina tablas heredadas que ya no hacen parte del dominio actual:
+Después de migrar, el inicializador elimina tablas heredadas que ya no hacen parte del dominio actual:
 
 - `Carros`
 - `Clientes`
@@ -164,7 +164,7 @@ Despues de migrar, el inicializador elimina tablas heredadas que ya no hacen par
 
 Adicionalmente, si existe la tabla legacy `Administradores`, su contenido se copia antes a la tabla vigente `Administrador`.
 
-## 6. Normalizacion de datos al iniciar
+## 6. Normalización de datos al iniciar
 
 En el arranque se aplican normalizaciones para evitar inconsistencias historicas:
 
@@ -174,7 +174,7 @@ En el arranque se aplican normalizaciones para evitar inconsistencias historicas
 - `ADMIN` se convierte a `ADMINISTRADOR`
 - `Instaladores.Carpeta` vacia se convierte en `Desarrollo global`
 
-## 7. Relacion entre tablas y modulos
+## 7. Relación entre tablas y módulos
 
 ### Login normal
 
@@ -185,34 +185,34 @@ En el arranque se aplican normalizaciones para evitar inconsistencias historicas
 - valida en `Administrador`
 - resuelve el usuario base en `Usuarios`
 
-### Gestion de usuarios
+### Gestión de usuarios
 
 - lista y actualiza `Usuarios`
 - sincroniza `Administrador` si el rol aplica
 
-### Recuperacion de contrasena
+### Recuperación de contraseña
 
 - actualiza `Usuarios.PasswordHash`
 - inserta auditoria en `PasswordRecoveryLog`
 
-### Catalogo de instaladores
+### Catálogo de instaladores
 
 - lee y actualiza `Instaladores`
 - cruza permisos con `Usuarios.AplicativosJson`
 
 ## 8. Riesgos actuales
 
-- `AplicativosJson` depende de rutas fisicas; si la ruta cambia, la asignacion deja de ser util
+- `AplicativosJson` depende de rutas fisicas; si la ruta cambia, la asignación deja de ser util
 - la base sigue incluyendo `FotoPerfil` por compatibilidad, aunque ese dato no se esta usando como parte principal del flujo
 - la asignacion en JSON es simple y funcional, pero menos robusta que una tabla relacional
 
-## 9. Recomendaciones de evolucion
+## 9. Recomendaciones de evolución
 
 ### Alta prioridad
 
 - evaluar una tabla relacional `UsuarioInstalador` si el sistema sigue creciendo
-- documentar cualquier nueva migracion directamente en `DatabaseInitializer`
-- mantener pruebas manuales de migracion al cambiar nombres de base o tablas
+- documentar cualquier nueva migración directamente en `DatabaseInitializer`
+- mantener pruebas manuales de migración al cambiar nombres de base o tablas
 
 ### Media prioridad
 
