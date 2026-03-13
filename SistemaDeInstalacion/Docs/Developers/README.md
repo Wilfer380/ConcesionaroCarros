@@ -1,12 +1,12 @@
-﻿# Guia Tecnica para Desarrolladores
+﻿# Guia Técnica para Desarrolladores
 
 ## 1. Proposito del sistema
 
-`SistemaDeInstalacion` es una aplicacion WPF para la administracion centralizada de instaladores corporativos. El sistema resuelve tres necesidades principales:
+`SistemaDeInstalacion` es una aplicación WPF para la administración centralizada de instaladores corporativos. El sistema resuelve tres necesidades principales:
 
-- controlar autenticacion de usuarios normales y administradores
-- registrar y mantener un catalogo de instaladores corporativos
-- asignar permisos de visualizacion y ejecucion de aplicativos por usuario
+- controlar autenticación de usuarios normales y administradores
+- registrar y mantener un catálogo de instaladores corporativos
+- asignar permisos de visualización y ejecución de aplicativos por usuario
 
 No es un sistema comercial ni transaccional. El dominio actual del producto es exclusivamente la gestion de instaladores y usuarios del ecosistema interno.
 
@@ -18,30 +18,30 @@ El producto cubre estos procesos:
 - registro normal
 - login administrativo
 - registro administrativo
-- recuperacion local de contrasena
-- consulta y ejecucion de instaladores
-- administracion de usuarios
-- asignacion de aplicativos por persona
+- recuperación local de contraseñas
+- consulta y ejecución de instaladores
+- administración de usuarios
+- asignación de aplicativos por persona
 
-## 3. Stack tecnologico
+## 3. Stack tecnológico
 
 - Framework: `.NET Framework 4.8`
 - UI: `WPF`
-- Patron de presentacion: `MVVM` liviano
+- Patron de presentación: `MVVM` liviano
 - Base de datos: `SQLite`
 - Acceso a datos: `Microsoft.Data.Sqlite`
 - Persistencia local de credenciales recordadas: `ProtectedData` del usuario de Windows
-- Recursos visuales: `XAML`, `ResourceDictionary` en `App.xaml`, recursos graficos del proyecto
+- Recursos visuales: `XAML`, `ResourceDictionary` en `App.xaml`, recursos gráficos del proyecto
 
-## 4. Solucion y proyecto activos
+## 4. Solución y proyecto activos
 
-- Solucion: `SistemaDeInstalacion.sln`
+- Solución: `SistemaDeInstalacion.sln`
 - Proyecto principal: `SistemaDeInstalacion.csproj`
 - Base de datos activa: `WegInstaladores.db`
 
-Observacion:
+Observación:
 
-- Todavia existen namespaces internos bajo `ConcesionaroCarros`. Eso no rompe la ejecucion, pero debe considerarse como deuda tecnica pendiente.
+- Todavía existen namespaces internos bajo `ConcesionaroCarros`. Eso no rompe la ejecucion, pero debe considerarse como deuda técnica pendiente.
 
 ## 5. Estructura activa del proyecto
 
@@ -98,28 +98,28 @@ Responsable principal:
 
 - `Db/DatabaseInitializer.cs`
 
-## 7. Modelo de sesion
+## 7. Modelo de sesión
 
-La sesion se centraliza en `SesionUsuario`.
+La sesión se centraliza en `SesionUsuario`.
 
 El sistema mantiene:
 
 - usuario autenticado actual
-- indicador de sesion administrativa (`ModoAdministrador`)
+- indicador de sesión administrativa (`ModoAdministrador`)
 
 Esto impacta:
 
-- visibilidad de `Gestion de Usuarios`
-- permisos de alta, edicion y eliminacion de instaladores
+- visibilidad de `Gestión de Usuarios`
+- permisos de alta, edición y eliminacion de instaladores
 - filtros de aplicativos visibles para usuarios no administradores
 
-## 8. Autenticacion
+## 8. Autenticación
 
 ## Login normal
 
 `LoginViewModel` hace lo siguiente:
 
-- recibe usuario y contrasena
+- recibe usuario y contraseñas
 - resuelve el correo real desde el alias digitado
 - permite login por usuario del dispositivo o por alias del correo
 - valida hash SHA-256 contra `Usuarios.PasswordHash`
@@ -133,7 +133,7 @@ Se almacenan localmente con `ProtectedData` del usuario de Windows. Actualmente 
 - `AppData\Roaming\ConcesionaroCarros\login.remember`
 - `AppData\Roaming\ConcesionaroCarros\login.admin.remember`
 
-Observacion tecnica:
+Observación técnica:
 
 - aunque el proyecto ya fue renombrado, estas rutas aun conservan el nombre historico del directorio. Si se decide normalizarlo, debe hacerse con una migracion de archivos recordados para no perder la experiencia del usuario.
 
@@ -170,20 +170,20 @@ Observacion tecnica:
   - contrasena administrativa
 - devuelve al login administrativo con datos precargados
 
-## Recuperacion de contrasena
+## Recuperación de contraseña
 
 `MicrosoftRecoveryViewModel`:
 
 - valida formato del correo
-- exige confirmacion `No soy un robot`
+- exige confirmación `No soy un robot`
 - verifica existencia del usuario en `Usuarios`
-- genera codigo temporal local de 6 digitos
-- habilita el paso de cambio de contrasena
+- genera código temporal local de 6 digitos
+- habilita el paso de cambio de contraseñas
 - actualiza `Usuarios.PasswordHash`
 - registra auditoria en `PasswordRecoveryLog`
-- retorna al login con la nueva contrasena cargada
+- retorna al login con la nueva contraseña cargada
 
-## 9. Navegacion principal
+## 9. Navegación principal
 
 `MainViewModel` controla la vista cargada dentro de `MainWindow`.
 
@@ -200,21 +200,21 @@ Comandos principales:
 
 ### Nombre mostrado en cabecera
 
-La cabecera lateral intenta mostrar el nombre mas natural posible segun la sesion:
+La cabecera lateral intenta mostrar el nombre mas natural posible según la sesión:
 
-- si el correo de sesion coincide con el correo principal del equipo, usa el nombre visible de Windows
-- en caso contrario usa el alias del correo
-- si no puede resolverlo, usa nombres y apellidos almacenados en base de datos
+- si el correo de sesión coincide con el correo principal del equipo, usa el nombre visible de Windows
+- en caso contrario usa el alias del correo, es decir toma como usuario la parte y/o nombre principal del correo que esta antes del @
+- si no puede resolverlo, usa nombres y apellidos almacenados en base de datos según corresponda
 
-## 10. Modulo de instaladores
+## 10. Módulo de instaladores
 
 `InstaladoresViewModel` es el centro funcional del producto.
 
 Responsabilidades:
 
 - cargar instaladores por carpeta funcional
-- filtrar instaladores segun aplicativos asignados al usuario
-- abrir formularios de alta, edicion y solo lectura
+- filtrar instaladores según aplicativos asignados al usuario
+- abrir formularios de alta, edición y solo lectura
 - ejecutar instaladores con `Process.Start`
 - eliminar registros de instaladores
 
@@ -226,23 +226,23 @@ Responsabilidades:
 ### Regla de permisos
 
 - usuario normal: solo ve rutas incluidas en `Usuarios.AplicativosJson`
-- administrador: ve el catalogo completo y puede gestionarlo
+- administrador: ve el catálogo completo y puede gestionarlo
 
-## 11. Modulo de gestion de usuarios
+## 11. Módulo de gestión de usuarios
 
-`GestionUsuarioViewModel` concentra la administracion de usuarios del sistema.
+`GestionUsuarioViewModel` concentra la administración de usuarios del sistema.
 
 Responsabilidades:
 
 - cargar usuarios desde `Usuarios`
 - abrir formulario de alta
-- abrir formulario de edicion
+- abrir formulario de edición
 - eliminar usuarios
-- mantener sincronizacion con `Administrador` cuando el rol corresponde
-- mostrar panel de asignacion inferior
+- mantener sincronización con `Administrador` cuando el rol corresponde
+- mostrar panel de asignación inferior
 - guardar `AplicativosJson`
 
-### Panel de asignacion
+### Panel de asignación
 
 Usa dos modelos auxiliares:
 
@@ -293,7 +293,7 @@ Para trabajar sobre el proyecto se debe contar con:
 
 - Windows
 - Visual Studio con soporte para `.NET Framework 4.8`
-- restauracion correcta de paquetes NuGet
+- restauración correcta de paquetes NuGet
 - acceso de escritura al directorio del proyecto
 
 Paquetes usados por el proyecto:
@@ -312,8 +312,8 @@ Resumen rapido:
 
 - archivo actual: `WegInstaladores.db`
 - tablas activas: `Usuarios`, `Instaladores`, `Administrador`, `PasswordRecoveryLog`
-- migracion automatica desde nombres de base heredados
-- eliminacion de tablas legacy despues de migrar
+- migración automática desde nombres de base heredados
+- eliminación de tablas legacy despues de migrar
 
 ## 16. Convenciones y puntos de mantenimiento
 
@@ -331,18 +331,18 @@ Resumen rapido:
 
 - la ruta almacenada es la ruta real del ejecutable
 - si la ruta deja de existir, el aplicativo seguira registrado pero no podra ejecutarse
-- la carpeta funcional se normaliza automaticamente cuando llega vacia
+- la carpeta funcional se normaliza automáticamente cuando llega vacia
 
-### Recuperacion de contrasena
+### Recuperación de contraseña
 
 - el flujo es local y no depende de un backend externo
 - el campo `ValidadoMicrosoft` en `PasswordRecoveryLog` permanece por compatibilidad historica, aunque el flujo actual no autentica contra Microsoft
 
-## 17. Riesgos tecnicos actuales
+## 17. Riesgos técnicos actuales
 
 - el namespace interno sigue usando `ConcesionaroCarros`
-- las rutas de credenciales recordadas tambien conservan ese nombre historico
-- la asignacion de aplicativos se guarda en JSON dentro de `Usuarios`, lo cual es practico pero menos normalizado que una tabla relacional
+- las rutas de credenciales recordadas también conservan ese nombre historico
+- la asignación de aplicativos se guarda en JSON dentro de `Usuarios`, lo cual es práctico pero menos normalizado que una tabla relacional
 
 ## 18. Recomendaciones para otro desarrollador que tome el proyecto
 
@@ -363,7 +363,7 @@ Resumen rapido:
 Si el proyecto sigue creciendo, conviene planificar estas mejoras:
 
 - renombrar namespaces internos al nombre real del producto
-- mover la logica de autenticacion a servicios dedicados
+- mover la logica de autenticación a servicios dedicados
 - introducir logging estructurado
-- reemplazar `AplicativosJson` por una tabla relacional de asignacion
+- reemplazar `AplicativosJson` por una tabla relacional de asignación
 - separar mas claramente UI, reglas de negocio y acceso a datos
