@@ -1,10 +1,14 @@
-using ConcesionaroCarros.Models;
+﻿using ConcesionaroCarros.Models;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SistemaDeInstalacion.Tests
 {
-    internal static class UsuarioModelTests
+    [TestClass]
+    public class UsuarioModelTests
     {
-        public static void EstablecerAplicativosAsignados_DeduplicatesAndRoundTrips()
+        [TestMethod]
+        public void EstablecerAplicativosAsignados_DeduplicatesAndRoundTrips()
         {
             var usuario = new Usuario();
 
@@ -28,5 +32,22 @@ namespace SistemaDeInstalacion.Tests
             AssertEx.Contains("ERP", usuario.AplicativosResumen,
                 "El resumen debe incluir el nombre del ejecutable.");
         }
+
+        [TestMethod]
+        public void AplicativosResumen_ReturnsHyphenWhenListIsEmptyOrInvalid()
+        {
+            var usuario = new Usuario();
+
+            AssertEx.Equal("-", usuario.AplicativosResumen,
+                "Cuando no hay aplicativos asignados el resumen debe ser '-'.");
+
+            usuario.AplicativosJson = "json-invalido";
+
+            AssertEx.Equal("-", usuario.AplicativosResumen,
+                "Cuando el JSON es invalido el resumen debe seguir siendo '-'.");
+            AssertEx.Equal(0, usuario.ObtenerAplicativosAsignados().Count,
+                "Cuando el JSON es invalido debe devolverse una lista vacia.");
+        }
     }
 }
+

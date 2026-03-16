@@ -211,7 +211,7 @@ Despues de migrar, el inicializador elimina:
 
 Antes de eliminar `Administradores`, si existe, copia sus datos a `Administrador`.
 
-## 7. Normalizacion automatica de datos
+## 7. Normalización automática de datos
 
 Al iniciar, el sistema ejecuta estas correcciones:
 

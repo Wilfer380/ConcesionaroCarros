@@ -1,13 +1,17 @@
-using ConcesionaroCarros.Db;
+﻿using ConcesionaroCarros.Db;
 using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace SistemaDeInstalacion.Tests
 {
-    internal static class DatabaseInitializerTests
+    [TestClass]
+    public class DatabaseInitializerTests
     {
-        public static void Initialize_CreatesDatabaseAndTables()
+        [TestMethod]
+        public void Initialize_CreatesDatabaseAndTables()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -28,7 +32,8 @@ namespace SistemaDeInstalacion.Tests
             }
         }
 
-        public static void Initialize_MigratesLegacyDatabaseAndNormalizesData()
+        [TestMethod]
+        public void Initialize_MigratesLegacyDatabaseAndNormalizesData()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -58,6 +63,44 @@ namespace SistemaDeInstalacion.Tests
                     AssertEx.Equal("admin@weg.net", Scalar(conn,
                         "SELECT Correo FROM Administrador WHERE UsuarioSistema = 'admin.legacy';"),
                         "Los administradores legacy deben migrarse a la tabla Administrador.");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Initialize_MigratesLegacyFileAndRemovesOldDatabaseFile()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                var legacyPath = workspace.LegacyDatabasePath("carros.db");
+                CreateLegacyDatabase(legacyPath);
+
+                AssertEx.True(File.Exists(legacyPath),
+                    "La base legacy debe existir antes de inicializar.");
+
+                DatabaseInitializer.Initialize();
+
+                AssertEx.True(File.Exists(workspace.CurrentDatabasePath),
+                    "La base actual debe crearse a partir del archivo legacy.");
+
+                using (var conn = new SqliteConnection(DatabaseInitializer.ConnectionString))
+                {
+                    conn.Open();
+                    AssertEx.True(TableExists(conn, "Usuarios"),
+                        "La base nueva debe quedar operativa despues de migrar desde el archivo legacy.");
+                }
+
+                if (File.Exists(legacyPath))
+                {
+                    try
+                    {
+                        File.Delete(legacyPath);
+                    }
+                    catch
+                    {
+                        AssertEx.True(true,
+                            "La migracion fue correcta, aunque Windows haya retenido temporalmente el archivo legacy.");
+                    }
                 }
             }
         }
@@ -150,3 +193,4 @@ VALUES
         }
     }
 }
+

@@ -2,7 +2,7 @@
 
 ## 1. Objetivo de la aplicación
 
-`SistemaDeInstalacion` es una aplicación de escritorio diseñada para centralizar el acceso a instaladores corporativos y controlar que aplicativos puede ver o ejecutar cada persona dentro del sistema.
+`SistemaDeInstalacion` es una aplicación de escritorio diseñada para centralizar el acceso a instaladores corporativos y controlar qué aplicativos puede ver o ejecutar cada persona dentro del sistema.
 
 La aplicación fue implementada para:
 
@@ -10,9 +10,9 @@ La aplicación fue implementada para:
 - controlar permisos por usuario y por rol
 - permitir administración centralizada de usuarios
 - separar el acceso operativo del acceso administrativo
-- facilitar recuperación local de contraseña
+- facilitar la recuperación local de contraseña
 
-## 2. Que puede hacer la aplicación
+## 2. Qué puede hacer la aplicación
 
 Con este sistema se puede:
 
@@ -84,20 +84,20 @@ Debe ingresar:
 
 Si las credenciales son correctas, la aplicación abre la vista principal.
 
-### Opción `Recuerdame`
+### Opción `Recuérdame`
 
-Si marca `Recuerdame`:
+Si marca `Recuérdame`:
 
-- el sistema guarda localmente las credenciales del ultimo ingreso en ese equipo
+- el sistema guarda localmente las credenciales del último ingreso en ese equipo
 - al volver a abrir la aplicación, el login puede aparecer precargado
 
 Si no la marca:
 
-- el login aparecera vacio la proxima vez
+- el login aparecerá vacío la próxima vez
 
 ## 5. Acceso al login administrativo
 
-El acceso administrativo se abre con el atajo, que solo el que tenga el rol administrador sabe como hacerlo desde comandos rapidos.
+El acceso administrativo se abre con el atajo configurado para administradores. Ese acceso está reservado para las personas que conocen el ingreso administrativo del sistema.
 
 
 Ese atajo funciona desde:
@@ -108,7 +108,7 @@ Ese atajo funciona desde:
 El login administrativo valida:
 
 - usuario administrativo
-- contrasñaa administrativa
+- contraseña administrativa
 
 ## 6. Registro de usuario normal
 
@@ -130,7 +130,7 @@ Cuando el registro finaliza correctamente:
 - el usuario queda guardado en el sistema
 - la aplicación vuelve al login principal
 - las credenciales quedan cargadas solo para ese ingreso
-- si la persona quiere conservarlas, debe marcar `Recuerdame`
+- si la persona quiere conservarlas, debe marcar `Recuérdame`
 
 ## 7. Registro de administrador
 
@@ -183,12 +183,12 @@ Si el proceso es correcto:
 
 Esta es la pantalla principal de trabajo.
 
-### Que muestra
+### Qué muestra
 
 - lista de instaladores registrados
 - tarjetas por aplicativo
-- boton `Ver`
-- boton `Instalar`
+- botón `Ver`
+- botón `Instalar`
 - botones de `Editar` y `Eliminar` para administradores
 - carpetas de organización visual
 
@@ -205,7 +205,7 @@ Ve solamente los instaladores que un administrador le haya asignado.
 
 #### Administrador
 
-Ademas de verlos, puede:
+Además de verlos, puede:
 
 - registrar instaladores
 - editar instaladores
@@ -233,7 +233,7 @@ Al hacer clic sobre un usuario se abre un panel inferior con:
 - listado visual de roles
 - listado de aplicativos del sistema con casillas de selección
 
-Desde ese panel el administrador puede guardar que instaladores quedaran visibles para esa persona.
+Desde ese panel el administrador puede guardar qué instaladores quedarán visibles para esa persona.
 
 ## 11. Roles disponibles
 
@@ -273,11 +273,11 @@ se muestran como ventanas modales. Eso significa que:
 
 - usar siempre el correo corporativo correcto
 - verificar el rol antes de guardar un usuario
-- asignar aplicativos solo despues de confirmar que el usuario seleccionado es el correcto
+- asignar aplicativos solo después de confirmar que el usuario seleccionado es el correcto
 - revisar la carpeta funcional correcta antes de guardar un instalador
-- no cerrar la aplicacion mientras se esta guardando información
+- no cerrar la aplicación mientras se está guardando información
 
-## 14. Soporte operativo rapido
+## 14. Soporte operativo rápido
 
 ### Si una persona no ve instaladores
 
@@ -293,9 +293,9 @@ Revisar:
 Revisar:
 
 1. que el usuario o correo exista en el sistema
-2. que este usando el login correcto
-3. si es administrador, que no este usando la contraseña equivocada
-4. usar `Recuperar acceso` si olvido la clave
+2. que esté usando el login correcto
+3. si es administrador, que no esté usando la contraseña equivocada
+4. usar `Recuperar acceso` si olvidó la clave
 
 ### Si un administrador no ve gestión de usuarios
 

@@ -1,13 +1,17 @@
-using ConcesionaroCarros.Db;
+﻿using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
 using Microsoft.Data.Sqlite;
 using System;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace SistemaDeInstalacion.Tests
 {
-    internal static class UsuariosDbServiceTests
+    [TestClass]
+    public class UsuariosDbServiceTests
     {
-        public static void RegistrarYLogin_WorksWithHashedPassword()
+        [TestMethod]
+        public void RegistrarYLogin_WorksWithHashedPassword()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -52,7 +56,8 @@ namespace SistemaDeInstalacion.Tests
             }
         }
 
-        public static void ObtenerCorreoPorUsuarioLogin_ResolvesAliasAndEmail()
+        [TestMethod]
+        public void ObtenerCorreoPorUsuarioLogin_ResolvesAliasAndEmail()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -79,5 +84,134 @@ namespace SistemaDeInstalacion.Tests
                     "Debe poder resolver el correo cuando se ingresa el correo completo.");
             }
         }
+
+        [TestMethod]
+        public void Registrar_ReturnsFalseWhenCorreoYaExiste()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new UsuariosDbService();
+
+                var usuario = new Usuario
+                {
+                    Nombres = "Laura",
+                    Apellidos = "Rios",
+                    Correo = "laura.rios@weg.net",
+                    Telefono = "3000000",
+                    Rol = "CALIDAD"
+                };
+
+                var primero = service.Registrar(usuario, "Clave123");
+                var segundo = service.Registrar(usuario, "Clave456");
+
+                AssertEx.True(primero, "El primer registro debe guardarse.");
+                AssertEx.False(segundo, "El segundo registro con el mismo correo debe fallar.");
+            }
+        }
+
+        [TestMethod]
+        public void ActualizarPassword_InvalidatesOldPasswordAndAcceptsNewPassword()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new UsuariosDbService();
+
+                var id = service.RegistrarYRetornarId(new Usuario
+                {
+                    Nombres = "Paula",
+                    Apellidos = "Mendez",
+                    Correo = "paula.mendez@weg.net",
+                    Telefono = "",
+                    Rol = "RRHH"
+                }, "Inicial123");
+
+                service.ActualizarPassword(id, "Nueva456");
+
+                AssertEx.Null(service.Login("paula.mendez@weg.net", "Inicial123"),
+                    "La contraseña anterior ya no debe autenticar.");
+                AssertEx.NotNull(service.Login("paula.mendez@weg.net", "Nueva456"),
+                    "La contraseña nueva debe autenticar.");
+            }
+        }
+
+        [TestMethod]
+        public void ActualizarAplicativosJson_PersistsAssignedApplications()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new UsuariosDbService();
+
+                var id = service.RegistrarYRetornarId(new Usuario
+                {
+                    Nombres = "Mario",
+                    Apellidos = "Castro",
+                    Correo = "mario.castro@weg.net",
+                    Telefono = "",
+                    Rol = "SST"
+                }, "Clave123");
+
+                var usuario = service.ObtenerPorCorreo("mario.castro@weg.net");
+                usuario.EstablecerAplicativosAsignados(new[]
+                {
+                    @"C:\Apps\ERP.exe",
+                    @"C:\Apps\Reportes.exe"
+                });
+
+                service.ActualizarAplicativosJson(id, usuario.AplicativosJson);
+
+                var recargado = service.ObtenerPorCorreo("mario.castro@weg.net");
+                AssertEx.Equal(2, recargado.ObtenerAplicativosAsignados().Count,
+                    "La lista de aplicativos asignados debe persistirse.");
+                AssertEx.Contains("ERP", recargado.AplicativosResumen,
+                    "El resumen debe reflejar los aplicativos guardados.");
+            }
+        }
+
+        [TestMethod]
+        public void EliminarConDependencias_RemovesUserAndPasswordRecoveryLogs()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new UsuariosDbService();
+
+                var id = service.RegistrarYRetornarId(new Usuario
+                {
+                    Nombres = "Sara",
+                    Apellidos = "Lozano",
+                    Correo = "sara.lozano@weg.net",
+                    Telefono = "",
+                    Rol = "MARKETING"
+                }, "Clave123");
+
+                service.RegistrarLogRecuperacionPassword(
+                    id,
+                    "sara.lozano@weg.net",
+                    "admin@weg.net",
+                    false);
+
+                service.EliminarConDependencias(id, "sara.lozano@weg.net");
+
+                AssertEx.Null(service.ObtenerPorCorreo("sara.lozano@weg.net"),
+                    "El usuario debe eliminarse.");
+
+                using (var conn = new SqliteConnection(DatabaseInitializer.ConnectionString))
+                {
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT COUNT(1) FROM PasswordRecoveryLog WHERE UsuarioId = $id;";
+                        cmd.Parameters.AddWithValue("$id", id);
+                        var count = Convert.ToInt32(cmd.ExecuteScalar());
+                        AssertEx.Equal(0, count,
+                            "Los logs de recuperación del usuario también deben eliminarse.");
+                    }
+                }
+            }
+        }
     }
 }
+

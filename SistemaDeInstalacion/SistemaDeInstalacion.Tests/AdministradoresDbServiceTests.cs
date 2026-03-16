@@ -1,12 +1,16 @@
-using ConcesionaroCarros.Db;
+﻿using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
 using ConcesionaroCarros.Services;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace SistemaDeInstalacion.Tests
 {
-    internal static class AdministradoresDbServiceTests
+    [TestClass]
+    public class AdministradoresDbServiceTests
     {
-        public static void GuardarOActualizarYLoginPorUsuarioSistema_Work()
+        [TestMethod]
+        public void GuardarOActualizarYLoginPorUsuarioSistema_Work()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -35,7 +39,8 @@ namespace SistemaDeInstalacion.Tests
             }
         }
 
-        public static void SincronizarDesdeUsuario_UpdatesExistingAdminKeepingPassword()
+        [TestMethod]
+        public void SincronizarDesdeUsuario_UpdatesExistingAdminKeepingPassword()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -69,5 +74,66 @@ namespace SistemaDeInstalacion.Tests
                     "La sincronizacion debe actualizar los nombres del administrador.");
             }
         }
+
+        [TestMethod]
+        public void EliminarPorCorreo_RemovesAdministratorRecord()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new AdministradoresDbService();
+
+                service.GuardarOActualizar(new Administrador
+                {
+                    Nombres = "Luisa",
+                    Apellidos = "Admin",
+                    Correo = "luisa.admin@weg.net",
+                    UsuarioSistema = "luisa.admin",
+                    Rol = RolesSistema.Administrador
+                }, "Admin123");
+
+                AssertEx.True(service.ExistePorUsuarioSistema("luisa.admin"),
+                    "El administrador debe existir antes de eliminarse.");
+
+                service.EliminarPorCorreo("luisa.admin@weg.net");
+
+                AssertEx.False(service.ExistePorUsuarioSistema("luisa.admin"),
+                    "El administrador no debe existir despues de eliminarse.");
+            }
+        }
+
+        [TestMethod]
+        public void GuardarOActualizar_UpdatesAdminPasswordOnSecondSave()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new AdministradoresDbService();
+
+                service.GuardarOActualizar(new Administrador
+                {
+                    Nombres = "Pedro",
+                    Apellidos = "Admin",
+                    Correo = "pedro.admin@weg.net",
+                    UsuarioSistema = "pedro.admin",
+                    Rol = RolesSistema.Administrador
+                }, "Admin123");
+
+                service.GuardarOActualizar(new Administrador
+                {
+                    Nombres = "Pedro",
+                    Apellidos = "Admin",
+                    Correo = "pedro.admin@weg.net",
+                    UsuarioSistema = "pedro.admin",
+                    Rol = RolesSistema.Administrador
+                }, "NuevaAdmin456");
+
+                AssertEx.Null(service.LoginPorUsuarioSistema("pedro.admin", "Admin123"),
+                    "La clave anterior no debe seguir funcionando.");
+                AssertEx.NotNull(service.LoginPorUsuarioSistema("pedro.admin", "NuevaAdmin456"),
+                    "La nueva clave administrativa debe autenticar.");
+            }
+        }
     }
 }
+

@@ -1,13 +1,18 @@
-using ConcesionaroCarros.Db;
+﻿using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
 using System;
+using System.IO;
 using System.Linq;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SistemaDeInstalacion.Tests
 {
-    internal static class InstaladorDbServiceTests
+    [TestClass]
+    public class InstaladorDbServiceTests
     {
-        public static void GuardarActualizarEliminar_Works()
+        [TestMethod]
+        public void GuardarActualizarEliminar_Works()
         {
             using (var workspace = new TestWorkspace())
             {
@@ -53,5 +58,64 @@ namespace SistemaDeInstalacion.Tests
                 AssertEx.Null(eliminado, "El instalador debe eliminarse por su ruta.");
             }
         }
+
+        [TestMethod]
+        public void Guardar_NormalizesEmptyFolderToDesarrolloGlobal()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var service = new InstaladorDbService();
+                var ruta = $@"C:\Apps\Global-{Guid.NewGuid():N}.exe";
+
+                service.Guardar(new Instalador
+                {
+                    Ruta = ruta,
+                    Nombre = "GlobalApp",
+                    Descripcion = "",
+                    Carpeta = ""
+                });
+
+                var guardado = service.ObtenerTodos()
+                    .FirstOrDefault(x => string.Equals(x.Ruta, ruta, StringComparison.OrdinalIgnoreCase));
+
+                AssertEx.NotNull(guardado, "El instalador debe existir despues de guardarse.");
+                AssertEx.Equal("Desarrollo global", guardado.Carpeta,
+                    "La carpeta vacia debe normalizarse a Desarrollo global.");
+            }
+        }
+
+        [TestMethod]
+        public void ObtenerTodos_UsesFileNameWhenNombreIsNull()
+        {
+            using (var workspace = new TestWorkspace())
+            {
+                DatabaseInitializer.Initialize();
+                var ruta = $@"C:\Apps\Viewer-{Guid.NewGuid():N}.exe";
+
+                using (var conn = new Microsoft.Data.Sqlite.SqliteConnection(DatabaseInitializer.ConnectionString))
+                {
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+                        INSERT INTO Instaladores (Ruta, Nombre, Descripcion, Carpeta, FechaRegistro)
+                        VALUES ($ruta, NULL, '', 'Desarrollo global', '2026-01-01 00:00:00');";
+                        cmd.Parameters.AddWithValue("$ruta", ruta);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                var service = new InstaladorDbService();
+                var guardado = service.ObtenerTodos()
+                    .FirstOrDefault(x => string.Equals(x.Ruta, ruta, StringComparison.OrdinalIgnoreCase));
+
+                AssertEx.NotNull(guardado, "El instalador insertado debe recuperarse.");
+                AssertEx.Equal(Path.GetFileNameWithoutExtension(ruta), guardado.Nombre,
+                    "Cuando el nombre es NULL debe usarse el nombre del archivo.");
+            }
+        }
     }
 }
+
+

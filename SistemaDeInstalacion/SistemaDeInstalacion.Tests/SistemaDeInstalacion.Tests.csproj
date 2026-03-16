@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,34 +18,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Microsoft.Data.Sqlite">
-      <HintPath>..\bin\Debug\Microsoft.Data.Sqlite.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\bin\Debug\SQLitePCLRaw.batteries_v2.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\bin\Debug\SQLitePCLRaw.core.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.provider.dynamic_cdecl">
-      <HintPath>..\bin\Debug\SQLitePCLRaw.provider.dynamic_cdecl.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>..\bin\Debug\System.Memory.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Buffers">
-      <HintPath>..\bin\Debug\System.Buffers.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>..\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -58,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\bin\Debug\runtimes\**\*">
-      <Link>runtimes\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.10.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.10.2" />
   </ItemGroup>
 </Project>
