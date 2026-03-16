@@ -1,229 +1,306 @@
-﻿# Guia de Usuario
+﻿# Manual de Usuario
 
-## 1. Que es esta aplicacion
+## 1. Objetivo de la aplicación
 
-Esta aplicacion permite administrar y ejecutar instaladores empresariales desde una unica interfaz. Su objetivo es centralizar el acceso a aplicativos internos y controlar que usuario puede ver o instalar cada ejecutable.
+`SistemaDeInstalacion` es una aplicación de escritorio diseñada para centralizar el acceso a instaladores corporativos y controlar que aplicativos puede ver o ejecutar cada persona dentro del sistema.
 
-## 2. Para que sirve
+La aplicación fue implementada para:
+
+- organizar instaladores empresariales en un solo lugar
+- controlar permisos por usuario y por rol
+- permitir administración centralizada de usuarios
+- separar el acceso operativo del acceso administrativo
+- facilitar recuperación local de contraseña
+
+## 2. Que puede hacer la aplicación
 
 Con este sistema se puede:
 
-- registrar usuarios normales diferentes al rol de administrador 
+- registrar usuarios normales
 - registrar administradores
-- iniciar sesion como usuario normal o como administrador
-- recuperar contrasena desde la pantalla de acceso
-- visualizar instaladores autorizados para cada usuario
+- iniciar sesión como usuario normal
+- iniciar sesión como administrador
+- recuperar contraseña desde la pantalla de acceso
+- ver instaladores autorizados
+- ejecutar instaladores visibles
 - organizar instaladores por carpeta funcional
-- asignar aplicativos a usuarios desde gestion de usuarios
-- editar o eliminar usuarios registrados
-- cargar nuevos instaladores al sistema si se tiene perfil administrador
+- asignar aplicativos por usuario desde gestión de usuarios
+- registrar, editar y eliminar instaladores cuando se tiene rol administrador
 
-## 3. Tipos de acceso
+## 3. Perfiles de acceso
 
 ### Usuario normal
 
-Un usuario normal puede:
+Puede:
 
-- iniciar sesion desde el login principal
-- ver solo los instaladores que le fueron asignados 
+- entrar por el login principal
+- ver solo los instaladores que le fueron asignados
 - ejecutar los instaladores visibles
-- usar la recuperacion de contrasena si olvida sus credenciales
+- recuperar su contraseña si la olvida
 
-Un usuario normal no puede:
+No puede:
 
 - agregar instaladores
 - editar instaladores
 - eliminar instaladores
-- acceder a gestion de usuarios
+- acceder a gestión de usuarios
 
 ### Administrador
 
-Un administrador puede:
+Un administrador tiene dos formas de usar el sistema.
 
-- iniciar sesion como usuario normal con su contraseña normal
-- iniciar sesion como administrador con la contrasena administrativa
-- acceder a gestion de usuarios
-- crear usuarios
-- editar usuarios
-- eliminar usuarios
-- asignar aplicativos a cada usuario
-- registrar instaladores
-- editar instaladores
-- eliminar instaladores
+#### Como usuario normal
 
-## 4. Flujo de ingreso
+Si entra por el login principal con su contraseña normal:
 
-### Login de usuario normal
+- el sistema lo trata como un usuario operativo normal
+- puede ver los instaladores que tenga asignados
+- no aparece gestión de usuarios
 
-Desde la pantalla principal de acceso se debe ingresar:
+#### Como administrador
+
+Si entra por el login administrativo con su contraseña administrativa:
+
+- se habilita gestión de usuarios
+- puede crear, editar y eliminar usuarios
+- puede asignar aplicativos
+- puede registrar, editar y eliminar instaladores
+- puede asignarse aplicativos a si mismo si lo necesita
+
+## 4. Proceso de ingreso como usuario normal
+
+### Paso 1. Abrir la aplicación
+
+Al ejecutar el sistema aparece el login principal.
+
+### Paso 2. Escribir credenciales
+
+Debe ingresar:
 
 - usuario
-- contrasena
+- contraseña
 
-El sistema valida si el usuario existe y, si es correcto, abre la ventana principal.
+### Paso 3. Validación
 
-### Recordarme
+Si las credenciales son correctas, la aplicación abre la vista principal.
 
-Si se marca `Recuerdame`, el sistema guarda localmente las credenciales del ultimo acceso para rellenar automaticamente el login en el mismo equipo.
+### Opción `Recuerdame`
 
-### Login de administrador
+Si marca `Recuerdame`:
 
-El acceso administrativo abre una pantalla separada. Ese login valida:
+- el sistema guarda localmente las credenciales del ultimo ingreso en ese equipo
+- al volver a abrir la aplicación, el login puede aparecer precargado
+
+Si no la marca:
+
+- el login aparecera vacio la proxima vez
+
+## 5. Acceso al login administrativo
+
+El acceso administrativo se abre con el atajo, que solo el que tenga el rol administrador sabe como hacerlo desde comandos rapidos.
+
+
+Ese atajo funciona desde:
+
+- el login principal
+- el registro normal
+
+El login administrativo valida:
 
 - usuario administrativo
-- contrasena administrativa
+- contrasñaa administrativa
 
-Si el acceso es correcto, la sesion se abre en modo administrador y se habilita la gestion de usuarios.
+## 6. Registro de usuario normal
 
-## 5. Registro de usuario normal
-
-En el registro normal se solicita:
+El registro normal solicita:
 
 - correo corporativo
-- contrasena
+- contraseña
 
-Reglas importantes:
+### Reglas del registro
 
 - el correo debe terminar en `@weg.net`
-- si el correo coincide con el correo principal del equipo, el sistema toma como usuario el del dispositivo
-- si el correo no pertenece al equipo, el sistema toma como usuario la parte anterior al `@`
+- si el correo corresponde al equipo actual, el sistema toma el usuario del dispositivo
+- si el correo no corresponde al equipo, el sistema toma la parte anterior a `@` como usuario de login
 
-Despues del registro, el sistema pasa al login con las credenciales precargadas.
+### Resultado del registro
 
-## 6. Registro de administrador
+Cuando el registro finaliza correctamente:
+
+- el usuario queda guardado en el sistema
+- la aplicación vuelve al login principal
+- las credenciales quedan cargadas solo para ese ingreso
+- si la persona quiere conservarlas, debe marcar `Recuerdame`
+
+## 7. Registro de administrador
 
 El registro administrativo solicita:
 
 - correo corporativo
 - rol administrador
-- contrasena normal
-- contrasena administrativa
+- contraseña normal
+- contraseña administrativa
 
-Reglas importantes:
+### Reglas del registro administrativo
 
 - el correo debe terminar en `@weg.net`
-- el rol del registro administrativo es `ADMINISTRADOR`
-- la contrasena normal sirve para entrar por el login de usuarios normales
-- la contrasena administrativa sirve para entrar por el login de administradores
+- el rol utilizado es `ADMINISTRADOR`
+- la contraseña normal sirve para el login principal
+- la contraseña administrativa sirve para el login administrativo
 
-## 7. Recuperacion de contrasena
+### Resultado del registro
 
-La recuperacion se realiza desde el login principal.
+Si el proceso termina bien:
+
+- se guarda el usuario base
+- se guarda el registro administrativo
+- la aplicación devuelve al login administrativo con las credenciales cargadas
+
+## 8. Recuperación de contraseña
+
+La recuperación se realiza desde el login principal.
 
 ### Pasos
 
 1. escribir el correo registrado
-2. marcar la validacion `No soy un robot`
-3. validar identidad
-4. observar el codigo temporal mostrado por la aplicacion
-5. escribir el codigo de validacion
-6. definir y confirmar la nueva contrasena
+2. marcar `No soy un robot`
+3. validar la identidad
+4. visualizar el código temporal que muestra la aplicación
+5. escribir el código en el formulario
+6. definir la nueva contraseña
+7. confirmar la nueva contraseña
 
-Si todo es correcto:
+### Resultado
 
-- la nueva contrasena se guarda en la base de datos
-- el login principal queda precargado con las nuevas credenciales
+Si el proceso es correcto:
+
+- la nueva contraseña se guarda en la base de datos
+- el sistema vuelve al login principal
+- las nuevas credenciales quedan precargadas
 - el usuario puede entrar inmediatamente
 
-## 8. Modulo Instaladores
+## 9. Vista principal de instaladores
 
 Esta es la pantalla principal de trabajo.
 
 ### Que muestra
 
-- lista de instaladores disponibles
-- carpetas de organizacion
-  - `Punto local de desarrollo planta`
-  - `Desarrollo global`
-- boton de instalacion por cada aplicativo
+- lista de instaladores registrados
+- tarjetas por aplicativo
+- boton `Ver`
+- boton `Instalar`
+- botones de `Editar` y `Eliminar` para administradores
+- carpetas de organización visual
 
-### Comportamiento segun el perfil
+### Carpetas funcionales actuales
+
+- `Punto local de desarrollo planta`
+- `Desarrollo global`
+
+### Comportamiento por perfil
 
 #### Usuario normal
 
-Ve solo los instaladores asignados por el administrador.
+Ve solamente los instaladores que un administrador le haya asignado.
 
 #### Administrador
 
 Ademas de verlos, puede:
 
-- buscar instalador
-- registrar uno nuevo
-- editar uno existente
-- eliminar uno existente
+- registrar instaladores
+- editar instaladores
+- eliminar instaladores
+- cambiar entre carpetas funcionales
 
-## 9. Gestion de Usuarios
+## 10. Gestión de usuarios
 
-Este modulo solo aparece para administradores.
+Este módulo solo aparece en una sesión iniciada como administrador.
 
 ### Funciones disponibles
 
 - crear usuario
 - editar usuario
 - eliminar usuario
-- ver rol actual
+- consultar rol actual
 - asignar aplicativos
 
-### Panel de asignacion
+### Panel de asignación
 
 Al hacer clic sobre un usuario se abre un panel inferior con:
 
 - nombre del usuario seleccionado
 - cargo actual
-- listado de roles disponibles en modo solo lectura
-- listado de aplicativos del instalador con check
+- listado visual de roles
+- listado de aplicativos del sistema con casillas de selección
 
-Desde ese panel el administrador puede guardar la asignacion de aplicativos del usuario.
+Desde ese panel el administrador puede guardar que instaladores quedaran visibles para esa persona.
 
-## 10. Roles del sistema
+## 11. Roles disponibles
 
-Los roles disponibles son:
+Los roles configurados actualmente son:
 
-- ADMINISTRADOR
-- RRHH
-- PRODUCCION
-- INDUSTRIAL
-- ALMACEN
-- PCP
-- VENTAS
-- DESPACHOS
-- INGENIERIA
-- GERENCIA
-- COMPRAS
-- CONTRATOS
-- SST
-- MARKETING
-- SISTEMAS (TI)
-- CALIDAD
+- `ADMINISTRADOR`
+- `RRHH`
+- `PRODUCCION`
+- `INDUSTRIAL`
+- `ALMACEN`
+- `PCP`
+- `VENTAS`
+- `DESPACHOS`
+- `INGENIERIA`
+- `GERENCIA`
+- `COMPRAS`
+- `CONTRATOS`
+- `SST`
+- `MARKETING`
+- `SISTEMAS (TI)`
+- `CALIDAD`
 
-## 11. Comportamiento de las ventanas flotantes
+## 12. Formularios flotantes
 
-Los formularios como `Agregar usuario` y `Buscar instalador` se abren como ventanas modales.
+Los formularios como:
 
-Eso significa que:
+- `Agregar usuario`
+- `Buscar instalador`
 
-- el resto de la aplicacion queda visualmente atenuado
-- el formulario permanece activo hasta que se cierre con `Guardar`, `Cancelar` o `X`
+se muestran como ventanas modales. Eso significa que:
 
-## 12. Recomendaciones de uso
+- el fondo de la aplicación se ve atenuado
+- el formulario queda como foco principal
+- solo se cierra con `Guardar`, `Cancelar` o `X`
 
-- usar siempre correo corporativo correcto
+## 13. Recomendaciones de uso
+
+- usar siempre el correo corporativo correcto
 - verificar el rol antes de guardar un usuario
-- asignar aplicativos solo desde gestion de usuarios
-- revisar la carpeta correcta al crear un instalador
-- no cerrar la aplicacion mientras se este guardando un cambio importante
+- asignar aplicativos solo despues de confirmar que el usuario seleccionado es el correcto
+- revisar la carpeta funcional correcta antes de guardar un instalador
+- no cerrar la aplicacion mientras se esta guardando información
 
-## 13. Soporte operativo
+## 14. Soporte operativo rapido
 
-Si un usuario reporta que no ve un instalador:
+### Si una persona no ve instaladores
 
-1. verificar que el usuario exista en gestion de usuarios
-2. verificar que tenga aplicativos asignados
-3. verificar que el instalador exista en la carpeta correcta
-4. verificar que la ruta del ejecutable siga siendo valida
+Revisar:
 
-Si un usuario no puede entrar:
+1. que el usuario exista en gestión de usuarios
+2. que tenga aplicativos asignados
+3. que el instalador exista en la carpeta correcta
+4. que la ruta del ejecutable siga siendo válida
 
-1. verificar si el correo esta registrado
-2. verificar si esta entrando por el login correcto
-3. usar recuperacion de contrasena si olvido la clave
+### Si una persona no puede iniciar sesión
+
+Revisar:
+
+1. que el usuario o correo exista en el sistema
+2. que este usando el login correcto
+3. si es administrador, que no este usando la contraseña equivocada
+4. usar `Recuperar acceso` si olvido la clave
+
+### Si un administrador no ve gestión de usuarios
+
+Revisar:
+
+1. que haya ingresado por el login administrativo
+2. que el rol del usuario sea `ADMINISTRADOR`
+3. que exista el registro administrativo correspondiente

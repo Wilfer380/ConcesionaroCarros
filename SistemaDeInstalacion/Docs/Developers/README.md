@@ -1,803 +1,639 @@
-# Guia Técnica para Desarrolladores
+﻿# Documentación Técnica para Desarrolladores
 
-## 1. Que es este proyecto
+## 1. Introducción del proyecto
 
-`SistemaDeInstalacion` es una aplicacion de escritorio `WPF` sobre `.NET Framework 4.8` orientada a un problema muy concreto:
+### Nombre del proyecto
 
-- autenticar usuarios normales y administradores
-- administrar un catálogo de instaladores corporativos
-- permitir que cada usuario vea y ejecute solo los aplicativos que tiene asignados
+`SistemaDeInstalacion`
 
-No es un sistema web, no usa servicios remotos como backend principal y no depende de un servidor de aplicaciones para operar su flujo base. El centro del sistema es una base `SQLite` local llamada `WegInstaladores.db`.
+### Tipo de aplicación
 
-La app trabaja con tres conceptos de negocio muy importantes:
+Aplicación de escritorio desarrollada en `C#` con `WPF` sobre `.NET Framework 4.8`, usando una organización de capas inspirada en el patron `MVVM`.
 
-1. `Usuarios`
-2. `Instaladores`
-3. `Administrador`
+### Proposito del sistema
 
-Si otro desarrollador toma este proyecto, casi cualquier cambio importante termina pasando por esos tres ejes.
+El sistema fue construido para administrar un catálogo de instaladores corporativos y controlar, por usuario y por rol, que aplicativos puede ver y ejecutar cada persona dentro de la organización.
 
-## 2. Objetivo de esta documentación
+### Problema que resuelve
 
-Esta guía esta escrita para que un desarrollador nuevo pueda:
+Antes de unificar este flujo, la distribucion de instaladores podia depender de rutas manuales, accesos dispersos o permisos no controlados. El sistema centraliza ese proceso y permite:
 
-- abrir el proyecto correctamente
-- compilarlo y ejecutarlo
-- entender como se inicializa la app
-- entender como se guardan usuarios, administradores e instaladores
-- saber como se registra un nuevo `.exe` dentro del sistema
-- saber que archivos hay que empaquetar al distribuir la aplicacion
-- continuar el proyecto sin romper permisos, sesiones o persistencia
+- registrar instaladores en un catálogo único
+- separar aplicativos por carpeta funcional
+- asignar aplicativos a usuarios especificos
+- ofrecer acceso administrativo separado del acceso operativo normal
+- recuperar contraseñas de forma local sin depender de soporte manual inmediato
 
-La idea no es documentar una arquitectura ideal, sino explicar la arquitectura real que hoy existe en el repositorio.
+### Alcance actual del software
 
-## 3. Stack técnico real
+El alcance vigente cubre:
 
-- lenguaje: `C#`
-- UI: `WPF` + `XAML`
-- framework: `.NET Framework 4.8`
-- patron general: `MVVM` liviano
-- base de datos: `SQLite`
-- acceso a datos: `Microsoft.Data.Sqlite`
-- serialización de aplicativos asignados: `JavaScriptSerializer`
-- persistencia local de credenciales recordadas: `ProtectedData`
-- recursos visuales: `Images/`, `Fonts/`, `ResourceDictionary`
+- login normal
+- registro normal
+- login administrativo
+- registro administrativo
+- recuperación local de contraseña
+- administración del catálogo de instaladores
+- gestión de usuarios
+- asignación de aplicativos por usuario
 
-Paquetes declarados en [SistemaDeInstalacion.csproj](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/SistemaDeInstalacion.csproj):
+No es un sistema comercial ni transaccional. El dominio actual es exclusivamente la gestión de instaladores empresariales y accesos de usuarios.
 
-```xml
-<PackageReference Include="Microsoft.Data.Sqlite">
-  <Version>10.0.2</Version>
-</PackageReference>
-<PackageReference Include="PDFsharp">
-  <Version>6.2.4</Version>
-</PackageReference>
-<PackageReference Include="QuestPDF">
-  <Version>2025.12.4</Version>
-</PackageReference>
+## 2. Tecnologías utilizadas
+
+| Tecnología | Uso |
+|---|---|
+| C# | Lenguaje principal |
+| .NET Framework 4.8 | Runtime de la aplicacion |
+| WPF | Interfaz grafica de escritorio |
+| MVVM | Organizacion de la logica de presentacion |
+| SQLite | Persistencia local |
+| Microsoft.Data.Sqlite | Acceso a datos SQLite |
+| NuGet | Gestion de paquetes |
+| Visual Studio 2022 | IDE recomendado |
+| PDFsharp | Dependencia incluida en el proyecto |
+| QuestPDF | Dependencia incluida en el proyecto |
+
+## 3. Arquitectura del sistema
+
+La aplicación sigue una estructura de capas simple y clara.
+
+```text
+SistemaDeInstalacion/
+|
+|-- Commands/
+|   |-- RelayCommand.cs
+|
+|-- Converters/
+|   |-- BooleanNegationConverter.cs
+|   |-- InverseBooleanConverter.cs
+|   |-- InverseBooleanToVisibilityConverter.cs
+|   |-- ColumnsByWidthConverter .cs
+|
+|-- Db/
+|   |-- DatabaseInitializer.cs
+|   |-- UsuariosDbService.cs
+|   |-- AdministradoresDbService.cs
+|   |-- InstaladorDbService.cs
+|
+|-- Docs/
+|   |-- README.md
+|   |-- users/
+|   |   |-- README.md
+|   |-- Developers/
+|       |-- README.md
+|       |-- BaseDeDatos.md
+|
+|-- Images/
+|-- Fonts/
+|
+|-- Models/
+|   |-- Usuario.cs
+|   |-- Administrador.cs
+|   |-- Instalador.cs
+|
+|-- Services/
+|   |-- RolesSistema.cs
+|   |-- SesionUsuario.cs
+|   |-- WindowsProfileService.cs
+|   |-- ModalOverlayScope.cs
+|
+|-- ViewModels/
+|   |-- MainViewModel.cs
+|   |-- LoginViewModel.cs
+|   |-- RegisterViewModel.cs
+|   |-- AdminLoginViewModel.cs
+|   |-- AdminRegisterViewModel.cs
+|   |-- MicrosoftRecoveryViewModel.cs
+|   |-- InstaladoresViewModel.cs
+|   |-- GestionUsuarioViewModel.cs
+|   |-- FormularioInstaladorViewModel.cs
+|   |-- FormularioUsuarioViewModel.cs
+|
+|-- Views/
+|   |-- MainWindow.xaml
+|   |-- LoginView.xaml
+|   |-- RegisterView.xaml
+|   |-- AdminLoginView.xaml
+|   |-- AdminRegisterView.xaml
+|   |-- MicrosoftRecoveryView.xaml
+|   |-- InstaladoresView.xaml
+|   |-- GestionUsuarioView.xaml
+|   |-- FormularioInstaladorView.xaml
+|   |-- FormularioUsuarioView.xaml
+|   |-- RecoveryCodePopupView.xaml
+|
+|-- Properties/
+|-- App.xaml
+|-- App.config
+|-- MainWindow.xaml
+|-- SistemaDeInstalacion.csproj
 ```
 
-Observación importante:
+### Responsabilidad por carpeta
 
-- `PDFsharp` y `QuestPDF` estan referenciados
-- hoy no forman el flujo principal visible de autenticación, usuarios o instaladores
-- antes de quitarlos hay que validar si existen planes de uso, ramas alternas o funcionalidades futuras
+- `Models`: estructuras de datos que representan entidades persistidas o usadas por la UI.
+- `Views`: definición visual en XAML y eventos de UI puntuales.
+- `ViewModels`: logica de presentación y coordinación de flujos.
+- `Db`: acceso a datos SQLite y migraciones.
+- `Services`: reglas compartidas del dominio, sesión, roles y utilidades de entorno.
+- `Commands`: implementación de comandos WPF (`RelayCommand`).
+- `Converters`: adaptadores de datos para XAML.
+- `Images` y `Fonts`: recursos visuales del producto.
+- `Docs`: documentación funcional y técnica.
 
-## 4. Como abrir el proyecto
+## 4. Patron MVVM aplicado al proyecto
 
-En esta carpeta no existe solución `.sln`. El archivo real de entrada es:
+El sistema usa MVVM de forma práctica:
 
-- [SistemaDeInstalacion.csproj](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/SistemaDeInstalacion.csproj)
+- la `View` define la interfaz visual
+- el `ViewModel` expone propiedades, comandos y flujo de trabajo
+- el `Model` representa los datos del dominio
+- los `DbService` y `Services` encapsulan persistencia y reglas auxiliares
 
-Proceso recomendado:
+Ejemplo de flujo:
 
-1. abrir `Visual Studio 2022`
-2. elegir `Open a project or solution`
-3. abrir `SistemaDeInstalacion.csproj`
-4. esperar restauración de `NuGet`
-
-Requisitos recomendados del equipo:
-
-- Windows 10 o superior
-- Visual Studio 2022
-- workload `.NET desktop development`
-- soporte para `.NET Framework 4.8`
-
-## 5. Como compilar y ejecutar
-
-### 5.1 Configuraciones declaradas
-
-En el proyecto existen dos configuraciones:
-
-```xml
-<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-  <OutputPath>bin\Debug\</OutputPath>
-</PropertyGroup>
-
-<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  <OutputPath>bin\Release\</OutputPath>
-</PropertyGroup>
+```text
+Usuario
+   ↓
+View (WPF/XAML)
+   ↓ DataBinding / Commands
+ViewModel
+   ↓
+DbService / Services
+   ↓
+SQLite
 ```
 
-### 5.2 Compilación recomendada
+### Ejemplo concreto
 
-La forma mas confiable de compilar este proyecto es desde Visual Studio:
+En el login normal:
 
-1. seleccionar `Debug` o `Release`
-2. usar `Build > Build Solution`
-3. ejecutar con `F5` o `Ctrl+F5`
+- `LoginView.xaml` define los campos y botones
+- `LoginViewModel` resuelve usuario, valida contraseña y abre la sesión
+- `UsuariosDbService` consulta la tabla `Usuarios`
 
-La salida queda en:
+## 5. Flujo general de funcionamiento del sistema
 
-- `bin/Debug/`
-- `bin/Release/`
+### Arranque
 
-### 5.3 Ejecución fuera de Visual Studio
+Punto de entrada:
 
-Para ejecutar la app ya compilada:
+- `App.xaml`
+- `App.xaml.cs`
 
-1. entrar a `bin/Release/` o `bin/Debug/`
-2. abrir `SistemaDeInstalacion.exe`
-3. confirmar que junto al `.exe` existan sus dependencias y carpetas necesarias
+Secuencia de inicio:
 
-## 6. Que archivos son importantes para el ejecutable final
+1. `App.OnStartup(...)`
+2. `DatabaseInitializer.Initialize()`
+3. apertura de `LoginView`
 
-Esta app no se distribuye como un solo archivo autocontenido. Para empaquetarla correctamente hay que conservar el contenido funcional del directorio de salida.
+### Flujo funcional resumido
 
-Minimo esperado junto al ejecutable:
-
-- `SistemaDeInstalacion.exe`
-- `SistemaDeInstalacion.exe.config`
-- `Microsoft.Data.Sqlite.dll`
-- `SQLitePCLRaw.*`
-- `PdfSharp.*`
-- `QuestPDF.dll`
-- carpeta `runtimes/`
-- carpeta `Fonts/`
-
-La carpeta `Fonts/` no es opcional. `FontResolver.cs` la usa asi:
-
-```csharp
-string ruta = Path.Combine(
-    AppDomain.CurrentDomain.BaseDirectory,
-    "Fonts",
-    "Roboto-Regular.ttf");
-
-_fontData = File.ReadAllBytes(ruta);
+```text
+Inicio de la aplicación
+   ↓
+Inicialización de base de datos
+   ↓
+Login principal
+   ↓
+Validación de credenciales
+   ↓
+SesionUsuario
+   ↓
+MainWindow
+   ↓
+Instaladores / Gestión de Usuarios
 ```
 
-Si `Fonts/Roboto-Regular.ttf` no viaja con el ejecutable, cualquier flujo que use ese resolvedor puede fallar.
+## 6. Autenticación y sesión
 
-## 7. Estructura del proyecto
+## Login normal
 
-Mapa rapido:
+`LoginViewModel` realiza estas tareas:
 
-- `App.xaml`, `App.xaml.cs`
-  - arranque de la aplicación
-- `MainWindow.xaml`, `MainWindow.xaml.cs`
-  - shell principal luego del login
-- `Views/`
-  - pantallas `XAML`
-- `ViewModels/`
-  - lógica de presentación y comandos
-- `Db/`
-  - acceso a `SQLite` e inicialización de esquema
-- `Models/`
-  - entidades del dominio en memoria
-- `Services/`
-  - sesión, roles, overlay modal, perfil de Windows
-- `Commands/`
-  - `RelayCommand`
-- `Docs/`
-  - documentación funcional y técnica
+- recibe `Usuario` y `Password`
+- resuelve el correo real desde el alias digitado
+- soporta login por usuario del equipo o por alias del correo
+- valida contraseña en `Usuarios`
+- abre `MainWindow`
+- guarda credenciales recordadas si el usuario activa `Recordarme`
 
-Archivos mas importantes para entender el sistema:
+## Registro normal
 
-- [App.xaml.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/App.xaml.cs)
-- [MainWindow.xaml.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/MainWindow.xaml.cs)
-- [Db/DatabaseInitializer.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/DatabaseInitializer.cs)
-- [ViewModels/LoginViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/LoginViewModel.cs)
-- [ViewModels/AdminLoginViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/AdminLoginViewModel.cs)
-- [ViewModels/InstaladoresViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/InstaladoresViewModel.cs)
-- [ViewModels/GestionUsuarioViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/GestionUsuarioViewModel.cs)
-- [Db/UsuariosDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/UsuariosDbService.cs)
-- [Db/InstaladorDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/InstaladorDbService.cs)
-- [Db/AdministradoresDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/AdministradoresDbService.cs)
+`RegisterViewModel`:
 
-## 8. Flujo de arranque real
+- exige correo corporativo `@weg.net`
+- identifica si el correo pertenece al equipo actual
+- genera el nombre visible desde Windows o desde el alias del correo
+- registra el usuario en `Usuarios`
+- vuelve al login con datos precargados
 
-La aplicación arranca en [App.xaml.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/App.xaml.cs):
+## Login administrativo
 
-```csharp
-protected override void OnStartup(StartupEventArgs e)
-{
-    base.OnStartup(e);
+`AdminLoginViewModel`:
 
-    DatabaseInitializer.Initialize();
+- valida `UsuarioSistema` en `Administrador`
+- valida la contraseña administrativa
+- resuelve el usuario base en `Usuarios`
+- marca `SesionUsuario.ModoAdministrador = true`
+- abre `MainWindow`
 
-    var login = new LoginView();
-    login.Show();
-}
-```
+## Registro administrativo
 
-Eso quiere decir:
-
-1. primero se asegura la base de datos
-2. luego se abre el login normal
-
-En [MainWindow.xaml.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/MainWindow.xaml.cs) se vuelve a llamar al inicializador:
-
-```csharp
-public MainWindow()
-{
-    InitializeComponent();
-    DatabaseInitializer.Initialize();
-    DataContext = new MainViewModel();
-}
-```
-
-Esto no rompe porque `DatabaseInitializer.Initialize()` es idempotente, pero si es una deuda técnica:
-
-- la base se inicializa dos veces
-- cualquier cambio futuro en inicialización debe considerar ambas entradas
-
-## 9. Base de datos y persistencia
-
-La base actual es:
-
-- `WegInstaladores.db`
-
-La cadena de conexión se construye por código:
-
-```csharp
-private const string CurrentDbPath = "WegInstaladores.db";
-public static string ConnectionString => $"Data Source={CurrentDbPath}";
-```
-
-Implicación muy importante:
-
-- la base se crea en el directorio desde el que se ejecuta la app
-- si ejecutas desde `bin/Debug`, la base vive ahi
-- si copias el ejecutable a otra carpeta, la base se crea en esa otra carpeta
-
-### 9.1 Que hace `DatabaseInitializer`
-
-`DatabaseInitializer` hace cuatro tareas principales:
-
-1. migrar archivos de base legacy si existen
-2. crear tablas faltantes
-3. agregar columnas faltantes
-4. normalizar datos historicos
-
-Fragmento real:
-
-```csharp
-CREATE TABLE IF NOT EXISTS Usuarios (...);
-CREATE TABLE IF NOT EXISTS Instaladores (...);
-CREATE TABLE IF NOT EXISTS Administrador (...);
-CREATE TABLE IF NOT EXISTS PasswordRecoveryLog (...);
-```
-
-También asegura columnas por codigo:
-
-```csharp
-EnsureColumnExists(connection, "Usuarios", "FotoPerfil", "TEXT");
-EnsureColumnExists(connection, "Usuarios", "AplicativosJson", "TEXT DEFAULT '[]'");
-
-EnsureColumnExists(connection, "Instaladores", "Nombre", "TEXT");
-EnsureColumnExists(connection, "Instaladores", "Descripcion", "TEXT");
-EnsureColumnExists(connection, "Instaladores", "Carpeta", "TEXT");
-```
-
-### 9.2 Bases legacy que todavia migra
-
-Si no existe `WegInstaladores.db`, intenta copiar una de estas:
-
-- `WegInstallerSystems.db`
-- `installer_systems.db`
-- `carros.db`
-
-Eso esta implementado asi:
-
-```csharp
-private static readonly string[] LegacyDbPaths =
-{
-    "WegInstallerSystems.db",
-    "installer_systems.db",
-    "carros.db"
-};
-```
-
-### 9.3 Tablas principales
-
-La explicación completa del esquema esta en [BaseDeDatos.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/Developers/BaseDeDatos.md), pero a nivel practico estas son las tablas clave:
-
-- `Usuarios`
-- `Instaladores`
-- `Administrador`
-- `PasswordRecoveryLog`
-
-## 10. Sesion y autorizacion
-
-El estado global de sesion esta en [SesionUsuario.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Services/SesionUsuario.cs):
-
-```csharp
-public static Usuario UsuarioActual { get; set; }
-public static bool ModoAdministrador { get; set; }
-
-public static bool EsAdmin =>
-    ModoAdministrador && RolesSistema.EsAdministrador(UsuarioActual?.Rol);
-```
-
-Esto tiene una consecuencia clave:
-
-- no basta con tener rol `ADMINISTRADOR`
-- también se necesita haber entrado por el flujo administrativo
-
-Es decir:
-
-- si alguien tiene rol `ADMINISTRADOR` pero entra por login normal, no se considera admin pleno en UI
-- si entra por login admin, `ModoAdministrador = true` y ahi si obtiene permisos de gestión
-
-## 11. Login normal
-
-El login normal vive en [LoginViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/LoginViewModel.cs).
-
-Permite entrar con:
-
-- correo completo
-- alias del correo
-- usuario del equipo Windows
-
-Resolución del correo real:
-
-```csharp
-var correoLogin =
-    string.Equals(usuarioIngreso, usuarioPc, StringComparison.OrdinalIgnoreCase) &&
-    !string.IsNullOrWhiteSpace(correoPrincipalDispositivo)
-        ? _db.ObtenerCorreoPorUsuarioLogin(correoPrincipalDispositivo, usuarioPc, nombreVisible)
-        : _db.ObtenerCorreoPorUsuarioLogin(usuarioIngreso, usuarioPc, nombreVisible);
-```
-
-Validación final:
-
-```csharp
-var usuario = _db.Login(correoLogin, Password);
-```
-
-Las credenciales recordadas se guardan en:
-
-- `%AppData%\ConcesionaroCarros\login.remember`
-
-Y se cifran con:
-
-```csharp
-var cifrado = ProtectedData.Protect(datos, Entropy, DataProtectionScope.CurrentUser);
-```
-
-Implicación:
-
-- ese archivo solo sirve para el mismo usuario Windows
-- no es reutilizable en otra cuenta del sistema operativo
-
-## 12. Login administrativo
-
-El flujo admin esta separado del flujo normal.
-
-Reglas prácticas:
-
-- valida `Administrador.UsuarioSistema`
-- valida `PasswordAdminHash`
-- resuelve el usuario base por `Correo`
-- activa `SesionUsuario.ModoAdministrador`
-
-Esto existe para separar:
-
-- contraseña normal de uso diario
-- contraseña administrativa de gestión
-
-## 13. Registro de usuarios y administradores
-
-### 13.1 Registro normal
-
-El registro normal:
+`AdminRegisterViewModel`:
 
 - exige correo `@weg.net`
-- deriva nombre desde Windows o desde el alias del correo
-- crea el usuario base en `Usuarios`
-- guarda la contraseña como hash `SHA-256`
+- registra o actualiza la cuenta base en `Usuarios`
+- registra o actualiza la cuenta de `Administrador`
+- maneja dos credenciales:
+  - contraseña normal
+  - contraseña administrativa
 
-### 13.2 Registro administrativo
+## Recuperacion de contrasena
 
-El registro administrativo crea o sincroniza dos cosas:
+`MicrosoftRecoveryViewModel`:
 
-1. usuario base en `Usuarios`
-2. credencial admin en `Administrador`
+- valida el correo
+- exige confirmación `No soy un robot`
+- genera un código temporal local de 6 digitos
+- habilita el paso de cambio de contraseña
+- actualiza `Usuarios.PasswordHash`
+- inserta auditoria en `PasswordRecoveryLog`
 
-Fragmento representativo:
+## Modelo de sesión
 
-```csharp
-usuariosDb.RegistrarYRetornarId(nuevo, PasswordNormal);
+`SesionUsuario` centraliza:
 
-adminsDb.GuardarOActualizar(new Administrador
-{
-    Nombres = nombres,
-    Apellidos = apellidos,
-    Correo = Correo,
-    UsuarioSistema = usuarioSistemaLogin,
-    Rol = rolSeleccionado
-}, PasswordAdmin);
-```
+- usuario autenticado actual
+- modo de sesión administrativa
 
-Eso significa que el admin tiene dos credenciales distintas:
+Esto condiciona:
 
-- `PasswordNormal`
-- `PasswordAdmin`
+- visibilidad de `GestionUsuarioView`
+- permisos de alta, edición y eliminación de instaladores
+- filtros de aplicativos visibles para usuarios normales
 
-## 14. Como se guardan las contraseñas
+## 7. Vistas y módulos principales
 
-En [UsuariosDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/UsuariosDbService.cs) se usa `SHA-256` y luego base64:
+### MainWindow
 
-```csharp
-using (var sha = SHA256.Create())
-{
-    var bytes = Encoding.UTF8.GetBytes(password ?? string.Empty);
-    var hash = sha.ComputeHash(bytes);
-    return Convert.ToBase64String(hash);
-}
-```
+Contiene el shell principal de la aplicación:
 
-Esto aplica tanto al usuario normal como al administrativo, aunque cada uno se guarda en tablas y columnas distintas.
+- panel lateral
+- nombre del usuario autenticado
+- navegación a `Instalador`
+- navegación a `Gestion de Usuarios` cuando aplica
 
-## 15. Módulo de instaladores
+### Módulo Instaladores
 
-Este es uno de los módulos mas importantes del proyecto.
+`InstaladoresViewModel`:
 
-Responsabilidades del módulo:
-
-- registrar ejecutables `.exe`
-- listarlos por carpeta funcional
-- permitir que un admin los cree, edite o elimine
-- permitir que un usuario los ejecute si estan asignados
-
-El flujo principal esta en [InstaladoresViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/InstaladoresViewModel.cs).
+- carga instaladores por carpeta
+- filtra instaladores para usuarios no administradores
+- abre formularios modales de alta y edición
+- ejecuta instaladores via `Process.Start`
+- elimina registros del catálogo
 
 Carpetas funcionales actuales:
 
 - `Punto local de desarrollo planta`
 - `Desarrollo global`
 
-## 16. Como agregar un nuevo instalador al sistema
+### Módulo Gestión de Usuarios
 
-Esta parte conviene documentarla paso a paso porque es una operación funcional clave.
+`GestionUsuarioViewModel`:
 
-### 16.1 Regla técnica actual
+- carga usuarios desde `Usuarios`
+- abre formulario de alta de usuario
+- abre formulario de edición
+- elimina usuarios
+- sincroniza `Administrador` cuando el rol aplica
+- muestra y guarda el panel inferior de asignación de aplicativos
 
-La aplicación no empaqueta otros instaladores dentro de si misma ni extrae archivos comprimidos. Lo que hace es:
+## 8. Base de datos
 
-1. registrar la ruta de un `.exe`
-2. mostrarlo en la UI
-3. ejecutarlo cuando el usuario hace clic
+Motor actual:
 
-La selección del archivo se hace con `OpenFileDialog` y solo acepta `.exe`:
+- `SQLite`
 
-```csharp
-OpenFileDialog dlg = new OpenFileDialog();
-dlg.Filter = "Ejecutables (*.exe)|*.exe";
-```
+Archivo actual:
 
-### 16.2 Proceso recomendado para registrar un instalador
+- `WegInstaladores.db`
 
-1. compilar o conseguir el `.exe` que se quiere distribuir
-2. ubicarlo en una ruta estable
-3. abrir la app con una sesión administrativa
-4. entrar al módulo de instaladores
-5. usar `Nuevo Instalador`
-6. buscar el archivo `.exe`
-7. completar `Nombre`, `Descripcion` y `Carpeta`
-8. guardar
+### Tablas activas
 
-### 16.3 Que significa "ruta estable"
+- `Usuarios`
+- `Instaladores`
+- `Administrador`
+- `PasswordRecoveryLog`
 
-La ruta del ejecutable es critica porque hoy funciona como identificador operativo. El guardado se hace asi:
+### Claves primarias
 
-```csharp
-INSERT INTO Instaladores
-(Ruta, Nombre, Descripcion, Carpeta, FechaRegistro)
-VALUES ($ruta, $nombre, $descripcion, $carpeta, $fecha);
-```
+- todas las tablas usan `Id INTEGER PRIMARY KEY AUTOINCREMENT`
 
-Y la actualización usa:
+### Claves foraneas
 
-```csharp
-UPDATE Instaladores
-SET Nombre = $nombre,
-    Descripcion = $descripcion,
-    Carpeta = $carpeta
-WHERE Ruta = $ruta
-```
+Actualmente no hay claves foraneas físicas declaradas en el esquema. Las relaciones son lógicas y se resuelven por código.
 
-Esto implica:
+### Relaciones lógicas
 
-- la `Ruta` no es solo un dato visual
-- la `Ruta` se usa como clave operativa
-- si el ejecutable se mueve de carpeta, la app puede dejar de encontrarlo
-- si el ejecutable cambia de nombre o ubicación, hay que corregir la base o volver a registrarlo
+- `Administrador.Correo` se relaciona con `Usuarios.Correo`
+- `PasswordRecoveryLog.UsuarioId` se relaciona logicamente con `Usuarios.Id`
+- `Usuarios.AplicativosJson` contiene rutas de `Instaladores.Ruta`
 
-### 16.4 Donde conviene guardar los `.exe`
+### Tablas detalladas
 
-Como recomendación de continuidad del proyecto:
+Ver:
 
-- usar carpetas de red o carpetas locales controladas
-- evitar rutas temporales del escritorio de un usuario
-- evitar rutas dentro de `Downloads`
-- evitar rutas que cambien en cada despliegue manual
+- `Docs/Developers/BaseDeDatos.md`
 
-Buenas opciones:
+## 9. Configuración del sistema
 
-- una carpeta compartida corporativa
-- una carpeta local estandar por ambiente
-- una ruta documentada que no cambie entre equipos administradores
+Archivo principal de configuración:
 
-## 17. Como se ejecuta un instalador desde la app
+- `App.config`
 
-La ejecución real del `.exe` se hace así:
+Claves activas relevantes:
 
-```csharp
-Process.Start(new ProcessStartInfo
-{
-    FileName = inst.Ruta,
-    UseShellExecute = true
-});
-```
+- `CC_CORPORATE_EMAIL_DOMAIN`
+- `CC_REQUIRE_MICROSOFT_EMAIL_VALIDATION`
+- `CC_AZURE_TENANT_ID`
+- `CC_AZURE_CLIENT_ID`
+- `CC_AZURE_CLIENT_SECRET`
 
-Y antes verifica:
+Uso actual:
 
-```csharp
-if (inst != null && File.Exists(inst.Ruta))
-```
+- el dominio corporativo activo es `weg.net`
+- la validación Microsoft esta desactivada en pruebas (`false`)
 
-Puntos importantes:
+Observación:
 
-- si el archivo no existe en esa ruta, no se ejecuta
-- la app depende del sistema operativo para lanzar el proceso
-- `UseShellExecute = true` permite respetar comportamiento normal de Windows
-- si aparece UAC y el usuario cancela, el codigo `1223` se trata como cancelación esperada
+- actualmente el flujo de recuperación funciona de manera local
+- las claves Azure permanecen para futuras integraciones empresariales si se desea reactivar esa validación
 
-Esto significa que el sistema **no instala silenciosamente** por si mismo. Solo dispara el ejecutable registrado.
+## 10. Instalacion del proyecto en entorno de desarrollo
 
-## 18. Como asignar instaladores a usuarios
+## Requisitos
 
-La relación usuario-instalador no esta normalizada en otra tabla. Se guarda en `Usuarios.AplicativosJson`.
+- Windows
+- Visual Studio 2022 o superior con soporte para `.NET Framework 4.8`
+- restauración de paquetes NuGet habilitada
+- acceso de escritura al directorio del proyecto
 
-En [Models/Usuario.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Models/Usuario.cs):
+## Apertura recomendada
 
-```csharp
-public void EstablecerAplicativosAsignados(IEnumerable<string> rutas)
-{
-    var serializer = new JavaScriptSerializer();
-    var lista = (rutas ?? Enumerable.Empty<string>())
-        .Where(x => !string.IsNullOrWhiteSpace(x))
-        .Distinct()
-        .ToList();
+Abrir:
 
-    AplicativosJson = serializer.Serialize(lista);
-}
-```
+- `SistemaDeInstalacion.sln`
 
-Y el guardado en base se hace asi:
+## Compilación recomendada
 
-```csharp
-UPDATE Usuarios
-SET AplicativosJson = $apps
-WHERE Id = $id;
-```
+En este proyecto la forma mas estable de trabajo es Visual Studio o MSBuild para .NET Framework.
 
-Eso quiere decir:
+### Opción Visual Studio
 
-- el permiso de un usuario se basa en una lista de rutas
-- si la ruta del `.exe` cambia, el permiso puede quedar roto
-- no hay integridad referencial real entre `Usuarios` e `Instaladores`
+- `Restore NuGet Packages`
+- `Build Solution`
+- `Start`
 
-## 19. Como se filtran los instaladores visibles por usuario
-
-Cuando la sesión no es admin, el sistema filtra por rutas asignadas:
-
-```csharp
-if (!SesionUsuario.EsAdmin)
-{
-    var asignados = SesionUsuario.UsuarioActual?.ObtenerAplicativosAsignados()
-                    ?? new List<string>();
-
-    var rutasAsignadas = new HashSet<string>(
-        asignados.Where(r => !string.IsNullOrWhiteSpace(r)),
-        StringComparer.OrdinalIgnoreCase);
-
-    todos = todos
-        .Where(x => !string.IsNullOrWhiteSpace(x.Ruta) && rutasAsignadas.Contains(x.Ruta))
-        .ToList();
-}
-```
-
-Conclusión funcional:
-
-- admin ve todo el catálogo
-- usuario normal ve solo las rutas que estan en su `AplicativosJson`
-
-## 20. Proceso recomendado para empaquetar la aplicación
-
-Como esta app es de escritorio clásica y usa archivos externos, la forma segura de empaquetarla es por carpeta de salida.
-
-### 20.1 Opción recomendada
-
-1. compilar en `Release`
-2. entrar a `bin/Release/`
-3. tomar el contenido funcional completo
-4. validar que el ejecutable abra en una carpeta limpia
-5. distribuir esa carpeta o usarla como base para un instalador corporativo
-
-### 20.2 Que no se debe olvidar al empaquetar
-
-- `SistemaDeInstalacion.exe`
-- `SistemaDeInstalacion.exe.config`
-- `Fonts/`
-- `runtimes/`
-- dlls de `SQLite`
-- dlls de `PDFsharp`
-- dlls de `QuestPDF`
-
-### 20.3 Si se quiere hacer un instalador corporativo
-
-Si en el futuro se usa `Inno Setup`, `WiX`, `Advanced Installer` o similar, la lógica recomendada sería:
-
-1. copiar el contenido de `bin/Release/`
-2. preservar estructura de carpetas
-3. definir carpeta de instalación fija
-4. verificar permisos de lectura/escritura sobre la carpeta final
-5. probar que la base `WegInstaladores.db` pueda crearse ahi
-
-### 20.4 Punto crítico de despliegue
-
-Como la base se crea junto al ejecutable, el directorio final necesita permiso de escritura. Si se despliega en una carpeta muy restringida, la app puede fallar al inicializar `SQLite`.
-
-## 21. Proceso recomendado para publicar un nuevo ejecutable de negocio
-
-Si el equipo necesita subir una nueva versión de un aplicativo interno, el proceso sano seráa:
-
-1. generar el nuevo `.exe`
-2. publicarlo en la ruta final estable
-3. comprobar manualmente que abre fuera de la app
-4. entrar con un admin a `SistemaDeInstalacion`
-5. registrar o actualizar el instalador
-6. asignarlo a usuarios o roles operativos
-7. validar con una cuenta no admin
-8. validar con una cuenta admin
-
-Si el `.exe` reemplaza a otro anterior:
-
-- si se conserva la misma ruta, el impacto es menor
-- si cambia la ruta, hay que revisar asignaciones en `AplicativosJson`
-
-## 22. Consultas SQL utiles para soporte técnico
-
-Ver usuarios:
-
-```sql
-SELECT Id, Nombres, Apellidos, Correo, Rol, AplicativosJson
-FROM Usuarios
-ORDER BY Id DESC;
-```
-
-Ver administradores:
-
-```sql
-SELECT Id, Correo, UsuarioSistema, Rol, FechaRegistro
-FROM Administrador
-ORDER BY Id DESC;
-```
-
-Ver instaladores:
-
-```sql
-SELECT Id, Ruta, Nombre, Descripcion, Carpeta, FechaRegistro
-FROM Instaladores
-ORDER BY Id DESC;
-```
-
-Ver recuperaciones:
-
-```sql
-SELECT Id, UsuarioId, CorreoUsuario, CorreoAdministrador, FechaRecuperacion
-FROM PasswordRecoveryLog
-ORDER BY Id DESC;
-```
-
-## 23. Archivos que se deben revisar antes de tocar algo importante
-
-Si vas a tocar autenticación:
-
-- [ViewModels/LoginViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/LoginViewModel.cs)
-- [ViewModels/AdminLoginViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/AdminLoginViewModel.cs)
-- [Db/UsuariosDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/UsuariosDbService.cs)
-- [Db/AdministradoresDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/AdministradoresDbService.cs)
-- [Services/SesionUsuario.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Services/SesionUsuario.cs)
-
-Si vas a tocar instaladores:
-
-- [ViewModels/InstaladoresViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/InstaladoresViewModel.cs)
-- [ViewModels/FormularioInstaladorViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/FormularioInstaladorViewModel.cs)
-- [Db/InstaladorDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/InstaladorDbService.cs)
-- [Models/Instalador.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Models/Instalador.cs)
-
-Si vas a tocar usuarios y permisos:
-
-- [ViewModels/GestionUsuarioViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/GestionUsuarioViewModel.cs)
-- [ViewModels/FormularioUsuarioViewModel.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/ViewModels/FormularioUsuarioViewModel.cs)
-- [Models/Usuario.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Models/Usuario.cs)
-- [Services/RolesSistema.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Services/RolesSistema.cs)
-
-Si vas a tocar persistencia:
-
-- [Db/DatabaseInitializer.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/DatabaseInitializer.cs)
-- [Db/UsuariosDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/UsuariosDbService.cs)
-- [Db/InstaladorDbService.cs](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Db/InstaladorDbService.cs)
-- [Docs/Developers/BaseDeDatos.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/Developers/BaseDeDatos.md)
-
-## 24. Checklist tecnico minimo antes de entregar cambios
-
-- la app abre desde cero
-- `WegInstaladores.db` se crea correctamente
-- login normal sigue funcionando
-- login admin sigue funcionando
-- un admin puede registrar instaladores
-- un usuario no admin solo ve lo asignado
-- la ejecucion de un `.exe` real sigue funcionando
-- la base migra correctamente desde una copia vieja si aplica
-- el paquete de salida incluye `Fonts/` y `runtimes/`
-
-## 25. Tests automatizados
-
-El repositorio ahora incluye un proyecto de pruebas en:
-
-- `SistemaDeInstalacion.Tests/`
-
-Cobertura actual:
-
-- inicialización de la base
-- actualización de una base con esquema legacy
-- serialización de `AplicativosJson`
-- reglas de `RolesSistema`
-- registro y login de usuarios
-- resolución de correo por alias
-- registro, login y sincronización de administradores
-- guardado, actualizacion y eliminación de instaladores
-
-Comando de ejecución:
+### Opción consola
 
 ```powershell
-dotnet run --project SistemaDeInstalacion.Tests/SistemaDeInstalacion.Tests.csproj
+nuget restore SistemaDeInstalacion.sln
+msbuild SistemaDeInstalacion.sln /t:Build /p:Configuration=Debug
 ```
 
-Nota importante para el desarrollador:
+## Ejecución en desarrollo
 
-- este runner compila contra las DLL locales que ya produce la app en `bin/Debug/`
-- si esas DLL no existen todavia, primero hay que compilar la aplicación principal
-
-Salida esperada:
+La aplicación arranca desde Visual Studio o ejecutando el binario generado en:
 
 ```text
-[OK] ...
-Resultado: 9/9 tests aprobados.
+SistemaDeInstalacion\bin\Debug\SistemaDeInstalacion.exe
 ```
 
-Si algún test falla:
+## Proyecto de pruebas
 
-- revisar primero si la base anterior quedo bloqueada por otro proceso
-- validar que `bin/Debug/` siga teniendo las dependencias de `SQLite`
-- revisar si el cambio afecto persistencia, roles, login o rutas de instaladores
+Existe un proyecto adicional:
 
-## 26. Riesgos y deuda tecnica actual
+- `SistemaDeInstalacion.Tests`
 
-- el namespace sigue siendo `ConcesionaroCarros` aunque el producto se llame `SistemaDeInstalacion`
-- `MainWindow` reinicializa la base aunque `App` ya lo hizo
-- la asignación de aplicativos depende de `Ruta`, no de un identificador estable
-- no hay versionado formal de migraciones
-- la base vive junto al ejecutable, lo que vuelve sensible el permiso de escritura de la carpeta final
-- el proyecto mezcla `MVVM` con apertura directa de ventanas desde `ViewModel`
+Ese proyecto ejecuta pruebas manuales/automatizadas simples sobre base de datos, roles y modelos.
 
-## 27. Si yo tuviera que continuar este proyecto
+## 11. Dependencias y paquetes NuGet
 
-El orden recomendado seria:
+Paquetes definidos actualmente en el proyecto principal:
 
-1. no tocar primero la UI, sino entender `DatabaseInitializer`, `SesionUsuario`, `UsuariosDbService` e `InstaladorDbService`
-2. validar manualmente el flujo completo con una base nueva
-3. documentar cualquier cambio de esquema tambien en [BaseDeDatos.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/Developers/BaseDeDatos.md)
-4. evitar cambiar la semantica de `Ruta` sin plan de migracion
-5. si se va a profesionalizar el producto, el primer gran refactor deberia ser separar la relacion `usuario -> instalador` a una tabla relacional
+- `Microsoft.Data.Sqlite`
+- `PDFsharp`
+- `QuestPDF`
 
-## 28. Documentos relacionados
+Adicionalmente, el proyecto de pruebas referencia DLLs copiadas desde `bin\Debug` para validar servicios del sistema.
 
-- [Docs/README.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/README.md)
-- [Docs/Developers/BaseDeDatos.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/Developers/BaseDeDatos.md)
-- [Docs/users/README.md](c:/Users/wandica/source/repos/ConcesionaroCarros/SistemaDeInstalacion/Docs/users/README.md)
+## 12. Empaquetado y distribución
+
+### Estado actual del repositorio
+
+Actualmente el repositorio no incluye un proyecto formal de instalación tipo:
+
+- MSI
+- Setup Project de Visual Studio
+- ClickOnce
+
+### Forma de salida actual
+
+La salida principal es el ejecutable compilado desde el proyecto WPF.
+
+Ejemplo de ubicación:
+
+```text
+bin\Release\SistemaDeInstalacion.exe
+```
+
+### Publicación
+
+Como es un proyecto `.NET Framework` clasico, la publicación se realiza normalmente por:
+
+- compilación `Release`
+- empaquetado externo
+- copia controlada de binarios y dependencias
+
+Si en el futuro se necesita un instalador formal, conviene agregar un proyecto de instalación dedicado y documentarlo aparte.
+
+## 13. Puntos de entrada del sistema
+
+Los puntos de entrada principales son:
+
+- `App.xaml`
+- `App.xaml.cs`
+- `MainWindow.xaml`
+- `MainViewModel.cs`
+
+Puntos de entrada funcionales secundarios:
+
+- `LoginView.xaml`
+- `AdminLoginView.xaml`
+- `RegisterView.xaml`
+- `AdminRegisterView.xaml`
+
+## 14. Manejo de errores y logs
+
+### Manejo actual de errores
+
+El sistema maneja errores principalmente por:
+
+- `try/catch` en ViewModels y DbServices
+- mensajes al usuario por `MessageBox`
+- reintentos simples en operaciones SQLite cuando la base esta bloqueada
+
+### Logs actuales
+
+No existe aun un subsistema formal de archivos log generales.
+
+La única trazabilidad persistente implementada de forma estructurada es:
+
+- `PasswordRecoveryLog`
+
+### Implicacion
+
+Para soporte y evolución futura, seria recomendable incorporar un logger centralizado para:
+
+- errores de acceso a base
+- fallos al ejecutar instaladores
+- errores de autenticación
+- errores de formularios modales
+
+## 15. Seguridad
+
+Medidas actuales implementadas:
+
+- hashing SHA-256 para contraseñas de usuario y administrador
+- almacenamiento protegido local con `ProtectedData` para credenciales recordadas
+- validación de dominio corporativo en registro (`@weg.net`)
+- separación entre contrasena normal y contrasena administrativa
+- validación explicita del flujo de recuperación de acceso
+
+Observaciones:
+
+- SHA-256 funciona, pero en una evolución futura seria mas robusto usar un esquema de hashing con sal y algoritmo dedicado como PBKDF2, bcrypt o Argon2
+- las credenciales recordadas dependen del usuario actual de Windows y no deben copiarse entre perfiles
+
+## 16. Buenas prácticas para extender el proyecto
+
+### Agregar una nueva vista
+
+1. crear la vista en `Views/`
+2. crear su `ViewModel` en `ViewModels/`
+3. exponer propiedades y comandos necesarios
+4. enlazarla desde `MainViewModel` o desde el modulo que corresponda
+5. agregarla al `.csproj` si no queda incluida automáticamente
+
+### Agregar un nuevo módulo de negocio
+
+1. definir el modelo en `Models/`
+2. crear su servicio o acceso a datos en `Db/` o `Services/`
+3. crear ViewModel y vista correspondiente
+4. integrar navegación y permisos
+5. documentar cambios en `Docs/Developers`
+
+### Agregar un nuevo rol
+
+1. incluirlo en `Services/RolesSistema.cs`
+2. revisar formularios de usuario y panel de asignación
+3. revisar cualquier regla que dependa de `EsAdministrador(...)`
+4. validar impacto sobre login, gestión de usuarios y filtros de instaladores
+
+### Agregar nuevos instaladores o nuevas carpetas
+
+1. revisar constantes de carpeta en `FormularioInstaladorViewModel` e `InstaladoresViewModel`
+2. validar el impacto visual en `InstaladoresView`
+3. revisar cualquier filtro por carpeta
+
+## 17. Ejemplos de flujo de datos
+
+### Ejemplo 1. Login normal
+
+```text
+LoginView
+   ↓ binding
+LoginViewModel
+   ↓
+UsuariosDbService
+   ↓
+Tabla Usuarios
+   ↓
+SesionUsuario
+   ↓
+MainWindow
+```
+
+### Ejemplo 2. Asignación de aplicativos
+
+```text
+GestionUsuarioView
+   ↓ seleccion de usuario
+GestionUsuarioViewModel
+   ↓
+InstaladorDbService + UsuariosDbService
+   ↓
+Tabla Instaladores + Tabla Usuarios
+   ↓
+AplicativosJson actualizado
+```
+
+### Ejemplo 3. Registro administrativo
+
+```text
+AdminRegisterView
+   ↓
+AdminRegisterViewModel
+   ↓
+UsuariosDbService
+   ↓
+AdministradoresDbService
+   ↓
+Tablas Usuarios + Administrador
+```
+
+## 18. Diagrama conceptual de arquitectura
+
+```text
++-----------------------+
+|      Views (WPF)      |
++-----------------------+
+            |
+            v
++-----------------------+
+|   ViewModels (MVVM)   |
++-----------------------+
+      |            |
+      v            v
++-------------+  +------------------+
+|   Services   |  |    Db Services   |
++-------------+  +------------------+
+            \      /
+             \    /
+              v  v
+         +-------------+
+         |   SQLite    |
+         +-------------+
+```
+
+## 19. Consideraciones para continuidad del proyecto
+
+Antes de hacer cambios grandes, otro desarrollador deberia revisar en este orden:
+
+1. `App.xaml.cs` y `DatabaseInitializer.cs`
+2. `LoginViewModel.cs` y `AdminLoginViewModel.cs`
+3. `MainViewModel.cs` y `SesionUsuario.cs`
+4. `InstaladoresViewModel.cs`
+5. `GestionUsuarioViewModel.cs`
+6. `Docs/Developers/BaseDeDatos.md`
+
+## 20. Deuda técnica identificada
+
+- namespaces internos aun con `ConcesionaroCarros`
+- rutas de credenciales recordadas aun con ese nombre historico
+- `AplicativosJson` como almacenamiento JSON en vez de tabla relacional
+- ausencia de logging estructurado general
+- compatibilidad legacy en la migracion de base de datos que convendra retirar cuando ya no existan instalaciones antiguas
