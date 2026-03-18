@@ -1,62 +1,59 @@
-# Base de Datos SQLite
+# BaseDeDatos
 
-## 1. Archivo y ubicación de la base
+Esta guía explica la persistencia local del sistema: archivo activo, tablas, relaciones lógicas, migraciones y recomendaciones para evolucionar el esquema sin romper compatibilidad.
 
-La base operativa actual se llama:
+Debe revisarse junto con:
+
+- [Developer](Docs/Developers/Developer.md)
+- [Administradores](Docs/Administradores/Administradores.md)
+
+## Archivo activo
+
+La base utilizada por la aplicación es:
 
 - `WegInstaladores.db`
 
-La ruta no esta fija en `App.config`. Se construye por código en `Db/DatabaseInitializer.cs`:
+La cadena de conexión se construye desde `Db/DatabaseInitializer.cs`, por lo que la base queda ubicada en el directorio de ejecución del programa.
 
-```csharp
-private const string CurrentDbPath = "WegInstaladores.db";
-public static string ConnectionString => $"Data Source={CurrentDbPath}";
-```
-
-Eso significa que la base se crea en el directorio desde el que corre la aplicación, normalmente:
+Ubicaciones comunes:
 
 - `bin/Debug/`
 - `bin/Release/`
 
-## 2. Estrategia de inicializacion
+## Flujo de inicialización
 
-La inicialización ocurre al arrancar la aplicación y esta centralizada en:
+```text
+Inicio de la aplicación
+        |
+        v
+Buscar WegInstaladores.db
+        |
+        +--> si no existe, intentar migrar una base legacy
+        |
+        v
+Crear tablas faltantes
+        |
+        v
+Asegurar columnas nuevas
+        |
+        v
+Normalizar datos heredados
+        |
+        v
+Aplicación lista para login
+```
 
-- `Db/DatabaseInitializer.cs`
+## Bases legacy que aún se migran
 
-El proceso es:
-
-1. buscar si ya existe `WegInstaladores.db`
-2. si no existe, copiar una base legacy si encuentra algún nombre historico
-3. crear tablas faltantes
-4. agregar columnas faltantes con `ALTER TABLE`
-5. migrar datos de la tabla legacy `Administradores` hacia `Administrador`
-6. eliminar tablas legacy ya obsoletas
-7. normalizar algunos datos historicos
-
-## 3. Bases heredadas que aun se migran
-
-Si la base actual no existe, el sistema intenta reutilizar alguna de estas:
+Si la base principal no existe, el inicializador puede migrar automáticamente:
 
 - `WegInstallerSystems.db`
 - `installer_systems.db`
 - `carros.db`
 
-Si la copia a `WegInstaladores.db` sale bien, luego intenta eliminar el archivo legacy original.
+## Esquema funcional actual
 
-## 4. Esquema actual
-
-## 4.1 Tabla `Usuarios`
-
-Proposito:
-
-- autenticación de usuarios normales
-- datos básicos de la persona
-- rol funcional
-- lista de aplicativos asignados
-- password normal del usuario
-
-Creación base:
+### Tabla `Usuarios`
 
 ```sql
 CREATE TABLE IF NOT EXISTS Usuarios (
@@ -73,73 +70,35 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 );
 ```
 
-Columnas:
+Responsabilidad:
 
-- `Id`: identificador autoincremental
-- `Nombres`: nombres del usuario
-- `Apellidos`: apellidos del usuario
-- `Correo`: correo unico, clave funcional principal
-- `Telefono`: dato opcional
-- `PasswordHash`: hash `SHA-256` en base64
-- `Rol`: codigo funcional del rol
-- `FechaRegistro`: texto con formato `yyyy-MM-dd HH:mm:ss`
-- `FotoPerfil`: campo legacy/auxiliar
-- `AplicativosJson`: JSON con rutas de instaladores permitidos
+- identidad operativa del usuario;
+- contraseña normal;
+- rol funcional;
+- permisos serializados en `AplicativosJson`.
 
-Ejemplo de `AplicativosJson`:
+### Tabla `Instaladores`
 
-```json
-[
-  "\\\\servidor\\apps\\ClienteERP.exe",
-  "C:\\Instaladores\\HerramientaInterna.exe"
-]
-```
-
-## 4.2 Tabla `Instaladores`
-
-Proposito:
-
-- catálogo de ejecutables disponibles dentro de la aplicación
-
-Creación base mas migraciones:
+Esquema funcional esperado:
 
 ```sql
 CREATE TABLE IF NOT EXISTS Instaladores (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     Ruta TEXT,
+    Nombre TEXT,
+    Descripcion TEXT,
     Carpeta TEXT,
     FechaRegistro TEXT
 );
 ```
 
-Después, `DatabaseInitializer` asegura columnas faltantes:
+Responsabilidad:
 
-- `Nombre`
-- `Descripcion`
-- `Carpeta`
+- catálogo de ejecutables;
+- clasificación por carpeta funcional;
+- fuente para asignación de aplicativos.
 
-Esquema funcional resultante:
-
-- `Id`
-- `Ruta`
-- `Nombre`
-- `Descripcion`
-- `Carpeta`
-- `FechaRegistro`
-
-Observaciones técnicas:
-
-- `Ruta` funciona como identificador operativo en varias operaciones
-- `Actualizar(...)` en `InstaladorDbService` hace `WHERE Ruta = $ruta`
-- si la ruta cambia, la asignación por usuario puede quedar desalineada
-
-## 4.3 Tabla `Administrador`
-
-Proposito:
-
-- almacenar la credencial administrativa separada de la credencial normal
-
-Esquema:
+### Tabla `Administrador`
 
 ```sql
 CREATE TABLE IF NOT EXISTS Administrador (
@@ -154,19 +113,13 @@ CREATE TABLE IF NOT EXISTS Administrador (
 );
 ```
 
-Columnas clave:
+Responsabilidad:
 
-- `Correo`: relación funcional con `Usuarios.Correo`
-- `UsuarioSistema`: usuario con el que entra el admin
-- `PasswordAdminHash`: hash de la clave administrativa
+- credencial privilegiada;
+- acceso al login administrativo;
+- unión lógica con `Usuarios` por correo.
 
-## 4.4 Tabla `PasswordRecoveryLog`
-
-Proposito:
-
-- auditoria de recuperaciones de contraseña
-
-Esquema:
+### Tabla `PasswordRecoveryLog`
 
 ```sql
 CREATE TABLE IF NOT EXISTS PasswordRecoveryLog (
@@ -179,54 +132,70 @@ CREATE TABLE IF NOT EXISTS PasswordRecoveryLog (
 );
 ```
 
-Observación:
+Responsabilidad:
 
-- `ValidadoMicrosoft` se conserva por compatibilidad historica, aunque el flujo actual es local
+- trazabilidad de recuperaciones de contraseña;
+- soporte operativo y auditoría básica.
 
-## 5. Migraciones de columnas
+## Diagrama lógico de datos
 
-La estrategia no usa una herramienta formal de migraciones. En su lugar, `DatabaseInitializer` verifica columna por columna con:
+```text
+Usuarios
+  |
+  +--> PasswordRecoveryLog   (por UsuarioId)
+  |
+  +--> Administrador         (unión lógica por Correo)
+  |
+  \--> Instaladores          (unión lógica por rutas en AplicativosJson)
+```
 
-- `PRAGMA table_info(...)`
-- `ALTER TABLE ... ADD COLUMN ...`
+## Reglas críticas del modelo
 
-Ventajas:
+### La relación usuario-aplicativo no es relacional
 
-- permite abrir instalaciones antiguas sin scripts separados
-- mantiene el despliegue simple
+El permiso de un usuario se guarda como JSON con rutas de ejecutables. Eso significa:
 
-Costo:
+- no existe tabla intermedia `UsuarioInstalador`;
+- la integridad depende del código;
+- si cambia la ruta, la asignación puede quedar obsoleta.
 
-- toda evolución del esquema depende de no olvidar actualizar `DatabaseInitializer`
-- no hay versionado explicito de migraciones
+Ejemplo de contenido:
 
-## 6. Tablas legacy que se eliminan
+```json
+[
+  "\\\\servidor\\apps\\ERP.exe",
+  "C:\\Instaladores\\Reporteador.exe"
+]
+```
 
-Despues de migrar, el inicializador elimina:
+### La identidad administrativa depende de `Usuarios`
 
-- `Carros`
-- `Clientes`
-- `Empleados`
-- `Administradores`
+El login administrativo valida en `Administrador`, pero después necesita resolver el usuario base en `Usuarios`.
 
-Antes de eliminar `Administradores`, si existe, copia sus datos a `Administrador`.
+### Las fechas se guardan como texto
 
-## 7. Normalización automática de datos
+No hay un tipo datetime fuerte. Cualquier consulta de orden o auditoría depende del formato grabado por la aplicación.
 
-Al iniciar, el sistema ejecuta estas correcciones:
+## Migraciones actuales
+
+La estrategia usada hoy es programática, no versionada.
+
+El inicializador realiza:
+
+1. creación de tablas faltantes;
+2. adición de columnas faltantes con `ALTER TABLE`;
+3. migración de `Administradores` legacy hacia `Administrador`;
+4. limpieza de tablas heredadas;
+5. normalización de datos antiguos.
+
+## Normalizaciones automáticas
+
+Ejemplos de normalización que la app ejecuta al iniciar:
 
 ```sql
 UPDATE Usuarios
 SET AplicativosJson = '[]'
 WHERE AplicativosJson IS NULL OR TRIM(AplicativosJson) = '';
-
-UPDATE Usuarios
-SET Rol = 'VENTAS'
-WHERE UPPER(TRIM(Rol)) = 'CLIENTE';
-
-UPDATE Usuarios
-SET Rol = 'INGENIERIA'
-WHERE UPPER(TRIM(Rol)) = 'INGENIERO';
 
 UPDATE Usuarios
 SET Rol = 'ADMINISTRADOR'
@@ -237,84 +206,47 @@ SET Carpeta = 'Desarrollo global'
 WHERE Carpeta IS NULL OR TRIM(Carpeta) = '';
 ```
 
-Lectura práctica:
+## Seguridad actual
 
-- el sistema asume que debe corregir historicos cada vez que arranca
-- estas reglas son parte del dominio actual y no solo de un script puntual
+Las contraseñas no se guardan en texto plano. Se almacenan como hash `SHA-256` codificado en base64.
 
-## 8. Relación entre tablas y módulos
-
-`Usuarios`:
-
-- login normal
-- registro normal
-- actualizacion de password
-- asignación de aplicativos
-- base funcional del administrador
-
-`Administrador`:
-
-- login administrativo
-- registro administrativo
-- sincronización cuando cambia el usuario base administrador
-
-`Instaladores`:
-
-- catálogo visible en `InstaladoresViewModel`
-- fuente del panel de asignación de aplicativos
-
-`PasswordRecoveryLog`:
-
-- auditoria del flujo de recuperación
-
-## 9. Reglas operativas importantes
-
-## 9.1 Hash de contraseñas
-
-Las contraseñas no se guardan en texto plano. Se convierten con `SHA-256` y luego a base64.
-
-Ejemplo real del código:
-
-```csharp
-using (var sha = SHA256.Create())
-{
-    var bytes = Encoding.UTF8.GetBytes(password ?? string.Empty);
-    var hash = sha.ComputeHash(bytes);
-    return Convert.ToBase64String(hash);
-}
-```
-
-Esto aplica tanto para:
+Esto aplica para:
 
 - `Usuarios.PasswordHash`
 - `Administrador.PasswordAdminHash`
 
-## 9.2 Control de bloqueo SQLite
+Nota técnica:
 
-`UsuariosDbService` incluye:
+- el esquema actual mejora el almacenamiento plano;
+- para una evolución futura conviene migrar a `PBKDF2`, `bcrypt` o `Argon2`.
 
-- `PRAGMA busy_timeout = 5000`
-- reintentos automáticos cuando `SqliteErrorCode == 5`
+## Bloqueos SQLite y concurrencia
 
-Eso reduce errores de bloqueo, pero no elimina completamente problemas si varios procesos usan la misma base.
+La aplicación usa `busy_timeout` y reintentos ante base ocupada. Esto ayuda a disminuir errores transitorios, pero no convierte la solución en una base multiusuario fuerte.
 
-## 9.3 Relación usuario-instalador
+Interpretación práctica:
 
-La asignación de aplicativos **no** vive en una tabla relacional. Vive en `Usuarios.AplicativosJson`.
+- es adecuada para el uso actual de escritorio;
+- no debe asumirse como una base central concurrente para muchos procesos.
 
-Ventaja:
+## Operaciones y tablas afectadas
 
-- implementación rapida y simple
+| Operación | Tablas impactadas |
+|---|---|
+| Registrar administrador | `Usuarios`, `Administrador` |
+| Login administrativo | lectura de `Administrador` y `Usuarios` |
+| Crear usuario | `Usuarios` |
+| Editar usuario | `Usuarios` y, si aplica, `Administrador` |
+| Eliminar usuario | `Usuarios`, `Administrador`, `PasswordRecoveryLog` |
+| Registrar instalador | `Instaladores` |
+| Editar instalador | `Instaladores` |
+| Eliminar instalador | `Instaladores` |
+| Asignar aplicativos | `Usuarios.AplicativosJson` |
+| Recuperar contraseña | `Usuarios.PasswordHash`, `PasswordRecoveryLog` |
 
-Limitaciones:
+## Consultas útiles de soporte
 
-- no hay integridad referencial real
-- la asignación depende de rutas de archivo
-- consultar analiticamente la relación es mas dificil
-
-## 10. Consultas utiles para soporte y desarrollo
-
-Listar usuarios:
+### Usuarios
 
 ```sql
 SELECT Id, Nombres, Apellidos, Correo, Rol, AplicativosJson
@@ -322,7 +254,7 @@ FROM Usuarios
 ORDER BY Id DESC;
 ```
 
-Listar administradores:
+### Administradores
 
 ```sql
 SELECT Id, Correo, UsuarioSistema, Rol, FechaRegistro
@@ -330,7 +262,7 @@ FROM Administrador
 ORDER BY Id DESC;
 ```
 
-Listar instaladores:
+### Instaladores
 
 ```sql
 SELECT Id, Ruta, Nombre, Carpeta, FechaRegistro
@@ -338,36 +270,59 @@ FROM Instaladores
 ORDER BY Id DESC;
 ```
 
-Ver auditoria de recuperaciones:
+### Recuperaciones de contraseña
 
 ```sql
-SELECT Id, UsuarioId, CorreoUsuario, FechaRecuperacion
+SELECT Id, UsuarioId, CorreoUsuario, CorreoAdministrador, FechaRecuperacion
 FROM PasswordRecoveryLog
 ORDER BY Id DESC;
 ```
 
-Buscar usuarios con JSON vacio o nulo:
+### Administradores sin usuario base
 
 ```sql
-SELECT Id, Correo, AplicativosJson
-FROM Usuarios
-WHERE AplicativosJson IS NULL
-   OR TRIM(AplicativosJson) = ''
-   OR AplicativosJson = '[]';
+SELECT a.Id, a.Correo, a.UsuarioSistema
+FROM Administrador a
+LEFT JOIN Usuarios u ON UPPER(TRIM(a.Correo)) = UPPER(TRIM(u.Correo))
+WHERE u.Id IS NULL;
 ```
 
-## 11. Riesgos y deuda técnica en persistencia
+## Documentos complementarios
 
-- no existe versionado formal de esquema
-- `InstaladorDbService.Actualizar(...)` usa la ruta como clave operativa
-- `AplicativosJson` no impone integridad referencial
-- los campos de fecha se almacenan como `TEXT`
-- la base se crea en el directorio de ejecución, lo que puede variar entre entornos
+- [Visión general del sistema](Docs/Sistema.md)
+- [Guía de desarrollo](Docs/Developers/Developer.md)
+- [Guía de administradores](Docs/Administradores/Administradores.md)
 
-## 12. Recomendaciones de evolucion
+## Enlaces de apoyo externo
 
-- mover `usuario -> instalador` a una tabla relacional como `UsuarioInstalador`
-- agregar una estrategia de versionado de migraciones
-- usar identificadores estables para instaladores en lugar de depender de `Ruta`
-- considerar indices si crece el volumen de usuarios o catálogo
-- centralizar la documentación de cada cambio de esquema en `DatabaseInitializer` y en este archivo
+Para ampliar conceptos técnicos relacionados con esta capa:
+
+- [Documentación oficial de SQLite](https://sqlite.org/docs.html)
+- [Referencia de `PRAGMA busy_timeout` en SQLite](https://sqlite.org/pragma.html#pragma_busy_timeout)
+- [Documentación oficial de Microsoft.Data.Sqlite en Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/)
+
+## Checklist para cambios de esquema
+
+Antes de modificar la base:
+
+1. actualiza `Db/DatabaseInitializer.cs`;
+2. valida el impacto sobre `UsuariosDbService`, `AdministradoresDbService` e `InstaladorDbService`;
+3. revisa si la ayuda administrativa debe cambiar;
+4. agrega o ajusta pruebas en `SistemaDeInstalacion.Tests`;
+5. documenta el cambio en este archivo.
+
+## Riesgos técnicos vigentes
+
+- no existe versionado formal del esquema;
+- `AplicativosJson` no impone integridad referencial;
+- la ruta del instalador actúa como identificador funcional;
+- la base depende del directorio de ejecución;
+- la relación administrativa se sincroniza por correo.
+
+## Evolución recomendada
+
+- crear una tabla relacional para permisos por aplicativo;
+- versionar migraciones;
+- desacoplar el identificador funcional de la ruta física;
+- introducir índices si crece el volumen de datos;
+- mantener esta guía alineada con el código real.

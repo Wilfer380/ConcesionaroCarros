@@ -1,24 +1,31 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using System;
+using System.Configuration;
 using System.IO;
+using System.Linq;
 
 namespace ConcesionaroCarros.Db
 {
     public static class DatabaseInitializer
     {
-        private const string CurrentDbPath = "WegInstaladores.db";
-        private static readonly string[] LegacyDbPaths =
+        private const string DefaultDbFileName = "WegInstaladores.db";
+        private const string SharedDatabasePathKey = "CC_SHARED_DATABASE_PATH";
+
+        private static readonly string[] LegacyDbFileNames =
         {
             "WegInstallerSystems.db",
             "installer_systems.db",
             "carros.db"
         };
 
+        public static string CurrentDbPath => ResolveCurrentDbPath();
+
         public static string ConnectionString =>
             $"Data Source={CurrentDbPath}";
 
         public static void Initialize()
         {
+            EnsureDatabaseDirectoryExists();
             var legacyDbMigrated = MigrarArchivoLegacySiExiste();
 
             using (var connection = new SqliteConnection(ConnectionString))
@@ -133,7 +140,7 @@ namespace ConcesionaroCarros.Db
             if (File.Exists(CurrentDbPath))
                 return null;
 
-            foreach (var legacyDbPath in LegacyDbPaths)
+            foreach (var legacyDbPath in ResolveLegacyDbPaths())
             {
                 if (!File.Exists(legacyDbPath))
                     continue;
@@ -143,6 +150,37 @@ namespace ConcesionaroCarros.Db
             }
 
             return null;
+        }
+
+        private static void EnsureDatabaseDirectoryExists()
+        {
+            var directory = Path.GetDirectoryName(CurrentDbPath);
+            if (string.IsNullOrWhiteSpace(directory))
+                return;
+
+            Directory.CreateDirectory(directory);
+        }
+
+        private static string ResolveCurrentDbPath()
+        {
+            var configuredPath = ConfigurationManager.AppSettings[SharedDatabasePathKey];
+            if (string.IsNullOrWhiteSpace(configuredPath))
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DefaultDbFileName);
+
+            configuredPath = Environment.ExpandEnvironmentVariables(configuredPath.Trim());
+
+            if (Path.IsPathRooted(configuredPath))
+                return configuredPath;
+
+            return Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuredPath));
+        }
+
+        private static string[] ResolveLegacyDbPaths()
+        {
+            var currentDirectory = Path.GetDirectoryName(CurrentDbPath) ?? AppDomain.CurrentDomain.BaseDirectory;
+            return LegacyDbFileNames
+                .Select(fileName => Path.Combine(currentDirectory, fileName))
+                .ToArray();
         }
 
         private static void EliminarArchivoLegacyMigrado(string legacyDbPath)

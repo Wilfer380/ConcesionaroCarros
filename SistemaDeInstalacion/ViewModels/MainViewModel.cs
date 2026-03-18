@@ -66,6 +66,7 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand CerrarSesionCommand { get; }
         public ICommand ShowInstaladoresCommand { get; }
         public ICommand ShowGestionUsuariosCommand { get; }
+        public ICommand ShowAyudaCommand { get; }
 
         public MainViewModel()
         {
@@ -94,6 +95,15 @@ namespace ConcesionaroCarros.ViewModels
 
                 VistaActiva = "Usuarios";
                 CurrentView = new GestionUsuarioView();
+            });
+
+            ShowAyudaCommand = new RelayCommand(_ =>
+            {
+                VistaActiva = "Ayuda";
+                CurrentView = new HelpView
+                {
+                    DataContext = new HelpViewModel(EsAdministrador)
+                };
             });
 
             CerrarSesionCommand = new RelayCommand(_ =>
