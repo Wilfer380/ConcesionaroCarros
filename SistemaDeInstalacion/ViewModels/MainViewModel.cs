@@ -36,7 +36,6 @@ namespace ConcesionaroCarros.ViewModels
             }
         }
 
-
         public string NombreUsuario
         {
             get
@@ -79,14 +78,7 @@ namespace ConcesionaroCarros.ViewModels
                     _nombreVisibleDispositivo);
             }
 
-            ShowInstaladoresCommand = new RelayCommand(_ =>
-            {
-                VistaActiva = "Instaladores";
-                CurrentView = new InstaladoresView
-                {
-                    DataContext = new InstaladoresViewModel(this)
-                };
-            });
+            ShowInstaladoresCommand = new RelayCommand(_ => MostrarInstaladores());
 
             ShowGestionUsuariosCommand = new RelayCommand(_ =>
             {
@@ -114,6 +106,11 @@ namespace ConcesionaroCarros.ViewModels
                 Application.Current.Windows[0]?.Close();
             });
 
+            MostrarInstaladores();
+        }
+
+        private void MostrarInstaladores()
+        {
             VistaActiva = "Instaladores";
             CurrentView = new InstaladoresView
             {
@@ -134,4 +131,3 @@ namespace ConcesionaroCarros.ViewModels
         }
     }
 }
-

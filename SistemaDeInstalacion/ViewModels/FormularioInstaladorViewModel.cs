@@ -64,7 +64,7 @@ namespace ConcesionaroCarros.ViewModels
             {
                 Instalador = new Instalador
                 {
-                    Carpeta = CarpetaDesarrolloGlobal
+                    Carpeta = NormalizarCarpeta(_parent?.CarpetaSeleccionada)
                 };
             }
             else

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationIcon>System Installer(01).ico</ApplicationIcon>
     <PublishUrl>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
@@ -28,11 +29,13 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <InstallerRoot>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISE&#209;OS\SAP - Respaldo dise&#241;os\FORMATOS SAP\InstallerSystem</InstallerRoot>
+    <InstallerPublishDir>$(InstallerRoot)\publish</InstallerPublishDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -250,6 +253,7 @@
     <Content Include="Fonts\Roboto-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="System Installer(01).ico" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -281,5 +285,23 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <Target Name="CopyReleaseToInstallerSystem" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <InstallerPublishFiles Include="$(OutputPath)**\*"
+                             Exclude="$(OutputPath)app.publish\**;$(OutputPath)*.application;$(OutputPath)*.exe.manifest;$(OutputPath)publish.htm" />
+    </ItemGroup>
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="BuiltAssemblyIdentity" />
+    </GetAssemblyIdentity>
+    <MakeDir Directories="$(InstallerPublishDir)" ContinueOnError="WarnAndContinue" />
+    <Copy SourceFiles="@(InstallerPublishFiles)"
+          DestinationFiles="@(InstallerPublishFiles->'$(InstallerPublishDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"
+          ContinueOnError="WarnAndContinue" />
+    <WriteLinesToFile File="$(InstallerRoot)\version.txt"
+                      Lines="@(BuiltAssemblyIdentity->'%(Version)')"
+                      Overwrite="true"
+                      ContinueOnError="WarnAndContinue" />
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>LauncherSistema</AssemblyName>
+    <RootNamespace>LauncherSistema</RootNamespace>
+    <ApplicationIcon>..\System Installer(01).ico</ApplicationIcon>
+    <InstallerRoot>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISE&#209;OS\SAP - Respaldo dise&#241;os\FORMATOS SAP\InstallerSystem</InstallerRoot>
+    <InstallerLauncherDir>$(InstallerRoot)\LauncherSistema</InstallerLauncherDir>
+  </PropertyGroup>
+
+  <Target Name="CopyLauncherToInstallerSystem" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <MakeDir Directories="$(InstallerLauncherDir)" ContinueOnError="WarnAndContinue" />
+    <ItemGroup>
+      <LauncherOutputFiles Include="$(TargetPath)" />
+      <LauncherOutputFiles Include="$(TargetDir)$(TargetFileName).config" Condition="Exists('$(TargetDir)$(TargetFileName).config')" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LauncherOutputFiles)"
+          DestinationFiles="@(LauncherOutputFiles->'$(InstallerLauncherDir)\%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"
+          ContinueOnError="WarnAndContinue" />
+  </Target>
+</Project>

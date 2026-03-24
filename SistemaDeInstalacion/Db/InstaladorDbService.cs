@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using ConcesionaroCarros.Models;
@@ -96,8 +96,6 @@ namespace ConcesionaroCarros.Db
                                 Carpeta = reader.IsDBNull(4)
                                     ? CarpetaDesarrolloGlobal
                                     : NormalizarCarpeta(reader.GetString(4))
-
-                                // 🔥 YA NO SE ASIGNA ICONO AQUÍ
                             });
                         }
                     }

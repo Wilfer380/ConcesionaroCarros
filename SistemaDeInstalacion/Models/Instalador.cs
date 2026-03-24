@@ -1,7 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
@@ -13,6 +16,13 @@ namespace ConcesionaroCarros.Models
         private string _nombre;
         private string _descripcion;
         private string _carpeta;
+        private BitmapSource _icono;
+
+        private static readonly object IconCacheLock = new object();
+        private static readonly Dictionary<string, BitmapSource> IconosPorExtension =
+            new Dictionary<string, BitmapSource>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, BitmapSource> IconosPorRuta =
+            new Dictionary<string, BitmapSource>(StringComparer.OrdinalIgnoreCase);
 
         public int Id { get; set; }
 
@@ -22,8 +32,10 @@ namespace ConcesionaroCarros.Models
             set
             {
                 _ruta = value;
+                _icono = ObtenerIconoGenerico(value);
                 OnPropertyChanged(nameof(Ruta));
                 OnPropertyChanged(nameof(Icono));
+                _ = CargarIconoRealAsync(value);
             }
         }
 
@@ -57,38 +69,136 @@ namespace ConcesionaroCarros.Models
             }
         }
 
-        // 🔥 ICONO REAL SIN SYSTEM.DRAWING
-        public BitmapSource Icono
+        public BitmapSource Icono => _icono;
+
+        private static BitmapSource ObtenerIconoGenerico(string ruta)
         {
-            get
+            var extension = Path.GetExtension(ruta);
+            if (string.IsNullOrWhiteSpace(extension))
+                extension = ".exe";
+
+            if (!extension.StartsWith(".", StringComparison.Ordinal))
+                extension = "." + extension;
+
+            lock (IconCacheLock)
             {
-                if (string.IsNullOrEmpty(Ruta) || !File.Exists(Ruta))
+                if (IconosPorExtension.TryGetValue(extension, out var iconoCacheado))
+                    return iconoCacheado;
+            }
+
+            var icono = CrearIconoPorExtension(extension);
+
+            lock (IconCacheLock)
+            {
+                IconosPorExtension[extension] = icono;
+            }
+
+            return icono;
+        }
+
+        private async Task CargarIconoRealAsync(string ruta)
+        {
+            if (string.IsNullOrWhiteSpace(ruta))
+                return;
+
+            BitmapSource iconoReal;
+
+            lock (IconCacheLock)
+            {
+                if (IconosPorRuta.TryGetValue(ruta, out iconoReal))
+                {
+                    AplicarIconoReal(ruta, iconoReal);
+                    return;
+                }
+            }
+
+            iconoReal = await Task.Run(() => CrearIconoDesdeRuta(ruta));
+            if (iconoReal == null)
+                return;
+
+            lock (IconCacheLock)
+            {
+                IconosPorRuta[ruta] = iconoReal;
+            }
+
+            AplicarIconoReal(ruta, iconoReal);
+        }
+
+        private void AplicarIconoReal(string ruta, BitmapSource iconoReal)
+        {
+            var dispatcher = Application.Current?.Dispatcher;
+            if (dispatcher == null)
+                return;
+
+            dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!string.Equals(_ruta, ruta, StringComparison.OrdinalIgnoreCase))
+                    return;
+
+                _icono = iconoReal;
+                OnPropertyChanged(nameof(Icono));
+            }));
+        }
+
+        private static BitmapSource CrearIconoDesdeRuta(string ruta)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(ruta) || !File.Exists(ruta))
                     return null;
 
-                try
-                {
-                    SHFILEINFO shinfo = new SHFILEINFO();
+                return CrearBitmapDesdeShell(ruta, FILE_ATTRIBUTE_NORMAL, SHGFI_ICON | SHGFI_LARGEICON);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
-                    SHGetFileInfo(Ruta, 0, ref shinfo,
-                        (uint)Marshal.SizeOf(shinfo),
-                        SHGFI_ICON | SHGFI_LARGEICON);
+        private static BitmapSource CrearIconoPorExtension(string extension)
+        {
+            try
+            {
+                return CrearBitmapDesdeShell(
+                    extension,
+                    FILE_ATTRIBUTE_NORMAL,
+                    SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
-                    if (shinfo.hIcon == IntPtr.Zero)
-                        return null;
+        private static BitmapSource CrearBitmapDesdeShell(string path, uint atributos, uint flags)
+        {
+            var shinfo = new SHFILEINFO();
 
-                    var icon = Imaging.CreateBitmapSourceFromHIcon(
-                        shinfo.hIcon,
-                        System.Windows.Int32Rect.Empty,
-                        BitmapSizeOptions.FromEmptyOptions());
+            SHGetFileInfo(
+                path,
+                atributos,
+                ref shinfo,
+                (uint)Marshal.SizeOf(shinfo),
+                flags);
 
-                    DestroyIcon(shinfo.hIcon);
+            if (shinfo.hIcon == IntPtr.Zero)
+                return null;
 
-                    return icon;
-                }
-                catch
-                {
-                    return null;
-                }
+            try
+            {
+                var icono = Imaging.CreateBitmapSourceFromHIcon(
+                    shinfo.hIcon,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
+
+                if (icono.CanFreeze)
+                    icono.Freeze();
+
+                return icono;
+            }
+            finally
+            {
+                DestroyIcon(shinfo.hIcon);
             }
         }
 
@@ -110,6 +220,8 @@ namespace ConcesionaroCarros.Models
 
         private const uint SHGFI_ICON = 0x000000100;
         private const uint SHGFI_LARGEICON = 0x000000000;
+        private const uint SHGFI_USEFILEATTRIBUTES = 0x000000010;
+        private const uint FILE_ATTRIBUTE_NORMAL = 0x00000080;
 
         [DllImport("shell32.dll")]
         private static extern IntPtr SHGetFileInfo(
@@ -125,6 +237,7 @@ namespace ConcesionaroCarros.Models
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
