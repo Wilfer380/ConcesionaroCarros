@@ -113,11 +113,7 @@ Si el sistema no te deja entrar, puede pasar una de estas situaciones:
 
 El sistema ya diferencia cuando el dato incorrecto es el usuario o correo, y cuando el dato incorrecto es la contrasena.
 
-Historia de pantallazo: Mensaje de usuario o correo incorrecto.
-![Mensaje de usuario o correo incorrecto](login-usuario-07-error-usuario.png)
-
-Historia de pantallazo: Mensaje de contrasena incorrecta.
-![Mensaje de contrasena incorrecta](login-usuario-08-error-contrasena.png)
+![alt text](image-6.png)
 
 ## Recuperacion de contrasena
 
@@ -127,39 +123,24 @@ Si olvidaste la contrasena, usa la ruta de recuperacion incluida en la pantalla 
 
 Desde la pantalla de login, entra a la opcion de recuperacion de acceso.
 
-Historia de pantallazo: Opcion de recuperacion desde login.
-![Opcion de recuperacion desde login](recuperacion-usuario-01-acceso.png)
+![alt text](image-7.png)
 
 ### Paso 2. Ingresar el correo registrado
 
 Escribe el correo corporativo con el que fue creada tu cuenta. El sistema validara si ese correo existe.
 
-Historia de pantallazo: Campo de correo en recuperacion.
-![Campo de correo en recuperacion](recuperacion-usuario-02-correo.png)
-
 ### Paso 3. Validar el proceso de recuperacion
 
 Sigue las instrucciones que te muestre la pantalla. El sistema puede pedirte validaciones previas antes de permitir el cambio de contrasena.
 
-Historia de pantallazo: Paso intermedio del flujo de recuperacion.
-![Paso intermedio del flujo de recuperacion](recuperacion-usuario-03-validacion.png)
+![alt text](image-8.png)
 
+![alt text](image-12.png)
 ### Paso 4. Registrar la nueva contrasena
 
 Cuando el sistema lo permita, escribe la nueva contrasena y confirma el cambio.
 
-Historia de pantallazo: Formulario para definir nueva contrasena.
-![Formulario para definir nueva contrasena](recuperacion-usuario-04-nueva-contrasena.png)
-
 ## Que pasa cuando el login es correcto
-
-Cuando el acceso es exitoso:
-
-- se abre el catalogo principal;
-- se muestra tu nombre en el panel lateral;
-- solo ves los aplicativos autorizados para tu cuenta;
-- puedes revisar informacion del instalador y ejecutarlo.
-
 ## Vista principal del usuario
 
 Despues de iniciar sesion, el usuario accede a la vista de instaladores.
@@ -170,14 +151,13 @@ En esta pantalla normalmente encontrara:
 - opcion `Instaladores`;
 - opcion `Ayuda`;
 - boton `Cerrar sesion`;
-- tarjetas con los aplicativos asignados.
+- tarjetas con los aplicativos asignados tanto en la carpeta local de desarrollo planta y carpeta de desarrollo global.
 
-Historia de pantallazo: Vista general del modulo de instaladores del usuario.
-![Vista general del modulo de instaladores del usuario](usuario-vista-01-catalogo.png)
+![alt text](image-10.png)
 
 ## Como leer una tarjeta de instalador
 
-Cada tarjeta puede mostrar:
+Cada tarjeta puede mostrar visualmente :
 
 - nombre del aplicativo;
 - ruta o referencia del ejecutable;
@@ -187,8 +167,7 @@ Cada tarjeta puede mostrar:
 
 Esto te permite identificar rapidamente que aplicacion estas usando y confirmar si corresponde a tu proceso.
 
-Historia de pantallazo: Tarjeta individual de un instalador.
-![Tarjeta individual de un instalador](usuario-vista-02-tarjeta-instalador.png)
+![alt text](image-11.png)
 
 ## Como revisar el detalle de un aplicativo
 
