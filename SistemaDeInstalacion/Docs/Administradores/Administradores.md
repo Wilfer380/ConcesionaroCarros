@@ -1,324 +1,336 @@
 # Administradores
 
-Esta guia explica, paso a paso, como debe operar un administrador dentro del sistema. Esta pensada para una persona responsable de mantener usuarios, instaladores, permisos y control funcional de la herramienta.
+Esta guia explica el recorrido funcional del administrador dentro del sistema. La secuencia sigue el uso real de la herramienta: abrir el acceso directo, registrar una cuenta administrativa si hace falta, iniciar sesion por la ruta correcta y despues operar los modulos de gestion.
+
+## Explicacion principal
+
+El administrador no entra solamente para abrir aplicativos. Entra para mantener el sistema funcionando correctamente, gestionar usuarios, administrar instaladores y controlar que cada persona vea solo lo que le corresponde.
+
+Desde la vista administrativa se puede:
+
+- administrar el catalogo de instaladores;
+- crear, editar y eliminar usuarios;
+- asignar o retirar aplicativos;
+- consultar ayuda funcional;
+- acceder al modulo de logs si el perfil tiene autorizacion especial.
 
 ## Objetivo de esta guia
 
 Con esta guia el administrador podra:
 
-- ingresar correctamente por la ruta administrativa;
-- entender la diferencia entre login normal y login admin;
-- registrar, editar y eliminar instaladores;
-- crear, editar y eliminar usuarios;
-- asignar aplicativos por persona;
-- reconocer el impacto funcional de cada accion.
+- abrir correctamente la aplicacion desde el acceso directo;
+- diferenciar el login normal del login admin;
+- registrar una cuenta administrativa;
+- iniciar sesion por la ruta correcta;
+- gestionar instaladores;
+- gestionar usuarios;
+- asignar aplicativos;
+- validar los cambios funcionales realizados.
 
-## Alcance del rol administrador
+## Que debe entender primero el administrador
 
-El administrador es responsable de la operacion diaria del sistema. Esto incluye:
+Antes del recorrido visual, el administrador debe tener claras estas reglas:
 
-- mantener actualizado el catalogo de instaladores;
-- gestionar cuentas de usuario;
-- asignar aplicativos segun necesidad operativa;
-- retirar registros obsoletos;
-- garantizar que cada persona vea solo lo que debe usar.
+1. el acceso empieza desde el mismo acceso directo principal del sistema;
+2. el login normal y el login administrativo no son equivalentes;
+3. si la cuenta administrativa aun no existe, primero debe registrarse;
+4. solo despues del login admin correcto se habilitan los modulos de gestion;
+5. cada cambio administrativo afecta a otros usuarios y debe revisarse con cuidado.
 
 ## Flujo general administrativo
 
 ```text
-Abrir la aplicacion
+Acceso directo
         |
         v
-Entrar por login administrativo
+Pantalla inicial
         |
-        v
-Vista principal en modo administrador
-   |
-   +--> Instaladores
-   |      +- ver
-   |      +- agregar
-   |      +- editar
-   |      \- eliminar
-   |
-   +--> Gestion de Usuarios
-   |      +- agregar
-   |      +- editar
-   |      +- eliminar
-   |      \- asignar aplicativos
-   |
-   \--> Ayuda
+        +--> Registro administrativo
+        |        |
+        |        v
+        |   Regreso al login admin
+        |
+        \--> Login administrativo
+                 |
+                 v
+        Vista principal admin
+                 |
+                 +--> Instaladores
+                 +--> Gestion de Usuarios
+                 +--> Ayuda
+                 \--> Logs segun permisos
 ```
 
-## Diferencia entre login normal y login administrativo
+## Inicio del recorrido visual
+
+Desde este punto comienzan los pantallazos de administracion. El orden recomendado para pegar las imagenes es:
+
+1. acceso directo;
+2. pantalla inicial;
+3. diferencia entre login normal y admin;
+4. registro administrativo;
+5. login admin;
+6. vista principal;
+7. instaladores;
+8. gestion de usuarios;
+9. asignaciones;
+10. cierre de sesion.
+
+## Paso 1. Abrir la aplicacion desde el acceso directo
+
+El administrador tambien inicia desde el acceso directo principal del sistema. Desde ahi debe dirigirse a la ruta administrativa.
+
+Historia de pantallazo: Acceso directo del sistema en el escritorio.
+<!-- Aqui pegas la imagen del acceso directo para administracion -->
+
+Historia de pantallazo: Pantalla inicial del sistema antes de elegir login admin.
+<!-- Aqui pegas la imagen de la pantalla inicial -->
+
+## Paso 2. Entender la diferencia entre login normal y login admin
 
 Esta es una de las reglas mas importantes del sistema:
 
-- el login normal sirve para usuarios finales;
-- el login administrativo sirve para activar permisos de administracion;
-- una persona con rol administrativo no obtiene esos permisos si entra por el login normal;
-- para ver Gestion de Usuarios y opciones administrativas, siempre debes usar el login admin.
+- el login normal es para usuarios finales;
+- el login administrativo activa permisos de administracion;
+- un usuario con rol administrativo no obtiene acceso completo si entra por login normal;
+- para ver `Gestion de Usuarios` y demas funciones de administracion, siempre debe ingresar por la ruta admin.
 
-## Paso a paso para ingresar como administrador
+Historia de pantallazo: Diferencia visual entre acceso normal y acceso administrativo.
+<!-- Aqui pegas la imagen que muestra las dos rutas de acceso -->
 
-### Paso 1. Abrir la ruta administrativa
+## Paso 3. Registro administrativo
 
-Desde la pantalla inicial del sistema, entra por la opcion de acceso administrativo.
+Si la cuenta administrativa aun no existe, primero debe registrarse desde la ruta admin.
 
-Historia de pantallazo: Acceso desde login normal hacia login administrativo.
-![Acceso desde login normal hacia login administrativo](../Images/Administradores/01-acceso-login-admin.png)
+### Paso 3.1. Abrir la opcion Registrate del login admin
 
-### Paso 2. Escribir el usuario administrativo
+Desde la pantalla de login administrativo, pulsa la opcion `Registrate`.
 
-En el acceso administrativo debes escribir el `UsuarioSistema` o identificador definido para el administrador.
+Historia de pantallazo: Opcion Registrate dentro del login administrativo.
+<!-- Aqui pegas la imagen del acceso al registro admin -->
 
-Este campo no se comporta igual que el login normal, por lo que debes usar exactamente el dato registrado para administracion.
+### Paso 3.2. Completar el formulario de registro administrativo
+
+En el registro administrativo se deben completar:
+
+- correo corporativo;
+- rol administrativo;
+- contrasena normal;
+- contrasena administrativa.
+
+Este registro no es igual al normal. Aqui el sistema crea o actualiza la cuenta base y ademas registra la informacion administrativa necesaria para operar en modo admin.
+
+Historia de pantallazo: Formulario completo de registro administrativo.
+<!-- Aqui pegas la imagen del formulario de registro admin -->
+
+### Paso 3.3. Guardar el registro administrativo
+
+Pulsa el boton de registro y espera la confirmacion.
+
+Si el proceso es correcto:
+
+- se crea o actualiza el usuario base;
+- se registra la cuenta administrativa;
+- el sistema regresa al login admin con los datos listos para ingresar.
+
+Historia de pantallazo: Confirmacion de registro administrativo exitoso.
+<!-- Aqui pegas la imagen del mensaje de registro admin exitoso -->
+
+Historia de pantallazo: Validacion de registro administrativo por duplicado o error.
+<!-- Aqui pegas la imagen de una validacion de registro admin -->
+
+## Paso 4. Iniciar sesion por login administrativo
+
+Una vez abierto el acceso directo y, si aplica, completado el registro, el siguiente paso es ingresar por el login admin.
+
+### Paso 4.1. Abrir el login administrativo
+
+Desde la pantalla principal, entra a la opcion de acceso administrativo.
+
+Historia de pantallazo: Acceso al login administrativo desde la pantalla inicial.
+<!-- Aqui pegas la imagen de apertura del login admin -->
+
+### Paso 4.2. Escribir el usuario administrativo
+
+En este login debes usar el `UsuarioSistema` o identificador administrativo definido para la cuenta.
 
 Historia de pantallazo: Campo de usuario administrativo diligenciado.
-![Campo de usuario administrativo diligenciado](../Images/Administradores/02-usuario-admin.png)
+<!-- Aqui pegas la imagen del campo de usuario admin -->
 
-### Paso 3. Escribir la contrasena administrativa
+### Paso 4.3. Escribir la contrasena administrativa
 
-Ingresa la contrasena administrativa correspondiente. Esta contrasena es distinta de la contrasena normal del usuario.
+Ingresa la contrasena administrativa correspondiente. Esta contrasena no se valida igual que la del login normal.
 
 Historia de pantallazo: Campo de contrasena administrativa diligenciado.
-![Campo de contrasena administrativa diligenciado](../Images/Administradores/03-contrasena-admin.png)
+<!-- Aqui pegas la imagen del campo de contrasena admin -->
 
-### Paso 4. Confirmar el ingreso
+### Paso 4.4. Confirmar el ingreso
 
-Pulsa el boton de acceso. Si la validacion es correcta, el sistema abrira la vista principal con el modo administrador activo.
+Pulsa el boton de acceso. Si todo es correcto, el sistema abrira la vista principal con modo administrador activo.
 
 Historia de pantallazo: Resultado de login admin exitoso.
-![Resultado de login admin exitoso](../Images/Administradores/04-login-admin-exitoso.png)
+<!-- Aqui pegas la imagen del acceso admin correcto -->
 
-## Que cambia cuando el login admin es correcto
+## Paso 5. Validaciones del login administrativo
 
-Cuando el acceso administrativo es exitoso:
+El sistema diferencia mejor los errores del login admin.
 
-- aparece la vista completa de instaladores;
-- se habilita `Gestion de Usuarios`;
-- se permiten formularios de alta, edicion y eliminacion;
-- se habilita la asignacion de aplicativos por usuario.
+### Cuando el usuario administrativo no existe
 
-## Vista principal del administrador
+El sistema indicara que el usuario administrativo no se encuentra registrado.
 
-La vista administrativa conserva la estructura principal del sistema, pero agrega herramientas de gestion.
+Historia de pantallazo: Mensaje de usuario administrativo incorrecto.
+<!-- Aqui pegas la imagen del error de usuario admin -->
 
-Normalmente veras:
+### Cuando la contrasena administrativa es incorrecta
 
-- menu lateral;
+El sistema indicara que la contrasena administrativa es incorrecta.
+
+Historia de pantallazo: Mensaje de contrasena administrativa incorrecta.
+<!-- Aqui pegas la imagen del error de contrasena admin -->
+
+## Paso 6. Vista principal del administrador
+
+Cuando el login admin es correcto, la aplicacion entra en modo administrador.
+
+Normalmente vera:
+
+- panel lateral;
 - modulo `Instaladores`;
 - modulo `Gestion de Usuarios`;
 - opcion `Ayuda`;
-- opcion `Cerrar sesion`.
+- opcion `Cerrar sesion`;
+- opcion `Logs` solo si el perfil cumple la validacion especial de soporte.
 
-Historia de pantallazo: Vista principal del administrador.
-![Vista principal del administrador](../Images/Administradores/05-vista-principal-admin.png)
+Historia de pantallazo: Vista principal del administrador con menu completo.
+<!-- Aqui pegas la imagen de la vista principal admin -->
 
-## Modulo de Instaladores
+## Paso 7. Gestion de instaladores
 
-Este modulo controla los ejecutables visibles dentro del sistema. Desde aqui el administrador puede consultar, registrar, editar o eliminar instaladores.
+Desde este modulo se controla el catalogo de ejecutables del sistema.
 
-Cada tarjeta puede incluir:
+### Como agregar un instalador
 
-- nombre del aplicativo;
-- descripcion;
-- ruta del ejecutable;
-- icono;
-- boton `Ver`;
-- boton `Editar`;
-- boton `Eliminar`;
-- boton de ejecucion.
+1. entra al modulo `Instaladores`;
+2. abre el formulario de nuevo instalador;
+3. selecciona el ejecutable;
+4. completa nombre, descripcion y categoria;
+5. guarda el registro.
 
 Historia de pantallazo: Modulo Instaladores en modo administrador.
-![Modulo Instaladores en modo administrador](../Images/Administradores/06-modulo-instaladores-admin.png)
+<!-- Aqui pegas la imagen del modulo de instaladores -->
 
-## Como agregar un instalador
-
-### Paso 1. Entrar al modulo Instaladores
-
-Desde el menu lateral selecciona `Instaladores`.
-
-Historia de pantallazo: Acceso al modulo Instaladores.
-![Acceso al modulo Instaladores](../Images/Administradores/07-acceso-instaladores.png)
-
-### Paso 2. Abrir el formulario de nuevo instalador
-
-Pulsa la opcion para buscar o registrar un nuevo instalador.
-
-Historia de pantallazo: Boton para agregar o buscar instalador.
-![Boton para agregar o buscar instalador](../Images/Administradores/08-boton-agregar-instalador.png)
-
-### Paso 3. Seleccionar el archivo ejecutable
-
-Busca el archivo `.exe` correspondiente en la ubicacion correcta y seleccionelo.
-
-Historia de pantallazo: Explorador de archivos seleccionando el ejecutable.
-![Explorador de archivos seleccionando el ejecutable](../Images/Administradores/09-seleccion-ejecutable.png)
-
-### Paso 4. Completar la informacion funcional
-
-Registra:
-
-- nombre visible;
-- descripcion;
-- carpeta o categoria funcional correspondiente.
-
-Esta informacion es importante porque es la que luego vera el usuario final.
-
-Historia de pantallazo: Formulario completo de instalador.
-![Formulario completo de instalador](../Images/Administradores/10-formulario-instalador.png)
-
-### Paso 5. Guardar
-
-Guarda el registro. Cuando el proceso termine correctamente, el instalador quedara disponible en el catalogo para futuras asignaciones.
+Historia de pantallazo: Formulario de nuevo instalador.
+<!-- Aqui pegas la imagen del formulario de instalador -->
 
 Historia de pantallazo: Confirmacion de instalador guardado.
-![Confirmacion de instalador guardado](../Images/Administradores/11-instalador-guardado.png)
+<!-- Aqui pegas la imagen de la confirmacion del instalador -->
 
-## Como editar un instalador
+### Como editar o eliminar un instalador
 
-Para editar un instalador:
+Para editar:
 
-1. localiza la tarjeta correcta;
+1. ubica la tarjeta correcta;
 2. pulsa `Editar`;
-3. actualiza nombre, descripcion, ruta o clasificacion segun corresponda;
-4. guarda los cambios.
+3. actualiza la informacion;
+4. guarda.
 
-Usa esta opcion cuando el ejecutable cambie, la descripcion necesite ajuste o el aplicativo deba reclasificarse.
+Para eliminar:
+
+1. ubica la tarjeta;
+2. pulsa `Eliminar`;
+3. confirma la accion.
 
 Historia de pantallazo: Edicion de un instalador existente.
-![Edicion de un instalador existente](../Images/Administradores/12-edicion-instalador.png)
-
-## Como eliminar un instalador
-
-Para retirar un instalador del sistema:
-
-1. localiza la tarjeta correcta;
-2. pulsa `Eliminar`;
-3. confirma la accion.
-
-Debes tener cuidado con esta accion, porque el aplicativo dejara de estar visible para nuevos procesos de consulta y asignacion.
+<!-- Aqui pegas la imagen de edicion de instalador -->
 
 Historia de pantallazo: Confirmacion de eliminacion de instalador.
-![Confirmacion de eliminacion de instalador](../Images/Administradores/13-eliminacion-instalador.png)
+<!-- Aqui pegas la imagen de eliminacion de instalador -->
 
-## Modulo Gestion de Usuarios
+## Paso 8. Gestion de usuarios
 
-Este modulo solo esta disponible en modo administrador. Desde aqui se controlan las cuentas y los permisos operativos.
+Este modulo solo esta disponible en modo administrador. Desde aqui se administran cuentas y permisos.
 
-Funciones principales:
+### Como agregar un usuario
 
-- agregar usuario;
-- editar usuario;
-- eliminar usuario;
-- revisar rol;
-- asignar aplicativos.
+1. abre `Gestion de Usuarios`;
+2. pulsa la opcion para crear un usuario;
+3. completa nombres, apellidos, correo, telefono, contrasena y rol;
+4. guarda la informacion.
 
 Historia de pantallazo: Vista principal de Gestion de Usuarios.
-![Vista principal de Gestion de Usuarios](../Images/Administradores/14-gestion-usuarios.png)
+<!-- Aqui pegas la imagen de la vista principal de gestion de usuarios -->
 
-## Como agregar un usuario
-
-### Paso 1. Abrir Gestion de Usuarios
-
-Selecciona `Gestion de Usuarios` desde el menu lateral.
-
-Historia de pantallazo: Entrada al modulo Gestion de Usuarios.
-![Entrada al modulo Gestion de Usuarios](../Images/Administradores/15-acceso-gestion-usuarios.png)
-
-### Paso 2. Abrir formulario de nuevo usuario
-
-Pulsa la opcion para crear un usuario nuevo.
-
-Historia de pantallazo: Boton Agregar usuario.
-![Boton Agregar usuario](../Images/Administradores/16-boton-agregar-usuario.png)
-
-### Paso 3. Completar el formulario
-
-Registra como minimo:
-
-- nombres;
-- apellidos;
-- correo;
-- telefono;
-- contrasena;
-- rol.
-
-Historia de pantallazo: Formulario completo de usuario.
-![Formulario completo de usuario](../Images/Administradores/17-formulario-usuario.png)
-
-### Paso 4. Guardar
-
-Guarda la informacion. Si todo es correcto, el usuario quedara disponible para login y para asignacion de aplicativos.
+Historia de pantallazo: Formulario de nuevo usuario.
+<!-- Aqui pegas la imagen del formulario de usuario -->
 
 Historia de pantallazo: Confirmacion de usuario creado.
-![Confirmacion de usuario creado](../Images/Administradores/18-usuario-creado.png)
+<!-- Aqui pegas la imagen de la confirmacion de usuario creado -->
 
-## Como editar un usuario
+### Como editar o eliminar un usuario
 
-Para editar un usuario:
+Para editar:
 
-1. localiza la fila o registro correcto;
+1. localiza el registro;
 2. pulsa `Editar`;
-3. modifica los datos necesarios;
-4. guarda los cambios.
+3. actualiza la informacion;
+4. guarda.
 
-Esta accion sirve para actualizar nombres, correo, telefono, contrasena o rol.
+Para eliminar:
 
-Historia de pantallazo: Edicion de usuario existente.
-![Edicion de usuario existente](../Images/Administradores/19-edicion-usuario.png)
-
-## Como eliminar un usuario
-
-Para eliminar un usuario:
-
-1. localiza el registro correcto;
+1. localiza el registro;
 2. pulsa `Eliminar`;
 3. confirma la accion.
 
-Al hacerlo, el sistema retira la cuenta y limpia la informacion relacionada segun la logica actual del sistema.
+Historia de pantallazo: Edicion de usuario existente.
+<!-- Aqui pegas la imagen de edicion de usuario -->
 
 Historia de pantallazo: Confirmacion de eliminacion de usuario.
-![Confirmacion de eliminacion de usuario](../Images/Administradores/20-eliminacion-usuario.png)
+<!-- Aqui pegas la imagen de eliminacion de usuario -->
 
-## Como asignar aplicativos a un usuario
+## Paso 9. Asignacion de aplicativos
 
-### Paso 1. Seleccionar el usuario
+Dentro de `Gestion de Usuarios`, el administrador puede asignar o retirar aplicativos a una persona.
 
-Dentro de Gestion de Usuarios, selecciona la persona a la que deseas asignar aplicativos.
+El flujo general es:
 
-Historia de pantallazo: Seleccion de usuario dentro de la tabla.
-![Seleccion de usuario dentro de la tabla](../Images/Administradores/21-seleccion-usuario.png)
+1. seleccionar el usuario;
+2. abrir el panel de asignacion;
+3. marcar o desmarcar aplicativos;
+4. guardar la asignacion.
 
-### Paso 2. Abrir el panel de asignacion
-
-El sistema despliega el panel de asignacion dentro de la misma vista, sin abrir una ventana aparte.
+Historia de pantallazo: Seleccion de usuario para asignacion.
+<!-- Aqui pegas la imagen de seleccion de usuario -->
 
 Historia de pantallazo: Panel de asignacion abierto.
-![Panel de asignacion abierto](../Images/Administradores/22-panel-asignacion.png)
+<!-- Aqui pegas la imagen del panel de asignacion -->
 
-### Paso 3. Marcar los aplicativos permitidos
-
-Selecciona las casillas correspondientes a los aplicativos que esa persona debe ver y ejecutar.
-
-Historia de pantallazo: Casillas de aplicativos marcadas.
-![Casillas de aplicativos marcadas](../Images/Administradores/23-aplicativos-marcados.png)
-
-### Paso 4. Guardar la asignacion
-
-Guarda los cambios. A partir de ese momento, el catalogo del usuario quedara filtrado segun la seleccion realizada.
+Historia de pantallazo: Aplicativos marcados o desmarcados.
+<!-- Aqui pegas la imagen de las casillas de asignacion -->
 
 Historia de pantallazo: Confirmacion de asignacion guardada.
-![Confirmacion de asignacion guardada](../Images/Administradores/24-asignacion-guardada.png)
+<!-- Aqui pegas la imagen de confirmacion de asignacion -->
+
+## Paso 10. Cerrar sesion
+
+Cuando el administrador termine:
+
+1. debe volver al panel lateral;
+2. pulsar `Cerrar sesion`;
+3. confirmar el cierre si aplica;
+4. dejar el sistema en la pantalla inicial.
+
+Historia de pantallazo: Cierre de sesion del administrador.
+<!-- Aqui pegas la imagen del cierre de sesion admin -->
 
 ## Que revisar despues de un cambio importante
 
-Despues de agregar, editar o asignar, valida:
+Despues de agregar, editar, eliminar o asignar, valida:
 
-- que el usuario si aparezca en la tabla;
-- que el instalador si aparezca en el catalogo;
-- que el usuario pueda ingresar correctamente;
-- que el catalogo visible coincida con la asignacion hecha.
+- que el usuario aparezca correctamente;
+- que el instalador siga visible en el catalogo;
+- que el usuario pueda ingresar;
+- que el catalogo filtrado coincida con la asignacion realizada.
 
 ## Casos de soporte frecuentes
 
@@ -326,34 +338,34 @@ Despues de agregar, editar o asignar, valida:
 
 Revisa:
 
-1. que el instalador siga registrado;
-2. que el usuario tenga aplicativos asignados;
-3. que la ruta del ejecutable siga existiendo.
+1. que el instalador exista;
+2. que el usuario tenga asignaciones;
+3. que la ruta del ejecutable siga siendo valida.
 
 ### El ejecutable no abre
 
 Revisa:
 
 1. que el archivo exista en la ruta;
-2. que no haya sido movido o renombrado;
-3. que Windows no este bloqueando el archivo;
+2. que no haya sido movido;
+3. que Windows no lo bloquee;
 4. que el usuario tenga permisos sobre esa ubicacion.
 
 ### No aparece Gestion de Usuarios
 
 Revisa:
 
-1. que realmente se haya ingresado por el login administrativo;
+1. que el ingreso haya sido por login admin;
 2. que la contrasena usada sea la administrativa;
 3. que el modo administrador este activo.
 
 ## Buenas practicas para administracion
 
-- no publiques instaladores con nombres ambiguos;
-- valida que la ruta funcione antes de asignarla;
-- evita dejar cuentas sin rol definido;
-- confirma asignaciones despues de cada cambio relevante;
-- usa nombres y descripciones claras para facilitar soporte.
+- usa nombres claros en instaladores;
+- valida rutas antes de guardar;
+- evita cuentas duplicadas;
+- confirma asignaciones despues de cada cambio;
+- diferencia siempre login normal de login admin.
 
 ## Contacto y apoyo
 

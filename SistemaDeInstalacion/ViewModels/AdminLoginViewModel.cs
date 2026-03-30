@@ -80,7 +80,7 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.WarningForUser("AdminLogin", "Administrador no registrado", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 LogService.LatencyForUser("AdminLogin", "Login admin rechazado por usuario no registrado", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
-                    "Este usuario administrador no esta registrado. Debe registrarse primero.",
+                    "El usuario administrativo ingresado no se encuentra registrado. Verifique el dato e intente nuevamente.",
                     "Registro requerido",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -95,7 +95,7 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.WarningForUser("AdminLogin", "Credenciales de administrador invalidas", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 LogService.LatencyForUser("AdminLogin", "Login admin rechazado por credenciales invalidas", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
-                    "Credenciales de administrador incorrectas.",
+                    "La contrasena administrativa ingresada es incorrecta. Verifique el dato e intente nuevamente.",
                     "Acceso denegado",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

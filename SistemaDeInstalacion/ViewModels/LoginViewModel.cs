@@ -64,7 +64,7 @@ namespace ConcesionaroCarros.ViewModels
             if (string.IsNullOrWhiteSpace(usuarioIngreso))
             {
                 LogService.Warning("Login", "Intento de login sin usuario");
-                MessageBox.Show("Debe ingresar usuario.", "Aviso",
+                MessageBox.Show("Debe ingresar su usuario o correo.", "Aviso",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -85,7 +85,7 @@ namespace ConcesionaroCarros.ViewModels
                 stopwatch.Stop();
                 LogService.WarningForUser("Login", "Usuario no registrado", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 LogService.LatencyForUser("Login", "Login rechazado por usuario no registrado", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
-                MessageBox.Show("No existe un registro para ese usuario. Registrese primero.",
+                MessageBox.Show("El usuario o correo ingresado no se encuentra registrado. Verifique el dato e intente nuevamente.",
                     "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -98,7 +98,7 @@ namespace ConcesionaroCarros.ViewModels
                 usuarioLog = ResolveLogUserName(correoLogin, usuarioPc, correoPrincipalDispositivo);
                 LogService.WarningForUser("Login", "Credenciales invalidas", usuarioLog, BuildLoginDetail(usuarioLog, correoLogin));
                 LogService.LatencyForUser("Login", "Login rechazado por credenciales invalidas", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, correoLogin));
-                MessageBox.Show("Usuario o contrasena incorrectos", "Error",
+                MessageBox.Show("La contrasena ingresada es incorrecta. Verifique el dato e intente nuevamente.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
