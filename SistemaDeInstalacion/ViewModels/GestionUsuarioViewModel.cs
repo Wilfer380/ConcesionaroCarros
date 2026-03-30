@@ -88,6 +88,7 @@ namespace ConcesionaroCarros.ViewModels
 
             AgregarUsuarioCommand = new RelayCommand(_ =>
             {
+                LogService.Info("GestionUsuarios", "Apertura de formulario de usuario", "Nuevo usuario");
                 MostrarFormularioUsuario();
                 CargarDatos();
             });
@@ -100,6 +101,7 @@ namespace ConcesionaroCarros.ViewModels
                 try
                 {
                     var correoAnterior = u.Correo;
+                    LogService.Info("GestionUsuarios", "Apertura de formulario de edicion de usuario", ConstruirDetalleUsuario(u));
                     MostrarFormularioUsuario(u);
 
                     var usuarioActualizado = _usuariosDb
@@ -114,6 +116,7 @@ namespace ConcesionaroCarros.ViewModels
                 }
                 catch (SqliteException ex) when (ex.SqliteErrorCode == 5)
                 {
+                    LogService.Warning("GestionUsuarios", "Edicion de usuario bloqueada por base ocupada", ConstruirDetalleUsuario(u));
                     MessageBox.Show(
                         "La base de datos esta ocupada. Intente nuevamente.",
                         "Aviso",
@@ -122,6 +125,7 @@ namespace ConcesionaroCarros.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    LogService.Error("GestionUsuarios", "Error al editar usuario", ex, ConstruirDetalleUsuario(u));
                     MessageBox.Show(
                         "Ocurrio un error al editar el usuario.\n" + ex.Message,
                         "Error",
@@ -141,6 +145,7 @@ namespace ConcesionaroCarros.ViewModels
                     _administradoresDb.EliminarPorCorreo(u.Correo);
                     _usuariosDb.EliminarConDependencias(u.Id, u.Correo);
                     Usuarios.Remove(u);
+                    LogService.Info("GestionUsuarios", "Usuario eliminado", ConstruirDetalleUsuario(u));
 
                     if (SelectedUsuario != null && SelectedUsuario.Id == u.Id)
                         LimpiarPanelAsignacion();
@@ -187,6 +192,7 @@ namespace ConcesionaroCarros.ViewModels
 
             IsPanelAsignacionVisible = true;
             NombreUsuarioAsignacion = $"{SelectedUsuario.Nombres} {SelectedUsuario.Apellidos}";
+            LogService.Info("GestionUsuarios", "Panel de asignacion abierto", ConstruirDetalleUsuario(SelectedUsuario));
 
             CargarRoles(SelectedUsuario.Rol);
             CargarAplicativos(SelectedUsuario.ObtenerAplicativosAsignados());
@@ -258,6 +264,10 @@ namespace ConcesionaroCarros.ViewModels
 
                 SelectedUsuario.EstablecerAplicativosAsignados(rutasSeleccionadas);
                 _usuariosDb.ActualizarAplicativosJson(SelectedUsuario.Id, SelectedUsuario.AplicativosJson);
+                LogService.Info(
+                    "GestionUsuarios",
+                    "Asignacion de aplicativos actualizada",
+                    ConstruirDetalleAsignacion(SelectedUsuario, rutasSeleccionadas));
 
                 var idUsuario = SelectedUsuario.Id;
                 CargarDatos();
@@ -271,6 +281,10 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 5)
             {
+                LogService.Warning(
+                    "GestionUsuarios",
+                    "No se pudo guardar la asignacion por base ocupada",
+                    ConstruirDetalleUsuario(SelectedUsuario));
                 MessageBox.Show(
                     "La base de datos esta ocupada. Intente guardar nuevamente.",
                     "Aviso",
@@ -279,6 +293,11 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (Exception ex)
             {
+                LogService.Error(
+                    "GestionUsuarios",
+                    "Error al guardar asignacion de aplicativos",
+                    ex,
+                    ConstruirDetalleUsuario(SelectedUsuario));
                 MessageBox.Show(
                     "Ocurrio un error al guardar la asignacion.\n" + ex.Message,
                     "Error",
@@ -318,6 +337,9 @@ namespace ConcesionaroCarros.ViewModels
 
         public void OcultarPanelAsignacion()
         {
+            if (SelectedUsuario != null || IsPanelAsignacionVisible)
+                LogService.Info("GestionUsuarios", "Panel de asignacion cerrado", ConstruirDetalleUsuario(SelectedUsuario));
+
             SelectedUsuario = null;
         }
 
@@ -335,6 +357,28 @@ namespace ConcesionaroCarros.ViewModels
         {
             Usuarios = new ObservableCollection<Usuario>(_usuariosDb.ObtenerTodos());
             OnPropertyChanged(nameof(Usuarios));
+        }
+
+        private static string ConstruirDetalleUsuario(Usuario usuario)
+        {
+            if (usuario == null)
+                return "Sin usuario seleccionado";
+
+            return $"Id={usuario.Id}; Correo={usuario.Correo}; Rol={usuario.Rol}";
+        }
+
+        private static string ConstruirDetalleAsignacion(Usuario usuario, IEnumerable<string> rutasSeleccionadas)
+        {
+            var rutas = (rutasSeleccionadas ?? Enumerable.Empty<string>())
+                .Where(r => !string.IsNullOrWhiteSpace(r))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var aplicaciones = rutas.Count == 0
+                ? "Sin aplicativos asignados"
+                : string.Join(" | ", rutas);
+
+            return $"{ConstruirDetalleUsuario(usuario)}; Aplicativos={rutas.Count}; Rutas={aplicaciones}";
         }
     }
 

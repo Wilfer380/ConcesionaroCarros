@@ -29,13 +29,16 @@ namespace ConcesionaroCarros.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Correo) || string.IsNullOrWhiteSpace(Password))
             {
+                LogService.Warning("Register", "Intento de registro sin credenciales completas");
                 MessageBox.Show("Debe ingresar correo y contrasena.");
                 return;
             }
 
             Correo = Correo.Trim();
+            var usuarioLog = LogService.ResolveAuditUserName(Correo);
             if (!Correo.EndsWith("@weg.net", StringComparison.OrdinalIgnoreCase))
             {
+                LogService.WarningForUser("Register", "Registro rechazado por dominio invalido", usuarioLog, Correo);
                 MessageBox.Show(
                     "El correo debe terminar en @weg.net.",
                     "Validacion de correo",
@@ -47,6 +50,7 @@ namespace ConcesionaroCarros.ViewModels
             var usuarioPc = Environment.UserName;
             if (string.IsNullOrWhiteSpace(usuarioPc))
             {
+                LogService.WarningForUser("Register", "No se pudo detectar el usuario del dispositivo", usuarioLog, Correo);
                 MessageBox.Show("No se pudo validar el usuario del dispositivo.");
                 return;
             }
@@ -98,6 +102,7 @@ namespace ConcesionaroCarros.ViewModels
 
             if (existeCorreo)
             {
+                LogService.WarningForUser("Register", "Registro rechazado por correo existente", usuarioLog, Correo);
                 MessageBox.Show(
                     "El usuario ya se encuentra registrado con ese correo.",
                     "Registro existente",
@@ -112,6 +117,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
             {
+                LogService.WarningForUser("Register", "Registro rechazado por correo duplicado", usuarioLog, Correo);
                 MessageBox.Show(
                     "El usuario ya se encuentra registrado con ese correo.",
                     "Registro existente",
@@ -119,8 +125,9 @@ namespace ConcesionaroCarros.ViewModels
                     MessageBoxImage.Information);
                 return;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogService.ErrorForUser("Register", "Error al registrar usuario", usuarioLog, ex, Correo);
                 MessageBox.Show(
                     "No fue posible completar el registro en este momento. Intente nuevamente.",
                     "Error de registro",
@@ -129,6 +136,7 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
+            LogService.InfoForUser("Register", "Usuario registrado correctamente", usuarioLog, Correo);
             MessageBox.Show("Registro exitoso");
 
             // Se precargan credenciales solo para este paso.

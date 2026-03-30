@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -57,9 +58,11 @@ namespace ConcesionaroCarros.ViewModels
 
         private void LoginAdmin()
         {
+            var stopwatch = Stopwatch.StartNew();
             var usuarioIngreso = (Usuario ?? string.Empty).Trim();
             if (string.IsNullOrWhiteSpace(usuarioIngreso))
             {
+                LogService.Warning("AdminLogin", "Intento de login admin sin usuario");
                 MessageBox.Show(
                     "Debe ingresar el usuario de administrador.",
                     "Aviso",
@@ -68,8 +71,14 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
+            var usuarioLog = ResolveLogUserName(usuarioIngreso, Environment.UserName ?? string.Empty, WindowsProfileService.ObtenerCorreoPrincipal());
+            LogService.InfoForUser("AdminLogin", "Intento de login admin", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
+
             if (!_adminsDb.ExistePorUsuarioSistema(usuarioIngreso))
             {
+                stopwatch.Stop();
+                LogService.WarningForUser("AdminLogin", "Administrador no registrado", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
+                LogService.LatencyForUser("AdminLogin", "Login admin rechazado por usuario no registrado", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
                     "Este usuario administrador no esta registrado. Debe registrarse primero.",
                     "Registro requerido",
@@ -82,6 +91,9 @@ namespace ConcesionaroCarros.ViewModels
             var admin = _adminsDb.LoginPorUsuarioSistema(usuarioIngreso, PasswordAdmin);
             if (admin == null)
             {
+                stopwatch.Stop();
+                LogService.WarningForUser("AdminLogin", "Credenciales de administrador invalidas", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
+                LogService.LatencyForUser("AdminLogin", "Login admin rechazado por credenciales invalidas", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
                     "Credenciales de administrador incorrectas.",
                     "Acceso denegado",
@@ -93,6 +105,10 @@ namespace ConcesionaroCarros.ViewModels
             var usuarioNormal = _usuariosDb.ObtenerPorCorreo(admin.Correo);
             if (usuarioNormal == null)
             {
+                stopwatch.Stop();
+                usuarioLog = ResolveLogUserName(admin.Correo, Environment.UserName ?? string.Empty, WindowsProfileService.ObtenerCorreoPrincipal());
+                LogService.WarningForUser("AdminLogin", "Administrador sin usuario base asociado", usuarioLog, BuildLoginDetail(usuarioLog, admin.Correo));
+                LogService.LatencyForUser("AdminLogin", "Login admin rechazado por usuario base inexistente", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, admin.Correo));
                 MessageBox.Show(
                     "No existe usuario base asociado a este administrador.",
                     "Aviso",
@@ -109,6 +125,10 @@ namespace ConcesionaroCarros.ViewModels
             else
                 LimpiarRecordado();
 
+            stopwatch.Stop();
+            usuarioLog = ResolveLogUserName(admin.Correo, Environment.UserName ?? string.Empty, WindowsProfileService.ObtenerCorreoPrincipal());
+            LogService.InfoForUser("AdminLogin", "Login admin exitoso", usuarioLog, BuildLoginDetail(usuarioLog, admin.Correo));
+            LogService.LatencyForUser("AdminLogin", "Login admin exitoso", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, admin.Correo));
             SesionUsuario.UsuarioActual = usuarioNormal;
             SesionUsuario.ModoAdministrador = true;
             new MainWindow().Show();
@@ -207,6 +227,35 @@ namespace ConcesionaroCarros.ViewModels
                 .FirstOrDefault(w => ReferenceEquals(w.DataContext, this));
 
             current?.Close();
+        }
+
+        private static string ResolveLogUserName(string loginValue, string deviceUserName, string deviceEmail)
+        {
+            var candidate = (loginValue ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(candidate))
+                return deviceUserName ?? string.Empty;
+
+            if (candidate.Contains("@"))
+            {
+                if (!string.IsNullOrWhiteSpace(deviceEmail) &&
+                    string.Equals(candidate, deviceEmail.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return deviceUserName ?? string.Empty;
+                }
+
+                var at = candidate.IndexOf('@');
+                return at > 0 ? candidate.Substring(0, at).Trim() : candidate;
+            }
+
+            return candidate;
+        }
+
+        private static string BuildLoginDetail(string userName, string emailOrLogin)
+        {
+            return string.Format(
+                "Usuario={0}; Correo={1}",
+                (userName ?? string.Empty).Trim(),
+                (emailOrLogin ?? string.Empty).Trim());
         }
     }
 }

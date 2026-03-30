@@ -135,6 +135,12 @@ namespace ConcesionaroCarros.Services
                     continue;
                 }
 
+                if (EsMarcadorPantallazo(trimmed))
+                {
+                    AgregarMarcadorPantallazo(doc, trimmed);
+                    continue;
+                }
+
                 AgregarParrafo(doc, trimmed, linkHandler);
             }
 
@@ -167,6 +173,13 @@ namespace ConcesionaroCarros.Services
             return Regex.IsMatch(trimmed, @"^\d+\.\s+");
         }
 
+        private static bool EsMarcadorPantallazo(string trimmed)
+        {
+            var value = (trimmed ?? string.Empty);
+            return value.StartsWith("Aqui va un pantallazo:", StringComparison.OrdinalIgnoreCase) ||
+                   value.StartsWith("Historia de pantallazo:", StringComparison.OrdinalIgnoreCase);
+        }
+
         private static string LimpiarNumerado(string trimmed)
         {
             return Regex.Replace(trimmed, @"^\d+\.\s+", string.Empty).Trim();
@@ -195,6 +208,20 @@ namespace ConcesionaroCarros.Services
                 paragraph.Inlines.Add(inline);
 
             doc.Blocks.Add(paragraph);
+        }
+
+        private static void AgregarMarcadorPantallazo(FlowDocument doc, string texto)
+        {
+            doc.Blocks.Add(new Paragraph(new Run(texto))
+            {
+                Margin = new Thickness(0, 6, 0, 14),
+                Padding = new Thickness(10, 6, 10, 6),
+                FontWeight = FontWeights.Bold,
+                Foreground = new SolidColorBrush(Color.FromRgb(201, 77, 77)),
+                Background = new SolidColorBrush(Color.FromRgb(255, 244, 244)),
+                BorderBrush = new SolidColorBrush(Color.FromRgb(237, 196, 196)),
+                BorderThickness = new Thickness(1)
+            });
         }
 
         private static void AgregarLista(FlowDocument doc, IEnumerable<string> items, bool numerada, Func<string, bool> linkHandler)

@@ -36,6 +36,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <InstallerRoot>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISE&#209;OS\SAP - Respaldo dise&#241;os\FORMATOS SAP\InstallerSystem</InstallerRoot>
     <InstallerPublishDir>$(InstallerRoot)\publish</InstallerPublishDir>
+    <AutoBuildVersion>$([System.DateTime]::UtcNow.ToString("yyyy.Mdd.HHmm.ss"))</AutoBuildVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -105,6 +106,10 @@
     <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\DocumentationService.cs" />
+    <Compile Include="Services\AppLogEntry.cs" />
+    <Compile Include="Services\GlobalCopyContextService.cs" />
+    <Compile Include="Services\LogDashboardService.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MarkdownDocumentRenderer.cs" />
     <Compile Include="Services\RolesSistema.cs" />
     <Compile Include="Services\SesionUsuario.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="ViewModels\FormularioUsuarioViewModel.cs" />
     <Compile Include="ViewModels\GestionUsuarioViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\LogsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MicrosoftRecoveryViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -145,6 +151,9 @@
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogsView.xaml.cs">
+      <DependentUpon>LogsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MicrosoftRecoveryView.xaml.cs">
       <DependentUpon>MicrosoftRecoveryView.xaml</DependentUpon>
@@ -196,6 +205,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -286,20 +299,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Target Name="CopyReleaseToInstallerSystem" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="BuiltAssemblyIdentity" />
+    </GetAssemblyIdentity>
+    <WriteLinesToFile File="$(OutputPath)build.version"
+                      Lines="$(AutoBuildVersion)"
+                      Overwrite="true" />
     <ItemGroup>
       <InstallerPublishFiles Include="$(OutputPath)**\*"
                              Exclude="$(OutputPath)app.publish\**;$(OutputPath)*.application;$(OutputPath)*.exe.manifest;$(OutputPath)publish.htm" />
     </ItemGroup>
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="BuiltAssemblyIdentity" />
-    </GetAssemblyIdentity>
     <MakeDir Directories="$(InstallerPublishDir)" ContinueOnError="WarnAndContinue" />
     <Copy SourceFiles="@(InstallerPublishFiles)"
           DestinationFiles="@(InstallerPublishFiles->'$(InstallerPublishDir)\%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true"
           ContinueOnError="WarnAndContinue" />
     <WriteLinesToFile File="$(InstallerRoot)\version.txt"
-                      Lines="@(BuiltAssemblyIdentity->'%(Version)')"
+                      Lines="$(AutoBuildVersion)"
                       Overwrite="true"
                       ContinueOnError="WarnAndContinue" />
   </Target>

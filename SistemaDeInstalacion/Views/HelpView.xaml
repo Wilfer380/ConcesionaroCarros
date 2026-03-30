@@ -46,6 +46,10 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <ContextMenu x:Key="CopyContextMenu">
+            <MenuItem Header="Copiar" Command="ApplicationCommands.Copy"/>
+        </ContextMenu>
     </UserControl.Resources>
 
     <Grid Margin="30">
@@ -120,11 +124,18 @@
                                        FontSize="11"
                                        TextWrapping="Wrap"
                                        Foreground="{StaticResource CorpMutedBrush}"/>
-                            <TextBlock Text="wandica@weg.net"
-                                       Margin="0,8,0,0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Foreground="{StaticResource CorpAccentBrush}"/>
+                            <DockPanel Margin="0,8,0,0" LastChildFill="False">
+                                <TextBox ContextMenu="{StaticResource CopyContextMenu}"
+                                         IsReadOnlyCaretVisible="True"
+                                         IsReadOnly="True"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         FontSize="14"
+                                         FontWeight="Bold"
+                                         Foreground="{StaticResource CorpAccentBrush}"
+                                         MinWidth="180"
+                                         Text="{Binding CorreoSoporte, Mode=OneWay}"/>
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 
@@ -221,11 +232,18 @@
                                                FontSize="11"
                                                TextWrapping="Wrap"
                                                Foreground="{StaticResource CorpMutedBrush}"/>
-                                    <TextBlock Text="wandica@weg.net"
-                                               Margin="0,8,0,0"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               Foreground="{StaticResource CorpAccentBrush}"/>
+                                    <DockPanel Margin="0,8,0,0" LastChildFill="False">
+                                        <TextBox ContextMenu="{StaticResource CopyContextMenu}"
+                                                 IsReadOnlyCaretVisible="True"
+                                                 IsReadOnly="True"
+                                                 BorderThickness="0"
+                                                 Background="Transparent"
+                                                 FontSize="14"
+                                                 FontWeight="Bold"
+                                                 Foreground="{StaticResource CorpAccentBrush}"
+                                                 MinWidth="180"
+                                                 Text="{Binding CorreoSoporte, Mode=OneWay}"/>
+                                    </DockPanel>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -251,17 +269,18 @@
                             BorderThickness="0,0,0,1"
                             CornerRadius="16,16,0,0"
                             Padding="18,16">
-                        <StackPanel>
-                            <TextBlock Text="{Binding SelectedDocumentTitle}"
-                                       FontSize="21"
-                                       FontWeight="Bold"
-                                       Foreground="{StaticResource CorpAccentBrush}"/>
-                        </StackPanel>
+                        <TextBlock Text="{Binding SelectedDocumentTitle}"
+                                   FontSize="21"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource CorpAccentBrush}"/>
                     </Border>
 
-                    <FlowDocumentScrollViewer Grid.Row="1"
+                    <FlowDocumentScrollViewer x:Name="DocumentViewer"
+                                              Grid.Row="1"
                                               Margin="0"
                                               Padding="0"
+                                              ContextMenu="{StaticResource CopyContextMenu}"
+                                              IsSelectionEnabled="True"
                                               VerticalScrollBarVisibility="Auto"
                                               IsToolBarVisible="False"
                                               Document="{Binding SelectedDocumentFlow}"/>

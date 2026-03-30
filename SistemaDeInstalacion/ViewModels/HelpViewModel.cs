@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -18,6 +19,7 @@ namespace ConcesionaroCarros.ViewModels
         private FlowDocument _selectedDocumentFlow;
         private string _selectedDocumentTitle;
         private string _selectedDocumentPath;
+        private string _selectedDocumentContent;
 
         public ObservableCollection<DocumentationSectionItem> Sections { get; } =
             new ObservableCollection<DocumentationSectionItem>();
@@ -29,8 +31,10 @@ namespace ConcesionaroCarros.ViewModels
             : "Centro de ayuda para usuarios";
 
         public string SubtituloAyuda => EsAdministrador
-            ? "Consulta toda la documentación del sistema organizada por carpetas y documentos."
-            : "Consulta únicamente la documentación disponible para el usuario final.";
+            ? "Consulta toda la documentacion del sistema organizada por carpetas y documentos."
+            : "Consulta unicamente la documentacion disponible para el usuario final.";
+
+        public string CorreoSoporte => "wandica@weg.net";
 
         public string SelectedDocumentTitle
         {
@@ -63,11 +67,15 @@ namespace ConcesionaroCarros.ViewModels
         }
 
         public ICommand SelectDocumentCommand { get; }
+        public ICommand CopySupportEmailCommand { get; }
+        public ICommand CopySelectedDocumentCommand { get; }
 
         public HelpViewModel(bool esAdministrador)
         {
             EsAdministrador = esAdministrador;
             SelectDocumentCommand = new RelayCommand(o => SeleccionarDocumento(o as DocumentationDocumentItem));
+            CopySupportEmailCommand = new RelayCommand(_ => CopiarTexto(CorreoSoporte));
+            CopySelectedDocumentCommand = new RelayCommand(_ => CopiarTexto(_selectedDocumentContent));
             CargarDocumentacion();
         }
 
@@ -109,10 +117,11 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
-            SelectedDocumentTitle = "Documentación no disponible";
+            SelectedDocumentTitle = "Documentacion no disponible";
             SelectedDocumentPath = "No se encontraron archivos de ayuda.";
+            _selectedDocumentContent = "No se encontro documentacion para este perfil.\n\nRevisa que la carpeta `Docs` exista en el directorio de ejecucion.";
             SelectedDocumentFlow = MarkdownDocumentRenderer.Crear(
-                "No se encontró documentación para este perfil.\n\nRevisa que la carpeta `Docs` exista en el directorio de ejecución.",
+                _selectedDocumentContent,
                 ManejarEnlaceMarkdown);
         }
 
@@ -128,6 +137,7 @@ namespace ConcesionaroCarros.ViewModels
             _selectedDocument.IsSelected = true;
 
             var contenido = LeerDocumento(document.FullPath);
+            _selectedDocumentContent = contenido;
             SelectedDocumentTitle = document.Title;
             SelectedDocumentPath = document.RelativePath;
             SelectedDocumentFlow = MarkdownDocumentRenderer.Crear(
@@ -180,13 +190,13 @@ namespace ConcesionaroCarros.ViewModels
             try
             {
                 if (!File.Exists(fullPath))
-                    return "El archivo seleccionado no existe en el directorio de documentación.";
+                    return "El archivo seleccionado no existe en el directorio de documentacion.";
 
                 return File.ReadAllText(fullPath, Encoding.UTF8);
             }
             catch (Exception ex)
             {
-                return "No fue posible cargar el documento.\n\nDetalle técnico:\n`" + ex.Message + "`";
+                return "No fue posible cargar el documento.\n\nDetalle tecnico:\n`" + ex.Message + "`";
             }
         }
 
@@ -234,6 +244,21 @@ namespace ConcesionaroCarros.ViewModels
                 .ToArray();
 
             return new string(chars).Trim().ToUpperInvariant();
+        }
+
+        private static void CopiarTexto(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return;
+
+            try
+            {
+                Clipboard.SetText(texto);
+            }
+            catch
+            {
+                // No interrumpimos la ayuda si el portapapeles esta ocupado.
+            }
         }
     }
 

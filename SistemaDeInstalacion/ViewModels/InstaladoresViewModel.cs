@@ -63,7 +63,9 @@ namespace ConcesionaroCarros.ViewModels
 
             SeleccionarCarpetaCommand = new RelayCommand(o =>
             {
-                CarpetaSeleccionada = o as string;
+                var carpetaDestino = o as string;
+                CarpetaSeleccionada = carpetaDestino;
+                LogService.Info("Instaladores", "Cambio de carpeta de instaladores", NormalizarCarpeta(carpetaDestino));
             });
 
             BuscarInstaladorCommand = new RelayCommand(o =>
@@ -71,6 +73,7 @@ namespace ConcesionaroCarros.ViewModels
                 if (!PuedeGestionarInstaladores)
                     return;
 
+                LogService.Info("Instaladores", "Apertura de formulario de instalador", "Nuevo instalador");
                 AbrirFormularioInstalador();
             });
 
@@ -79,6 +82,7 @@ namespace ConcesionaroCarros.ViewModels
                 var inst = o as Instalador;
                 if (inst != null)
                 {
+                    LogService.Info("Instaladores", "Visualizacion de instalador", ConstruirDetalleInstalador(inst));
                     AbrirFormularioInstalador(inst, true, false);
                 }
             });
@@ -91,6 +95,7 @@ namespace ConcesionaroCarros.ViewModels
                 var inst = o as Instalador;
                 if (inst != null)
                 {
+                    LogService.Info("Instaladores", "Apertura de formulario de edicion de instalador", ConstruirDetalleInstalador(inst));
                     AbrirFormularioInstalador(inst, false, true);
                 }
             });
@@ -105,6 +110,7 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     _instaladorDb.EliminarRuta(inst.Ruta);
                     Instaladores.Remove(inst);
+                    LogService.Info("Instaladores", "Instalador eliminado", ConstruirDetalleInstalador(inst));
                 }
             });
 
@@ -116,30 +122,41 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     try
                     {
+                        LogService.Info("Instaladores", "Ejecucion de instalador iniciada", ConstruirDetalleInstalador(inst));
                         Process.Start(new ProcessStartInfo
                         {
                             FileName = inst.Ruta,
                             UseShellExecute = true
                         });
+                        LogService.Info("Instaladores", "Ejecucion de instalador lanzada", ConstruirDetalleInstalador(inst));
                     }
                     catch (System.ComponentModel.Win32Exception ex)
                     {
                         // Codigo 1223 = usuario cancelo UAC.
                         if (ex.NativeErrorCode == 1223)
+                        {
+                            LogService.Warning("Instaladores", "Ejecucion de instalador cancelada por el usuario", ConstruirDetalleInstalador(inst));
                             return;
+                        }
 
+                        LogService.Error("Instaladores", "No se pudo ejecutar el instalador", ex, ConstruirDetalleInstalador(inst));
                         MessageBox.Show("No se pudo ejecutar el instalador.",
                                         "Error",
                                         MessageBoxButton.OK,
                                         MessageBoxImage.Error);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        LogService.Error("Instaladores", "Error inesperado al ejecutar instalador", ex, ConstruirDetalleInstalador(inst));
                         MessageBox.Show("Ocurrio un error inesperado al ejecutar el instalador.",
                                         "Error",
                                         MessageBoxButton.OK,
                                         MessageBoxImage.Error);
                     }
+                }
+                else if (inst != null)
+                {
+                    LogService.Warning("Instaladores", "No se encontro el archivo del instalador al intentar ejecutarlo", ConstruirDetalleInstalador(inst));
                 }
             });
         }
@@ -227,6 +244,14 @@ namespace ConcesionaroCarros.ViewModels
                 return CarpetaDesarrolloGlobal;
 
             return CarpetaDesarrolloGlobal;
+        }
+
+        private static string ConstruirDetalleInstalador(Instalador instalador)
+        {
+            if (instalador == null)
+                return "Sin instalador";
+
+            return $"Id={instalador.Id}; Nombre={instalador.Nombre}; Carpeta={instalador.Carpeta}; Ruta={instalador.Ruta}";
         }
     }
 }

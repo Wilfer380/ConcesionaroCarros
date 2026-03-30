@@ -49,6 +49,7 @@ namespace ConcesionaroCarros.ViewModels
                     string.IsNullOrWhiteSpace(Correo) ||
                     string.IsNullOrWhiteSpace(Rol))
                 {
+                    LogService.Warning("FormularioUsuario", "Intento de guardar usuario con campos incompletos", ConstruirDetalleUsuario());
                     MessageBox.Show("Complete todos los campos");
                     return;
                 }
@@ -63,6 +64,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 5)
             {
+                LogService.Warning("FormularioUsuario", "No se pudo guardar usuario por base ocupada", ConstruirDetalleUsuario());
                 MessageBox.Show(
                     "La base de datos esta ocupada. Intente guardar nuevamente.",
                     "Aviso",
@@ -71,6 +73,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (InvalidOperationException ex)
             {
+                LogService.Warning("FormularioUsuario", "Validacion de usuario rechazada", ConstruirDetalleUsuario() + " | " + ex.Message);
                 MessageBox.Show(
                     ex.Message,
                     "Aviso",
@@ -79,6 +82,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (Exception ex)
             {
+                LogService.Error("FormularioUsuario", "Error al guardar usuario", ex, ConstruirDetalleUsuario());
                 MessageBox.Show(
                     "No fue posible guardar el usuario.\n" + ex.Message,
                     "Error",
@@ -99,6 +103,7 @@ namespace ConcesionaroCarros.ViewModels
                 _usuariosDb.ActualizarPassword(_usuarioEditando.Id, password);
 
             _usuariosDb.Actualizar(_usuarioEditando);
+            LogService.Info("FormularioUsuario", "Usuario actualizado", ConstruirDetalleUsuario(_usuarioEditando));
 
             MessageBox.Show("Usuario actualizado");
             _window.Close();
@@ -108,6 +113,7 @@ namespace ConcesionaroCarros.ViewModels
         {
             if (string.IsNullOrWhiteSpace(password))
             {
+                LogService.Warning("FormularioUsuario", "Intento de crear usuario sin contrasena", ConstruirDetalleUsuario());
                 MessageBox.Show("Ingrese contrasena");
                 return;
             }
@@ -123,12 +129,35 @@ namespace ConcesionaroCarros.ViewModels
 
             if (!_usuariosDb.Registrar(usuario, password))
             {
+                LogService.Warning("FormularioUsuario", "No se pudo crear usuario por correo duplicado o bloqueo", ConstruirDetalleUsuario(usuario));
                 MessageBox.Show("Correo ya registrado o base de datos ocupada.");
                 return;
             }
 
+            LogService.Info("FormularioUsuario", "Usuario creado correctamente", ConstruirDetalleUsuario(usuario));
             MessageBox.Show("Usuario creado correctamente");
             _window.Close();
+        }
+
+        private string ConstruirDetalleUsuario()
+        {
+            return ConstruirDetalleUsuario(new Usuario
+            {
+                Id = _usuarioEditando?.Id ?? 0,
+                Nombres = Nombres,
+                Apellidos = Apellidos,
+                Correo = Correo,
+                Telefono = Telefono,
+                Rol = Rol
+            });
+        }
+
+        private static string ConstruirDetalleUsuario(Usuario usuario)
+        {
+            if (usuario == null)
+                return "Sin usuario";
+
+            return $"Id={usuario.Id}; Correo={usuario.Correo}; Rol={usuario.Rol}; Nombre={(usuario.Nombres + " " + usuario.Apellidos).Trim()}";
         }
     }
 }

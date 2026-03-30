@@ -1,346 +1,336 @@
 # Administradores
 
-Esta guía describe el funcionamiento completo del sistema para administradores. Su objetivo es que una persona encargada de la operación pueda usar la aplicación con criterio, entender el impacto de cada acción y mantener el catálogo de ejecutables de forma ordenada.
+Esta guia explica, paso a paso, como debe operar un administrador dentro del sistema. Esta pensada para una persona responsable de mantener usuarios, instaladores, permisos y control funcional de la herramienta.
 
-## Finalidad del rol administrador
+## Objetivo de esta guia
 
-El administrador es responsable de:
+Con esta guia el administrador podra:
 
-- registrar y mantener ejecutables;
+- ingresar correctamente por la ruta administrativa;
+- entender la diferencia entre login normal y login admin;
+- registrar, editar y eliminar instaladores;
 - crear, editar y eliminar usuarios;
 - asignar aplicativos por persona;
-- clasificar correctamente los proyectos por carpeta funcional;
-- mantener ordenado el acceso operativo del sistema.
+- reconocer el impacto funcional de cada accion.
 
-## Flujo administrativo general
+## Alcance del rol administrador
 
-```text
-Registro administrativo
-        |
-        v
-Login administrativo
-        |
-        v
-MainWindow
-  |
-  +--> Instaladores
-  |      +- Buscar instalador
-  |      +- Ver
-  |      +- Editar
-  |      +- Eliminar
-  |      \- Instalar
-  |
-  \--> Gestión de Usuarios
-         +- Agregar usuario
-         +- Editar usuario
-         +- Eliminar usuario
-         \- Asignar aplicativos
-```
+El administrador es responsable de la operacion diaria del sistema. Esto incluye:
 
-## Historias de usuario
+- mantener actualizado el catalogo de instaladores;
+- gestionar cuentas de usuario;
+- asignar aplicativos segun necesidad operativa;
+- retirar registros obsoletos;
+- garantizar que cada persona vea solo lo que debe usar.
 
-### Historia 1
-
-Como administrador, quiero registrar un ejecutable en la carpeta correcta para que los usuarios encuentren el aplicativo según su alcance real.
-
-Resultado esperado:
-
-- el aplicativo queda visible en el catálogo;
-- se clasifica en la carpeta correcta;
-- queda disponible para futuras asignaciones.
-
-### Historia 2
-
-Como administrador, quiero crear un usuario y asignarle solo los aplicativos necesarios para controlar el acceso mínimo requerido.
-
-Resultado esperado:
-
-- el usuario queda guardado en la base;
-- la cuenta puede iniciar sesión;
-- el catálogo visible queda limitado a sus aplicativos asignados.
-
-### Historia 3
-
-Como administrador, quiero editar o retirar un ejecutable cuando ya no debe usarse para mantener el catálogo actualizado.
-
-Resultado esperado:
-
-- el cambio impacta el catálogo de forma inmediata;
-- los usuarios no ven instaladores obsoletos;
-- la operación queda alineada con la base de datos.
-
-## Registro de administrador
-
-La ruta administrativa permite crear la cuenta privilegiada.
-
-Campos principales del formulario:
-
-- correo corporativo;
-- rol;
-- contraseña normal;
-- contraseña administrativa.
-
-Qué hace el sistema al guardar:
-
-1. valida el dominio corporativo;
-2. crea o actualiza el usuario base en `Usuarios`;
-3. crea o actualiza el registro en `Administrador`;
-4. conserva separadas la contraseña normal y la contraseña administrativa.
-
-## Login administrativo
-
-El acceso administrativo no es igual al login normal. Para entrar como administrador:
-
-1. abre la ruta administrativa;
-2. escribe `UsuarioSistema`;
-3. escribe la contraseña administrativa;
-4. confirma el ingreso.
-
-Si el proceso es correcto:
-
-- se activa el modo administrador;
-- aparece `Gestión de Usuarios`;
-- el catálogo permite alta, edición y eliminación de instaladores.
-
-## Bosquejo de interfaz administrativa
+## Flujo general administrativo
 
 ```text
-Menú lateral
-|
-+- Instaladores
-+- Gestión de Usuarios
-+- Ayuda
-\- Cerrar sesión
-
-Área central
-|
-+- Vista de Instaladores
-|  +- filtros por carpeta
-|  +- tarjetas de aplicativos
-|  +- acciones de ver, editar, eliminar e instalar
-|
-\- Vista de Gestión de Usuarios
-   +- tabla de usuarios
-   +- acciones por fila
-   \- panel inferior de asignación
+Abrir la aplicacion
+        |
+        v
+Entrar por login administrativo
+        |
+        v
+Vista principal en modo administrador
+   |
+   +--> Instaladores
+   |      +- ver
+   |      +- agregar
+   |      +- editar
+   |      \- eliminar
+   |
+   +--> Gestion de Usuarios
+   |      +- agregar
+   |      +- editar
+   |      +- eliminar
+   |      \- asignar aplicativos
+   |
+   \--> Ayuda
 ```
 
-## Módulo de instaladores
+## Diferencia entre login normal y login administrativo
 
-La pantalla de `Instaladores` es el catálogo principal del sistema.
+Esta es una de las reglas mas importantes del sistema:
 
-Cada tarjeta puede mostrar:
+- el login normal sirve para usuarios finales;
+- el login administrativo sirve para activar permisos de administracion;
+- una persona con rol administrativo no obtiene esos permisos si entra por el login normal;
+- para ver Gestion de Usuarios y opciones administrativas, siempre debes usar el login admin.
+
+## Paso a paso para ingresar como administrador
+
+### Paso 1. Abrir la ruta administrativa
+
+Desde la pantalla inicial del sistema, entra por la opcion de acceso administrativo.
+
+Historia de pantallazo: Acceso desde login normal hacia login administrativo.
+
+### Paso 2. Escribir el usuario administrativo
+
+En el acceso administrativo debes escribir el `UsuarioSistema` o identificador definido para el administrador.
+
+Este campo no se comporta igual que el login normal, por lo que debes usar exactamente el dato registrado para administracion.
+
+Historia de pantallazo: Campo de usuario administrativo diligenciado.
+
+### Paso 3. Escribir la contrasena administrativa
+
+Ingresa la contrasena administrativa correspondiente. Esta contrasena es distinta de la contrasena normal del usuario.
+
+Historia de pantallazo: Campo de contrasena administrativa diligenciado.
+
+### Paso 4. Confirmar el ingreso
+
+Pulsa el boton de acceso. Si la validacion es correcta, el sistema abrira la vista principal con el modo administrador activo.
+
+Historia de pantallazo: Resultado de login admin exitoso.
+
+## Que cambia cuando el login admin es correcto
+
+Cuando el acceso administrativo es exitoso:
+
+- aparece la vista completa de instaladores;
+- se habilita `Gestion de Usuarios`;
+- se permiten formularios de alta, edicion y eliminacion;
+- se habilita la asignacion de aplicativos por usuario.
+
+## Vista principal del administrador
+
+La vista administrativa conserva la estructura principal del sistema, pero agrega herramientas de gestion.
+
+Normalmente veras:
+
+- menu lateral;
+- modulo `Instaladores`;
+- modulo `Gestion de Usuarios`;
+- opcion `Ayuda`;
+- opcion `Cerrar sesion`.
+
+Historia de pantallazo: Vista principal del administrador.
+
+## Modulo de Instaladores
+
+Este modulo controla los ejecutables visibles dentro del sistema. Desde aqui el administrador puede consultar, registrar, editar o eliminar instaladores.
+
+Cada tarjeta puede incluir:
+
+- nombre del aplicativo;
+- descripcion;
+- ruta del ejecutable;
+- icono;
+- boton `Ver`;
+- boton `Editar`;
+- boton `Eliminar`;
+- boton de ejecucion.
+
+Historia de pantallazo: Modulo Instaladores en modo administrador.
+
+## Como agregar un instalador
+
+### Paso 1. Entrar al modulo Instaladores
+
+Desde el menu lateral selecciona `Instaladores`.
+
+Historia de pantallazo: Acceso al modulo Instaladores.
+
+### Paso 2. Abrir el formulario de nuevo instalador
+
+Pulsa la opcion para buscar o registrar un nuevo instalador.
+
+Historia de pantallazo: Boton para agregar o buscar instalador.
+
+### Paso 3. Seleccionar el archivo ejecutable
+
+Busca el archivo `.exe` correspondiente en la ubicacion correcta y seleccionelo.
+
+Historia de pantallazo: Explorador de archivos seleccionando el ejecutable.
+
+### Paso 4. Completar la informacion funcional
+
+Registra:
 
 - nombre visible;
-- ruta registrada;
-- ícono del ejecutable;
-- botón `Ver`;
-- botón `Editar`;
-- botón `Eliminar`;
-- botón `Instalar`.
+- descripcion;
+- carpeta o categoria funcional correspondiente.
 
-## Clasificación por carpetas funcionales
+Esta informacion es importante porque es la que luego vera el usuario final.
 
-### Desarrollo global
+Historia de pantallazo: Formulario completo de instalador.
 
-Usa esta carpeta cuando el ejecutable tiene alcance corporativo amplio o puede ser utilizado por varias sedes.
+### Paso 5. Guardar
 
-Ejemplos de uso:
+Guarda el registro. Cuando el proceso termine correctamente, el instalador quedara disponible en el catalogo para futuras asignaciones.
 
-- soluciones generales para WEG;
-- proyectos que aplican en Medellín, Sabaneta u otras sedes;
-- herramientas de soporte transversal.
+Historia de pantallazo: Confirmacion de instalador guardado.
 
-### Punto local de desarrollo planta
+## Como editar un instalador
 
-Usa esta carpeta cuando el ejecutable fue creado solo para uso interno de planta en Sabaneta y no debe tratarse como aplicativo corporativo general.
+Para editar un instalador:
 
-Ejemplos de uso:
+1. localiza la tarjeta correcta;
+2. pulsa `Editar`;
+3. actualiza nombre, descripcion, ruta o clasificacion segun corresponda;
+4. guarda los cambios.
 
-- soluciones internas exclusivas de la sede;
-- herramientas de apoyo local de operación;
-- ejecutables que no deben distribuirse a otras sedes.
+Usa esta opcion cuando el ejecutable cambie, la descripcion necesite ajuste o el aplicativo deba reclasificarse.
 
-## Procedimiento para agregar un ejecutable
+Historia de pantallazo: Edicion de un instalador existente.
 
-1. entra a `Instaladores`;
-2. pulsa `Buscar Instalador`;
-3. selecciona el archivo `.exe`;
-4. asigna nombre visible;
-5. agrega descripción si aplica;
-6. clasifica la carpeta funcional correcta;
-7. guarda el registro.
+## Como eliminar un instalador
 
-Recomendaciones:
+Para retirar un instalador del sistema:
 
-- usa rutas estables de red o carpetas controladas;
-- evita rutas temporales o personales;
-- confirma que el archivo abra antes de publicarlo;
-- no dupliques el mismo proyecto con nombres ambiguos.
+1. localiza la tarjeta correcta;
+2. pulsa `Eliminar`;
+3. confirma la accion.
 
-## Procedimiento para editar o eliminar un ejecutable
+Debes tener cuidado con esta accion, porque el aplicativo dejara de estar visible para nuevos procesos de consulta y asignacion.
 
-### Editar
+Historia de pantallazo: Confirmacion de eliminacion de instalador.
 
-Permite ajustar nombre, descripción y clasificación.
+## Modulo Gestion de Usuarios
 
-Advertencia:
-
-- si la ruta real cambia fuera del sistema, las asignaciones pueden dejar de coincidir.
-
-### Eliminar
-
-Quita el instalador del catálogo.
-
-Impacto:
-
-- deja de verse en la interfaz;
-- deja de estar disponible para nuevas asignaciones;
-- un usuario puede conservar una ruta histórica en su JSON si no se limpia después.
-
-## Gestión de Usuarios
-
-Este módulo solo está disponible en modo administrador.
+Este modulo solo esta disponible en modo administrador. Desde aqui se controlan las cuentas y los permisos operativos.
 
 Funciones principales:
 
 - agregar usuario;
 - editar usuario;
 - eliminar usuario;
-- consultar rol;
+- revisar rol;
 - asignar aplicativos.
 
-## Procedimiento para agregar un usuario
+Historia de pantallazo: Vista principal de Gestion de Usuarios.
 
-1. abre `Gestión de Usuarios`;
-2. pulsa `Agregar usuario`;
-3. completa nombres, apellidos, correo, teléfono, contraseña y rol;
-4. guarda el formulario.
+## Como agregar un usuario
 
-Resultado esperado:
+### Paso 1. Abrir Gestion de Usuarios
 
-- se crea el registro en `Usuarios`;
-- el usuario queda listo para login y asignación de aplicativos.
+Selecciona `Gestion de Usuarios` desde el menu lateral.
 
-## Procedimiento para editar un usuario
+Historia de pantallazo: Entrada al modulo Gestion de Usuarios.
 
-Se puede modificar:
+### Paso 2. Abrir formulario de nuevo usuario
+
+Pulsa la opcion para crear un usuario nuevo.
+
+Historia de pantallazo: Boton Agregar usuario.
+
+### Paso 3. Completar el formulario
+
+Registra como minimo:
 
 - nombres;
 - apellidos;
 - correo;
-- teléfono;
-- contraseña;
+- telefono;
+- contrasena;
 - rol.
 
-Si el usuario también es administrador, la actualización puede sincronizar información con la tabla `Administrador`.
+Historia de pantallazo: Formulario completo de usuario.
 
-## Procedimiento para eliminar un usuario
+### Paso 4. Guardar
 
-Al eliminar un usuario:
+Guarda la informacion. Si todo es correcto, el usuario quedara disponible para login y para asignacion de aplicativos.
 
-- se remueve de `Usuarios`;
-- se limpian registros asociados de recuperación de contraseña;
-- si tenía cuenta administrativa relacionada, también se elimina su registro administrativo.
+Historia de pantallazo: Confirmacion de usuario creado.
 
-## Asignación de aplicativos
+## Como editar un usuario
 
-Cuando se selecciona un usuario en la tabla, el sistema no abre una ventana aparte. La implementación actual despliega un panel inferior dentro de la misma vista.
+Para editar un usuario:
 
-Ese panel muestra:
+1. localiza la fila o registro correcto;
+2. pulsa `Editar`;
+3. modifica los datos necesarios;
+4. guarda los cambios.
 
-- usuario seleccionado;
-- cargo o rol;
-- listado de aplicativos;
-- casillas de selección;
-- acción de guardado.
+Esta accion sirve para actualizar nombres, correo, telefono, contrasena o rol.
 
-Flujo recomendado:
+Historia de pantallazo: Edicion de usuario existente.
 
-1. selecciona el usuario correcto;
-2. verifica su rol;
-3. marca los aplicativos autorizados;
-4. guarda la asignación;
-5. valida el resultado con una prueba de acceso si el cambio es crítico.
+## Como eliminar un usuario
 
-## Relación entre interfaz y base de datos
+Para eliminar un usuario:
 
-| Acción administrativa | Impacto principal |
-|---|---|
-| Registrar administrador | `Usuarios` y `Administrador` |
-| Login administrativo | lectura de `Administrador` y `Usuarios` |
-| Agregar usuario | `Usuarios` |
-| Editar usuario | `Usuarios` y, si aplica, `Administrador` |
-| Eliminar usuario | `Usuarios`, `Administrador`, `PasswordRecoveryLog` |
-| Agregar instalador | `Instaladores` |
-| Editar instalador | `Instaladores` |
-| Eliminar instalador | `Instaladores` |
-| Guardar asignación | `Usuarios.AplicativosJson` |
+1. localiza el registro correcto;
+2. pulsa `Eliminar`;
+3. confirma la accion.
+
+Al hacerlo, el sistema retira la cuenta y limpia la informacion relacionada segun la logica actual del sistema.
+
+Historia de pantallazo: Confirmacion de eliminacion de usuario.
+
+## Como asignar aplicativos a un usuario
+
+### Paso 1. Seleccionar el usuario
+
+Dentro de Gestion de Usuarios, selecciona la persona a la que deseas asignar aplicativos.
+
+Historia de pantallazo: Seleccion de usuario dentro de la tabla.
+
+### Paso 2. Abrir el panel de asignacion
+
+El sistema despliega el panel de asignacion dentro de la misma vista, sin abrir una ventana aparte.
+
+Historia de pantallazo: Panel de asignacion abierto.
+
+### Paso 3. Marcar los aplicativos permitidos
+
+Selecciona las casillas correspondientes a los aplicativos que esa persona debe ver y ejecutar.
+
+Historia de pantallazo: Casillas de aplicativos marcadas.
+
+### Paso 4. Guardar la asignacion
+
+Guarda los cambios. A partir de ese momento, el catalogo del usuario quedara filtrado segun la seleccion realizada.
+
+Historia de pantallazo: Confirmacion de asignacion guardada.
+
+## Que revisar despues de un cambio importante
+
+Despues de agregar, editar o asignar, valida:
+
+- que el usuario si aparezca en la tabla;
+- que el instalador si aparezca en el catalogo;
+- que el usuario pueda ingresar correctamente;
+- que el catalogo visible coincida con la asignacion hecha.
 
 ## Casos de soporte frecuentes
 
-### Un usuario no ve su aplicativo
+### El usuario no ve su aplicativo
 
 Revisa:
 
-1. que el usuario tenga aplicativos asignados;
-2. que el ejecutable siga registrado;
-3. que la ruta del instalador siga vigente.
+1. que el instalador siga registrado;
+2. que el usuario tenga aplicativos asignados;
+3. que la ruta del ejecutable siga existiendo.
 
 ### El ejecutable no abre
 
 Revisa:
 
-1. que la ruta exista;
-2. que el archivo no haya sido movido;
-3. que el usuario tenga permisos sobre la ruta;
-4. que no exista bloqueo del sistema operativo.
+1. que el archivo exista en la ruta;
+2. que no haya sido movido o renombrado;
+3. que Windows no este bloqueando el archivo;
+4. que el usuario tenga permisos sobre esa ubicacion.
 
-### No aparece Gestión de Usuarios
+### No aparece Gestion de Usuarios
 
 Revisa:
 
-1. que el acceso haya sido por login administrativo;
-2. que la contraseña usada sea la administrativa;
-3. que `ModoAdministrador` haya quedado activo.
+1. que realmente se haya ingresado por el login administrativo;
+2. que la contrasena usada sea la administrativa;
+3. que el modo administrador este activo.
 
-## Diagrama de decisión para clasificar proyectos
+## Buenas practicas para administracion
 
-```text
-¿El ejecutable será usado por varias sedes?
-        |
-        +--> Sí -> Desarrollo global
-        |
-        \--> No
-               |
-               v
-¿Es solo para operación interna de planta Sabaneta?
-               |
-               +--> Sí -> Punto local de desarrollo planta
-               |
-               \--> No -> revisar con desarrollo antes de publicar
-```
+- no publiques instaladores con nombres ambiguos;
+- valida que la ruta funcione antes de asignarla;
+- evita dejar cuentas sin rol definido;
+- confirma asignaciones despues de cada cambio relevante;
+- usa nombres y descripciones claras para facilitar soporte.
 
-## Documentos complementarios
+## Contacto y apoyo
 
-- [Visión general del sistema](Docs/Sistema.md)
-- [Guía de usuario](Docs/users/User.md)
-- [Guía de desarrollo](Docs/Developers/Developer.md)
-- [Guía de base de datos](Docs/Developers/BaseDeDatos.md)
-
-## Enlaces de apoyo externo
-
-Estos enlaces no reemplazan la documentación interna del proyecto, pero sí sirven como apoyo para entender tecnologías y conceptos usados por la aplicación:
-
-- [Documentación oficial de WPF en Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/)
-- [Documentación oficial de .NET Framework en Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/framework/)
-- [Documentación oficial de SQLite](https://sqlite.org/docs.html)
-
-## Checklist operativo del administrador
-
-- validar que la cuenta usada sea administrativa;
-- confirmar que el ejecutable existe y abre;
-- clasificar bien la carpeta funcional;
-- mantener actualizados usuarios y permisos;
-- revisar impactos en asignaciones al editar rutas;
-- usar el centro de ayuda interno cuando haya dudas.
+Si surge una duda funcional o tecnica, utiliza el centro de ayuda interno del sistema y el canal de soporte definido por la organizacion.

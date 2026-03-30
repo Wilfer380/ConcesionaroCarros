@@ -38,6 +38,7 @@ namespace ConcesionaroCarros.ViewModels
                 string.IsNullOrWhiteSpace(PasswordNormal) ||
                 string.IsNullOrWhiteSpace(PasswordAdmin))
             {
+                LogService.Warning("AdminRegister", "Intento de registro admin con datos incompletos");
                 MessageBox.Show("Debe completar correo, rol, contrasena normal y contrasena de administrador.");
                 return;
             }
@@ -45,8 +46,10 @@ namespace ConcesionaroCarros.ViewModels
             var rolSeleccionado = (Rol ?? string.Empty).Trim().ToUpperInvariant();
 
             Correo = Correo.Trim();
+            var usuarioLog = LogService.ResolveAuditUserName(Correo);
             if (!Correo.EndsWith("@weg.net", StringComparison.OrdinalIgnoreCase))
             {
+                LogService.WarningForUser("AdminRegister", "Registro admin rechazado por dominio invalido", usuarioLog, Correo);
                 MessageBox.Show(
                     "El correo debe terminar en @weg.net.",
                     "Validacion de correo",
@@ -58,6 +61,7 @@ namespace ConcesionaroCarros.ViewModels
             var usuarioPc = Environment.UserName;
             if (string.IsNullOrWhiteSpace(usuarioPc))
             {
+                LogService.WarningForUser("AdminRegister", "No se pudo detectar usuario del dispositivo", usuarioLog, Correo);
                 MessageBox.Show("No se pudo detectar el usuario del dispositivo.");
                 return;
             }
@@ -65,6 +69,7 @@ namespace ConcesionaroCarros.ViewModels
             var usuarioCorreo = ObtenerUsuarioDesdeCorreo(Correo);
             if (string.IsNullOrWhiteSpace(usuarioCorreo))
             {
+                LogService.WarningForUser("AdminRegister", "No fue posible derivar usuario desde el correo", usuarioLog, Correo);
                 MessageBox.Show(
                     "No fue posible obtener un usuario valido desde el correo.",
                     "Validacion",
@@ -132,6 +137,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
             {
+                LogService.WarningForUser("AdminRegister", "Registro admin rechazado por duplicado", usuarioLog, Correo);
                 MessageBox.Show(
                     "El administrador ya se encuentra registrado con ese correo.",
                     "Registro existente",
@@ -139,8 +145,9 @@ namespace ConcesionaroCarros.ViewModels
                     MessageBoxImage.Information);
                 return;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogService.ErrorForUser("AdminRegister", "Error al registrar administrador", usuarioLog, ex, $"{Correo}; Rol={rolSeleccionado}");
                 MessageBox.Show(
                     "No fue posible completar el registro de administrador en este momento.",
                     "Error de registro",
@@ -149,6 +156,7 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
+            LogService.InfoForUser("AdminRegister", "Administrador registrado correctamente", usuarioLog, $"{Correo}; Rol={rolSeleccionado}; UsuarioSistema={usuarioSistemaLogin}");
             MessageBox.Show(
                 "Administrador registrado correctamente.",
                 "Registro exitoso",

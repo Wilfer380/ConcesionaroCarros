@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace LauncherSistema
@@ -13,6 +12,12 @@ namespace LauncherSistema
 
         private static readonly string VersionPath = Path.Combine(SharedRoot, "version.txt");
         private static readonly string SetupPath = Path.Combine(SharedRoot, "SetupSistema.exe");
+        private static readonly string InstalledBuildVersionPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "build.version");
+        private static readonly string PendingUpdatePath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "update.pending");
         private static readonly string InstalledAppPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "SistemaDeInstalacion.exe");
@@ -28,13 +33,21 @@ namespace LauncherSistema
             var serverVersion = ObtenerVersionServidor();
             var localVersion = ObtenerVersionLocal();
 
+            if (ShouldSkipVersionPrompt(serverVersion, localVersion))
+            {
+                AbrirAplicacionLocalConReintento();
+                return;
+            }
+
             if (!File.Exists(InstalledAppPath))
             {
                 SolicitarInstalacion();
                 return;
             }
 
-            if (serverVersion != null && localVersion != null && serverVersion > localVersion)
+            if (!string.IsNullOrWhiteSpace(serverVersion) &&
+                !string.IsNullOrWhiteSpace(localVersion) &&
+                !string.Equals(serverVersion, localVersion, StringComparison.OrdinalIgnoreCase))
             {
                 var result = MessageBox.Show(
                     $"Se encontro una nueva version disponible ({serverVersion}).{Environment.NewLine}{Environment.NewLine}Deseas actualizar ahora?",
@@ -44,6 +57,7 @@ namespace LauncherSistema
 
                 if (result == DialogResult.Yes)
                 {
+                    SavePendingUpdate(serverVersion);
                     EjecutarActualizacion();
                     return;
                 }
@@ -52,15 +66,14 @@ namespace LauncherSistema
             AbrirAplicacionLocalConReintento();
         }
 
-        private static Version ObtenerVersionServidor()
+        private static string ObtenerVersionServidor()
         {
             try
             {
                 if (!File.Exists(VersionPath))
                     return null;
 
-                var content = File.ReadAllText(VersionPath).Trim();
-                return Version.TryParse(content, out var version) ? version : null;
+                return File.ReadAllText(VersionPath).Trim();
             }
             catch
             {
@@ -68,19 +81,20 @@ namespace LauncherSistema
             }
         }
 
-        private static Version ObtenerVersionLocal()
+        private static string ObtenerVersionLocal()
         {
             try
             {
+                if (File.Exists(InstalledBuildVersionPath))
+                    return File.ReadAllText(InstalledBuildVersionPath).Trim();
+
                 if (!File.Exists(InstalledAppPath))
                     return null;
 
                 var info = FileVersionInfo.GetVersionInfo(InstalledAppPath);
-                var versionText = string.IsNullOrWhiteSpace(info.ProductVersion)
+                return string.IsNullOrWhiteSpace(info.ProductVersion)
                     ? info.FileVersion
                     : info.ProductVersion;
-
-                return Version.TryParse(versionText, out var version) ? version : null;
             }
             catch
             {
@@ -133,12 +147,22 @@ namespace LauncherSistema
 
             try
             {
-                Process.Start(new ProcessStartInfo
+                var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = SetupPath,
-                    Arguments = "/SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART",
+                    Arguments = "/SP- /SILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART",
                     UseShellExecute = true
                 });
+
+                if (process == null)
+                {
+                    MessageBox.Show(
+                        "No fue posible iniciar el actualizador.",
+                        "Error de actualizacion",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -152,13 +176,78 @@ namespace LauncherSistema
                 return;
             }
 
-            MessageBox.Show(
-                "La actualizacion se iniciara ahora. La aplicacion se volvera a abrir automaticamente cuando termine.",
-                "Actualizacion iniciada",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-
             Environment.Exit(0);
+        }
+
+        private static bool EsInicioPostActualizacion(string[] args)
+        {
+            if (args == null || args.Length == 0)
+                return false;
+
+            foreach (var arg in args)
+            {
+                if (string.Equals(arg, "--post-update", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(arg, "--post-install", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool ShouldSkipVersionPrompt(string serverVersion, string localVersion)
+        {
+            try
+            {
+                if (!File.Exists(PendingUpdatePath))
+                    return false;
+
+                var pendingVersion = File.ReadAllText(PendingUpdatePath).Trim();
+                if (string.IsNullOrWhiteSpace(pendingVersion))
+                    return false;
+
+                if (string.Equals(localVersion, pendingVersion, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(localVersion, serverVersion, StringComparison.OrdinalIgnoreCase))
+                {
+                    TryDeletePendingUpdate();
+                    return true;
+                }
+            }
+            catch
+            {
+                // Si falla esta validacion, se sigue con el flujo normal.
+            }
+
+            return false;
+        }
+
+        private static void SavePendingUpdate(string expectedVersion)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(expectedVersion))
+                    return;
+
+                File.WriteAllText(PendingUpdatePath, expectedVersion);
+            }
+            catch
+            {
+                // No bloquea el flujo de actualizacion.
+            }
+        }
+
+        private static void TryDeletePendingUpdate()
+        {
+            try
+            {
+                if (File.Exists(PendingUpdatePath))
+                    File.Delete(PendingUpdatePath);
+            }
+            catch
+            {
+                // No bloquea la apertura.
+            }
         }
 
         private static void AbrirAplicacionLocal()
@@ -186,47 +275,25 @@ namespace LauncherSistema
 
         private static void AbrirAplicacionLocalConReintento()
         {
-            for (var attempt = 0; attempt < 10; attempt++)
+            try
             {
-                try
+                if (File.Exists(InstalledAppPath))
                 {
-                    if (File.Exists(InstalledAppPath))
+                    Process.Start(new ProcessStartInfo
                     {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = InstalledAppPath,
-                            WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                            UseShellExecute = true
-                        });
-                        return;
-                    }
+                        FileName = InstalledAppPath,
+                        WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                        UseShellExecute = true
+                    });
+                    return;
                 }
-                catch
-                {
-                    // Espera corta mientras Windows termina de actualizar archivos.
-                }
-
-                Thread.Sleep(1000);
+            }
+            catch
+            {
+                // Si no abre al primer intento, se delega al metodo con mensaje.
             }
 
             AbrirAplicacionLocal();
-        }
-
-        private static bool EsInicioPostActualizacion(string[] args)
-        {
-            if (args == null || args.Length == 0)
-                return false;
-
-            foreach (var arg in args)
-            {
-                if (string.Equals(arg, "--post-update", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(arg, "--post-install", StringComparison.OrdinalIgnoreCase))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

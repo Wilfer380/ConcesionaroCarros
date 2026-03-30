@@ -5,6 +5,7 @@ using ConcesionaroCarros.Views;
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -58,13 +59,18 @@ namespace ConcesionaroCarros.ViewModels
 
         private void Login()
         {
+            var stopwatch = Stopwatch.StartNew();
             var usuarioIngreso = (Usuario ?? string.Empty).Trim();
             if (string.IsNullOrWhiteSpace(usuarioIngreso))
             {
+                LogService.Warning("Login", "Intento de login sin usuario");
                 MessageBox.Show("Debe ingresar usuario.", "Aviso",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            var usuarioLog = ResolveLogUserName(usuarioIngreso, Environment.UserName ?? string.Empty, WindowsProfileService.ObtenerCorreoPrincipal());
+            LogService.InfoForUser("Login", "Intento de login usuario", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
 
             var usuarioPc = Environment.UserName ?? string.Empty;
             var nombreVisible = WindowsProfileService.ObtenerNombreVisible();
@@ -76,6 +82,9 @@ namespace ConcesionaroCarros.ViewModels
                     : _db.ObtenerCorreoPorUsuarioLogin(usuarioIngreso, usuarioPc, nombreVisible);
             if (string.IsNullOrWhiteSpace(correoLogin))
             {
+                stopwatch.Stop();
+                LogService.WarningForUser("Login", "Usuario no registrado", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
+                LogService.LatencyForUser("Login", "Login rechazado por usuario no registrado", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show("No existe un registro para ese usuario. Registrese primero.",
                     "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -85,6 +94,10 @@ namespace ConcesionaroCarros.ViewModels
 
             if (usuario == null)
             {
+                stopwatch.Stop();
+                usuarioLog = ResolveLogUserName(correoLogin, usuarioPc, correoPrincipalDispositivo);
+                LogService.WarningForUser("Login", "Credenciales invalidas", usuarioLog, BuildLoginDetail(usuarioLog, correoLogin));
+                LogService.LatencyForUser("Login", "Login rechazado por credenciales invalidas", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, correoLogin));
                 MessageBox.Show("Usuario o contrasena incorrectos", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -103,6 +116,10 @@ namespace ConcesionaroCarros.ViewModels
             else
                 LimpiarCredencialesGuardadas();
 
+            stopwatch.Stop();
+            usuarioLog = ResolveLogUserName(usuario.Correo, usuarioPc, correoPrincipalDispositivo);
+            LogService.InfoForUser("Login", "Login exitoso", usuarioLog, BuildLoginDetail(usuarioLog, usuario.Correo));
+            LogService.LatencyForUser("Login", "Login exitoso", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuario.Correo));
             AbrirSesionUsuario(usuario);
         }
 
@@ -183,6 +200,35 @@ namespace ConcesionaroCarros.ViewModels
             var cifrado = Convert.FromBase64String(textoCifrado);
             var datos = ProtectedData.Unprotect(cifrado, Entropy, DataProtectionScope.CurrentUser);
             return Encoding.UTF8.GetString(datos);
+        }
+
+        private static string ResolveLogUserName(string loginValue, string deviceUserName, string deviceEmail)
+        {
+            var candidate = (loginValue ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(candidate))
+                return deviceUserName ?? string.Empty;
+
+            if (candidate.Contains("@"))
+            {
+                if (!string.IsNullOrWhiteSpace(deviceEmail) &&
+                    string.Equals(candidate, deviceEmail.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return deviceUserName ?? string.Empty;
+                }
+
+                var at = candidate.IndexOf('@');
+                return at > 0 ? candidate.Substring(0, at).Trim() : candidate;
+            }
+
+            return candidate;
+        }
+
+        private static string BuildLoginDetail(string userName, string emailOrLogin)
+        {
+            return string.Format(
+                "Usuario={0}; Correo={1}",
+                (userName ?? string.Empty).Trim(),
+                (emailOrLogin ?? string.Empty).Trim());
         }
 
     }

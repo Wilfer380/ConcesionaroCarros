@@ -53,6 +53,15 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="MenuLogsStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding VistaActiva}" Value="Logs">
+                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -106,6 +115,11 @@
                             ToolTip="Ayuda"
                             Style="{StaticResource MenuAyudaStyle}"
                             Command="{Binding ShowAyudaCommand}"/>
+
+                    <Button Content="! Logs"
+                            Visibility="{Binding PuedeVerLogs, Converter={StaticResource BoolToVisibility}}"
+                            Style="{StaticResource MenuLogsStyle}"
+                            Command="{Binding ShowLogsCommand}"/>
 
                     <Separator Background="{StaticResource CorpBorderBrush}" Margin="20,15"/>
 

@@ -3,6 +3,7 @@ using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Services;
 using ConcesionaroCarros.Views;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,6 +11,13 @@ namespace ConcesionaroCarros.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private static readonly HashSet<string> AllowedLogViewerEmails =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "wandica@weg.net",
+                "maicolj@weg.net"
+            };
+
         private object _currentView;
         private readonly UsuariosDbService _usuariosDb = new UsuariosDbService();
         private readonly string _nombreVisibleDispositivo;
@@ -61,10 +69,14 @@ namespace ConcesionaroCarros.ViewModels
         }
 
         public bool EsAdministrador => SesionUsuario.EsAdmin;
+        public bool PuedeVerLogs =>
+            SesionUsuario.EsAdmin &&
+            AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
 
         public ICommand CerrarSesionCommand { get; }
         public ICommand ShowInstaladoresCommand { get; }
         public ICommand ShowGestionUsuariosCommand { get; }
+        public ICommand ShowLogsCommand { get; }
         public ICommand ShowAyudaCommand { get; }
 
         public MainViewModel()
@@ -85,12 +97,14 @@ namespace ConcesionaroCarros.ViewModels
                 if (!EsAdministrador)
                     return;
 
+                LogService.Info("MainWindow", "Navegacion a gestion de usuarios");
                 VistaActiva = "Usuarios";
                 CurrentView = new GestionUsuarioView();
             });
 
             ShowAyudaCommand = new RelayCommand(_ =>
             {
+                LogService.Info("MainWindow", "Navegacion a ayuda");
                 VistaActiva = "Ayuda";
                 CurrentView = new HelpView
                 {
@@ -98,8 +112,22 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
+            ShowLogsCommand = new RelayCommand(_ =>
+            {
+                if (!PuedeVerLogs)
+                    return;
+
+                LogService.Info("MainWindow", "Navegacion a centro de logs");
+                VistaActiva = "Logs";
+                CurrentView = new LogsView
+                {
+                    DataContext = new LogsViewModel()
+                };
+            });
+
             CerrarSesionCommand = new RelayCommand(_ =>
             {
+                LogService.Info("MainWindow", "Cierre de sesion solicitado");
                 SesionUsuario.UsuarioActual = null;
                 SesionUsuario.ModoAdministrador = false;
                 new LoginView().Show();
@@ -111,6 +139,7 @@ namespace ConcesionaroCarros.ViewModels
 
         private void MostrarInstaladores()
         {
+            LogService.Info("MainWindow", "Navegacion a instaladores");
             VistaActiva = "Instaladores";
             CurrentView = new InstaladoresView
             {

@@ -1,6 +1,7 @@
 using ConcesionaroCarros.Commands;
 using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
+using ConcesionaroCarros.Services;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -92,6 +93,8 @@ namespace ConcesionaroCarros.ViewModels
 
                     if (string.IsNullOrWhiteSpace(Instalador.Nombre))
                         Instalador.Nombre = Path.GetFileNameWithoutExtension(dlg.FileName);
+
+                    LogService.Info("FormularioInstalador", "Archivo ejecutable seleccionado", ConstruirDetalleInstalador());
                 }
             });
 
@@ -101,9 +104,15 @@ namespace ConcesionaroCarros.ViewModels
                 Instalador.Carpeta = NormalizarCarpeta(Instalador.Carpeta);
 
                 if (EsEdicion)
+                {
                     _db.Actualizar(Instalador);
+                    LogService.Info("FormularioInstalador", "Instalador actualizado", ConstruirDetalleInstalador());
+                }
                 else
+                {
                     _db.Guardar(Instalador);
+                    LogService.Info("FormularioInstalador", "Instalador creado", ConstruirDetalleInstalador());
+                }
 
                 _parent.CerrarModal();
                 _closeAction?.Invoke();
@@ -125,6 +134,11 @@ namespace ConcesionaroCarros.ViewModels
                 return CarpetaDesarrolloGlobal;
 
             return CarpetaDesarrolloGlobal;
+        }
+
+        private string ConstruirDetalleInstalador()
+        {
+            return $"Id={Instalador?.Id ?? 0}; Nombre={Instalador?.Nombre}; Carpeta={Instalador?.Carpeta}; Ruta={Instalador?.Ruta}";
         }
     }
 }

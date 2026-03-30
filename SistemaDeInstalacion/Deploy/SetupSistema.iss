@@ -2,7 +2,7 @@
 
 [Setup]
 AppName=SistemaDeInstalacion
-AppVersion=1.0.0.6
+AppVersion=1.0.0.8
 DefaultDirName={pf}\SistemaDeInstalacion
 DefaultGroupName=SistemaDeInstalacion
 OutputDir={#InstallerRoot}
