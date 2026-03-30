@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.IO;
 
 namespace ConcesionaroCarros.Services
 {
     public static class MarkdownDocumentRenderer
     {
-        public static FlowDocument Crear(string markdown, Func<string, bool> linkHandler = null)
+        public static FlowDocument Crear(string markdown, Func<string, bool> linkHandler = null, string documentDirectory = null)
         {
             var doc = new FlowDocument
             {
@@ -141,6 +144,12 @@ namespace ConcesionaroCarros.Services
                     continue;
                 }
 
+                if (EsLineaImagen(trimmed))
+                {
+                    AgregarImagen(doc, trimmed, documentDirectory);
+                    continue;
+                }
+
                 AgregarParrafo(doc, trimmed, linkHandler);
             }
 
@@ -178,6 +187,11 @@ namespace ConcesionaroCarros.Services
             var value = (trimmed ?? string.Empty);
             return value.StartsWith("Aqui va un pantallazo:", StringComparison.OrdinalIgnoreCase) ||
                    value.StartsWith("Historia de pantallazo:", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool EsLineaImagen(string trimmed)
+        {
+            return Regex.IsMatch(trimmed ?? string.Empty, @"^!\[[^\]]*\]\([^\)]+\)$");
         }
 
         private static string LimpiarNumerado(string trimmed)
@@ -222,6 +236,78 @@ namespace ConcesionaroCarros.Services
                 BorderBrush = new SolidColorBrush(Color.FromRgb(237, 196, 196)),
                 BorderThickness = new Thickness(1)
             });
+        }
+
+        private static void AgregarImagen(FlowDocument doc, string markdownImage, string documentDirectory)
+        {
+            var match = Regex.Match(markdownImage ?? string.Empty, @"^!\[([^\]]*)\]\(([^\)]+)\)$");
+            if (!match.Success)
+            {
+                AgregarParrafo(doc, markdownImage, null);
+                return;
+            }
+
+            var altText = match.Groups[1].Value.Trim();
+            var imagePath = match.Groups[2].Value.Trim();
+            var resolvedPath = ResolveImagePath(imagePath, documentDirectory);
+
+            if (string.IsNullOrWhiteSpace(resolvedPath) || !File.Exists(resolvedPath))
+            {
+                AgregarMarcadorPantallazo(
+                    doc,
+                    string.Format("Historia de pantallazo pendiente: no se encontro la imagen '{0}'", imagePath));
+                return;
+            }
+
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(resolvedPath, UriKind.Absolute);
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                var image = new Image
+                {
+                    Source = bitmap,
+                    Stretch = Stretch.Uniform,
+                    MaxWidth = 1100,
+                    Margin = new Thickness(0, 8, 0, 14)
+                };
+
+                doc.Blocks.Add(new BlockUIContainer(image));
+
+                if (!string.IsNullOrWhiteSpace(altText))
+                {
+                    doc.Blocks.Add(new Paragraph(new Run(altText))
+                    {
+                        Margin = new Thickness(0, -4, 0, 14),
+                        FontStyle = FontStyles.Italic,
+                        Foreground = new SolidColorBrush(Color.FromRgb(107, 126, 149))
+                    });
+                }
+            }
+            catch
+            {
+                AgregarMarcadorPantallazo(
+                    doc,
+                    string.Format("Historia de pantallazo pendiente: no se pudo cargar la imagen '{0}'", imagePath));
+            }
+        }
+
+        private static string ResolveImagePath(string imagePath, string documentDirectory)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath))
+                return string.Empty;
+
+            if (Path.IsPathRooted(imagePath))
+                return imagePath;
+
+            if (string.IsNullOrWhiteSpace(documentDirectory))
+                return string.Empty;
+
+            return Path.GetFullPath(Path.Combine(documentDirectory, imagePath.Replace('/', Path.DirectorySeparatorChar)));
         }
 
         private static void AgregarLista(FlowDocument doc, IEnumerable<string> items, bool numerada, Func<string, bool> linkHandler)

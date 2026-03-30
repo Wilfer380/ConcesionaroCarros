@@ -122,7 +122,8 @@ namespace ConcesionaroCarros.ViewModels
             _selectedDocumentContent = "No se encontro documentacion para este perfil.\n\nRevisa que la carpeta `Docs` exista en el directorio de ejecucion.";
             SelectedDocumentFlow = MarkdownDocumentRenderer.Crear(
                 _selectedDocumentContent,
-                ManejarEnlaceMarkdown);
+                ManejarEnlaceMarkdown,
+                null);
         }
 
         private void SeleccionarDocumento(DocumentationDocumentItem document)
@@ -142,7 +143,8 @@ namespace ConcesionaroCarros.ViewModels
             SelectedDocumentPath = document.RelativePath;
             SelectedDocumentFlow = MarkdownDocumentRenderer.Crear(
                 RemoverTituloInicial(contenido, document.Title),
-                ManejarEnlaceMarkdown);
+                ManejarEnlaceMarkdown,
+                Path.GetDirectoryName(document.FullPath));
         }
 
         private bool ManejarEnlaceMarkdown(string target)

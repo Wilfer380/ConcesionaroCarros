@@ -48,6 +48,7 @@ Validacion de credenciales
 Abre el acceso directo del sistema desde el escritorio o desde la ubicacion definida por soporte. Al iniciar, el sistema mostrara la pantalla de acceso para usuarios.
 
 Historia de pantallazo: Pantalla inicial de login normal.
+![Pantalla inicial de login normal](../Images/User/01-login-normal.png)
 
 ### Paso 2. Escribir usuario o correo
 
@@ -59,6 +60,7 @@ En el campo de usuario puedes escribir:
 Debes escribirlo exactamente como fue creado en el sistema para evitar errores de validacion.
 
 Historia de pantallazo: Campo de usuario o correo diligenciado.
+![Campo de usuario o correo diligenciado](../Images/User/02-usuario-o-correo.png)
 
 ### Paso 3. Escribir la contrasena
 
@@ -67,6 +69,7 @@ Ingresa tu contrasena en el campo correspondiente. Si cometes un error de digita
 Si tu teclado tiene mayusculas activadas, revisalo antes de continuar.
 
 Historia de pantallazo: Campo de contrasena diligenciado.
+![Campo de contrasena diligenciado](../Images/User/03-contrasena.png)
 
 ### Paso 4. Usar la opcion Recuerdame si aplica
 
@@ -75,12 +78,14 @@ Si deseas que el sistema recuerde tus datos en ese equipo, marca la opcion `Recu
 Usa esta opcion solo cuando el equipo sea personal o de uso controlado. No se recomienda activarla en equipos compartidos por varias personas.
 
 Historia de pantallazo: Opcion Recuerdame marcada.
+![Opcion Recuerdame marcada](../Images/User/04-recordarme.png)
 
 ### Paso 5. Pulsar Ingresar
 
 Pulsa el boton `Ingresar`. Si los datos son correctos, el sistema abrira la vista principal con los instaladores que tienes asignados.
 
 Historia de pantallazo: Boton Ingresar y resultado de acceso correcto.
+![Boton Ingresar y resultado de acceso correcto](../Images/User/05-ingreso-correcto.png)
 
 ## Que pasa cuando el login es correcto
 
@@ -103,6 +108,7 @@ Si el sistema no te deja entrar, puede pasar una de estas situaciones:
 Cuando eso ocurra, revisa primero tus datos y, si el problema continua, contacta a administracion o soporte.
 
 Historia de pantallazo: Mensaje de usuario no registrado o credenciales invalidas.
+![Mensaje de usuario no registrado o credenciales invalidas](../Images/User/06-error-login.png)
 
 ## Recuperacion de contrasena
 
@@ -113,24 +119,28 @@ Si olvidaste la contrasena, usa la ruta de recuperacion incluida en la pantalla 
 Desde la pantalla de login, entra a la opcion de recuperacion de acceso.
 
 Historia de pantallazo: Opcion de recuperacion desde login.
+![Opcion de recuperacion desde login](../Images/User/07-recuperacion-desde-login.png)
 
 ### Paso 2. Ingresar el correo registrado
 
 Escribe el correo corporativo con el que fue creada tu cuenta. El sistema validara si ese correo existe.
 
 Historia de pantallazo: Campo de correo en recuperacion.
+![Campo de correo en recuperacion](../Images/User/08-correo-recuperacion.png)
 
 ### Paso 3. Validar el proceso de recuperacion
 
 Sigue las instrucciones que te muestre la pantalla. El sistema puede pedirte validaciones previas antes de permitir el cambio de contrasena.
 
 Historia de pantallazo: Paso intermedio del flujo de recuperacion.
+![Paso intermedio del flujo de recuperacion](../Images/User/09-paso-intermedio-recuperacion.png)
 
 ### Paso 4. Registrar la nueva contrasena
 
 Cuando el sistema lo permita, escribe la nueva contrasena y confirma el cambio.
 
 Historia de pantallazo: Formulario para definir nueva contrasena.
+![Formulario para definir nueva contrasena](../Images/User/10-nueva-contrasena.png)
 
 ## Vista principal del usuario
 
@@ -145,6 +155,7 @@ En esta pantalla normalmente encontrara:
 - tarjetas con los aplicativos asignados.
 
 Historia de pantallazo: Vista principal del usuario.
+![Vista principal del usuario](../Images/User/11-vista-principal-usuario.png)
 
 ## Como leer una tarjeta de instalador
 
@@ -159,6 +170,7 @@ Cada tarjeta puede mostrar:
 Esto te permite identificar rapidamente que aplicacion estas usando y confirmar si corresponde a tu proceso.
 
 Historia de pantallazo: Tarjeta individual de un instalador.
+![Tarjeta individual de un instalador](../Images/User/12-tarjeta-instalador.png)
 
 ## Como revisar el detalle de un aplicativo
 
@@ -169,6 +181,7 @@ Si deseas ampliar informacion antes de abrirlo:
 3. revisa el nombre, la descripcion y la informacion visible del ejecutable.
 
 Historia de pantallazo: Vista o panel de detalle del instalador.
+![Vista o panel de detalle del instalador](../Images/User/13-detalle-instalador.png)
 
 ## Como ejecutar un aplicativo asignado
 
@@ -182,6 +195,7 @@ Para abrir un aplicativo:
 Si el archivo esta correctamente registrado y la ruta existe, el sistema abrira la aplicacion sin necesidad de pasos adicionales.
 
 Historia de pantallazo: Ejecucion de un aplicativo desde la tarjeta.
+![Ejecucion de un aplicativo desde la tarjeta](../Images/User/14-ejecucion-aplicativo.png)
 
 ## Como cerrar sesion
 
@@ -194,6 +208,7 @@ Cuando termines tu trabajo:
 Esto es especialmente importante si el equipo es compartido.
 
 Historia de pantallazo: Boton Cerrar sesion en el menu lateral.
+![Boton Cerrar sesion en el menu lateral](../Images/User/15-cerrar-sesion.png)
 
 ## Que no puede hacer un usuario final
 
