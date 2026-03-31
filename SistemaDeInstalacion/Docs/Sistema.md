@@ -1,14 +1,14 @@
 # Sistema
 
-`SistemaDeInstalacion` es una aplicacion de escritorio orientada a centralizar ejecutables corporativos, controlar acceso por rol y administrar que usuario puede ver o ejecutar cada aplicativo.
+`SistemaDeInstalacion` es una aplicación de escritorio orientada a centralizar ejecutables corporativos, controlar acceso por rol y administrar qué usuario puede ver o ejecutar cada aplicativo.
 
-Su proposito es reducir la dispersion de instaladores, ordenar la operacion diaria y dejar rutas claras para usuarios finales, administradores y desarrolladores.
+Su propósito es reducir la dispersión de instaladores, ordenar la operación diaria y dejar rutas claras para usuarios finales, administradores y desarrolladores.
 
-## Proposito de la aplicacion
+## Propósito de la aplicación
 
-La aplicacion existe para resolver estas necesidades:
+La aplicación existe para resolver estas necesidades:
 
-1. centralizar los ejecutables autorizados en un unico catalogo;
+1. centralizar los ejecutables autorizados en un único catálogo;
 2. controlar permisos por usuario y por rol;
 3. separar el acceso administrativo del acceso operativo normal;
 4. mantener continuidad documental y funcional del sistema.
@@ -17,15 +17,15 @@ La aplicacion existe para resolver estas necesidades:
 
 El sistema cubre hoy:
 
-- acceso directo y apertura de la aplicacion;
+- acceso directo y apertura de la aplicación;
 - login normal de usuario;
 - login administrativo;
 - registro de usuario;
 - registro de administrador;
-- recuperacion de contrasena;
-- catalogo de instaladores;
-- gestion de usuarios;
-- asignacion de aplicativos;
+- recuperación de contraseña;
+- catálogo de instaladores;
+- gestión de usuarios;
+- asignación de aplicativos;
 - ayuda documental interna por perfil;
 - logs funcionales y de soporte.
 
@@ -43,15 +43,15 @@ SistemaDeInstalacion
 |      +-> Registro administrativo
 |      \-> Login administrativo
 |
-+- Operacion de usuario
-|  +- Catalogo filtrado
++- Operación de usuario
+|  +- Catálogo filtrado
 |  +- Ayuda
-|  \- Ejecucion de aplicativos asignados
+|  \- Ejecución de aplicativos asignados
 |
-\- Operacion administrativa
-   +- Catalogo completo
-   +- Gestion de Usuarios
-   +- Asignacion de aplicativos
+\- Operación administrativa
+   +- Catálogo completo
+   +- Gestión de Usuarios
+   +- Asignación de aplicativos
    +- Ayuda
    \- Logs restringidos
 ```
@@ -60,19 +60,19 @@ SistemaDeInstalacion
 
 ### User
 
-El usuario final abre la aplicacion desde el acceso directo, puede registrarse si aun no tiene cuenta, iniciar sesion por el login normal, consultar sus instaladores asignados y ejecutar los aplicativos visibles para su cuenta.
+El usuario final abre la aplicación desde el acceso directo, puede registrarse si aún no tiene cuenta, iniciar sesión por el login normal, consultar sus instaladores asignados y ejecutar los aplicativos visibles para su cuenta.
 
 ### Administradores
 
-El administrador abre la aplicacion desde el mismo acceso directo, pero opera por la ruta administrativa. Desde ahi puede registrarse como administrador, iniciar sesion con su acceso admin, gestionar usuarios, gestionar instaladores y asignar aplicativos.
+El administrador abre la aplicación desde el mismo acceso directo, pero opera por la ruta administrativa. Desde ahí puede registrarse como administrador, iniciar sesión con su acceso admin, gestionar usuarios, gestionar instaladores y asignar aplicativos.
 
 ### Developer
 
-El desarrollador mantiene la aplicacion WPF, la logica, la persistencia, el empaquetado, los logs y la documentacion tecnica. Su guia sigue una orientacion mas tecnica y de codigo.
+El desarrollador mantiene la aplicación WPF, la lógica, la persistencia, el empaquetado, los logs y la documentación técnica. Su guía sigue una orientación más técnica y de código.
 
 ## Ruta funcional recomendada
 
-Para la operacion funcional, el orden correcto de uso es este:
+Para la operación funcional, el orden correcto de uso es este:
 
 ```text
 Acceso directo
@@ -82,35 +82,35 @@ Pantalla inicial
         |
         +--> Registro
         |
-        \--> Inicio de sesion
+        \--> Inicio de sesión
                  |
                  +--> Usuario final
                  \--> Administrador
 ```
 
-Este orden es importante porque evita empezar directamente por modulos internos sin haber explicado primero como entra realmente una persona al sistema.
+Este orden es importante porque evita empezar directamente por módulos internos sin haber explicado primero cómo entra realmente una persona al sistema.
 
 ## Estructura documental oficial
 
-La documentacion se distribuye asi:
+La documentación se distribuye así:
 
-| Ubicacion | Documento | Uso principal |
+| Ubicación | Documento | Uso principal |
 |---|---|---|
-| `Docs/Sistema.md` | `Sistema` | vision general del producto |
-| `Docs/users/User.md` | `User` | guia operativa para usuarios finales |
-| `Docs/Administradores/Administradores.md` | `Administradores` | guia operativa para administracion |
-| `Docs/Developers/Developer.md` | `Developer` | guia tecnica y de continuidad para desarrollo |
-| `Docs/Developers/BaseDeDatos.md` | `BaseDeDatos` | estructura y operacion de la persistencia |
+| `Docs/Sistema.md` | `Sistema` | visión general del producto |
+| `Docs/users/User.md` | `User` | guía operativa para usuarios finales |
+| `Docs/Administradores/Administradores.md` | `Administradores` | guía operativa para administración |
+| `Docs/Developers/Developer.md` | `Developer` | guía técnica y de continuidad para desarrollo |
+| `Docs/Developers/BaseDeDatos.md` | `BaseDeDatos` | estructura y operación de la persistencia |
 
 ## Punto de partida recomendado
 
 Si vas a operar el sistema:
 
 - empieza por el acceso directo y la pantalla inicial;
-- luego revisa el registro si aun no tienes cuenta;
-- despues revisa el login correspondiente a tu perfil.
+- luego revisa el registro si aún no tienes cuenta;
+- después revisa el login correspondiente a tu perfil.
 
-Segun el rol:
+Según el rol:
 
 - consulta [User](Docs/users/User.md) si tu perfil es usuario final;
 - consulta [Administradores](Docs/Administradores/Administradores.md) si tu perfil es administrativo.
@@ -118,11 +118,11 @@ Segun el rol:
 Si vas a mantener o evolucionar el producto:
 
 - empieza por [Developer](Docs/Developers/Developer.md);
-- continua con [BaseDeDatos](Docs/Developers/BaseDeDatos.md).
+- continúa con [BaseDeDatos](Docs/Developers/BaseDeDatos.md).
 
 ## Enlaces complementarios
 
-- [Guia de usuario](Docs/users/User.md)
-- [Guia de administradores](Docs/Administradores/Administradores.md)
-- [Guia tecnica para desarrolladores](Docs/Developers/Developer.md)
-- [Guia de base de datos](Docs/Developers/BaseDeDatos.md)
+- [Guía de usuario](Docs/users/User.md)
+- [Guía de administradores](Docs/Administradores/Administradores.md)
+- [Guía técnica para desarrolladores](Docs/Developers/Developer.md)
+- [Guía de base de datos](Docs/Developers/BaseDeDatos.md)

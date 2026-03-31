@@ -2,11 +2,107 @@
 
 Esta guía técnica está pensada para cualquier desarrollador que tome el proyecto y necesite entender con rapidez cómo está construido, cómo se compila, cómo se prueba y qué puntos debe revisar antes de continuar el desarrollo.
 
-## Finalidad técnica del producto
+## Explicación principal
 
 `SistemaDeInstalacion` es una aplicación `WPF` sobre `.NET Framework 4.8` con persistencia local en `SQLite`. No existe un backend web separado: la lógica de negocio, la interfaz y el acceso a datos conviven dentro del mismo repositorio.
 
-## Arquitectura general
+Esta guía no está orientada al uso funcional diario, sino a entender:
+
+- cómo arranca la aplicación;
+- cómo se resuelve la sesión;
+- cómo se cargan los módulos;
+- cómo se persiste la información;
+- cómo se compila, prueba y entrega el sistema.
+
+## Objetivo de esta guía
+
+Con esta guía el desarrollador podrá:
+
+- entender la arquitectura general del proyecto;
+- ubicar las carpetas y archivos principales;
+- seguir el flujo real de arranque;
+- comprender los módulos funcionales;
+- revisar la base de datos y sus dependencias;
+- compilar y validar cambios sin romper el sistema;
+- tener una ruta clara de onboarding técnico.
+
+## Qué debe entender primero el desarrollador
+
+Antes de hacer cambios en el código, es importante tener presentes estas reglas:
+
+1. la aplicación arranca sobre una base `SQLite` local;
+2. el modo administrador no depende solo del rol, sino también del flujo de autenticación;
+3. buena parte de los permisos funcionales se resuelve desde `SesionUsuario`;
+4. los instaladores visibles para usuarios normales dependen de asignaciones por ruta;
+5. la ayuda, los logs y el empaquetado forman parte del producto y no deben tratarse como extras.
+
+## Flujo técnico general
+
+```text
+Acceso directo
+        |
+        v
+SistemaDeInstalacion.exe
+        |
+        v
+App.xaml / App.xaml.cs
+        |
+        v
+DatabaseInitializer.Initialize()
+        |
+        v
+LoginView
+        |
+        +--> Login normal
+        |        |
+        |        v
+        |   Sesión operativa
+        |
+        \--> Login administrativo
+                 |
+                 v
+        Sesión administrativa
+                 |
+                 v
+        MainWindow + módulos internos
+```
+
+## Inicio del recorrido técnico
+
+Desde aquí empiezan los puntos donde puedes apoyar la guía con pantallazos técnicos. El orden recomendado es:
+
+1. estructura del proyecto en Visual Studio;
+2. punto de entrada `App.xaml.cs`;
+3. inicialización de base de datos;
+4. login normal;
+5. login administrativo;
+6. vista principal y navegación;
+7. módulo de instaladores;
+8. módulo de gestión de usuarios;
+9. ayuda y documentación interna;
+10. logs;
+11. compilación y salida `Release`.
+
+## Paso 1. Abrir el proyecto en Visual Studio
+
+El primer paso para cualquier desarrollador es abrir el proyecto y ubicar su estructura general.
+
+Archivos y carpetas principales:
+
+- `Views/`
+- `ViewModels/`
+- `Services/`
+- `Db/`
+- `Models/`
+- `Docs/`
+- `SistemaDeInstalacion.csproj`
+
+Historia de pantallazo: Estructura del proyecto abierta en Visual Studio.
+<!-- Aquí pegas la imagen del Explorador de soluciones con las carpetas principales -->
+
+## Paso 2. Entender la arquitectura general
+
+La solución sigue una estructura WPF clásica apoyada en `ViewModels`, servicios de apoyo y acceso directo a `SQLite`.
 
 ```text
 Views (XAML)
@@ -24,56 +120,21 @@ ViewModels
 SQLite (WegInstaladores.db)
 ```
 
-## Responsabilidad por capas
+### Responsabilidad por capas
 
 | Capa | Carpeta | Responsabilidad |
 |---|---|---|
 | Presentación | `Views/` | vistas, formularios y navegación visual |
 | Lógica de presentación | `ViewModels/` | comandos, validaciones y flujo de la interfaz |
-| Servicios | `Services/` | sesión, roles, utilidades y ayuda documental |
+| Servicios | `Services/` | sesión, roles, utilidades, logs y ayuda documental |
 | Persistencia | `Db/` | inicialización, consultas y operaciones SQLite |
 | Dominio | `Models/` | entidades del sistema |
-| Recursos | `Images/`, `Fonts/` | activos visuales y tipografía |
+| Recursos | `Images/`, `Fonts/` | activos visuales y tipografías |
 
-## Estructura del repositorio
+Historia de pantallazo: Carpeta del proyecto organizada por capas.
+<!-- Aquí pegas la imagen de la estructura técnica agrupada por carpetas -->
 
-```text
-SistemaDeInstalacion/
-|
-+- Commands/
-+- Converters/
-+- Db/
-+- Docs/
-|  +- Sistema.md
-|  +- users/
-|  |  \- User.md
-|  +- Developers/
-|  |  +- Developer.md
-|  |  \- BaseDeDatos.md
-|  \- Administradores/
-|     \- Administradores.md
-+- Models/
-+- Services/
-+- ViewModels/
-+- Views/
-+- SistemaDeInstalacion.Tests/
-+- App.config
-+- App.xaml
-+- MainWindow.xaml
-\- SistemaDeInstalacion.csproj
-```
-
-## Lenguajes y tipos de archivo
-
-El proyecto trabaja principalmente con:
-
-- `C#` para lógica, servicios y acceso a datos;
-- `XAML` para interfaz;
-- `SQL` embebido dentro de servicios e inicializador;
-- `Markdown` para documentación interna;
-- recursos binarios como imágenes, fuentes y ejecutables externos.
-
-## Flujo real de arranque
+## Paso 3. Revisar el punto de entrada
 
 El arranque empieza en `App.xaml` y `App.xaml.cs`.
 
@@ -85,8 +146,6 @@ Secuencia:
 4. se muestra la vista de login;
 5. tras autenticación, se abre `MainWindow`;
 6. `MainWindow` carga vistas internas según el rol de la sesión.
-
-## Punto de entrada relevante
 
 Fragmento representativo:
 
@@ -108,7 +167,28 @@ Qué significa:
 - el sistema depende de SQLite desde el primer arranque;
 - un cambio de esquema debe contemplarse siempre antes del login.
 
-## Navegación y sesión
+Historia de pantallazo: Código de `App.xaml.cs` con el flujo de arranque.
+<!-- Aquí pegas la imagen del archivo App.xaml.cs mostrando OnStartup -->
+
+## Paso 4. Entender la inicialización de base de datos
+
+La base activa es `WegInstaladores.db` y su inicialización se gestiona desde `Db/DatabaseInitializer.cs`.
+
+Puntos clave:
+
+- asegura la existencia de tablas;
+- agrega columnas faltantes;
+- puede migrar bases legacy;
+- deja la aplicación lista para el login.
+
+La guía de detalle de persistencia está en:
+
+- [BaseDeDatos](BaseDeDatos.md)
+
+Historia de pantallazo: Clase `DatabaseInitializer` abierta en Visual Studio.
+<!-- Aquí pegas la imagen del inicializador de base de datos -->
+
+## Paso 5. Revisar la sesión y la navegación
 
 La sesión vive en `Services/SesionUsuario.cs`. El modo administrador no depende solo del rol, sino también del flujo de autenticación administrativa.
 
@@ -126,9 +206,12 @@ Implicación:
 
 - un usuario con rol `ADMINISTRADOR` no verá `Gestión de Usuarios` si no ingresa por el login administrativo.
 
-## Módulos principales
+Historia de pantallazo: Código de `SesionUsuario.cs` con la lógica de `EsAdmin`.
+<!-- Aquí pegas la imagen del archivo SesionUsuario.cs -->
 
-### Autenticación de usuarios
+## Paso 6. Revisar autenticación de usuarios
+
+### Login normal
 
 Archivos clave:
 
@@ -143,7 +226,10 @@ Responsabilidades:
 - cargar sesión operativa;
 - manejar la opción `Recuérdame`.
 
-### Autenticación administrativa
+Historia de pantallazo: Vista y ViewModel del login normal.
+<!-- Aquí pegas la imagen del LoginView y LoginViewModel -->
+
+### Login administrativo
 
 Archivos clave:
 
@@ -159,7 +245,10 @@ Responsabilidades:
 - activar `ModoAdministrador`;
 - habilitar la navegación de administración.
 
-### Catálogo de instaladores
+Historia de pantallazo: Vista y ViewModel del login administrativo.
+<!-- Aquí pegas la imagen del AdminLoginView y AdminLoginViewModel -->
+
+## Paso 7. Revisar el catálogo de instaladores
 
 Archivos clave:
 
@@ -201,7 +290,10 @@ Qué significa:
 - el catálogo de usuario no es libre, sino filtrado por asignación;
 - una ruta mal cambiada puede dejar un aplicativo invisible.
 
-### Gestión de usuarios
+Historia de pantallazo: Módulo de instaladores y lógica de filtrado por sesión.
+<!-- Aquí pegas la imagen del módulo de instaladores y otra del código si lo consideras necesario -->
+
+## Paso 8. Revisar la gestión de usuarios
 
 Archivos clave:
 
@@ -219,7 +311,10 @@ Responsabilidades:
 - asignar aplicativos a través de `AplicativosJson`;
 - mantener consistencia entre `Usuarios` y `Administrador`.
 
-### Recuperación de contraseña
+Historia de pantallazo: Módulo de gestión de usuarios en ejecución.
+<!-- Aquí pegas la imagen de la vista de gestión de usuarios -->
+
+## Paso 9. Revisar recuperación de contraseña
 
 Archivos clave:
 
@@ -234,7 +329,10 @@ Responsabilidades:
 - actualizar la contraseña;
 - registrar la operación en `PasswordRecoveryLog`.
 
-### Centro de ayuda interno
+Historia de pantallazo: Flujo técnico de recuperación de contraseña.
+<!-- Aquí pegas la imagen de la vista de recuperación o del código relacionado -->
+
+## Paso 10. Revisar el centro de ayuda interno
 
 Archivos clave:
 
@@ -250,42 +348,31 @@ Responsabilidades:
 - mostrar enlaces complementarios entre guías;
 - restringir la visibilidad según rol.
 
-## Frontend y backend local
+Historia de pantallazo: Vista de ayuda abierta y documentos cargados.
+<!-- Aquí pegas la imagen del centro de ayuda dentro de la aplicación -->
 
-### Frontend
+## Paso 11. Revisar logs y soporte
 
-La capa visual está en:
+El módulo de logs forma parte de la solución funcional y técnica. Permite revisar eventos, errores, latencias y trazabilidad por equipo y fecha.
 
-- `Views/`
-- `MainWindow.xaml`
-- `App.xaml`
-- `Converters/`
-- recursos de `Images/` y `Fonts/`
+Archivos de apoyo más relevantes:
 
-Patrones usados:
+- `Services/LogService.cs`
+- `Services/LogDashboardService.cs`
+- `ViewModels/LogsViewModel.cs`
+- `Views/LogsView.xaml`
 
-- bindings WPF;
-- `RelayCommand`;
-- formularios modales;
-- contenido central cargado por `ContentControl`.
+Puntos clave:
 
-### Backend local
+- registra acciones funcionales importantes;
+- diferencia niveles como `INFO`, `WARNING`, `ERROR` y `LATENCY`;
+- organiza información por equipo y fecha;
+- soporta consulta interna desde el sistema.
 
-La lógica operativa está en:
+Historia de pantallazo: Vista de logs y archivos de soporte relacionados.
+<!-- Aquí pegas la imagen de la vista de logs y, si quieres, del código del servicio -->
 
-- `ViewModels/`
-- `Db/`
-- `Services/`
-- `Models/`
-
-Características:
-
-- no existe API REST;
-- no hay backend remoto;
-- la base es local y se consume con SQL directo;
-- la seguridad y permisos se resuelven en memoria y en SQLite.
-
-## Cómo abrir el proyecto
+## Paso 12. Compilar y ejecutar el proyecto
 
 Actualmente el repositorio versiona:
 
@@ -300,7 +387,7 @@ No existe una solución `.sln` versionada en el repositorio. El flujo recomendad
 4. restaurar paquetes `NuGet`;
 5. compilar en `Debug` o `Release`.
 
-## Requisitos de desarrollo
+Requisitos de desarrollo:
 
 - `Windows 10` o superior;
 - `Visual Studio 2022`;
@@ -308,8 +395,6 @@ No existe una solución `.sln` versionada en el repositorio. El flujo recomendad
 - `.NET Framework 4.8 Developer Pack`;
 - restauración de paquetes `NuGet`;
 - permisos de lectura y escritura sobre la carpeta del proyecto.
-
-## Compilación y ejecutables
 
 Salidas principales:
 
@@ -326,16 +411,12 @@ Artefactos esperados junto al ejecutable:
 - carpeta `Fonts/`
 - carpeta `Docs/` para el centro de ayuda
 
-## Empaquetamiento actual
+Historia de pantallazo: Compilación en Visual Studio y salida en `bin/Release`.
+<!-- Aquí pegas la imagen del build exitoso y la carpeta de salida -->
 
-El proyecto no trae hoy:
+## Paso 13. Entender el empaquetado actual
 
-- instalador MSI;
-- pipeline CI/CD formal;
-- proyecto de setup separado;
-- publicación automatizada por ambiente.
-
-La entrega operativa actual se basa en una carpeta de `Release` completa.
+La entrega operativa actual se basa en una carpeta de `Release` completa y en el proceso de empaquetado con Inno Setup que ya hace parte del flujo funcional del proyecto.
 
 Bosquejo de entrega:
 
@@ -353,6 +434,9 @@ Entrega/
 \- WegInstaladores.db   (si se distribuye una base inicial)
 ```
 
+Historia de pantallazo: Estructura final de entrega o publicación.
+<!-- Aquí pegas la imagen de la carpeta de entrega o del instalador -->
+
 ## Configuración y parámetros relevantes
 
 `App.config` contiene claves como:
@@ -369,30 +453,6 @@ Estado funcional actual:
 - la validación Microsoft está desactivada;
 - la recuperación de contraseña funciona de manera local;
 - los parámetros Azure están preparados para una evolución futura, no para el flujo actual.
-
-## Base de datos y migraciones
-
-La base activa es `WegInstaladores.db`.
-
-Puntos clave:
-
-- el esquema se asegura en `Db/DatabaseInitializer.cs`;
-- no existe un framework externo de migraciones;
-- las bases legacy pueden migrarse automáticamente;
-- cualquier cambio de esquema debe quedar reflejado en el inicializador.
-
-Fragmento representativo:
-
-```csharp
-private const string CurrentDbPath = "WegInstaladores.db";
-public static string ConnectionString => $"Data Source={CurrentDbPath}";
-```
-
-Esto significa:
-
-- que la base se crea en el directorio de ejecución;
-- que el despliegue puede incluir una base preinicializada o permitir creación en primer arranque;
-- que el comportamiento cambia según la carpeta desde la que se ejecuta la aplicación.
 
 ## Asignación de aplicativos
 
@@ -455,6 +515,9 @@ Ejecución recomendada:
 3. ejecuta la suite completa;
 4. revisa especialmente pruebas ligadas a SQLite y migraciones.
 
+Historia de pantallazo: Explorador de pruebas y ejecución de tests.
+<!-- Aquí pegas la imagen del Explorador de pruebas -->
+
 ## Historias técnicas de continuidad
 
 ### Historia 1
@@ -512,10 +575,10 @@ Archivos a revisar:
 
 ## Enlaces complementarios
 
-- [Visión general del sistema](Docs/Sistema.md)
-- [Guía de usuarios](Docs/users/User.md)
-- [Guía de administradores](Docs/Administradores/Administradores.md)
-- [Guía de base de datos](Docs/Developers/BaseDeDatos.md)
+- [Visión general del sistema](../Sistema.md)
+- [Guía de usuarios](../users/User.md)
+- [Guía de administradores](../Administradores/Administradores.md)
+- [Guía de base de datos](BaseDeDatos.md)
 
 ## Enlaces de apoyo externo
 

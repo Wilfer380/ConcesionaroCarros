@@ -337,5 +337,15 @@
                       Overwrite="true"
                       ContinueOnError="WarnAndContinue" />
   </Target>
+  <Target Name="CopyDocsAssetsToOutput" AfterTargets="Build">
+    <ItemGroup>
+      <DocsAssets Include="Docs\**\*.*" />
+    </ItemGroup>
+    <MakeDir Directories="$(OutputPath)Docs" />
+    <Copy SourceFiles="@(DocsAssets)"
+          DestinationFiles="@(DocsAssets->'$(OutputPath)%(Identity)')"
+          SkipUnchangedFiles="true"
+          ContinueOnError="WarnAndContinue" />
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

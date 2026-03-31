@@ -77,6 +77,9 @@ namespace ConcesionaroCarros.Services
                 if (string.IsNullOrWhiteSpace(trimmed))
                     continue;
 
+                if (EsComentarioHtml(trimmed))
+                    continue;
+
                 if (trimmed == "---")
                 {
                     doc.Blocks.Add(new BlockUIContainer(new System.Windows.Controls.Border
@@ -194,6 +197,11 @@ namespace ConcesionaroCarros.Services
             return Regex.IsMatch(trimmed ?? string.Empty, @"^!\[[^\]]*\]\([^\)]+\)$");
         }
 
+        private static bool EsComentarioHtml(string trimmed)
+        {
+            return Regex.IsMatch(trimmed ?? string.Empty, @"^<!--.*-->$");
+        }
+
         private static string LimpiarNumerado(string trimmed)
         {
             return Regex.Replace(trimmed, @"^\d+\.\s+", string.Empty).Trim();
@@ -253,14 +261,14 @@ namespace ConcesionaroCarros.Services
 
             if (string.IsNullOrWhiteSpace(resolvedPath) || !File.Exists(resolvedPath))
             {
-                AgregarMarcadorPantallazo(
-                    doc,
-                    string.Format("Historia de pantallazo pendiente: no se encontro la imagen '{0}'", imagePath));
                 return;
             }
 
             try
             {
+                const double maxDisplayWidth = 760d;
+                const double maxDisplayHeight = 420d;
+
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -268,11 +276,18 @@ namespace ConcesionaroCarros.Services
                 bitmap.EndInit();
                 bitmap.Freeze();
 
+                var preferredWidth = bitmap.PixelWidth > 0
+                    ? Math.Min(maxDisplayWidth, bitmap.PixelWidth)
+                    : maxDisplayWidth;
+
                 var image = new Image
                 {
                     Source = bitmap,
                     Stretch = Stretch.Uniform,
-                    MaxWidth = 1100,
+                    Width = preferredWidth,
+                    MaxWidth = maxDisplayWidth,
+                    MaxHeight = maxDisplayHeight,
+                    HorizontalAlignment = HorizontalAlignment.Center,
                     Margin = new Thickness(0, 8, 0, 14)
                 };
 
@@ -290,9 +305,7 @@ namespace ConcesionaroCarros.Services
             }
             catch
             {
-                AgregarMarcadorPantallazo(
-                    doc,
-                    string.Format("Historia de pantallazo pendiente: no se pudo cargar la imagen '{0}'", imagePath));
+                return;
             }
         }
 

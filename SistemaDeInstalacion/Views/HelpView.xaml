@@ -139,7 +139,8 @@
                         </StackPanel>
                     </Border>
 
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    <ScrollViewer x:Name="SectionsScrollViewer"
+                                  VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
                             <ItemsControl ItemsSource="{Binding Sections}">
