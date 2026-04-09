@@ -1,59 +1,145 @@
 # BaseDeDatos
 
-Esta guía explica la persistencia local del sistema: archivo activo, tablas, relaciones lógicas, migraciones y recomendaciones para evolucionar el esquema sin romper compatibilidad.
+Esta guía documenta la capa real de persistencia de `SistemaDeInstalacion` según el código actual en `Db/`, `ViewModels/`, `App.config` y `SistemaDeInstalacion.Tests/`.
 
-Debe revisarse junto con:
+Se complementa con:
 
-- [Developer](Docs/Developers/Developer.md)
-- [Administradores](Docs/Administradores/Administradores.md)
+- [Developer](help://developers/developer)
+- [Administradores](help://administradores/administradores)
 
-## Archivo activo
+## Stack real
 
-La base utilizada por la aplicación es:
+- proveedor: `Microsoft.Data.Sqlite` `10.0.2` en `SistemaDeInstalacion.csproj`;
+- motor: `SQLite` sobre archivo local/compartido;
+- runtime: `.NET Framework 4.8`;
+- acceso a datos: SQL manual con `SqliteConnection`, `SqliteCommand` y parámetros `$nombre`;
+- ORM/migrador: no existe.
 
-- `WegInstaladores.db`
+## Archivo y configuración efectiva
 
-La cadena de conexión se construye desde `Db/DatabaseInitializer.cs`, por lo que la base queda ubicada en el directorio de ejecución del programa.
+La ruta activa se resuelve en `Db/DatabaseInitializer.cs`:
 
-Ubicaciones comunes:
+- archivo por defecto: `WegInstaladores.db`;
+- clave de configuración: `CC_SHARED_DATABASE_PATH`;
+- si la clave está vacía, la base cae en `AppDomain.CurrentDomain.BaseDirectory`;
+- si la clave tiene variables de entorno, se expanden con `Environment.ExpandEnvironmentVariables()`;
+- si la clave es relativa, se vuelve absoluta tomando como base el directorio de ejecución;
+- si la clave es absoluta, se usa tal cual.
 
-- `bin/Debug/`
-- `bin/Release/`
+En `App.config` hoy la clave apunta a un UNC compartido:
 
-## Flujo de inicialización
-
-```text
-Inicio de la aplicación
-        |
-        v
-Buscar WegInstaladores.db
-        |
-        +--> si no existe, intentar migrar una base legacy
-        |
-        v
-Crear tablas faltantes
-        |
-        v
-Asegurar columnas nuevas
-        |
-        v
-Normalizar datos heredados
-        |
-        v
-Aplicación lista para login
+```xml
+<add key="CC_SHARED_DATABASE_PATH" value="\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem\BD\WegInstaladores.db" />
 ```
 
-## Bases legacy que aún se migran
+La cadena de conexión real es solo:
 
-Si la base principal no existe, el inicializador puede migrar automáticamente:
+```text
+Data Source={CurrentDbPath}
+```
+
+No hay `journal_mode`, `foreign_keys`, `synchronous`, `cache`, ni otras opciones en connection string.
+
+Nota técnica: la preferencia visual (`ThemePreference`) no se persiste en `SQLite`. Vive como configuración local por perfil Windows en `Properties/Settings.settings`, se resuelve en runtime mediante `ThemeManager` y queda fuera del modelo relacional. La referencia funcional principal para Configuración y cambio de tema está en [Configuración](help://users/user#configuracion).
+
+## Bootstrap real
+
+`App.xaml.cs` ejecuta `DatabaseInitializer.Initialize()` en `OnStartup()` antes de abrir `LoginView`.
+
+Flujo real:
+
+```text
+App.OnStartup()
+  -> DatabaseInitializer.Initialize()
+     -> crea directorio de la base si falta
+     -> si WegInstaladores.db no existe, copia una base legacy si encuentra una
+     -> abre SQLite
+     -> crea tablas vigentes con CREATE TABLE IF NOT EXISTS
+     -> agrega columnas faltantes con ALTER TABLE
+     -> migra datos de Administradores -> Administrador
+     -> elimina tablas legacy
+     -> normaliza datos heredados
+```
+
+## Migraciones y alteraciones manuales
+
+No existe versionado formal de esquema. La migración es programática e idempotente dentro de `DatabaseInitializer.Initialize()`.
+
+### Archivos legacy que todavía se absorben
+
+Si `CurrentDbPath` no existe, el bootstrap intenta copiar uno de estos nombres desde el mismo directorio:
 
 - `WegInstallerSystems.db`
 - `installer_systems.db`
 - `carros.db`
 
-## Esquema funcional actual
+Después, intenta borrar el archivo legacy migrado en un `try/catch` best effort.
 
-### Tabla `Usuarios`
+### Estrategia de evolución de esquema
+
+La app hace cambios manuales con `ALTER TABLE` usando `EnsureColumnExists()` y `PRAGMA table_info()`.
+
+Columnas agregadas por compatibilidad:
+
+- `Usuarios.FotoPerfil`
+- `Usuarios.AplicativosJson`
+- `Instaladores.Nombre`
+- `Instaladores.Descripcion`
+- `Instaladores.Carpeta`
+- todas las columnas actuales de `Administrador`
+- todas las columnas actuales de `PasswordRecoveryLog`
+
+Punto importante: `Instaladores` se crea inicialmente con `Id`, `Ruta`, `Carpeta`, `FechaRegistro`, y luego completa `Nombre` y `Descripcion` por alteración. O sea: el esquema actual depende de bootstrap + alteraciones, no solo del `CREATE TABLE` inicial.
+
+### Tablas legacy eliminadas
+
+El bootstrap ejecuta:
+
+```sql
+DROP TABLE IF EXISTS Carros;
+DROP TABLE IF EXISTS Clientes;
+DROP TABLE IF EXISTS Empleados;
+DROP TABLE IF EXISTS Administradores;
+```
+
+Además, si existe la tabla legacy `Administradores`, copia sus filas a `Administrador` con `INSERT OR IGNORE ... SELECT ...` antes del borrado.
+
+### Normalizaciones automáticas de datos
+
+En cada arranque se aplican estas correcciones:
+
+- `Usuarios.AplicativosJson` vacío o `NULL` se fuerza a `'[]'`;
+- `Usuarios.Rol = CLIENTE` se migra a `VENTAS`;
+- `Usuarios.Rol = INGENIERO` se migra a `INGENIERIA`;
+- `Usuarios.Rol = ADMIN` se migra a `ADMINISTRADOR`;
+- `Instaladores.Carpeta` vacía o `NULL` se migra a `Desarrollo global`.
+
+## Pragmas y concurrencia
+
+Solo hay un pragma explícito en código:
+
+```sql
+PRAGMA busy_timeout = 5000;
+```
+
+Se aplica al abrir conexión en:
+
+- `Db/UsuariosDbService.cs`
+- `Db/AdministradoresDbService.cs`
+
+No se aplica en `Db/InstaladorDbService.cs`.
+
+Además, `UsuariosDbService` implementa reintentos manuales para `SqliteErrorCode == 5` con hasta 3 intentos y espera incremental `120ms`, `240ms`, `360ms`.
+
+`AdministradoresDbService` no tiene reintentos manuales.
+
+`InstaladorDbService` no tiene ni `busy_timeout` ni reintentos.
+
+## Tablas reales y rol
+
+### `Usuarios`
+
+Definición vigente:
 
 ```sql
 CREATE TABLE IF NOT EXISTS Usuarios (
@@ -70,35 +156,48 @@ CREATE TABLE IF NOT EXISTS Usuarios (
 );
 ```
 
-Responsabilidad:
+Rol real:
 
-- identidad operativa del usuario;
-- contraseña normal;
-- rol funcional;
-- permisos serializados en `AplicativosJson`.
+- identidad principal del sistema;
+- autenticación normal;
+- rol funcional de la UI;
+- almacenamiento de foto de perfil por ruta;
+- almacenamiento de aplicativos asignados como JSON de rutas.
 
-### Tabla `Instaladores`
+Observaciones:
 
-Esquema funcional esperado:
+- `Correo` es el único `UNIQUE` explícito;
+- `FechaRegistro` se guarda como `TEXT` con formato `yyyy-MM-dd HH:mm:ss`;
+- `AplicativosJson` reemplaza una relación relacional real entre usuario e instalador.
+
+### `Instaladores`
+
+Definición funcional final, después del bootstrap:
 
 ```sql
 CREATE TABLE IF NOT EXISTS Instaladores (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     Ruta TEXT,
-    Nombre TEXT,
-    Descripcion TEXT,
     Carpeta TEXT,
-    FechaRegistro TEXT
+    FechaRegistro TEXT,
+    Nombre TEXT,
+    Descripcion TEXT
 );
 ```
 
-Responsabilidad:
+Rol real:
 
-- catálogo de ejecutables;
-- clasificación por carpeta funcional;
-- fuente para asignación de aplicativos.
+- catálogo de ejecutables lanzables desde la app;
+- clasificación por carpeta funcional: `Desarrollo global` o `Punto local de desarrollo planta`;
+- fuente de asignación de aplicativos para usuarios no admin.
 
-### Tabla `Administrador`
+Observaciones:
+
+- no hay `UNIQUE` sobre `Ruta`;
+- el código trata `Ruta` como identificador funcional para actualizar y eliminar;
+- si `Nombre` es `NULL`, el servicio deriva el nombre desde `Path.GetFileNameWithoutExtension(Ruta)`.
+
+### `Administrador`
 
 ```sql
 CREATE TABLE IF NOT EXISTS Administrador (
@@ -113,13 +212,18 @@ CREATE TABLE IF NOT EXISTS Administrador (
 );
 ```
 
-Responsabilidad:
+Rol real:
 
-- credencial privilegiada;
-- acceso al login administrativo;
-- unión lógica con `Usuarios` por correo.
+- credencial privilegiada separada del login normal;
+- resolución del usuario administrativo por `UsuarioSistema`;
+- puente hacia `Usuarios` por `Correo`.
 
-### Tabla `PasswordRecoveryLog`
+Observaciones:
+
+- la UI admin NO navega con este registro solo;
+- después del login admin, la app busca el usuario base en `Usuarios` usando `admin.Correo`.
+
+### `PasswordRecoveryLog`
 
 ```sql
 CREATE TABLE IF NOT EXISTS PasswordRecoveryLog (
@@ -132,197 +236,256 @@ CREATE TABLE IF NOT EXISTS PasswordRecoveryLog (
 );
 ```
 
-Responsabilidad:
+Rol real:
 
-- trazabilidad de recuperaciones de contraseña;
-- soporte operativo y auditoría básica.
+- auditoría de reseteo de contraseña;
+- registro de si hubo validación Microsoft o no.
 
-## Diagrama lógico de datos
+Observaciones:
+
+- hoy `MicrosoftRecoveryViewModel` siempre inserta `ValidadoMicrosoft = false` y `CorreoAdministrador = null`;
+- no existe `FOREIGN KEY` contra `Usuarios`.
+
+## Servicios DB y responsabilidades
+
+### `Db/DatabaseInitializer.cs`
+
+Responsabilidades:
+
+- resolver ruta efectiva de la base;
+- crear directorios;
+- copiar base legacy si corresponde;
+- asegurar tablas y columnas;
+- migrar `Administradores` -> `Administrador`;
+- eliminar tablas viejas;
+- normalizar datos heredados.
+
+### `Db/UsuariosDbService.cs`
+
+Responsabilidades:
+
+- alta de usuarios;
+- login por correo + password;
+- lookup por correo, alias o usuario de dispositivo;
+- listado completo;
+- actualización de datos básicos;
+- actualización de password;
+- actualización de `FotoPerfil`;
+- actualización de `AplicativosJson`;
+- borrado simple o con limpieza de `PasswordRecoveryLog`;
+- registro de recuperaciones de password.
+
+Detalle técnico:
+
+- hash de password: `SHA256` + `Base64`;
+- lecturas y escrituras parametrizadas;
+- reintentos solo para bloqueo SQLite.
+
+### `Db/AdministradoresDbService.cs`
+
+Responsabilidades:
+
+- alta o actualización de credencial admin por correo;
+- login admin por `UsuarioSistema` + password admin;
+- verificación de existencia por `UsuarioSistema`;
+- borrado por correo;
+- sincronización de datos de admin cuando cambia el `Usuario` base.
+
+Detalle técnico:
+
+- hash de password admin: `SHA256` + `Base64`;
+- `GuardarOActualizar()` decide insert/update consultando antes por `Correo`.
+
+### `Db/InstaladorDbService.cs`
+
+Responsabilidades:
+
+- alta de instaladores;
+- edición por `Ruta`;
+- listado ordenado por `Id DESC`;
+- borrado por `Ruta`.
+
+Detalle técnico:
+
+- normaliza carpeta vacía a `Desarrollo global`;
+- no aplica timeout ni reintentos ante bloqueo.
+
+## Flujos reales desde ViewModels hasta DB
+
+### 1. Arranque
+
+`App.OnStartup()` -> `DatabaseInitializer.Initialize()` -> base lista -> `LoginView`.
+
+### 2. Registro normal
+
+`RegisterViewModel`:
+
+1. valida correo `@weg.net`;
+2. arma `Usuario` con datos derivados del correo o del perfil Windows;
+3. consulta `UsuariosDbService.ObtenerTodos()` para detectar duplicado de forma preventiva;
+4. persiste con `RegistrarYRetornarId()`;
+5. deriva a `LoginView` con prefill.
+
+### 3. Login normal
+
+`LoginViewModel`:
+
+1. resuelve correo real con `ObtenerCorreoPorUsuarioLogin()`;
+2. autentica con `UsuariosDbService.Login()`;
+3. guarda `SesionUsuario.UsuarioActual`;
+4. abre `MainWindow`.
+
+Persistencia asociada pero fuera de SQLite:
+
+- `Recordarme` usa `%AppData%\ConcesionaroCarros\login.remember`;
+- password cifrada con `ProtectedData`.
+
+### 4. Registro administrativo
+
+`AdminRegisterViewModel`:
+
+1. valida correo y rol;
+2. crea o actualiza primero el usuario base en `Usuarios`;
+3. crea o actualiza después la credencial en `Administrador` con `GuardarOActualizar()`;
+4. abre `AdminLoginView` con prefill.
+
+Es una doble escritura deliberada: `Administrador` complementa a `Usuarios`, no lo reemplaza.
+
+### 5. Login administrativo
+
+`AdminLoginViewModel`:
+
+1. valida existencia con `AdministradoresDbService.ExistePorUsuarioSistema()`;
+2. autentica con `LoginPorUsuarioSistema()`;
+3. busca el usuario base con `UsuariosDbService.ObtenerPorCorreo(admin.Correo)`;
+4. si existe, activa `SesionUsuario.ModoAdministrador = true` y navega con ese usuario base.
+
+Persistencia asociada pero fuera de SQLite:
+
+- `%AppData%\ConcesionaroCarros\login.admin.remember`;
+- password admin cifrada con `ProtectedData`.
+
+### 6. Gestión de usuarios
+
+`GestionUsuarioViewModel`:
+
+- carga grilla con `UsuariosDbService.ObtenerTodos()`;
+- elimina usuario con doble operación: `AdministradoresDbService.EliminarPorCorreo()` + `UsuariosDbService.EliminarConDependencias()`;
+- arma panel de asignación leyendo `InstaladorDbService.ObtenerTodos()`;
+- persiste aplicativos seleccionados en `Usuarios.AplicativosJson` con `ActualizarAplicativosJson()`;
+- al editar, sincroniza admin por correo con `SincronizarDesdeUsuario()` o elimina el admin si el rol deja de ser administrativo.
+
+### 7. Formulario de usuario
+
+`FormularioUsuarioViewModel`:
+
+- alta: `UsuariosDbService.Registrar()`;
+- edición: `Actualizar()` y opcionalmente `ActualizarPassword()`.
+
+### 8. Gestión de instaladores
+
+`FormularioInstaladorViewModel` y `InstaladoresViewModel`:
+
+- alta: `InstaladorDbService.Guardar()`;
+- edición: `InstaladorDbService.Actualizar()` por `Ruta`;
+- eliminación: `EliminarRuta()`;
+- listado: `ObtenerTodos()`.
+
+Para usuarios no admin, `InstaladoresViewModel` filtra en memoria contra las rutas presentes en `SesionUsuario.UsuarioActual.AplicativosJson`.
+
+### 9. Recuperación de contraseña
+
+`MicrosoftRecoveryViewModel`:
+
+1. busca usuario por correo con `ObtenerPorCorreo()`;
+2. si valida el código visual, actualiza password con `ActualizarPassword()`;
+3. registra auditoría en `PasswordRecoveryLog` con `RegistrarLogRecuperacionPassword()`.
+
+No hay validación Microsoft real en la persistencia observada. Solo queda trazado el booleano.
+
+## Relaciones reales
+
+No hay claves foráneas. Las relaciones son lógicas y mantenidas por código:
 
 ```text
 Usuarios
-  |
-  +--> PasswordRecoveryLog   (por UsuarioId)
-  |
-  +--> Administrador         (unión lógica por Correo)
-  |
-  \--> Instaladores          (unión lógica por rutas en AplicativosJson)
+  -> Administrador        por Correo
+  -> PasswordRecoveryLog  por UsuarioId y CorreoUsuario
+  -> Instaladores         por rutas serializadas en AplicativosJson
 ```
 
-## Reglas críticas del modelo
+## Seguridad real de datos
 
-### La relación usuario-aplicativo no es relacional
+- `Usuarios.PasswordHash` y `Administrador.PasswordAdminHash` usan `SHA-256` simple en Base64;
+- no hay salt por usuario;
+- no hay `PBKDF2`, `bcrypt` ni `Argon2`;
+- `Recordarme` no usa SQLite: usa archivos en `%AppData%` con DPAPI;
+- las consultas observadas están parametrizadas, así que el riesgo dominante no es SQL injection sino diseño del modelo y concurrencia.
 
-El permiso de un usuario se guarda como JSON con rutas de ejecutables. Eso significa:
+## Tests existentes
 
-- no existe tabla intermedia `UsuarioInstalador`;
-- la integridad depende del código;
-- si cambia la ruta, la asignación puede quedar obsoleta.
+Sí, hay cobertura de persistencia en `SistemaDeInstalacion.Tests/`.
 
-Ejemplo de contenido:
+Archivos relevantes:
 
-```json
-[
-  "\\\\servidor\\apps\\ERP.exe",
-  "C:\\Instaladores\\Reporteador.exe"
-]
-```
+- `DatabaseInitializerTests.cs`: creación de base, migración legacy, normalización y borrado de archivo viejo;
+- `UsuariosDbServiceTests.cs`: registro, login, duplicados, cambio de password, `AplicativosJson`, limpieza de `PasswordRecoveryLog`;
+- `AdministradoresDbServiceTests.cs`: guardado, login, eliminación y sincronización desde usuario;
+- `InstaladorDbServiceTests.cs`: alta, edición, eliminación, normalización de carpeta y nombre derivado desde ruta.
 
-### La identidad administrativa depende de `Usuarios`
+Los tests usan `TestWorkspace`, limpian archivos `WegInstaladores.db` y legacies en el directorio de salida, y validan el esquema contra una base SQLite real de prueba.
 
-El login administrativo valida en `Administrador`, pero después necesita resolver el usuario base en `Usuarios`.
+## Rutas y archivos relevantes
 
-### Las fechas se guardan como texto
+- `SistemaDeInstalacion/Db/DatabaseInitializer.cs`
+- `SistemaDeInstalacion/Db/UsuariosDbService.cs`
+- `SistemaDeInstalacion/Db/AdministradoresDbService.cs`
+- `SistemaDeInstalacion/Db/InstaladorDbService.cs`
+- `SistemaDeInstalacion/App.xaml.cs`
+- `SistemaDeInstalacion/App.config`
+- `SistemaDeInstalacion/SistemaDeInstalacion.Tests/`
 
-No hay un tipo datetime fuerte. Cualquier consulta de orden o auditoría depende del formato grabado por la aplicación.
+Rutas de persistencia no SQLite pero conectadas al flujo de acceso:
 
-## Migraciones actuales
+- `%AppData%\ConcesionaroCarros\login.remember`
+- `%AppData%\ConcesionaroCarros\login.admin.remember`
 
-La estrategia usada hoy es programática, no versionada.
+## Capturas y assets vinculados a DB
 
-El inicializador realiza:
+No encontré capturas ni assets específicos de base de datos referenciados por `Docs/Developers/BaseDeDatos.md`.
 
-1. creación de tablas faltantes;
-2. adición de columnas faltantes con `ALTER TABLE`;
-3. migración de `Administradores` legacy hacia `Administrador`;
-4. limpieza de tablas heredadas;
-5. normalización de datos antiguos.
+Sí existen imágenes en:
 
-## Normalizaciones automáticas
+- `Docs/Administradores/`
+- `Docs/users/`
 
-Ejemplos de normalización que la app ejecuta al iniciar:
+Pero están ligadas a flujos de UI y ayuda, no a estructura de base, migraciones ni inspección de SQLite.
 
-```sql
-UPDATE Usuarios
-SET AplicativosJson = '[]'
-WHERE AplicativosJson IS NULL OR TRIM(AplicativosJson) = '';
+## Riesgos y deuda técnica concreta
 
-UPDATE Usuarios
-SET Rol = 'ADMINISTRADOR'
-WHERE UPPER(TRIM(Rol)) = 'ADMIN';
+- no hay migraciones versionadas ni historial de schema;
+- no hay transacciones explícitas para operaciones compuestas;
+- no hay `FOREIGN KEY`, así que la integridad depende del código;
+- `Instaladores.Ruta` actúa como identificador funcional sin `UNIQUE`;
+- `Usuarios.AplicativosJson` serializa relaciones como texto, lo que rompe integridad y dificulta consultas;
+- `InstaladorDbService` no usa `PRAGMA busy_timeout` ni reintentos, a diferencia de los otros servicios;
+- passwords con `SHA-256` simple: mejor que texto plano, pero insuficiente para credenciales reales;
+- la base puede vivir en un share UNC configurado, pero la app sigue siendo una app desktop sin estrategia robusta multiusuario;
+- `PasswordRecoveryLog.ValidadoMicrosoft` existe, pero el flujo observado persiste siempre `false`;
+- existe soporte de `FotoPerfil` en esquema y servicio, pero no apareció un flujo de escritura desde UI en esta auditoría.
 
-UPDATE Instaladores
-SET Carpeta = 'Desarrollo global'
-WHERE Carpeta IS NULL OR TRIM(Carpeta) = '';
-```
+## Checklist para tocar esta capa
 
-## Seguridad actual
+Antes de cambiar persistencia:
 
-Las contraseñas no se guardan en texto plano. Se almacenan como hash `SHA-256` codificado en base64.
+1. actualizar `DatabaseInitializer.Initialize()` y sus `EnsureColumnExists()`;
+2. revisar impacto en `UsuariosDbService`, `AdministradoresDbService` e `InstaladorDbService`;
+3. revisar ViewModels que dependen del shape actual de datos;
+4. ajustar tests en `SistemaDeInstalacion.Tests`;
+5. actualizar esta guía con evidencia del código real.
 
-Esto aplica para:
+## Referencias externas
 
-- `Usuarios.PasswordHash`
-- `Administrador.PasswordAdminHash`
-
-Nota técnica:
-
-- el esquema actual mejora el almacenamiento plano;
-- para una evolución futura conviene migrar a `PBKDF2`, `bcrypt` o `Argon2`.
-
-## Bloqueos SQLite y concurrencia
-
-La aplicación usa `busy_timeout` y reintentos ante base ocupada. Esto ayuda a disminuir errores transitorios, pero no convierte la solución en una base multiusuario fuerte.
-
-Interpretación práctica:
-
-- es adecuada para el uso actual de escritorio;
-- no debe asumirse como una base central concurrente para muchos procesos.
-
-## Operaciones y tablas afectadas
-
-| Operación | Tablas impactadas |
-|---|---|
-| Registrar administrador | `Usuarios`, `Administrador` |
-| Login administrativo | lectura de `Administrador` y `Usuarios` |
-| Crear usuario | `Usuarios` |
-| Editar usuario | `Usuarios` y, si aplica, `Administrador` |
-| Eliminar usuario | `Usuarios`, `Administrador`, `PasswordRecoveryLog` |
-| Registrar instalador | `Instaladores` |
-| Editar instalador | `Instaladores` |
-| Eliminar instalador | `Instaladores` |
-| Asignar aplicativos | `Usuarios.AplicativosJson` |
-| Recuperar contraseña | `Usuarios.PasswordHash`, `PasswordRecoveryLog` |
-
-## Consultas útiles de soporte
-
-### Usuarios
-
-```sql
-SELECT Id, Nombres, Apellidos, Correo, Rol, AplicativosJson
-FROM Usuarios
-ORDER BY Id DESC;
-```
-
-### Administradores
-
-```sql
-SELECT Id, Correo, UsuarioSistema, Rol, FechaRegistro
-FROM Administrador
-ORDER BY Id DESC;
-```
-
-### Instaladores
-
-```sql
-SELECT Id, Ruta, Nombre, Carpeta, FechaRegistro
-FROM Instaladores
-ORDER BY Id DESC;
-```
-
-### Recuperaciones de contraseña
-
-```sql
-SELECT Id, UsuarioId, CorreoUsuario, CorreoAdministrador, FechaRecuperacion
-FROM PasswordRecoveryLog
-ORDER BY Id DESC;
-```
-
-### Administradores sin usuario base
-
-```sql
-SELECT a.Id, a.Correo, a.UsuarioSistema
-FROM Administrador a
-LEFT JOIN Usuarios u ON UPPER(TRIM(a.Correo)) = UPPER(TRIM(u.Correo))
-WHERE u.Id IS NULL;
-```
-
-## Documentos complementarios
-
-- [Visión general del sistema](Docs/Sistema.md)
-- [Guía de desarrollo](Docs/Developers/Developer.md)
-- [Guía de administradores](Docs/Administradores/Administradores.md)
-
-## Enlaces de apoyo externo
-
-Para ampliar conceptos técnicos relacionados con esta capa:
-
-- [Documentación oficial de SQLite](https://sqlite.org/docs.html)
-- [Referencia de `PRAGMA busy_timeout` en SQLite](https://sqlite.org/pragma.html#pragma_busy_timeout)
-- [Documentación oficial de Microsoft.Data.Sqlite en Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/)
-
-## Checklist para cambios de esquema
-
-Antes de modificar la base:
-
-1. actualiza `Db/DatabaseInitializer.cs`;
-2. valida el impacto sobre `UsuariosDbService`, `AdministradoresDbService` e `InstaladorDbService`;
-3. revisa si la ayuda administrativa debe cambiar;
-4. agrega o ajusta pruebas en `SistemaDeInstalacion.Tests`;
-5. documenta el cambio en este archivo.
-
-## Riesgos técnicos vigentes
-
-- no existe versionado formal del esquema;
-- `AplicativosJson` no impone integridad referencial;
-- la ruta del instalador actúa como identificador funcional;
-- la base depende del directorio de ejecución;
-- la relación administrativa se sincroniza por correo.
-
-## Evolución recomendada
-
-- crear una tabla relacional para permisos por aplicativo;
-- versionar migraciones;
-- desacoplar el identificador funcional de la ruta física;
-- introducir índices si crece el volumen de datos;
-- mantener esta guía alineada con el código real.
+- [SQLite Documentation](https://sqlite.org/docs.html)
+- [PRAGMA busy_timeout](https://sqlite.org/pragma.html#pragma_busy_timeout)
+- [Microsoft.Data.Sqlite](https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/)

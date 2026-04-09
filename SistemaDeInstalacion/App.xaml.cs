@@ -16,6 +16,7 @@ namespace ConcesionaroCarros
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             GlobalCopyContextService.Register();
+            ThemeManager.Initialize(this);
 
             LogService.Info("App", "Inicio de aplicacion");
 

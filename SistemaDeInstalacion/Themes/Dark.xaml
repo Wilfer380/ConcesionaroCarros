@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="CorpWindowBrush" Color="#0E1621"/>
+    <SolidColorBrush x:Key="CorpSurfaceBrush" Color="#172231"/>
+    <SolidColorBrush x:Key="CorpPanelBrush" Color="#131E2B"/>
+    <SolidColorBrush x:Key="CorpPanelStrongBrush" Color="#223347"/>
+    <SolidColorBrush x:Key="CorpBorderBrush" Color="#8FA9C3"/>
+    <SolidColorBrush x:Key="CorpAccentBrush" Color="#7CAEFF"/>
+    <SolidColorBrush x:Key="CorpAccentDarkBrush" Color="#5E91F0"/>
+    <SolidColorBrush x:Key="CorpAccentSoftBrush" Color="#5AC3D9"/>
+    <SolidColorBrush x:Key="CorpTextBrush" Color="#E7F0FB"/>
+    <SolidColorBrush x:Key="CorpMutedBrush" Color="#9FB2C7"/>
+    <SolidColorBrush x:Key="CorpDangerBrush" Color="#FF8E8E"/>
+    <SolidColorBrush x:Key="CorpAuthPanelBrush" Color="#29486A"/>
+    <SolidColorBrush x:Key="CorpAuthPanelDarkBrush" Color="#213A57"/>
+    <SolidColorBrush x:Key="CorpAuthHeaderBrush" Color="#233142"/>
+    <SolidColorBrush x:Key="CorpAuthLineBrush" Color="#7B97B3"/>
+    <SolidColorBrush x:Key="CorpMosaic1Brush" Color="#366C96"/>
+    <SolidColorBrush x:Key="CorpMosaic2Brush" Color="#284B66"/>
+    <SolidColorBrush x:Key="CorpMosaic3Brush" Color="#407891"/>
+    <SolidColorBrush x:Key="CorpMosaic4Brush" Color="#365972"/>
+    <LinearGradientBrush x:Key="ShellContentBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#101A26" Offset="0"/>
+        <GradientStop Color="#162434" Offset="0.55"/>
+        <GradientStop Color="#203244" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ThemePreviewNeutralBrush" Color="#24384C"/>
+</ResourceDictionary>

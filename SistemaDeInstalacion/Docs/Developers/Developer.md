@@ -1,198 +1,176 @@
 # Developer
 
-Esta guía técnica está pensada para cualquier desarrollador que tome el proyecto y necesite entender con rapidez cómo está construido, cómo se compila, cómo se prueba y qué puntos debe revisar antes de continuar el desarrollo.
+## Propósito y alcance
 
-## Explicación principal
+Este documento describe el funcionamiento técnico de `SistemaDeInstalacion` siguiendo el recorrido real del código desde el arranque hasta los módulos principales. El foco no está en el uso funcional de la UI, sino en entender qué clases participan, qué estado comparten, dónde se persiste la información y qué restricciones condicionan cualquier cambio.
 
-`SistemaDeInstalacion` es una aplicación `WPF` sobre `.NET Framework 4.8` con persistencia local en `SQLite`. No existe un backend web separado: la lógica de negocio, la interfaz y el acceso a datos conviven dentro del mismo repositorio.
+El sistema no está dividido en frontend y backend. La solución combina:
 
-Esta guía no está orientada al uso funcional diario, sino a entender:
+- un `launcher` WinForms para instalación y actualización;
+- una aplicación `WPF` de escritorio para autenticación, administración y ejecución de instaladores;
+- persistencia local o compartida en `SQLite` mediante `Microsoft.Data.Sqlite`.
 
-- cómo arranca la aplicación;
-- cómo se resuelve la sesión;
-- cómo se cargan los módulos;
-- cómo se persiste la información;
-- cómo se compila, prueba y entrega el sistema.
+## Stack y restricciones reales
 
-## Objetivo de esta guía
-
-Con esta guía el desarrollador podrá:
-
-- entender la arquitectura general del proyecto;
-- ubicar las carpetas y archivos principales;
-- seguir el flujo real de arranque;
-- comprender los módulos funcionales;
-- revisar la base de datos y sus dependencias;
-- compilar y validar cambios sin romper el sistema;
-- tener una ruta clara de onboarding técnico.
-
-## Qué debe entender primero el desarrollador
-
-Antes de hacer cambios en el código, es importante tener presentes estas reglas:
-
-1. la aplicación arranca sobre una base `SQLite` local;
-2. el modo administrador no depende solo del rol, sino también del flujo de autenticación;
-3. buena parte de los permisos funcionales se resuelve desde `SesionUsuario`;
-4. los instaladores visibles para usuarios normales dependen de asignaciones por ruta;
-5. la ayuda, los logs y el empaquetado forman parte del producto y no deben tratarse como extras.
-
-## Flujo técnico general
-
-```text
-Acceso directo
-        |
-        v
-SistemaDeInstalacion.exe
-        |
-        v
-App.xaml / App.xaml.cs
-        |
-        v
-DatabaseInitializer.Initialize()
-        |
-        v
-LoginView
-        |
-        +--> Login normal
-        |        |
-        |        v
-        |   Sesión operativa
-        |
-        \--> Login administrativo
-                 |
-                 v
-        Sesión administrativa
-                 |
-                 v
-        MainWindow + módulos internos
-```
-
-## Inicio del recorrido técnico
-
-Desde aquí empiezan los puntos donde puedes apoyar la guía con pantallazos técnicos. El orden recomendado es:
-
-1. estructura del proyecto en Visual Studio;
-2. punto de entrada `App.xaml.cs`;
-3. inicialización de base de datos;
-4. login normal;
-5. login administrativo;
-6. vista principal y navegación;
-7. módulo de instaladores;
-8. módulo de gestión de usuarios;
-9. ayuda y documentación interna;
-10. logs;
-11. compilación y salida `Release`.
-
-## Paso 1. Abrir el proyecto en Visual Studio
-
-El primer paso para cualquier desarrollador es abrir el proyecto y ubicar su estructura general.
-
-Archivos y carpetas principales:
-
-- `Views/`
-- `ViewModels/`
-- `Services/`
-- `Db/`
-- `Models/`
-- `Docs/`
-- `SistemaDeInstalacion.csproj`
-
-Historia de pantallazo: Estructura del proyecto abierta en Visual Studio.
-<!-- Aquí pegas la imagen del Explorador de soluciones con las carpetas principales -->
-
-## Paso 2. Entender la arquitectura general
-
-La solución sigue una estructura WPF clásica apoyada en `ViewModels`, servicios de apoyo y acceso directo a `SQLite`.
-
-```text
-Views (XAML)
-   |
-   v
-ViewModels
-   |
-   +--> Services
-   |
-   +--> Db
-   |
-   +--> Models
-   |
-   v
-SQLite (WegInstaladores.db)
-```
-
-### Responsabilidad por capas
-
-| Capa | Carpeta | Responsabilidad |
+| Tema | Evidencia en repo | Implicación técnica |
 |---|---|---|
-| Presentación | `Views/` | vistas, formularios y navegación visual |
-| Lógica de presentación | `ViewModels/` | comandos, validaciones y flujo de la interfaz |
-| Servicios | `Services/` | sesión, roles, utilidades, logs y ayuda documental |
-| Persistencia | `Db/` | inicialización, consultas y operaciones SQLite |
-| Dominio | `Models/` | entidades del sistema |
-| Recursos | `Images/`, `Fonts/` | activos visuales y tipografías |
+| UI principal | `SistemaDeInstalacion/SistemaDeInstalacion.csproj`, `Views/*.xaml` | Aplicación `WPF` sobre `.NET Framework 4.8`. |
+| Launcher | `LauncherSistema/Program.cs`, `LauncherSistema/LauncherService.cs` | La distribución real arranca por un ejecutable auxiliar antes de abrir `SistemaDeInstalacion.exe`. |
+| Persistencia | `Db/DatabaseInitializer.cs`, `Db/*.cs` | No hay ORM ni API remota; el acceso es SQL directo. |
+| Tests | `SistemaDeInstalacion.Tests/*.cs`, `SistemaDeInstalacion.Tests.csproj` | Hay cobertura unitaria para DB, roles y modelos; no hay pruebas de UI. |
+| Configuración | `App.config` | El path de base compartida y algunas reglas corporativas salen de `appSettings`. |
+| Publicación | `SistemaDeInstalacion.csproj`, `LauncherSistema/LauncherService.cs` | La entrega depende de un share UNC corporativo y de un `SetupSistema.exe`. |
 
-Historia de pantallazo: Carpeta del proyecto organizada por capas.
-<!-- Aquí pegas la imagen de la estructura técnica agrupada por carpetas -->
+Restricciones importantes respaldadas por código:
 
-## Paso 3. Revisar el punto de entrada
+1. La autenticación administrativa no depende solo del rol del usuario. También exige entrar por `AdminLoginViewModel` para activar `SesionUsuario.ModoAdministrador`.
+2. Los permisos de aplicativos no son relacionales. Se guardan como JSON de rutas en `Usuario.AplicativosJson`.
+3. El acceso a `SQLite` es local/directo; hay mitigación básica de bloqueos con `PRAGMA busy_timeout = 5000` y reintentos, no un modelo transaccional multiusuario fuerte.
+4. La aplicación depende de servicios del equipo Windows para resolver nombre visible y correo del dispositivo (`WindowsProfileService`).
 
-El arranque empieza en `App.xaml` y `App.xaml.cs`.
+## Mapa del repositorio
 
-Secuencia:
+| Ruta | Responsabilidad principal |
+|---|---|
+| `SistemaDeInstalacion.sln` | Solución Visual Studio con app WPF, tests y launcher. |
+| `SistemaDeInstalacion/` | Aplicación principal. |
+| `SistemaDeInstalacion/App.xaml.cs` | Arranque WPF, handlers globales de excepciones, inicialización de DB. |
+| `SistemaDeInstalacion/Db/` | Inicialización de esquema y acceso SQL a `Usuarios`, `Administrador` e `Instaladores`. |
+| `SistemaDeInstalacion/ViewModels/` | Flujo de login, navegación, gestión de usuarios, instaladores, ayuda y logs. |
+| `SistemaDeInstalacion/Services/` | Sesión, roles, logging, documentación, utilidades de Windows y overlays modales. |
+| `SistemaDeInstalacion/Docs/` | Documentación embebida en la aplicación de ayuda. |
+| `SistemaDeInstalacion/LauncherSistema/` | Ejecutable que instala, actualiza y luego abre la app principal. |
+| `SistemaDeInstalacion/SistemaDeInstalacion.Tests/` | Pruebas MSTest sobre lógica de persistencia y dominio. |
 
-1. se inicia la aplicación;
-2. se ejecuta `DatabaseInitializer.Initialize()`;
-3. se crean tablas faltantes o se aplican migraciones básicas;
-4. se muestra la vista de login;
-5. tras autenticación, se abre `MainWindow`;
-6. `MainWindow` carga vistas internas según el rol de la sesión.
+## Paso 1. Entrada real del producto: `LauncherSistema`
 
-Fragmento representativo:
+El primer punto de entrada del producto completo no es `App.xaml.cs`, sino `LauncherSistema/Program.cs`. `Main()` llama a `LauncherService.Ejecutar(args)`.
 
-```csharp
-protected override void OnStartup(StartupEventArgs e)
-{
-    base.OnStartup(e);
+`LauncherService` resuelve cuatro escenarios antes de abrir la app WPF:
 
-    DatabaseInitializer.Initialize();
+1. detecta un arranque post-instalación o post-actualización con `--post-update` o `--post-install`;
+2. compara la versión local con `version.txt` en el recurso compartido definido por `SharedRoot`;
+3. si `SistemaDeInstalacion.exe` no existe, solicita instalación y ejecuta `SetupSistema.exe`;
+4. si hay una versión nueva, puede lanzar actualización silenciosa y cerrar el proceso actual con `Environment.Exit(0)`.
 
-    var login = new LoginView();
-    login.Show();
-}
-```
+Archivos clave:
 
-Qué significa:
+- `LauncherSistema/Program.cs`
+- `LauncherSistema/LauncherService.cs`
 
-- la inicialización de base ocurre antes de cualquier interacción;
-- el sistema depende de SQLite desde el primer arranque;
-- un cambio de esquema debe contemplarse siempre antes del login.
+Detalles que importan para mantenimiento:
 
-Historia de pantallazo: Código de `App.xaml.cs` con el flujo de arranque.
-<!-- Aquí pegas la imagen del archivo App.xaml.cs mostrando OnStartup -->
+- la ruta de distribución está hardcodeada en `LauncherService.SharedRoot`;
+- el launcher usa archivos de estado locales (`build.version`, `update.pending`) para evitar prompts repetidos;
+- el fallo al encontrar `SetupSistema.exe` no rompe el launcher, pero deja al usuario sin ruta automática de instalación.
 
-## Paso 4. Entender la inicialización de base de datos
+## Paso 2. Arranque WPF y bootstrap de aplicación
 
-La base activa es `WegInstaladores.db` y su inicialización se gestiona desde `Db/DatabaseInitializer.cs`.
+Una vez abierto `SistemaDeInstalacion.exe`, el flujo entra en `App.OnStartup()`.
 
-Puntos clave:
+Secuencia real en `App.xaml.cs`:
 
-- asegura la existencia de tablas;
-- agrega columnas faltantes;
-- puede migrar bases legacy;
-- deja la aplicación lista para el login.
+1. registra `DispatcherUnhandledException` y `AppDomain.CurrentDomain.UnhandledException`;
+2. registra `GlobalCopyContextService`;
+3. escribe el evento `Inicio de aplicación` con `LogService.Info`;
+4. inicializa la base con `DatabaseInitializer.Initialize()` y mide latencia;
+5. muestra `LoginView`.
 
-La guía de detalle de persistencia está en:
+Esto implica que la base de datos y el subsistema de logs son prerequisitos de cualquier pantalla funcional. Si se toca el esquema o la resolución de rutas, el impacto cae antes del login.
 
-- [BaseDeDatos](BaseDeDatos.md)
+Archivos clave:
 
-Historia de pantallazo: Clase `DatabaseInitializer` abierta en Visual Studio.
-<!-- Aquí pegas la imagen del inicializador de base de datos -->
+- `App.xaml.cs`
+- `Services/GlobalCopyContextService.cs`
+- `Services/LogService.cs`
+- `Views/LoginView.xaml`
 
-## Paso 5. Revisar la sesión y la navegación
+## Paso 3. Inicialización de base de datos
 
-La sesión vive en `Services/SesionUsuario.cs`. El modo administrador no depende solo del rol, sino también del flujo de autenticación administrativa.
+`Db/DatabaseInitializer.cs` es el bootstrapper de persistencia. Hace mucho más que crear el archivo `WegInstaladores.db`.
 
-Idea central:
+Responsabilidades confirmadas por código:
+
+1. resuelve `CurrentDbPath` a partir de `CC_SHARED_DATABASE_PATH`; si no existe configuración, usa el directorio de ejecución;
+2. crea la carpeta contenedora si falta;
+3. intenta migrar archivos legacy (`WegInstallerSystems.db`, `installer_systems.db`, `carros.db`) cuando la base actual todavía no existe;
+4. crea tablas `Usuarios`, `Instaladores`, `Administrador` y `PasswordRecoveryLog`;
+5. agrega columnas faltantes con `ALTER TABLE` mediante `EnsureColumnExists()`;
+6. migra datos desde la tabla legacy `Administradores` a `Administrador`;
+7. elimina tablas viejas (`Carros`, `Clientes`, `Empleados`, `Administradores`);
+8. normaliza datos heredados, por ejemplo `ADMIN -> ADMINISTRADOR`, `CLIENTE -> VENTAS`, carpeta vacía -> `Desarrollo global`.
+
+La explicación detallada del esquema queda más adelante, en la sección de persistencia, para no cortar el recorrido de arranque.
+
+Puntos delicados:
+
+- no existe versionado de migraciones; la estrategia es programática e idempotente dentro del inicializador;
+- las fechas se guardan como texto con formato `yyyy-MM-dd HH:mm:ss`;
+- la eliminación del archivo legacy migrado es best-effort: si Windows mantiene el archivo abierto, la app sigue igual.
+
+## Paso 4. Login normal
+
+`LoginViewModel` implementa la autenticación operativa común.
+
+Si necesitás la narrativa funcional de esta pantalla, ver [inicio de sesión de usuario](help://users/user#paso-a-paso-para-iniciar-sesion).
+
+Archivos clave:
+
+- `ViewModels/LoginViewModel.cs`
+- `Db/UsuariosDbService.cs`
+- `Views/LoginView.xaml`
+
+Flujo real:
+
+1. el usuario ingresa alias o correo en `Usuario`;
+2. `UsuariosDbService.ObtenerCorreoPorUsuarioLogin()` intenta resolver el correo real usando correo completo, alias antes de `@`, o relación con el usuario/correo del dispositivo;
+3. `UsuariosDbService.Login()` compara `Correo` y `PasswordHash` con `SHA-256` en base64;
+4. si autentica, `AbrirSesionUsuario()` asigna `SesionUsuario.UsuarioActual` y fuerza `SesionUsuario.ModoAdministrador = false`;
+5. se abre `MainWindow`.
+
+El feature de `Recordarme` no usa `SQLite`. Guarda dos líneas en `%AppData%\ConcesionaroCarros\login.remember` y cifra la password con `ProtectedData` (`DataProtectionScope.CurrentUser`).
+
+Caveats técnicos:
+
+- el login intenta mapear el usuario Windows al correo corporativo; un cambio en ese criterio afecta tanto autenticación como trazabilidad de logs;
+- el comentario en `LoginViewModel` ya reconoce datos históricos sucios donde `Nombres == Apellidos`, y limpia ese caso en memoria para no duplicar nombre en la cabecera;
+- tener rol `ADMINISTRADOR` en `Usuarios` no habilita por sí solo la UI administrativa cuando se entra por este flujo.
+
+## Paso 5. Login administrativo
+
+`AdminLoginViewModel` define el flujo privilegiado. Este es el punto que realmente habilita el modo administrador del shell principal.
+
+Archivos clave:
+
+- `ViewModels/AdminLoginViewModel.cs`
+- `Db/AdministradoresDbService.cs`
+- `Db/UsuariosDbService.cs`
+- `Services/SesionUsuario.cs`
+
+Flujo real:
+
+1. valida que exista un registro administrativo por `UsuarioSistema` con `ExistePorUsuarioSistema()`;
+2. autentica contra la tabla `Administrador` usando `LoginPorUsuarioSistema()`;
+3. resuelve el usuario base en `Usuarios` mediante el `Correo` del admin;
+4. si el usuario base existe, asegura que su `Rol` sea `ADMINISTRADOR`;
+5. asigna `SesionUsuario.UsuarioActual = usuarioNormal` y `SesionUsuario.ModoAdministrador = true`;
+6. abre `MainWindow`.
+
+No es un doble login independiente. En realidad, `Administrador` aporta la credencial privilegiada y `Usuarios` sigue siendo la identidad principal sobre la que navega la app.
+
+Si necesitás la narrativa funcional exacta de esta ruta, ver [flujo funcional de login administrativo](help://administradores/administradores#paso-4-iniciar-sesion-por-login-administrativo).
+
+Detalles relevantes:
+
+- `Recordarme` administrativo persiste en `%AppData%\ConcesionaroCarros\login.admin.remember` con cifrado DPAPI;
+- si existe admin pero no usuario base asociado, el login falla aunque la password administrativa sea correcta;
+- el identificador de entrada es `UsuarioSistema`, no necesariamente el correo.
+
+## Paso 6. Sesión, shell principal y modo administrador
+
+La sesión vive en `Services/SesionUsuario.cs` y se consume sobre todo desde `MainViewModel`.
+
+Estado compartido:
 
 ```csharp
 public static Usuario UsuarioActual { get; set; }
@@ -202,404 +180,281 @@ public static bool EsAdmin =>
     ModoAdministrador && RolesSistema.EsAdministrador(UsuarioActual?.Rol);
 ```
 
-Implicación:
+Esto define una regla central del sistema: el rol no alcanza; hace falta haber pasado por el flujo administrativo.
 
-- un usuario con rol `ADMINISTRADOR` no verá `Gestión de Usuarios` si no ingresa por el login administrativo.
+`MainViewModel` arma la navegación interna:
 
-Historia de pantallazo: Código de `SesionUsuario.cs` con la lógica de `EsAdmin`.
-<!-- Aquí pegas la imagen del archivo SesionUsuario.cs -->
+- `MostrarInstaladores()` carga `InstaladoresView` como vista por defecto;
+- `ShowGestionUsuariosCommand` solo funciona si `EsAdministrador` es `true`;
+- `ShowLogsCommand` exige admin y además correo permitido en `AllowedLogViewerEmails`;
+- `ShowAyudaCommand` carga `HelpViewModel(EsAdministrador)` para filtrar la documentación por perfil;
+- `ShowSettingsCommand` carga `SettingsView` con `SettingsViewModel`, fija `VistaActiva = "Configuracion"` y queda expuesto en el menú lateral antes de `Cerrar sesión` según `MainWindow.xaml`;
+- `CerrarSesionCommand` limpia la sesión, vuelve a `LoginView` y cierra la ventana actual.
 
-## Paso 6. Revisar autenticación de usuarios
-
-### Login normal
-
-Archivos clave:
-
-- `Views/LoginView.xaml`
-- `ViewModels/LoginViewModel.cs`
-- `Db/UsuariosDbService.cs`
-
-Responsabilidades:
-
-- validar credenciales de usuario normal;
-- resolver usuario por correo o alias;
-- cargar sesión operativa;
-- manejar la opción `Recuérdame`.
-
-Historia de pantallazo: Vista y ViewModel del login normal.
-<!-- Aquí pegas la imagen del LoginView y LoginViewModel -->
-
-### Login administrativo
+Para la vista funcional de este shell y sus variantes, ver [vista principal del usuario](help://users/user#vista-principal-del-usuario) y [vista principal del administrador](help://administradores/administradores#paso-6-vista-principal-del-administrador).
 
 Archivos clave:
 
-- `Views/AdminLoginView.xaml`
-- `ViewModels/AdminLoginViewModel.cs`
-- `Db/AdministradoresDbService.cs`
 - `Services/SesionUsuario.cs`
+- `Services/RolesSistema.cs`
+- `MainWindow.xaml.cs`
+- `ViewModels/MainViewModel.cs`
 
-Responsabilidades:
+## Paso 7. Módulo de instaladores
 
-- validar la contraseña administrativa;
-- localizar el usuario base relacionado;
-- activar `ModoAdministrador`;
-- habilitar la navegación de administración.
-
-Historia de pantallazo: Vista y ViewModel del login administrativo.
-<!-- Aquí pegas la imagen del AdminLoginView y AdminLoginViewModel -->
-
-## Paso 7. Revisar el catálogo de instaladores
+Este módulo mezcla catálogo, permisos y ejecución de procesos externos.
 
 Archivos clave:
 
-- `Views/InstaladoresView.xaml`
 - `ViewModels/InstaladoresViewModel.cs`
 - `ViewModels/FormularioInstaladorViewModel.cs`
 - `Db/InstaladorDbService.cs`
 - `Models/Instalador.cs`
+- `Views/InstaladoresView.xaml`
 
-Responsabilidades:
+Responsabilidades reales:
 
-- listar ejecutables registrados;
-- filtrar por carpeta funcional;
-- abrir formularios de alta, edición y consulta;
-- ejecutar el `.exe` seleccionado;
-- restringir visibilidad según aplicativos asignados.
+1. leer `Instaladores` desde `InstaladorDbService.ObtenerTodos()`;
+2. normalizar carpetas a `Punto local` o `Desarrollo global`;
+3. si la sesión no es admin, filtrar por las rutas presentes en `SesionUsuario.UsuarioActual.ObtenerAplicativosAsignados()`;
+4. permitir alta, edición y baja solo en modo admin;
+5. ejecutar el archivo configurado con `Process.Start()` y `UseShellExecute = true`.
 
-Fragmento representativo:
+El permiso no se calcula por rol, sino por coincidencia exacta de ruta. Si cambia `Instaladores.Ruta` sin actualizar `AplicativosJson`, el aplicativo desaparece para usuarios no administradores aunque siga existiendo en la tabla.
 
-```csharp
-if (!SesionUsuario.EsAdmin)
-{
-    var asignados = SesionUsuario.UsuarioActual?.ObtenerAplicativosAsignados()
-                    ?? new List<string>();
+El módulo registra eventos de apertura, edición, eliminación y ejecución en `LogService`.
 
-    var rutasAsignadas = new HashSet<string>(
-        asignados.Where(r => !string.IsNullOrWhiteSpace(r)),
-        StringComparer.OrdinalIgnoreCase);
+Si necesitás el comportamiento funcional desde cada perfil, ver [gestión de instaladores](help://administradores/administradores#paso-7-gestion-de-instaladores) y [cómo ejecutar un aplicativo asignado](help://users/user#como-ejecutar-un-aplicativo-asignado).
 
-    todos = todos
-        .Where(x => !string.IsNullOrWhiteSpace(x.Ruta) && rutasAsignadas.Contains(x.Ruta))
-        .ToList();
-}
-```
+## Paso 8. Gestión de usuarios y sincronización con administradores
 
-Qué significa:
-
-- el permiso del usuario se basa en la ruta del ejecutable;
-- el catálogo de usuario no es libre, sino filtrado por asignación;
-- una ruta mal cambiada puede dejar un aplicativo invisible.
-
-Historia de pantallazo: Módulo de instaladores y lógica de filtrado por sesión.
-<!-- Aquí pegas la imagen del módulo de instaladores y otra del código si lo consideras necesario -->
-
-## Paso 8. Revisar la gestión de usuarios
+`GestionUsuarioViewModel` es el centro de mantenimiento de usuarios. Además de CRUD, contiene el panel lateral de asignación de aplicativos.
 
 Archivos clave:
 
-- `Views/GestionUsuarioView.xaml`
-- `Views/FormularioUsuarioView.xaml`
 - `ViewModels/GestionUsuarioViewModel.cs`
 - `ViewModels/FormularioUsuarioViewModel.cs`
 - `Db/UsuariosDbService.cs`
 - `Db/AdministradoresDbService.cs`
 
-Responsabilidades:
+Flujo técnico:
 
-- crear, editar y eliminar usuarios;
-- sincronizar información administrativa cuando aplica;
-- asignar aplicativos a través de `AplicativosJson`;
-- mantener consistencia entre `Usuarios` y `Administrador`.
+1. carga `Usuarios` desde `UsuariosDbService.ObtenerTodos()`;
+2. al seleccionar un usuario, abre el panel de asignación y llena `RolesAsignables` y `AplicativosAsignables`;
+3. guarda las rutas seleccionadas serializándolas con `Usuario.EstablecerAplicativosAsignados()`;
+4. persiste ese JSON en `Usuarios.AplicativosJson` con `ActualizarAplicativosJson()`;
+5. al editar usuarios, sincroniza la tabla `Administrador` con `SincronizarAdministrador()`.
 
-Historia de pantallazo: Módulo de gestión de usuarios en ejecución.
-<!-- Aquí pegas la imagen de la vista de gestión de usuarios -->
+La sincronización con admins tiene dos ramas:
 
-## Paso 9. Revisar recuperación de contraseña
+- si el rol sigue siendo administrador, `AdministradoresDbService.SincronizarDesdeUsuario()` actualiza nombres, correo, `UsuarioSistema` y rol sin tocar la password admin existente;
+- si deja de ser administrador, elimina el registro de `Administrador` por correo.
+
+También es importante lo que NO hace este módulo: el panel de roles es efectivamente de solo lectura (`SeleccionarRol()` está vacío y `EsEditable = false`), por lo que la asignación interactiva vigente es la de aplicativos, no una administración completa de roles desde ese panel.
+
+La referencia funcional correspondiente está en [gestión de usuarios](help://administradores/administradores#paso-8-gestion-de-usuarios) y [asignación de aplicativos](help://administradores/administradores#paso-9-asignacion-de-aplicativos).
+
+## Paso 9. Registro de usuarios y registro administrativo
+
+Los formularios de alta inicial viven fuera de `GestionUsuarioViewModel`, en los flujos de login.
+
+### Registro normal
+
+`RegisterViewModel`:
+
+- exige correo `@weg.net`;
+- intenta derivar nombre y apellido desde el perfil Windows o desde el alias del correo;
+- crea usuarios con rol por defecto `VENTAS`;
+- tras registrar, vuelve a `LoginView` con credenciales precargadas, pero no activa `Recordarme` automáticamente.
+
+### Registro administrativo
+
+`AdminRegisterViewModel`:
+
+- también exige dominio `@weg.net`;
+- crea o actualiza primero el `Usuario` base en `Usuarios`;
+- luego inserta o actualiza la fila en `Administrador` con `GuardarOActualizar()`;
+- usa `UsuarioSistema` derivado del correo o del usuario Windows, según corresponda al equipo actual.
+
+Esa doble escritura explica por qué la tabla `Administrador` no reemplaza a `Usuarios`: la complementa.
+
+Para el recorrido funcional de alta, ver [registro de usuario](help://users/user#registro-de-usuario) y [registro administrativo](help://administradores/administradores#paso-3-registro-administrativo).
+
+## Paso 10. Recuperación de contraseña
+
+La recuperación vive en `MicrosoftRecoveryViewModel`, aunque hoy no hay integración real con Microsoft Entra o Graph.
 
 Archivos clave:
 
-- `Views/MicrosoftRecoveryView.xaml`
 - `ViewModels/MicrosoftRecoveryViewModel.cs`
+- `Views/MicrosoftRecoveryView.xaml`
+- `Views/RecoveryCodePopupView.xaml`
 - `Db/UsuariosDbService.cs`
 
-Responsabilidades:
+Flujo real:
 
-- validar la identidad mínima del usuario;
-- generar y verificar un código temporal;
-- actualizar la contraseña;
-- registrar la operación en `PasswordRecoveryLog`.
+1. valida formato de correo y el checkbox `NoSoyRobot`;
+2. busca el usuario por correo;
+3. genera un código aleatorio de 6 dígitos con `RandomNumberGenerator`;
+4. muestra el código en la UI por `ShowCodeRequested`, no por correo externo;
+5. al confirmar, actualiza `Usuarios.PasswordHash`;
+6. registra la operación en `PasswordRecoveryLog` con `ValidadoMicrosoft = false`.
 
-Historia de pantallazo: Flujo técnico de recuperación de contraseña.
-<!-- Aquí pegas la imagen de la vista de recuperación o del código relacionado -->
+El nombre del módulo sugiere una validación Microsoft que hoy está desactivada en la práctica. La propia configuración `CC_REQUIRE_MICROSOFT_EMAIL_VALIDATION=false` y el log grabado con `false` lo dejan claro.
 
-## Paso 10. Revisar el centro de ayuda interno
+La guía funcional de esta pantalla está en [recuperación de contraseña](help://users/user#recuperacion-de-contrasena).
+
+## Paso 11. Centro de ayuda y documentación embebida
+
+La ayuda no es texto estático pegado en una vista. Hay un subsistema de carga y render de markdown.
 
 Archivos clave:
 
-- `Views/HelpView.xaml`
-- `ViewModels/HelpViewModel.cs`
 - `Services/DocumentationService.cs`
 - `Services/MarkdownDocumentRenderer.cs`
+- `ViewModels/HelpViewModel.cs`
+- `Views/HelpView.xaml`
 
-Responsabilidades:
+`DocumentationService` resuelve el root `Docs` desde el directorio de ejecución y registra documentos por `docId`, por ejemplo:
 
-- cargar documentación por perfil;
-- navegar entre documentos internos;
-- mostrar enlaces complementarios entre guías;
-- restringir la visibilidad según rol.
+- `developers/developer`
+- `developers/base-de-datos`
+- `administradores/administradores`
+- `users/user`
 
-Historia de pantallazo: Vista de ayuda abierta y documentos cargados.
-<!-- Aquí pegas la imagen del centro de ayuda dentro de la aplicación -->
+`HelpViewModel` usa ese registro para:
 
-## Paso 11. Revisar logs y soporte
+1. filtrar documentos según `EsAdministrador`;
+2. mantener historial interno por documento y anchor;
+3. mostrar una URI canónica tipo `help://...`;
+4. recordar posición de scroll y anchors navegados.
 
-El módulo de logs forma parte de la solución funcional y técnica. Permite revisar eventos, errores, latencias y trazabilidad por equipo y fecha.
+`MarkdownDocumentRenderer` convierte markdown a `FlowDocument` y soporta:
 
-Archivos de apoyo más relevantes:
+- headings con anchors normalizados;
+- listas y bloques de código;
+- imágenes locales;
+- hyperlinks markdown, incluidos enlaces `help://` entre documentos.
+
+Esto significa que cambiar títulos o anchors en un `.md` puede romper navegación interna aunque el archivo siga existiendo.
+
+Para el uso funcional de la ayuda según perfil, ver [cómo usar la pestaña de ayuda](help://users/user#como-usar-la-pestana-de-ayuda) y [uso de la pestaña ayuda para administradores](help://administradores/administradores#paso-10-uso-de-la-pestana-ayuda).
+
+### Configuración visual y efecto sobre la documentación
+
+La preferencia visual no forma parte del estado de negocio ni de `SQLite`. `ThemeManager` se inicializa en `App.OnStartup()` antes del login, resuelve la preferencia efectiva (`System`, `Light`, `Dark`), reemplaza el diccionario activo en `Application.Resources.MergedDictionaries` y persiste el valor elegido en `Properties.Settings.Default.ThemePreference`.
+
+Archivos clave:
+
+- `Services/ThemeManager.cs`
+- `Views/SettingsView.xaml`
+- `ViewModels/SettingsViewModel.cs`
+- `Themes/Light.xaml`
+- `Themes/Dark.xaml`
+- `Properties/Settings.settings`
+
+Implicación técnica:
+
+1. `SettingsViewModel` no guarda nada en base; expone `UseLightThemeCommand` y `UseDarkThemeCommand`, delega en `ThemeManager.ApplyThemePreference()` y refresca el estado derivado (`IsLightSelected`, `IsDarkSelected`, `ResolvedThemeMode`).
+2. `SettingsView` es solo la superficie WPF para esa preferencia; los recursos visuales concretos salen de `Themes/Light.xaml` y `Themes/Dark.xaml`, que definen brushes y gradientes consumidos por la UI vía `DynamicResource`.
+3. La ayuda embebida también queda afectada. `MarkdownDocumentRenderer` y `HelpView` resuelven `MarkdownRenderTheme.CreateForCurrentSystemTheme()`, que a su vez consulta `ThemeManager.CurrentPreference`; por eso la documentación renderizada cambia de paleta junto con el resto de la app aunque el markdown no cambie.
+4. La referencia funcional principal para esta pantalla, incluido el orden visible en el menú lateral y el cambio de tema, está en [Configuración](help://users/user#configuracion).
+
+## Paso 12. Logs y observabilidad local
+
+El logging está centralizado en `LogService` y la consulta visual en `LogsViewModel` + `LogDashboardService`.
+
+Archivos clave:
 
 - `Services/LogService.cs`
 - `Services/LogDashboardService.cs`
+- `Services/AppLogEntry.cs`
 - `ViewModels/LogsViewModel.cs`
 - `Views/LogsView.xaml`
 
-Puntos clave:
+Comportamiento real:
 
-- registra acciones funcionales importantes;
-- diferencia niveles como `INFO`, `WARNING`, `ERROR` y `LATENCY`;
-- organiza información por equipo y fecha;
-- soporta consulta interna desde el sistema.
+1. `LogService` escribe líneas tabuladas con timestamp, nivel, equipo, usuario, source, latencia, mensaje y detalles;
+2. el directorio principal se deriva de `CC_SHARED_DATABASE_PATH`; si no es escribible, cae a `%LocalAppData%\SistemaDeInstalacion\LogsFallback`;
+3. los logs se organizan por equipo y fecha: `Logs/<Machine>/<yyyy-MM-dd>/events.log`;
+4. `LogDashboardService` parsea archivos `.log`, arma resumenes y expone filtros por equipo/fecha;
+5. `LogsViewModel` solo es accesible para admins cuyo correo esté en `AllowedLogViewerEmails` de `MainViewModel`.
 
-Historia de pantallazo: Vista de logs y archivos de soporte relacionados.
-<!-- Aquí pegas la imagen de la vista de logs y, si quieres, del código del servicio -->
+El subsistema no depende de `SQLite`, pero si de escritura a disco. Si el share principal falla, sigue logueando localmente.
 
-## Paso 12. Compilar y ejecutar el proyecto
+## Persistencia y modelo de datos
 
-Actualmente el repositorio versiona:
+La app trabaja sobre cuatro tablas activas: `Usuarios`, `Instaladores`, `Administrador` y `PasswordRecoveryLog`.
 
-- `SistemaDeInstalacion.csproj`
-- `SistemaDeInstalacion.Tests/SistemaDeInstalacion.Tests.csproj`
+Lo importante para desarrollo no es solo el esquema, sino las relaciones implícitas:
 
-No existe una solución `.sln` versionada en el repositorio. El flujo recomendado es:
+- `Administrador` se vincula con `Usuarios` por `Correo`;
+- `Usuarios` se vincula con `Instaladores` por rutas guardadas como JSON en `AplicativosJson`;
+- `PasswordRecoveryLog` se vincula con `Usuarios` por `UsuarioId` y también por `CorreoUsuario` para limpieza.
 
-1. abrir `SistemaDeInstalacion.csproj` en Visual Studio;
-2. crear una solución local;
-3. agregar `SistemaDeInstalacion.Tests.csproj`;
-4. restaurar paquetes `NuGet`;
-5. compilar en `Debug` o `Release`.
+Para detalle de tablas, normalizaciones y consultas de soporte, ver [Base de datos](help://developers/base-de-datos).
 
-Requisitos de desarrollo:
+## Configuración relevante
 
-- `Windows 10` o superior;
-- `Visual Studio 2022`;
-- carga de trabajo `.NET desktop development`;
-- `.NET Framework 4.8 Developer Pack`;
-- restauración de paquetes `NuGet`;
-- permisos de lectura y escritura sobre la carpeta del proyecto.
+`App.config` define configuraciones que impactan directamente en la ejecución:
 
-Salidas principales:
+| Key | Uso real |
+|---|---|
+| `CC_SHARED_DATABASE_PATH` | Path efectivo de la base; también condiciona el root principal de logs. |
+| `CC_CORPORATE_EMAIL_DOMAIN` | Declara dominio corporativo, aunque varias validaciones siguen hardcodeadas a `@weg.net` en view models. |
+| `CC_REQUIRE_MICROSOFT_EMAIL_VALIDATION` | Hoy está en `false`; el flujo de recuperación opera sin integración Microsoft real. |
+| `CC_AZURE_TENANT_ID`, `CC_AZURE_CLIENT_ID`, `CC_AZURE_CLIENT_SECRET` | Reservados para una integración futura; no sostienen el flujo actual de recuperación. |
 
-- `bin/Debug/SistemaDeInstalacion.exe`
-- `bin/Release/SistemaDeInstalacion.exe`
+Además, `SistemaDeInstalacion.csproj` contiene configuración de publicación hacia un recurso UNC corporativo y firma de manifiestos. No es solo metadata decorativa: forma parte del modelo de entrega actual.
 
-Artefactos esperados junto al ejecutable:
+## Testing, build y entrega
 
-- `SistemaDeInstalacion.exe.config`
-- `Microsoft.Data.Sqlite.dll`
-- `QuestPDF.dll`
-- dependencias `PDFsharp`
-- carpeta `runtimes/`
-- carpeta `Fonts/`
-- carpeta `Docs/` para el centro de ayuda
+### Testing respaldado por repo
 
-Historia de pantallazo: Compilación en Visual Studio y salida en `bin/Release`.
-<!-- Aquí pegas la imagen del build exitoso y la carpeta de salida -->
+Hay un proyecto `SistemaDeInstalacion.Tests` con MSTest (`Microsoft.NET.Test.Sdk`, `MSTest.TestAdapter`, `MSTest.TestFramework`). La cobertura actual se concentra en lógica no visual:
 
-## Paso 13. Entender el empaquetado actual
+- `DatabaseInitializerTests.cs`: creación de base, migración legacy y normalización de datos;
+- `UsuariosDbServiceTests.cs`: registro, login, cambio de password, aplicativos asignados y eliminación con dependencias;
+- `AdministradoresDbServiceTests.cs`: login admin, actualización y sincronización;
+- `RolesSistemaTests.cs`: lista de roles y exclusión de admin en roles asignables.
 
-La entrega operativa actual se basa en una carpeta de `Release` completa y en el proceso de empaquetado con Inno Setup que ya hace parte del flujo funcional del proyecto.
+`TestWorkspace.cs` aísla cada test limpiando bases conocidas dentro del directorio de ejecución del runner.
 
-Bosquejo de entrega:
+### Build y solución
 
-```text
-Entrega/
-|
-+- SistemaDeInstalacion.exe
-+- SistemaDeInstalacion.exe.config
-+- Microsoft.Data.Sqlite.dll
-+- QuestPDF.dll
-+- PDFsharp*.dll
-+- runtimes/
-+- Fonts/
-+- Docs/
-\- WegInstaladores.db   (si se distribuye una base inicial)
-```
+La solución versionada es `SistemaDeInstalacion.sln` e incluye tres proyectos:
 
-Historia de pantallazo: Estructura final de entrega o publicación.
-<!-- Aquí pegas la imagen de la carpeta de entrega o del instalador -->
+1. `SistemaDeInstalacion`
+2. `SistemaDeInstalacion.Tests`
+3. `LauncherSistema`
 
-## Configuración y parámetros relevantes
+No se verificó compilación en esta revisión. Este documento solo se apoyó en lectura de código y configuración.
 
-`App.config` contiene claves como:
+### Entrega
 
-- `CC_CORPORATE_EMAIL_DOMAIN`
-- `CC_REQUIRE_MICROSOFT_EMAIL_VALIDATION`
-- `CC_AZURE_TENANT_ID`
-- `CC_AZURE_CLIENT_ID`
-- `CC_AZURE_CLIENT_SECRET`
+La entrega actual combina dos piezas:
 
-Estado funcional actual:
+1. publicación de `SistemaDeInstalacion` al share corporativo configurado en el `.csproj`;
+2. distribución/apertura vía `LauncherSistema`, que chequea versión y ejecuta `SetupSistema.exe`.
 
-- el dominio corporativo activo es `weg.net`;
-- la validación Microsoft está desactivada;
-- la recuperación de contraseña funciona de manera local;
-- los parámetros Azure están preparados para una evolución futura, no para el flujo actual.
+Eso explica por qué el launcher y la app principal deben leerse como un producto único, aunque estén en proyectos separados.
 
-## Asignación de aplicativos
+## Riesgos técnicos y deuda real
 
-Hoy la relación usuario-aplicativo no está normalizada en una tabla intermedia. Se guarda en `Usuarios.AplicativosJson`.
+1. `SHA-256` directo para passwords en `UsuariosDbService` y `AdministradoresDbService` mejora contra texto plano, pero sigue siendo débil frente a `PBKDF2`, `bcrypt` o `Argon2`.
+2. `SesionUsuario` es estado global estático. Simplifica la UI, pero acopla fuertemente vistas y view models y dificulta pruebas integradas.
+3. Los permisos de aplicativos dependen de rutas serializadas en JSON. No hay integridad referencial entre usuario e instalador.
+4. `CC_CORPORATE_EMAIL_DOMAIN` existe en configuración, pero `RegisterViewModel` y `AdminRegisterViewModel` validan `@weg.net` de forma hardcodeada. Hay duplicación de regla.
+5. El nombre `MicrosoftRecoveryViewModel` hoy sobrepromete: el flujo real es local, con código visual y sin validación Microsoft efectiva.
+6. `MainViewModel.AllowedLogViewerEmails` hardcodea correos autorizados para logs. Es una política embebida en código, no una configuración del sistema.
+7. La solución contiene una segunda copia de documentación bajo `LauncherSistema/Docs`. Si ambas se editan por separado, la ayuda puede derivar en contenido divergente según artefacto o empaquetado.
+8. El `RootNamespace` del `.csproj` es `SistemaDeInstalacion`, pero el código principal usa namespace `ConcesionaroCarros`. No rompe por sí mismo, pero es una inconsistencia histórica que complica lectura y tooling.
 
-Fragmento representativo:
+## Referencias técnicas
 
-```csharp
-var serializer = new JavaScriptSerializer();
-AplicativosJson = serializer.Serialize(lista);
-```
-
-Implicaciones:
-
-- la asignación depende de rutas físicas;
-- si una ruta cambia, el permiso puede quedar obsoleto;
-- un refactor futuro debería considerar una tabla relacional.
-
-## Seguridad actual
-
-Las contraseñas no se almacenan en texto plano. El sistema usa `SHA-256` y guarda el resultado en base64.
-
-Ejemplo:
-
-```csharp
-using (var sha = SHA256.Create())
-{
-    var bytes = Encoding.UTF8.GetBytes(password ?? string.Empty);
-    var hash = sha.ComputeHash(bytes);
-    return Convert.ToBase64String(hash);
-}
-```
-
-Lectura técnica:
-
-- mejora el almacenamiento frente a texto plano;
-- sigue siendo una estrategia limitada para estándares modernos;
-- una evolución futura debería migrar a `PBKDF2`, `bcrypt` o `Argon2`.
-
-## Pruebas unitarias
-
-Existe un proyecto real de pruebas:
-
-- `SistemaDeInstalacion.Tests`
-
-Cobertura funcional actual:
-
-- inicialización de la base;
-- migración de bases heredadas;
-- reglas de usuarios;
-- login y hashing;
-- servicios de administradores;
-- servicios de instaladores;
-- validación de roles.
-
-Ejecución recomendada:
-
-1. compila la solución local;
-2. abre `Prueba > Explorador de pruebas` en Visual Studio;
-3. ejecuta la suite completa;
-4. revisa especialmente pruebas ligadas a SQLite y migraciones.
-
-Historia de pantallazo: Explorador de pruebas y ejecución de tests.
-<!-- Aquí pegas la imagen del Explorador de pruebas -->
-
-## Historias técnicas de continuidad
-
-### Historia 1
-
-Como desarrollador, quiero entender el arranque y la sesión para poder cambiar la navegación sin romper el acceso de usuarios y administradores.
-
-Archivos a revisar:
-
-- `App.xaml.cs`
-- `MainViewModel.cs`
-- `SesionUsuario.cs`
-
-### Historia 2
-
-Como desarrollador, quiero modificar el catálogo de instaladores para agregar nuevas capacidades sin romper la asignación por usuario.
-
-Archivos a revisar:
-
-- `InstaladorDbService.cs`
-- `InstaladoresViewModel.cs`
-- `FormularioInstaladorViewModel.cs`
-
-### Historia 3
-
-Como desarrollador, quiero cambiar la persistencia de permisos para migrar de JSON a una relación normalizada.
-
-Archivos a revisar:
-
-- `UsuariosDbService.cs`
-- `DatabaseInitializer.cs`
-- `Docs/Developers/BaseDeDatos.md`
-- pruebas de `SistemaDeInstalacion.Tests`
-
-## Riesgos técnicos actuales
-
-- el namespace histórico aún se llama `ConcesionaroCarros`;
-- la asignación de aplicativos depende de rutas físicas;
-- la base se crea en el directorio de ejecución;
-- no hay solución `.sln` versionada;
-- el empaquetado no está formalizado con instalador corporativo;
-- parte de la navegación mezcla MVVM con apertura directa de ventanas.
-
-## Orden recomendado para onboarding técnico
-
-1. `App.xaml.cs`
-2. `Db/DatabaseInitializer.cs`
-3. `Services/SesionUsuario.cs`
-4. `ViewModels/MainViewModel.cs`
-5. `ViewModels/LoginViewModel.cs`
-6. `ViewModels/AdminLoginViewModel.cs`
-7. `ViewModels/InstaladoresViewModel.cs`
-8. `ViewModels/GestionUsuarioViewModel.cs`
-9. `Docs/Developers/BaseDeDatos.md`
-10. `SistemaDeInstalacion.Tests/`
-
-## Enlaces complementarios
-
-- [Visión general del sistema](../Sistema.md)
-- [Guía de usuarios](../users/User.md)
-- [Guía de administradores](../Administradores/Administradores.md)
-- [Guía de base de datos](BaseDeDatos.md)
-
-## Enlaces de apoyo externo
-
-Para ampliar el trabajo técnico sobre esta solución:
-
-- [Documentación oficial de WPF en Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/)
-- [Documentación de data binding en WPF](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/)
-- [Documentación oficial de .NET Framework](https://learn.microsoft.com/en-us/dotnet/framework/)
-- [Documentación oficial de MSTest](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-intro)
-- [Documentación oficial de Microsoft.Data.Sqlite](https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/)
-- [Documentación oficial de QuestPDF](https://www.questpdf.com/)
-- [Documentación oficial de PDFsharp](https://docs.pdfsharp.net/)
-
-## Checklist antes de entregar cambios
-
-- compilar en `Debug` o `Release`;
-- validar login normal;
-- validar login administrativo;
-- validar centro de ayuda por perfil;
-- validar alta, edición y baja de instaladores;
-- validar alta, edición y baja de usuarios;
-- validar asignación de aplicativos;
-- revisar impacto de base y migraciones;
-- ejecutar pruebas si el entorno lo permite.
+- [WPF data binding](https://learn.microsoft.com/dotnet/desktop/wpf/data/)
+- [FlowDocument](https://learn.microsoft.com/dotnet/api/system.windows.documents.flowdocument)
+- [Hyperlink en WPF](https://learn.microsoft.com/dotnet/api/system.windows.documents.hyperlink)
+- [Microsoft.Data.Sqlite](https://learn.microsoft.com/dotnet/standard/data/sqlite/)
+- [SQLite `PRAGMA busy_timeout`](https://www.sqlite.org/pragma.html#pragma_busy_timeout)
+- [MSTest](https://learn.microsoft.com/dotnet/core/testing/unit-testing-mstest)

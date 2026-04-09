@@ -8,21 +8,32 @@
         Background="Transparent" AllowsTransparency="True" WindowStyle="None">
 
     <Window.Resources>
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+        </Style>
+
         <Style x:Key="ModernInput" TargetType="TextBox">
             <Setter Property="Height" Value="42"/>
             <Setter Property="Margin" Value="0,5,0,15"/>
             <Setter Property="Padding" Value="12,0"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="#F8FBFE"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border CornerRadius="8" Background="{TemplateBinding Background}" 
-                                BorderBrush="#A9C6DD" BorderThickness="1.5">
+                        <Border x:Name="InputBorder"
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1.5">
                             <Grid>
-                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Foreground="{TemplateBinding Foreground}"/>
                                 <TextBlock Text="{TemplateBinding Tag}" Margin="15,0" VerticalAlignment="Center"
-                                           Foreground="#9CA3AF" IsHitTestVisible="False">
+                                           Foreground="{DynamicResource CorpMutedBrush}" IsHitTestVisible="False">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -36,15 +47,188 @@
                                 </TextBlock>
                             </Grid>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                                <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="InputBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernPasswordInput" TargetType="PasswordBox">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+        </Style>
+
+        <Style x:Key="FormularioUsuarioComboItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormularioUsuarioComboStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource FormularioUsuarioComboItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="ComboBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8"
+                                    TextElement.Foreground="{TemplateBinding Foreground}">
+                                <Grid Margin="10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter Grid.Column="0"
+                                                      Margin="0,0,10,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      IsHitTestVisible="False"/>
+
+                                    <Path Grid.Column="1"
+                                          Width="10"
+                                          Height="6"
+                                          VerticalAlignment="Center"
+                                          Data="M 0 0 L 5 6 L 10 0"
+                                          Stroke="{DynamicResource CorpAccentBrush}"
+                                          StrokeThickness="1.8"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Border>
+
+                            <ToggleButton x:Name="ToggleButton"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          ClickMode="Press"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="PopupBorder"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Margin="0,6,0,0"
+                                        Background="{DynamicResource CorpSurfaceBrush}"
+                                        BorderBrush="{DynamicResource CorpBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        TextElement.Foreground="{TemplateBinding Foreground}"
+                                        Padding="6">
+                                    <ScrollViewer SnapsToDevicePixels="True"
+                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="PopupBorder" Property="MinHeight" Value="42"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ComboBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Resources>
 
-    <Border CornerRadius="20" Background="#FDFEFE" Margin="10">
+    <Border CornerRadius="20"
+            Background="{DynamicResource CorpSurfaceBrush}"
+            BorderBrush="{DynamicResource CorpBorderBrush}"
+            BorderThickness="1"
+            Margin="10">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="20" Opacity="0.15" ShadowDepth="0"/>
+            <DropShadowEffect BlurRadius="20"
+                              Color="{Binding Color, Source={StaticResource CorpBorderBrush}}"
+                              Opacity="0.15"
+                              ShadowDepth="0"/>
         </Border.Effect>
 
         <Grid>
@@ -54,7 +238,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Background="#BBD4E7" CornerRadius="20,20,0,0" Padding="25,16">
+            <Border Grid.Row="0"
+                    Background="{DynamicResource CorpPanelStrongBrush}"
+                    CornerRadius="20,20,0,0"
+                    Padding="25,16">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -62,7 +249,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="CONFIGURAR PERFIL"
                                FontWeight="Bold"
-                               Foreground="{StaticResource CorpAccentBrush}"
+                               Foreground="{DynamicResource CorpAccentBrush}"
                                FontSize="18"
                                VerticalAlignment="Center"/>
                     <Image Grid.Column="1"
@@ -78,22 +265,22 @@
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="25,15">
                 <StackPanel>
-                    <TextBlock Text="Nombres" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBlock Text="Nombres" Style="{StaticResource FormLabel}"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="Ingrese nombres..." Text="{Binding Nombres}"/>
 
-                    <TextBlock Text="Apellidos" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBlock Text="Apellidos" Style="{StaticResource FormLabel}"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="Ingrese apellidos..." Text="{Binding Apellidos}"/>
 
-                    <TextBlock Text="Correo Corporativo" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBlock Text="Correo Corporativo" Style="{StaticResource FormLabel}"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="usuario@weg.net" Text="{Binding Correo}"/>
 
-                    <TextBlock Text="Teléfono" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBlock Text="Teléfono" Style="{StaticResource FormLabel}"/>
                     <TextBox Style="{StaticResource ModernInput}" Tag="+57 300..." Text="{Binding Telefono}"/>
 
-                    <TextBlock Text="Contraseña" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
+                    <TextBlock Text="Contraseña" Style="{StaticResource FormLabel}"/>
                     <Grid Margin="0,5,0,15">
                         <PasswordBox x:Name="pwd"
-                                     Height="42"
+                                     Style="{StaticResource ModernPasswordInput}"
                                      PasswordChanged="Pwd_PasswordChanged">
                             <PasswordBox.Resources>
                                 <Style TargetType="Border">
@@ -103,15 +290,14 @@
                         </PasswordBox>
                         <TextBlock x:Name="PwdPlaceholder"
                                    Text="************"
-                                   Margin="14,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="#9CA3AF"
-                                   IsHitTestVisible="False"/>
+                                    Margin="14,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource CorpMutedBrush}"
+                                    IsHitTestVisible="False"/>
                     </Grid>
 
-                    <TextBlock Text="Rol Asignado" FontSize="12" FontWeight="Bold" Foreground="#4B5563"/>
-                    <ComboBox Height="42"
-                              Margin="0,5,0,10"
+                    <TextBlock Text="Rol Asignado" Style="{StaticResource FormLabel}"/>
+                    <ComboBox Style="{StaticResource FormularioUsuarioComboStyle}"
                               IsEnabled="{Binding PuedeEditarRol}"
                               ItemsSource="{Binding Roles}"
                               SelectedItem="{Binding Rol}">
@@ -124,16 +310,19 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <Border Grid.Row="2" Background="#EEF4F8" CornerRadius="0,0,20,20" Padding="20,15">
+            <Border Grid.Row="2"
+                    Background="{DynamicResource CorpPanelBrush}"
+                    CornerRadius="0,0,20,20"
+                    Padding="20,15">
                 <DockPanel>
                     <Button Content="Cancelar" Click="Cerrar_Click" Background="Transparent" 
-                            BorderThickness="0" Foreground="#6B7280" FontWeight="SemiBold" Cursor="Hand"/>
+                            BorderThickness="0" Foreground="{DynamicResource CorpMutedBrush}" FontWeight="SemiBold" Cursor="Hand"/>
 
                     <Button x:Name="Guardar"
                             Content="Guardar"
                             MinWidth="110"
                             HorizontalAlignment="Right" 
-                            Background="{StaticResource CorpAccentBrush}" 
+                            Background="{DynamicResource CorpAccentBrush}" 
                             Foreground="White" FontWeight="Bold" Padding="25,10" BorderThickness="0"
                             Command="{Binding GuardarCommand}"
                             CommandParameter="{Binding ElementName=pwd, Path=Password}">

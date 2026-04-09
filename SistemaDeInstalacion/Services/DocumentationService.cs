@@ -23,7 +23,7 @@ namespace ConcesionaroCarros.Services
                     "Sistema",
                     "Docs",
                     "Vista general, alcance funcional y mapa documental del sistema.",
-                    "Sistema.md");
+                    new DocumentationDocumentRegistration("sistema", "Sistema.md"));
 
                 AgregarSeccion(
                     secciones,
@@ -31,7 +31,7 @@ namespace ConcesionaroCarros.Services
                     "User",
                     @"Docs\users",
                     "Guía operativa para usuarios finales del sistema.",
-                    "User.md");
+                    new DocumentationDocumentRegistration("users/user", "User.md"));
 
                 AgregarSeccion(
                     secciones,
@@ -39,8 +39,8 @@ namespace ConcesionaroCarros.Services
                     "Developer",
                     @"Docs\Developers",
                     "Guía técnica para continuidad de desarrollo, empaquetado y soporte.",
-                    "Developer.md",
-                    "BaseDeDatos.md");
+                    new DocumentationDocumentRegistration("developers/developer", "Developer.md"),
+                    new DocumentationDocumentRegistration("developers/base-de-datos", "BaseDeDatos.md", "Base de datos"));
 
                 AgregarSeccion(
                     secciones,
@@ -48,7 +48,7 @@ namespace ConcesionaroCarros.Services
                     "Administradores",
                     @"Docs\Administradores",
                     "Guía operativa y técnica para la administración funcional del sistema.",
-                    "Administradores.md");
+                    new DocumentationDocumentRegistration("administradores/administradores", "Administradores.md"));
 
                 return secciones;
             }
@@ -59,7 +59,7 @@ namespace ConcesionaroCarros.Services
                 "User",
                 @"Docs\users",
                 "Guía operativa disponible para usuarios finales.",
-                "User.md");
+                new DocumentationDocumentRegistration("users/user", "User.md"));
 
             return secciones;
         }
@@ -70,22 +70,29 @@ namespace ConcesionaroCarros.Services
             string title,
             string displayPath,
             string descripcion,
-            params string[] orderedFiles)
+            params DocumentationDocumentRegistration[] orderedDocuments)
         {
             if (!Directory.Exists(folderPath))
                 return;
 
             var documentos = new List<DocumentationDocumentDefinition>();
 
-            foreach (var fileName in orderedFiles ?? Array.Empty<string>())
+            foreach (var document in orderedDocuments ?? Array.Empty<DocumentationDocumentRegistration>())
             {
+                if (document == null || string.IsNullOrWhiteSpace(document.FileName) || string.IsNullOrWhiteSpace(document.DocId))
+                    continue;
+
+                var fileName = document.FileName;
                 var fullPath = Path.Combine(folderPath, fileName);
                 if (!File.Exists(fullPath))
                     continue;
 
                 documentos.Add(new DocumentationDocumentDefinition
                 {
-                    Title = ObtenerTitulo(fileName),
+                    DocId = document.DocId,
+                    Title = string.IsNullOrWhiteSpace(document.Title)
+                        ? ObtenerTitulo(fileName)
+                        : document.Title,
                     FileName = fileName,
                     FullPath = fullPath,
                     RelativePath = Path.Combine(displayPath, fileName)
@@ -139,9 +146,24 @@ namespace ConcesionaroCarros.Services
 
     public sealed class DocumentationDocumentDefinition
     {
+        public string DocId { get; set; }
         public string Title { get; set; }
         public string FileName { get; set; }
         public string FullPath { get; set; }
         public string RelativePath { get; set; }
+    }
+
+    public sealed class DocumentationDocumentRegistration
+    {
+        public DocumentationDocumentRegistration(string docId, string fileName, string title = null)
+        {
+            DocId = docId;
+            FileName = fileName;
+            Title = title;
+        }
+
+        public string DocId { get; }
+        public string FileName { get; }
+        public string Title { get; }
     }
 }

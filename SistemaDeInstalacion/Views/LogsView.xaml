@@ -4,6 +4,152 @@
              Background="Transparent">
 
     <UserControl.Resources>
+        <Style x:Key="LogsFilterComboItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LogsFilterComboStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource LogsFilterComboItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="ComboBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8"
+                                    TextElement.Foreground="{TemplateBinding Foreground}">
+                                <Grid Margin="10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter Grid.Column="0"
+                                                      Margin="0,0,10,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      IsHitTestVisible="False"/>
+
+                                    <Path Grid.Column="1"
+                                          Width="10"
+                                          Height="6"
+                                          VerticalAlignment="Center"
+                                          Data="M 0 0 L 5 6 L 10 0"
+                                          Stroke="{DynamicResource CorpAccentBrush}"
+                                          StrokeThickness="1.8"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Border>
+
+                            <ToggleButton x:Name="ToggleButton"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          ClickMode="Press"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="PopupBorder"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Margin="0,6,0,0"
+                                        Background="{DynamicResource CorpSurfaceBrush}"
+                                        BorderBrush="{DynamicResource CorpBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        TextElement.Foreground="{TemplateBinding Foreground}"
+                                        Padding="6">
+                                    <ScrollViewer SnapsToDevicePixels="True"
+                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="PopupBorder" Property="MinHeight" Value="42"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ComboBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="LogsCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource CorpSurfaceBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
@@ -30,9 +176,36 @@
             <Setter Property="Padding" Value="18,0"/>
             <Setter Property="Background" Value="{StaticResource CorpAccentBrush}"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorpAccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource CorpAccentDarkBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentDarkBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+                                <Setter Property="Opacity" Value="0.72"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="LogsCellTextStyle" TargetType="TextBlock">
@@ -53,21 +226,21 @@
             <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Level}" Value="ERROR">
-                    <Setter Property="Background" Value="#FFF4F4"/>
                     <Setter Property="Foreground" Value="{StaticResource CorpDangerBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid Margin="30,30,30,108">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,18">
+            <Grid Grid.Row="0" Margin="0,0,0,18">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -94,6 +267,7 @@
                                Foreground="{StaticResource CorpMutedBrush}"/>
                     <ComboBox Width="180"
                               Height="34"
+                              Style="{StaticResource LogsFilterComboStyle}"
                               ItemsSource="{Binding AvailableMachines}"
                               DisplayMemberPath="DisplayName"
                               SelectedValuePath="MachineName"
@@ -108,6 +282,7 @@
                                Foreground="{StaticResource CorpMutedBrush}"/>
                     <ComboBox Width="180"
                               Height="34"
+                              Style="{StaticResource LogsFilterComboStyle}"
                               IsEnabled="{Binding CanSelectDate}"
                               ItemsSource="{Binding AvailableDates}"
                               SelectedItem="{Binding SelectedDateFilter, Mode=TwoWay}"
@@ -119,9 +294,9 @@
                         Style="{StaticResource LogsActionButtonStyle}"
                         Command="{Binding RefreshCommand}"/>
             </StackPanel>
-        </Grid>
+            </Grid>
 
-        <WrapPanel Grid.Row="1" Margin="0,0,0,18">
+            <WrapPanel Grid.Row="1" Margin="0,0,0,18">
             <Border Style="{StaticResource LogsCardStyle}" Width="180">
                 <StackPanel>
                     <TextBlock Text="Eventos"
@@ -167,79 +342,94 @@
                                FontSize="20"/>
                 </StackPanel>
             </Border>
-        </WrapPanel>
+            </WrapPanel>
 
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Border Grid.Row="0"
-                    Background="{StaticResource CorpPanelBrush}"
-                    BorderBrush="{StaticResource CorpBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="14"
-                    Padding="14"
-                    Margin="0,0,0,12">
-                <StackPanel>
-                    <TextBlock Text="Estado"
-                               FontSize="12"
-                               Foreground="{StaticResource CorpMutedBrush}"/>
-                    <TextBlock Text="{Binding StatusMessage}"
-                               Margin="0,5,0,0"
-                               FontWeight="SemiBold"
-                               Foreground="{StaticResource CorpTextBrush}"/>
-                    <TextBlock Text="{Binding UltimoError}"
-                               Margin="0,7,0,0"
-                               TextWrapping="Wrap"
-                               Foreground="{StaticResource CorpDangerBrush}"/>
-                </StackPanel>
-            </Border>
+                <Border Grid.Row="0"
+                        Background="{StaticResource CorpPanelBrush}"
+                        BorderBrush="{StaticResource CorpBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14"
+                        Padding="14"
+                        Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="Estado"
+                                   FontSize="12"
+                                   Foreground="{StaticResource CorpMutedBrush}"/>
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   Margin="0,5,0,0"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource CorpTextBrush}"/>
+                        <TextBlock Text="{Binding UltimoError}"
+                                   Margin="0,7,0,0"
+                                   TextWrapping="Wrap"
+                                   Foreground="{StaticResource CorpDangerBrush}"/>
+                    </StackPanel>
+                </Border>
 
-            <Border Grid.Row="1"
-                    Background="{StaticResource CorpSurfaceBrush}"
-                    BorderBrush="{StaticResource CorpBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="16"
-                    Padding="12">
-                <DataGrid x:Name="LogsDataGrid"
-                          ItemsSource="{Binding FilteredEntries}"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          RowStyle="{StaticResource LogsRowStyle}"
-                          FrozenColumnCount="4"
-                          ScrollViewer.CanContentScroll="True"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          GridLinesVisibility="Horizontal"
-                          HeadersVisibility="Column"
-                          RowBackground="White"
-                          AlternatingRowBackground="#F9FAFB">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
-                            <Setter Property="FontWeight" Value="SemiBold"/>
-                            <Setter Property="Padding" Value="8,6"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
-                            <Setter Property="BorderThickness" Value="0,0,1,1"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Fecha" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="170" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Nivel" Binding="{Binding Level}" Width="90" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Equipo" Binding="{Binding MachineName}" Width="160" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Usuario" Binding="{Binding UserName}" Width="120" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Origen" Binding="{Binding Source}" Width="160" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Latencia (ms)" Binding="{Binding DurationMs}" Width="110" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="320" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                        <DataGridTextColumn Header="Detalle" Binding="{Binding Details}" Width="900" ElementStyle="{StaticResource LogsCellTextStyle}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Border>
+                <Border Grid.Row="1"
+                        Background="{StaticResource CorpSurfaceBrush}"
+                        BorderBrush="{StaticResource CorpBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                        Padding="12,12,18,18">
+                    <DataGrid x:Name="LogsDataGrid"
+                              ItemsSource="{Binding FilteredEntries}"
+                              Margin="0,0,6,6"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              RowStyle="{StaticResource LogsRowStyle}"
+                              FrozenColumnCount="4"
+                              ScrollViewer.CanContentScroll="True"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              Background="{StaticResource CorpSurfaceBrush}"
+                              Foreground="{StaticResource CorpTextBrush}"
+                              BorderBrush="{StaticResource CorpBorderBrush}"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              RowBackground="{StaticResource CorpSurfaceBrush}"
+                              AlternatingRowBackground="{StaticResource CorpPanelBrush}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="170" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Nivel" Binding="{Binding Level}" Width="90" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Equipo" Binding="{Binding MachineName}" Width="160" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Usuario" Binding="{Binding UserName}" Width="120" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Origen" Binding="{Binding Source}" Width="160" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Latencia (ms)" Binding="{Binding DurationMs}" Width="110" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Mensaje" Binding="{Binding Message}" Width="320" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                            <DataGridTextColumn Header="Detalle" Binding="{Binding Details}" Width="900" ElementStyle="{StaticResource LogsCellTextStyle}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Grid>
         </Grid>
+
+        <Image Source="/Images/6 -Banner  -  Grid para correo 2026.png"
+               Width="320"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Bottom"
+               Margin="0,0,16,14"
+               Stretch="Uniform"
+               IsHitTestVisible="False"
+               Panel.ZIndex="0"
+               RenderOptions.BitmapScalingMode="HighQuality"/>
     </Grid>
 </UserControl>

@@ -204,7 +204,7 @@ namespace ConcesionaroCarros.ViewModels
                 ? RolesSistema.Ventas
                 : rolActual;
 
-            foreach (var rol in RolesSistema.AsignablesSinAdmin)
+            foreach (var rol in RolesSistema.Todos)
             {
                 RolesAsignables.Add(new RolAsignacionItem
                 {

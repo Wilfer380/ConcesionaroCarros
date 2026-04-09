@@ -13,10 +13,10 @@ El administrador no siempre trabaja en modo administrativo. También puede abrir
 
 Eso significa que existen dos escenarios distintos:
 
-1. **Administrador por login normal**
+1. **Administrador por login normal**  
    El administrador entra como cualquier usuario final. En este modo puede ver sus aplicativos asignados, consultar ayuda y cerrar sesión, pero no accede a los módulos de gestión.
 
-2. **Administrador por login administrativo**
+2. **Administrador por login administrativo**  
    El administrador entra por la ruta especial de administración. En este modo sí se habilitan módulos como `Gestión de Usuarios`, administración de instaladores, asignación de aplicativos y, si aplica, el módulo de logs.
 
 ## Objetivo de esta guía
@@ -72,85 +72,28 @@ Pantalla inicial
                  \--> Logs según permisos
 ```
 
-## Inicio del recorrido visual
-
-Desde este punto comienzan los pantallazos de administración. El orden recomendado para pegar las imágenes es:
-
-1. acceso directo;
-2. pantalla inicial;
-3. diferencia entre login normal y login admin;
-4. ingreso por login normal;
-5. registro administrativo;
-6. login admin;
-7. vista principal;
-8. instaladores;
-9. gestión de usuarios;
-10. asignaciones;
-11. ayuda;
-12. cierre de sesión.
 
 ## Paso 1. Abrir la aplicación desde el acceso directo
+ayudame con botones reales de adelante y atras 
+El administrador inicia desde el mismo acceso directo principal del sistema. Desde esa pantalla puede decidir si va a continuar por la ruta de usuario estándar o si va a seguir por la ruta administrativa.
 
-El administrador inicia desde el mismo acceso directo principal del sistema.
+![alt text](image-1.png)
 
-Historia de pantallazo: Acceso directo del sistema en el escritorio.
-<!-- Aquí pegas la imagen del acceso directo para administración -->
 
-Historia de pantallazo: Pantalla inicial del sistema antes de elegir tipo de ingreso.
-<!-- Aquí pegas la imagen de la pantalla inicial -->
-
-## Paso 2. Entender la diferencia entre login normal y login admin
+## Paso 2. Diferencia login normal y login admin
 
 Esta es una de las reglas más importantes del sistema:
 
-- el login normal es para operación estándar;
-- el login administrativo activa permisos de gestión;
-- un administrador puede entrar por login normal, pero en ese caso opera igual que un usuario final;
-- para ver `Gestión de Usuarios`, administrar instaladores y usar otras funciones avanzadas, debe ingresar por la ruta admin.
+- el login normal es para operación estándar donde solo ingresan usuarios diferentes al rol admin o incluso el mismo admin, pero como usuario normal, solamente que tendría dos accesos de entrada;
+- el login administrativo activa permisos que no tiene el de usuarios normales;
+- un usuario con rol administrativo no obtiene acceso completo si entra por login normal;
+- para ver la vista principal admin y las demás funciones de administración, siempre debe ingresar por la ruta admin.
 
-Historia de pantallazo: Diferencia visual entre acceso normal y acceso administrativo.
-<!-- Aquí pegas la imagen que muestra las dos rutas de acceso -->
+## Paso 2.1. Acceso por login de usuario
 
-## Ruta 1. Administrador operando por login normal
+Si el administrador entra por la ventana normal, el flujo de acceso, registro, recuperación e ingreso es el mismo de la guía de usuario.
 
-Cuando el administrador entra por login normal, el flujo funcional es el mismo del usuario final.
-
-En esta ruta puede:
-
-- iniciar sesión como usuario estándar;
-- ver sus aplicativos asignados;
-- abrir la pestaña `Ayuda`;
-- cerrar sesión.
-
-En esta ruta no puede:
-
-- ver `Gestión de Usuarios`;
-- administrar instaladores;
-- usar el módulo de logs;
-- operar en modo administrativo.
-
-### Véase también
-
-Para los pasos que son exactamente iguales al flujo del usuario normal, revisa:
-
-- [User](../users/User.md)
-
-Especialmente en estos puntos:
-
-- acceso directo;
-- registro normal;
-- login normal;
-- recuperación de contraseña;
-- vista principal estándar;
-- uso de ayuda;
-- cierre de sesión.
-
-### Paso 3. Ingresar por login normal siendo administrador
-
-Si el administrador solo necesita usar sus aplicativos como cualquier usuario, puede entrar por la ventana normal.
-
-Historia de pantallazo: Login normal usado por un administrador.
-<!-- Aquí pegas la imagen del administrador entrando por login normal -->
+Este provceso lo puedes ver en el siguiente enlace:
 
 ### Resultado del login normal para un administrador
 
@@ -161,25 +104,23 @@ Después de entrar por login normal:
 - no verá el módulo de logs;
 - su experiencia será equivalente a la descrita en la guía `User`.
 
-Historia de pantallazo: Vista estándar del administrador cuando entra por login normal.
-<!-- Aquí pegas la imagen de la vista de usuario normal usada por administrador -->
+[Ver guía de usuario desde el acceso directo](help://users/user#paso-1-abrir-la-aplicacion)
 
 ## Ruta 2. Administrador operando por login administrativo
 
-Esta es la ruta que debe usar el administrador cuando necesita hacer cambios funcionales dentro del sistema.
+Esta es la ruta que debe usar el administrador cuando necesita hacer cambios funcionales dentro del sistema, y es ingresando por accesos que solo el administrador tiene como permisos, desde luego primero debera ingresar al login admin para continuar con los procesos de registro e ingresos.
 
-## Paso 4. Registro administrativo
+## Paso 3. Registro administrativo
 
-Si la cuenta administrativa aún no existe, primero debe registrarse desde la ruta admin.
+Si la cuenta administrativa aún no existe, primero debe registrarse desde la ruta admin en el texto que le indica registrarse. 
 
-### Paso 4.1. Abrir la opción Regístrate del login admin
+### Paso 3.1. Abrir la opción Regístrate del login admin
 
 Desde la pantalla de login administrativo, pulsa la opción `Regístrate`.
 
-Historia de pantallazo: Opción Regístrate dentro del login administrativo.
-<!-- Aquí pegas la imagen del acceso al registro admin -->
+![alt text](image-4.png)
 
-### Paso 4.2. Completar el formulario de registro administrativo
+### Paso 3.2. Completar el formulario de registro administrativo
 
 En el registro administrativo se deben completar:
 
@@ -190,10 +131,7 @@ En el registro administrativo se deben completar:
 
 Este registro no es igual al normal. Aquí el sistema crea o actualiza la cuenta base y además registra la información administrativa necesaria para operar en modo admin.
 
-Historia de pantallazo: Formulario completo de registro administrativo.
-<!-- Aquí pegas la imagen del formulario de registro admin -->
-
-### Paso 4.3. Guardar el registro administrativo
+### Paso 3.3. Guardar el registro administrativo
 
 Pulsa el botón de registro y espera la confirmación.
 
@@ -203,45 +141,31 @@ Si el proceso es correcto:
 - se registra la cuenta administrativa;
 - el sistema regresa al login admin con los datos listos para ingresar.
 
-Historia de pantallazo: Confirmación de registro administrativo exitoso.
-<!-- Aquí pegas la imagen del mensaje de registro admin exitoso -->
+![alt text](image-5.png)
 
-Historia de pantallazo: Validación de registro administrativo por duplicado o error.
-<!-- Aquí pegas la imagen de una validación de registro admin -->
-
-## Paso 5. Iniciar sesión por login administrativo
+## Paso 4. Iniciar sesión por login administrativo
 
 Una vez abierto el acceso directo y, si aplica, completado el registro, el siguiente paso es ingresar por el login admin.
 
-### Paso 5.1. Abrir el login administrativo
+### Paso 4.1. Abrir el login administrativo
 
 Desde la pantalla principal, entra a la opción de acceso administrativo.
 
-Historia de pantallazo: Acceso al login administrativo desde la pantalla inicial.
-<!-- Aquí pegas la imagen de apertura del login admin -->
-
-### Paso 5.2. Escribir el usuario administrativo
+### Paso 4.2. Escribir el usuario administrativo
 
 En este login debes usar el `UsuarioSistema` o identificador administrativo definido para la cuenta.
 
-Historia de pantallazo: Campo de usuario administrativo diligenciado.
-<!-- Aquí pegas la imagen del campo de usuario admin -->
-
-### Paso 5.3. Escribir la contraseña administrativa
+### Paso 4.3. Escribir la contraseña administrativa
 
 Ingresa la contraseña administrativa correspondiente. Esta contraseña no se valida igual que la del login normal.
 
-Historia de pantallazo: Campo de contraseña administrativa diligenciado.
-<!-- Aquí pegas la imagen del campo de contraseña admin -->
-
-### Paso 5.4. Confirmar el ingreso
+### Paso 4.4. Confirmar el ingreso
 
 Pulsa el botón de acceso. Si todo es correcto, el sistema abrirá la vista principal con modo administrador activo.
 
-Historia de pantallazo: Resultado de login admin exitoso.
-<!-- Aquí pegas la imagen del acceso admin correcto -->
+![alt text](image-6.png)
 
-## Paso 6. Validaciones del login administrativo
+## Paso 5. Validaciones del login administrativo
 
 El sistema diferencia mejor los errores del login admin.
 
@@ -249,17 +173,13 @@ El sistema diferencia mejor los errores del login admin.
 
 El sistema indicará que el usuario administrativo no se encuentra registrado.
 
-Historia de pantallazo: Mensaje de usuario administrativo incorrecto.
-<!-- Aquí pegas la imagen del error de usuario admin -->
-
 ### Cuando la contraseña administrativa es incorrecta
 
 El sistema indicará que la contraseña administrativa es incorrecta.
 
-Historia de pantallazo: Mensaje de contraseña administrativa incorrecta.
-<!-- Aquí pegas la imagen del error de contraseña admin -->
+![alt text](image-7.png)
 
-## Paso 7. Vista principal del administrador
+## Paso 6. Vista principal del administrador
 
 Cuando el login admin es correcto, la aplicación entra en modo administrador.
 
@@ -269,73 +189,77 @@ Normalmente verá:
 - módulo `Instaladores`;
 - módulo `Gestión de Usuarios`;
 - opción `Ayuda`;
-- opción `Cerrar sesión`;
-- opción `Logs` solo si el perfil cumple la validación especial de soporte.
+- opción `Configuración` para revisar o cambiar el tema visual;
+- opción `Logs` solo si el perfil cumple la validación especial de soporte;
+- opción `Cerrar sesión`.
 
-Historia de pantallazo: Vista principal del administrador con menú completo.
-<!-- Aquí pegas la imagen de la vista principal admin -->
+![alt text](image-8.png)
 
-## Paso 8. Gestión de instaladores
+## Paso 7. Gestión de instaladores
 
 Desde este módulo se controla el catálogo de ejecutables del sistema.
 
+[Ver guía de usuario desde "Qué pasa cuando el login es correcto"](help://users/user#que-pasa-cuando-el-login-es-correcto)
+
 ### Cómo agregar un instalador
 
-1. entra al módulo `Instaladores`;
+1. entra al módulo `Buscar Instaladores`;
 2. abre el formulario de nuevo instalador;
 3. selecciona el ejecutable;
 4. completa nombre, descripción y categoría;
 5. guarda el registro.
 
-Historia de pantallazo: Módulo Instaladores en modo administrador.
-<!-- Aquí pegas la imagen del módulo de instaladores -->
+![alt text](image-9.png)
 
-Historia de pantallazo: Formulario de nuevo instalador.
-<!-- Aquí pegas la imagen del formulario de instalador -->
+![alt text](image-10.png)
 
-Historia de pantallazo: Confirmación de instalador guardado.
-<!-- Aquí pegas la imagen de la confirmación del instalador -->
+![alt text](image-10.png)
 
 ### Cómo editar o eliminar un instalador
 
 Para editar:
 
 1. ubica la tarjeta correcta;
-2. pulsa `Editar`;
+2. pulsa el icono del lapiz que es `Editar`;
 3. actualiza la información;
-4. guarda.
+4. guarda nuevamente los cambios realizados.
 
 Para eliminar:
 
-1. ubica la tarjeta;
-2. pulsa `Eliminar`;
-3. confirma la acción.
+1. ubica la tarjeta correcta nuevamente;
+2. pulsa el icono de la papelera que es `Eliminar`;
+3. confirma la acción y elimina el registro por completo.
 
-Historia de pantallazo: Edición de un instalador existente.
-<!-- Aquí pegas la imagen de edición de instalador -->
+![alt text](image-11.png)
 
-Historia de pantallazo: Confirmación de eliminación de instalador.
-<!-- Aquí pegas la imagen de eliminación de instalador -->
 
-## Paso 9. Gestión de usuarios
+### Cómo instalar un aplicativo registrado
+
+Cuando el instalador ya está registrado, el administrador también puede probar el proceso de instalación desde la tarjeta correspondiente.
+
+1. ubica la tarjeta del aplicativo que deseas instalar;
+2. pulsa el botón `Instalar`;
+3. espera a que Windows abra la ventana de ejecución o instalación;
+4. confirma la ejecución si Windows lo solicita;
+5. continúa el asistente de instalación hasta finalizar;
+6. valida que la aplicación se abra correctamente al terminar.
+
+[Ver proceso de instalación en la guía de usuario](help://users/user#como-ejecutar-un-aplicativo-asignado)
+
+## Paso 8. Gestión de usuarios
 
 Este módulo solo está disponible en modo administrador. Desde aquí se administran cuentas y permisos.
+
+![alt text](image-12.png)
 
 ### Cómo agregar un usuario
 
 1. abre `Gestión de Usuarios`;
-2. pulsa la opción para crear un usuario;
+2. pulsa la opción para agregar usuarios para agregar ;
 3. completa nombres, apellidos, correo, teléfono, contraseña y rol;
 4. guarda la información.
 
-Historia de pantallazo: Vista principal de Gestión de Usuarios.
-<!-- Aquí pegas la imagen de la vista principal de gestión de usuarios -->
-
-Historia de pantallazo: Formulario de nuevo usuario.
-<!-- Aquí pegas la imagen del formulario de usuario -->
-
-Historia de pantallazo: Confirmación de usuario creado.
-<!-- Aquí pegas la imagen de la confirmación de usuario creado -->
+![alt text](image-13.png)
 
 ### Cómo editar o eliminar un usuario
 
@@ -352,13 +276,9 @@ Para eliminar:
 2. pulsa `Eliminar`;
 3. confirma la acción.
 
-Historia de pantallazo: Edición de usuario existente.
-<!-- Aquí pegas la imagen de edición de usuario -->
+![alt text](image-14.png)
 
-Historia de pantallazo: Confirmación de eliminación de usuario.
-<!-- Aquí pegas la imagen de eliminación de usuario -->
-
-## Paso 10. Asignación de aplicativos
+## Paso 9. Asignación de aplicativos
 
 Dentro de `Gestión de Usuarios`, el administrador puede asignar o retirar aplicativos a una persona.
 
@@ -369,19 +289,10 @@ El flujo general es:
 3. marcar o desmarcar aplicativos;
 4. guardar la asignación.
 
-Historia de pantallazo: Selección de usuario para asignación.
-<!-- Aquí pegas la imagen de selección de usuario -->
+![alt text](image-15.png)
 
-Historia de pantallazo: Panel de asignación abierto.
-<!-- Aquí pegas la imagen del panel de asignación -->
 
-Historia de pantallazo: Aplicativos marcados o desmarcados.
-<!-- Aquí pegas la imagen de las casillas de asignación -->
-
-Historia de pantallazo: Confirmación de asignación guardada.
-<!-- Aquí pegas la imagen de confirmación de asignación -->
-
-## Paso 11. Uso de la pestaña Ayuda
+## Paso 10. Uso de la pestaña Ayuda
 
 La pestaña `Ayuda` permite al administrador consultar documentación funcional dentro del sistema, sin tener que salir de la aplicación para buscar manuales o instrucciones.
 
@@ -392,26 +303,27 @@ Desde esta vista normalmente se puede:
 - revisar información complementaria;
 - ubicar el canal de soporte disponible.
 
-### Paso 11.1. Abrir la pestaña Ayuda
+### Paso 10.1. Abrir la pestaña Ayuda
 
 Desde el panel lateral, pulsa la opción `Ayuda`.
 
-Historia de pantallazo: Opción Ayuda visible en el panel lateral del administrador.
-<!-- Aquí pegas la imagen de acceso a ayuda desde administración -->
+![alt text](image-16.png)
 
-### Paso 11.2. Revisar las carpetas y documentos disponibles
+### Paso 10.2. Revisar las carpetas y documentos disponibles
 
 En la vista de ayuda, el administrador verá las carpetas y documentos disponibles para su perfil.
 
-Historia de pantallazo: Vista general del centro de ayuda para administración.
-<!-- Aquí pegas la imagen de la vista general de ayuda admin -->
-
-### Paso 11.3. Abrir un documento y consultar su contenido
+### Paso 10.3. Abrir un documento y consultar su contenido
 
 Selecciona el documento requerido y revisa la información en el panel principal.
 
-Historia de pantallazo: Documento abierto dentro de la pestaña Ayuda para administración.
-<!-- Aquí pegas la imagen de un documento abierto en ayuda admin -->
+![alt text](image-18.png)
+
+## Paso 11. Configuración
+
+La pantalla `Configuración` permite al administrador ajustar preferencias visuales de la aplicación sin salir del sistema.
+
+La referencia funcional canónica de esta pantalla se mantiene en [User, Configuración](help://users/user#configuracion), porque el recorrido y el cambio de tema son compartidos entre perfiles.
 
 ## Paso 12. Cerrar sesión
 
@@ -421,9 +333,6 @@ Cuando el administrador termine:
 2. pulsar `Cerrar sesión`;
 3. confirmar el cierre si aplica;
 4. dejar el sistema en la pantalla inicial.
-
-Historia de pantallazo: Cierre de sesión del administrador.
-<!-- Aquí pegas la imagen del cierre de sesión admin -->
 
 ## Qué revisar después de un cambio importante
 

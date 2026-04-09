@@ -15,6 +15,8 @@
                     Value="50"/>
             <Setter Property="FontSize" 
                     Value="16"/>
+            <Setter Property="Foreground"
+                    Value="{StaticResource CorpTextBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Control">
@@ -36,7 +38,8 @@
                                            Foreground="{StaticResource CorpMutedBrush}"/>
                                 <ScrollViewer Grid.Column="1" 
                                               x:Name="PART_ContentHost" 
-                                              VerticalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              Foreground="{TemplateBinding Foreground}"
                                               Margin="5,0,10,0"/>
                             </Grid>
                         </Border>
@@ -58,15 +61,15 @@
                 BorderThickness="3">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="#F3F5F7" Offset="0"/>
-                    <GradientStop Color="#F3F5F7" Offset="0.43"/>
-                    <GradientStop Color="#7BA7CC" Offset="0.431"/>
-                    <GradientStop Color="#7BA7CC" Offset="1"/>
+                    <GradientStop Color="{Binding Color, Source={StaticResource CorpAuthHeaderBrush}}" Offset="0"/>
+                    <GradientStop Color="{Binding Color, Source={StaticResource CorpAuthHeaderBrush}}" Offset="0.43"/>
+                    <GradientStop Color="{Binding Color, Source={StaticResource CorpAuthPanelBrush}}" Offset="0.431"/>
+                    <GradientStop Color="{Binding Color, Source={StaticResource CorpAuthPanelBrush}}" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Border.Effect>
                 <DropShadowEffect BlurRadius="45" 
-                                  Color="#B6CAD9" 
+                                  Color="{Binding Color, Source={StaticResource CorpBorderBrush}}" 
                                   ShadowDepth="0"
                                   Opacity="0.45"/>
             </Border.Effect>
@@ -143,7 +146,7 @@
                             Margin="0,-34,0,0">
 
                 <TextBlock Text="Usuario" 
-                           Foreground="White" 
+                           Foreground="{StaticResource CorpTextBrush}" 
                            Margin="10,0,0,5"
                            FontSize="14"/>
                 <Grid Margin="0,0,0,20">
@@ -155,14 +158,14 @@
                     <TextBlock x:Name="txtUsuarioPlaceholder"
                                Margin="56,0,0,0"
                                VerticalAlignment="Center"
-                               Foreground="#95A6B8"
+                               Foreground="{StaticResource CorpMutedBrush}"
                                FontSize="15"
                                IsHitTestVisible="False"
                                Text="usuario@weg.net"/>
                 </Grid>
 
                 <TextBlock Text="Contraseña" 
-                           Foreground="White" 
+                           Foreground="{StaticResource CorpTextBrush}" 
                            Margin="10,0,0,5" 
                            FontSize="14"/>
                 <Grid>
@@ -177,7 +180,7 @@
                     <TextBlock x:Name="txtPasswordPlaceholder"
                                Margin="56,0,48,0"
                                VerticalAlignment="Center"
-                               Foreground="#95A6B8"
+                               Foreground="{StaticResource CorpMutedBrush}"
                                FontSize="18"
                                IsHitTestVisible="False"
                                Text="************"/>
@@ -200,15 +203,15 @@
 
                 <CheckBox Content="Recuérdame"
                           IsChecked="{Binding Recordarme}"
-                          Foreground="White"
+                          Foreground="{StaticResource CorpTextBrush}"
                           Margin="5,12,0,0"
                           FontSize="13"/>
 
                 <TextBlock Margin="0,15,0,0" 
                            HorizontalAlignment="Center">
                     <Run Text="No tienes una cuenta? " 
-                         Foreground="White"/>
-                    <Hyperlink Foreground="{StaticResource CorpSurfaceBrush}" 
+                         Foreground="{StaticResource CorpTextBrush}"/>
+                    <Hyperlink Foreground="{StaticResource CorpAccentBrush}" 
                                FontWeight="Bold" 
                                TextDecorations="None"
                                Click="OpenRegister">
@@ -228,7 +231,7 @@
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="21"
                                     BorderThickness="1.5"
-                                    BorderBrush="#D3E1EB"
+                                    BorderBrush="{StaticResource CorpBorderBrush}"
                                     Background="{StaticResource CorpSurfaceBrush}">
                                 <ContentPresenter HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"/>
@@ -252,14 +255,14 @@
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="btn" 
                                     CornerRadius="27"
-                                    BorderBrush="#D3E1EB"
+                                    BorderBrush="{StaticResource CorpBorderBrush}"
                                     BorderThickness="1.2">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" 
                                                          EndPoint="0,1">
-                                        <GradientStop Color="#F7FAFC" 
+                                        <GradientStop Color="{Binding Color, Source={StaticResource CorpSurfaceBrush}}" 
                                                       Offset="0"/>
-                                        <GradientStop Color="#E9EFF4" 
+                                        <GradientStop Color="{Binding Color, Source={StaticResource CorpPanelBrush}}" 
                                                       Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>

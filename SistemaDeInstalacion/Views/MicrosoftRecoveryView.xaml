@@ -17,18 +17,22 @@
             <Setter Property="Height" Value="46"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Padding" Value="12,0"/>
-            <Setter Property="BorderBrush" Value="#A9C6DD"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1.5"/>
-            <Setter Property="Background" Value="#F8FBFE"/>
+            <Setter Property="Background" Value="{StaticResource CorpSurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
+            <Setter Property="CaretBrush" Value="{StaticResource CorpTextBrush}"/>
         </Style>
 
         <Style x:Key="MsPasswordBox" TargetType="PasswordBox">
             <Setter Property="Height" Value="46"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Padding" Value="12,0"/>
-            <Setter Property="BorderBrush" Value="#A9C6DD"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1.5"/>
-            <Setter Property="Background" Value="#F8FBFE"/>
+            <Setter Property="Background" Value="{StaticResource CorpSurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
+            <Setter Property="CaretBrush" Value="{StaticResource CorpTextBrush}"/>
         </Style>
 
         <Style x:Key="PrimaryButton" TargetType="Button">
@@ -45,9 +49,9 @@
         <Style x:Key="SecondaryButton" TargetType="Button">
             <Setter Property="Height" Value="42"/>
             <Setter Property="Padding" Value="18,0"/>
-            <Setter Property="Background" Value="#DCE8F1"/>
+            <Setter Property="Background" Value="{StaticResource CorpPanelBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
-            <Setter Property="BorderBrush" Value="#A9C6DD"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorpBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -57,8 +61,8 @@
     <Grid Margin="18">
         <Border Padding="32"
                 CornerRadius="18"
-                Background="#FDFEFE"
-                BorderBrush="#DCE8F1"
+                Background="{StaticResource CorpSurfaceBrush}"
+                BorderBrush="{StaticResource CorpBorderBrush}"
                 BorderThickness="1">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.15" ShadowDepth="0"/>
@@ -102,7 +106,7 @@
                                    Margin="0,12,0,6"
                                    Foreground="{StaticResource CorpTextBrush}"/>
                         <TextBlock Text="Recuperacion local con verificacion visual y cambio directo de contrasena."
-                                   Foreground="#4B5563"
+                                   Foreground="{StaticResource CorpMutedBrush}"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
 
@@ -118,8 +122,8 @@
                 </Grid>
 
                 <Border Grid.Row="1"
-                        Background="#F8FBFE"
-                        BorderBrush="#A9C6DD"
+                        Background="{StaticResource CorpPanelBrush}"
+                        BorderBrush="{StaticResource CorpBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="12"
                         Padding="14"
@@ -138,7 +142,7 @@
                         <StackPanel Visibility="{Binding IsValidationStep, Converter={StaticResource BoolToVis}}">
                             <TextBlock Text="Correo registrado"
                                        FontSize="14"
-                                       Foreground="#4B5563"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,0,0,6"/>
                             <TextBox Style="{StaticResource MsTextBox}"
                                      Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"
@@ -150,12 +154,12 @@
                                       Foreground="{StaticResource CorpTextBrush}"/>
                             <Border Margin="0,18,0,0"
                                     Padding="16"
-                                    Background="#F8FBFE"
-                                    BorderBrush="#DCE8F1"
+                                    Background="{StaticResource CorpPanelBrush}"
+                                    BorderBrush="{StaticResource CorpBorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="12">
                                 <TextBlock Text="Al validar, el sistema mostrara un codigo temporal en una ventana emergente durante 5 segundos y luego te permitira definir una nueva contrasena."
-                                           Foreground="#6B7280"
+                                           Foreground="{StaticResource CorpMutedBrush}"
                                            TextWrapping="Wrap"/>
                             </Border>
                         </StackPanel>
@@ -163,35 +167,35 @@
                         <StackPanel Visibility="{Binding IsPasswordStep, Converter={StaticResource BoolToVis}}">
                             <TextBlock Text="Correo validado"
                                        FontSize="14"
-                                       Foreground="#4B5563"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,0,0,6"/>
                             <TextBox Style="{StaticResource MsTextBox}"
                                      Text="{Binding Correo}"
                                      IsReadOnly="True"
-                                     Background="#F8FBFE"/>
+                                     Background="{StaticResource CorpSurfaceBrush}"/>
                             <TextBlock Text="Codigo de validacion"
                                        FontSize="14"
-                                       Foreground="#4B5563"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <TextBox Style="{StaticResource MsTextBox}"
                                      Text="{Binding CodigoVerificacion, UpdateSourceTrigger=PropertyChanged}"
                                      MaxLength="6"/>
                             <TextBlock Text="Nueva contrasena"
                                        FontSize="14"
-                                       Foreground="#4B5563"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <PasswordBox x:Name="txtNuevaPassword"
                                          Style="{StaticResource MsPasswordBox}"
                                          PasswordChanged="NuevaPasswordChanged"/>
                             <TextBlock Text="Confirmar contrasena"
                                        FontSize="14"
-                                       Foreground="#4B5563"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <PasswordBox x:Name="txtConfirmarPassword"
                                          Style="{StaticResource MsPasswordBox}"
                                          PasswordChanged="ConfirmarPasswordChanged"/>
                             <TextBlock Text="La nueva contrasena se guardara directamente en la base de datos cuando el codigo sea correcto, y el login principal quedara precargado con las nuevas credenciales."
-                                       Foreground="#6B7280"
+                                       Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,12,0,0"
                                        TextWrapping="Wrap"/>
                         </StackPanel>
@@ -199,8 +203,8 @@
                 </ScrollViewer>
 
                 <Border Grid.Row="3"
-                        Background="#EEF4F8"
-                        BorderBrush="#DCE8F1"
+                        Background="{StaticResource CorpPanelBrush}"
+                        BorderBrush="{StaticResource CorpBorderBrush}"
                         BorderThickness="0,1,0,0"
                         Margin="0,22,0,0"
                         Padding="18,18,18,18">

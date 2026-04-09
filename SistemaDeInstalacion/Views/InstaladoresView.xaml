@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="ConcesionaroCarros.Views.InstaladoresView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:viewmodels="clr-namespace:ConcesionaroCarros.ViewModels"
-             Background="White"
-             x:Name="ParentControl">
+              xmlns:viewmodels="clr-namespace:ConcesionaroCarros.ViewModels"
+              Background="Transparent"
+              x:Name="ParentControl">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -185,6 +185,8 @@
                     <DataTemplate>
 
                         <Border Background="{StaticResource CorpSurfaceBrush}"
+                                BorderBrush="{StaticResource CorpBorderBrush}"
+                                BorderThickness="1"
                                 CornerRadius="12"
                                 Margin="12"
                                 Padding="15"
@@ -192,7 +194,7 @@
                                 HorizontalAlignment="Left">
 
                             <Border.Effect>
-                                <DropShadowEffect Color="Black"
+                                <DropShadowEffect Color="{Binding Color, Source={StaticResource CorpBorderBrush}}"
                                                   BlurRadius="8"
                                                   ShadowDepth="1"
                                                   Opacity="0.1"/>

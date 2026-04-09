@@ -9,16 +9,198 @@
             <Setter Property="Height" Value="42"/>
             <Setter Property="Padding" Value="12,0"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="#F8FBFE"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
             <Setter Property="BorderThickness" Value="1.5"/>
-            <Setter Property="BorderBrush" Value="#A9C6DD"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource CorpTextBrush}"/>
         </Style>
 
         <Style x:Key="ModernCombo" TargetType="ComboBox">
             <Setter Property="Height" Value="42"/>
-            <Setter Property="Background" Value="#F8FBFE"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1.5"/>
-            <Setter Property="BorderBrush" Value="#A9C6DD"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle" Value="{DynamicResource ModernComboItem}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="ComboBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="8"
+                                    TextElement.Foreground="{TemplateBinding Foreground}">
+                                <Grid Margin="10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter Grid.Column="0"
+                                                      Margin="0,0,10,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      IsHitTestVisible="False"/>
+
+                                    <Path Grid.Column="1"
+                                          Width="10"
+                                          Height="6"
+                                          VerticalAlignment="Center"
+                                          Data="M 0 0 L 5 6 L 10 0"
+                                          Stroke="{DynamicResource CorpAccentBrush}"
+                                          StrokeThickness="1.8"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Border>
+
+                            <ToggleButton x:Name="ToggleButton"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          ClickMode="Press"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="PopupBorder"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Margin="0,6,0,0"
+                                        Background="{DynamicResource CorpSurfaceBrush}"
+                                        BorderBrush="{DynamicResource CorpBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        TextElement.Foreground="{TemplateBinding Foreground}"
+                                        Padding="6">
+                                    <ScrollViewer SnapsToDevicePixels="True"
+                                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="ComboBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="PopupBorder" Property="MinHeight" Value="42"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ComboBorder" Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernComboItem" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernActionButton" TargetType="Button">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Background" Value="{DynamicResource CorpAccentBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource CorpAccentDarkBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentDarkBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.92"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+                                <Setter Property="Opacity" Value="0.72"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
 
@@ -26,7 +208,9 @@
         <Border Width="560"
                 MaxHeight="740"
                 CornerRadius="20"
-                Background="#FDFEFE"
+                Background="{DynamicResource CorpSurfaceBrush}"
+                BorderBrush="{DynamicResource CorpBorderBrush}"
+                BorderThickness="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
 
@@ -37,7 +221,12 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Background="#BBD4E7" CornerRadius="20,20,0,0" Padding="28,18,28,16">
+                <Border Grid.Row="0"
+                        Background="{DynamicResource CorpPanelBrush}"
+                        BorderBrush="{DynamicResource CorpBorderBrush}"
+                        BorderThickness="0,0,0,1"
+                        CornerRadius="20,20,0,0"
+                        Padding="28,18,28,16">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -48,7 +237,7 @@
                         <TextBlock Text="{Binding TituloFormulario, FallbackValue='Nuevo Instalador'}"
                                    FontSize="20"
                                    FontWeight="Bold"
-                                   Foreground="{StaticResource CorpAccentBrush}"
+                                   Foreground="{DynamicResource CorpAccentBrush}"
                                    VerticalAlignment="Center"/>
 
                         <Image Grid.Column="1"
@@ -65,7 +254,7 @@
                                 Command="{Binding CerrarCommand}"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                Foreground="{StaticResource CorpAccentBrush}"
+                                Foreground="{DynamicResource CorpAccentBrush}"
                                 FontSize="24"
                                 Width="34"
                                 Height="34"
@@ -78,7 +267,7 @@
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <StackPanel>
-                        <TextBlock Text="Ruta del instalador" FontSize="14" Margin="0,0,0,5" Foreground="#4B5563"/>
+                        <TextBlock Text="Ruta del instalador" FontSize="14" Margin="0,0,0,5" Foreground="{DynamicResource CorpMutedBrush}"/>
                         <Grid Margin="0,0,0,20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -93,21 +282,12 @@
                                     Content="BUSCAR APP"
                                     Command="{Binding BuscarArchivoCommand}"
                                     Margin="10,0,0,0"
-                                    Padding="15,0"
-                                    Height="42"
-                                    Background="{StaticResource CorpAccentBrush}"
-                                    Foreground="White"
-                                    FontWeight="Bold"
+                                    Style="{StaticResource ModernActionButton}"
                                     IsEnabled="{Binding PuedeEditar}">
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="8"/>
-                                    </Style>
-                                </Button.Resources>
                             </Button>
                         </Grid>
 
-                        <TextBlock Text="Guardar en carpeta" FontSize="14" Margin="0,0,0,5" Foreground="#4B5563"/>
+                        <TextBlock Text="Guardar en carpeta" FontSize="14" Margin="0,0,0,5" Foreground="{DynamicResource CorpMutedBrush}"/>
                         <ComboBox
                                   Margin="0,0,0,20"
                                   ItemsSource="{Binding CarpetasDisponibles}"
@@ -115,25 +295,31 @@
                                   IsEnabled="{Binding PuedeEditar}"
                                   Style="{StaticResource ModernCombo}"/>
 
-                        <Border Width="100" Height="100" Background="#EEF4F8" BorderBrush="#A9C6DD" BorderThickness="1" CornerRadius="15" Margin="0,0,0,20">
+                        <Border Width="100"
+                                Height="100"
+                                Background="{DynamicResource CorpPanelBrush}"
+                                BorderBrush="{DynamicResource CorpBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="15"
+                                Margin="0,0,0,20">
                             <Grid>
                                 <TextBlock Text="EXE"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="24"
                                            FontWeight="Bold"
-                                           Foreground="#A9C6DD"/>
+                                           Foreground="{DynamicResource CorpBorderBrush}"/>
                                 <Image Source="{Binding Instalador.Icono}" Stretch="Uniform" Margin="15"/>
                             </Grid>
                         </Border>
 
-                        <TextBlock Text="Nombre del aplicativo" FontSize="14" Margin="0,0,0,5" Foreground="#4B5563"/>
+                        <TextBlock Text="Nombre del aplicativo" FontSize="14" Margin="0,0,0,5" Foreground="{DynamicResource CorpMutedBrush}"/>
                         <TextBox Text="{Binding Instalador.Nombre}"
                                  IsReadOnly="{Binding EsSoloLectura}"
                                  Margin="0,0,0,20"
                                  Style="{StaticResource ModernInput}"/>
 
-                        <TextBlock Text="Detalles adicionales" FontSize="14" Margin="0,0,0,5" Foreground="#4B5563"/>
+                        <TextBlock Text="Detalles adicionales" FontSize="14" Margin="0,0,0,5" Foreground="{DynamicResource CorpMutedBrush}"/>
                         <TextBox Text="{Binding Instalador.Descripcion}"
                                  IsReadOnly="{Binding EsSoloLectura}"
                                  Height="120"
@@ -141,16 +327,18 @@
                                  Margin="0,0,0,8"
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
-                                 Background="#F8FBFE"
-                                 BorderThickness="1.5"
-                                 BorderBrush="#A9C6DD"
-                                 VerticalContentAlignment="Top"/>
+                                  Background="{DynamicResource CorpSurfaceBrush}"
+                                  BorderThickness="1.5"
+                                  BorderBrush="{DynamicResource CorpBorderBrush}"
+                                  Foreground="{DynamicResource CorpTextBrush}"
+                                  CaretBrush="{DynamicResource CorpTextBrush}"
+                                  VerticalContentAlignment="Top"/>
                     </StackPanel>
                 </ScrollViewer>
 
                 <Border Grid.Row="2"
-                        Background="#EEF4F8"
-                        BorderBrush="#DCE8F1"
+                        Background="{DynamicResource CorpPanelBrush}"
+                        BorderBrush="{DynamicResource CorpBorderBrush}"
                         BorderThickness="0,1,0,0"
                         Padding="20,14">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -158,7 +346,7 @@
                                 Command="{Binding GuardarCommand}"
                                 Height="45"
                                 MinWidth="170"
-                                Background="{StaticResource CorpAccentBrush}"
+                                Background="{DynamicResource CorpAccentBrush}"
                                 Foreground="White"
                                 FontWeight="Bold"
                                 FontSize="16"
@@ -176,7 +364,7 @@
                                 Command="{Binding GuardarCommand}"
                                 Height="45"
                                 MinWidth="170"
-                                Background="{StaticResource CorpAccentBrush}"
+                                Background="{DynamicResource CorpAccentBrush}"
                                 Foreground="White"
                                 FontWeight="Bold"
                                 FontSize="16"
@@ -194,9 +382,9 @@
                                 Command="{Binding CerrarCommand}"
                                 Height="45"
                                 Width="120"
-                                Background="#DCE8F1"
-                                Foreground="{StaticResource CorpTextBrush}"
-                                BorderBrush="#A9C6DD"
+                                Background="{DynamicResource CorpSurfaceBrush}"
+                                Foreground="{DynamicResource CorpTextBrush}"
+                                BorderBrush="{DynamicResource CorpBorderBrush}"
                                 BorderThickness="1"
                                 FontWeight="Bold"
                                 Cursor="Hand">

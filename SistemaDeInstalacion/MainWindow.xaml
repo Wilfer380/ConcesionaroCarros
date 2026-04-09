@@ -5,64 +5,73 @@
         Icon="System Installer(01).ico"
         Height="800" Width="1250"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource CorpWindowBrush}">
+        Background="{DynamicResource CorpWindowBrush}">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
-        <Style x:Key="MenuButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource CorpTextBrush}"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="25,0,0,0"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+            <Style x:Key="MenuButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Padding" Value="25,0,0,0"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
         <Style x:Key="MenuInstaladoresStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding VistaActiva}" Value="Instaladores">
-                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VistaActiva}" Value="Instaladores">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
         <Style x:Key="MenuUsuariosStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding VistaActiva}" Value="Usuarios">
-                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VistaActiva}" Value="Usuarios">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
         <Style x:Key="MenuAyudaStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding VistaActiva}" Value="Ayuda">
-                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VistaActiva}" Value="Ayuda">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
         <Style x:Key="MenuLogsStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding VistaActiva}" Value="Logs">
-                    <Setter Property="Background" Value="{StaticResource CorpPanelStrongBrush}"/>
-                    <Setter Property="Foreground" Value="{StaticResource CorpAccentBrush}"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VistaActiva}" Value="Logs">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="MenuConfiguracionStyle" TargetType="Button" BasedOn="{StaticResource MenuButtonStyle}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding VistaActiva}" Value="Configuracion">
+                        <Setter Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -70,7 +79,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Background="{StaticResource CorpPanelBrush}">
+        <Border Grid.Column="0" Background="{DynamicResource CorpPanelBrush}">
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Top" Margin="20,28,20,10">
                     <Image Source="/Images/WEG-Logo.png"
@@ -83,7 +92,7 @@
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,22,0,28" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding NombreUsuario}"
-                               Foreground="{StaticResource CorpTextBrush}"
+                               Foreground="{DynamicResource CorpTextBrush}"
                                FontWeight="Bold"
                                FontSize="13"
                                HorizontalAlignment="Center"
@@ -92,11 +101,11 @@
 
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
                     <TextBlock Text="Estado: Conectado"
-                               Foreground="{StaticResource CorpAccentBrush}"
+                               Foreground="{DynamicResource CorpAccentBrush}"
                                FontSize="10"
                                HorizontalAlignment="Center"/>
                     <TextBlock Text="v2.0.1 - Enterprise Edition"
-                               Foreground="{StaticResource CorpMutedBrush}"
+                               Foreground="{DynamicResource CorpMutedBrush}"
                                FontSize="9"
                                HorizontalAlignment="Center"/>
                 </StackPanel>
@@ -121,24 +130,21 @@
                             Style="{StaticResource MenuLogsStyle}"
                             Command="{Binding ShowLogsCommand}"/>
 
-                    <Separator Background="{StaticResource CorpBorderBrush}" Margin="20,15"/>
+                    <Separator Background="{DynamicResource CorpBorderBrush}" Margin="20,15"/>
+
+                    <Button Content="⚙ Configuración"
+                            Command="{Binding ShowSettingsCommand}"
+                            Style="{StaticResource MenuConfiguracionStyle}"/>
 
                     <Button Content="🚪 Cerrar sesión"
                             Command="{Binding CerrarSesionCommand}"
                             Style="{StaticResource MenuButtonStyle}"
-                            Foreground="{StaticResource CorpDangerBrush}"/>
+                            Foreground="{DynamicResource CorpDangerBrush}"/>
                 </StackPanel>
             </DockPanel>
         </Border>
 
-        <Grid Grid.Column="1">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#EEF2F5" Offset="0"/>
-                    <GradientStop Color="#DEEAF2" Offset="0.6"/>
-                    <GradientStop Color="#D3E4EE" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+        <Grid Grid.Column="1" Background="{DynamicResource ShellContentBackgroundBrush}">
 
             <ContentControl Content="{Binding CurrentView}" Margin="25"/>
         </Grid>

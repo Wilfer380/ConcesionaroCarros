@@ -152,6 +152,7 @@ En esta pantalla normalmente encontrará:
 - panel lateral con su nombre;
 - opción `Instaladores`;
 - opción `Ayuda`;
+- opción `Configuración` para ajustar el tema visual de la aplicación;
 - botón `Cerrar sesión`;
 - tarjetas con los aplicativos asignados tanto en la carpeta local de desarrollo planta como en la carpeta de desarrollo global.
 
@@ -237,6 +238,37 @@ En el centro de ayuda se mostrarán las carpetas y documentos organizados para c
 Selecciona el documento que necesites y revisa su contenido en el panel principal.
 
 ![Documento abierto en Ayuda](image-25.png)
+
+## Configuración
+
+La opción `Configuración` permite ajustar las preferencias visuales de la aplicación, en particular el tema disponible para el entorno de trabajo.
+
+Desde esta pantalla el usuario puede revisar el tema activo y cambiar la apariencia cuando necesite trabajar con otra visualización dentro de la aplicación.
+
+### Paso 1. Abrir Configuración
+
+Desde el panel lateral, pulsa la opción `Configuración`.
+
+### Paso 2. Revisar el estado visual actual
+
+En esta vista se muestra el tema activo de la aplicación y cómo está respondiendo la interfaz al entorno visual del equipo.
+
+La aplicación puede iniciar respetando la preferencia visual del PC. Desde `Configuración`, el usuario puede dejar ese comportamiento como está o cambiar manualmente el tema disponible según la necesidad del momento.
+
+### Paso 3. Cambiar entre tema claro y oscuro
+
+Para cambiar el tema:
+
+1. abre `Configuración`;
+2. ubica la opción de apariencia o tema;
+3. selecciona `Claro` o `Oscuro`;
+4. confirma el cambio si la interfaz lo solicita.
+
+![alt text](image-28.png)
+
+Cuando el cambio se aplica, se actualiza la interfaz visual de la aplicación y también la presentación de la documentación o ayuda integrada, para mantener una experiencia consistente dentro del sistema.
+
+![alt text](image-29.png)
 
 ## Cómo cerrar sesión
 

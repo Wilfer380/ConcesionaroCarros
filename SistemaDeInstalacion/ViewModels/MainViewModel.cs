@@ -78,6 +78,7 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowGestionUsuariosCommand { get; }
         public ICommand ShowLogsCommand { get; }
         public ICommand ShowAyudaCommand { get; }
+        public ICommand ShowSettingsCommand { get; }
 
         public MainViewModel()
         {
@@ -125,6 +126,16 @@ namespace ConcesionaroCarros.ViewModels
                 };
             });
 
+            ShowSettingsCommand = new RelayCommand(_ =>
+            {
+                LogService.Info("MainWindow", "Navegacion a configuracion");
+                VistaActiva = "Configuracion";
+                CurrentView = new SettingsView
+                {
+                    DataContext = new SettingsViewModel()
+                };
+            });
+
             CerrarSesionCommand = new RelayCommand(_ =>
             {
                 LogService.Info("MainWindow", "Cierre de sesion solicitado");
@@ -147,8 +158,7 @@ namespace ConcesionaroCarros.ViewModels
             };
         }
 
-        private static string ObtenerUsuarioDesdeCorreo(string correo)
-        {
+        private static string ObtenerUsuarioDesdeCorreo(string correo) {
             if (string.IsNullOrWhiteSpace(correo))
                 return string.Empty;
 

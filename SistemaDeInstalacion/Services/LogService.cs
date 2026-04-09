@@ -34,28 +34,34 @@ namespace ConcesionaroCarros.Services
 
         public static void Error(string source, string message, Exception ex = null, string details = null)
         {
+            var finalMessage = ex == null
+                ? message
+                : BuildErrorMessage(message, ex);
             var fullDetails = details;
             if (ex != null)
             {
                 fullDetails = string.IsNullOrWhiteSpace(fullDetails)
-                    ? ex.ToString()
-                    : fullDetails + " | " + ex;
+                    ? BuildExceptionDetails(ex)
+                    : details + " | " + BuildExceptionDetails(ex);
             }
 
-            Write("ERROR", source, message, fullDetails, null, null);
+            Write("ERROR", source, finalMessage, fullDetails, null, null);
         }
 
         public static void ErrorForUser(string source, string message, string userName, Exception ex = null, string details = null)
         {
+            var finalMessage = ex == null
+                ? message
+                : BuildErrorMessage(message, ex);
             var fullDetails = details;
             if (ex != null)
             {
                 fullDetails = string.IsNullOrWhiteSpace(fullDetails)
-                    ? ex.ToString()
-                    : fullDetails + " | " + ex;
+                    ? BuildExceptionDetails(ex)
+                    : details + " | " + BuildExceptionDetails(ex);
             }
 
-            Write("ERROR", source, message, fullDetails, null, userName);
+            Write("ERROR", source, finalMessage, fullDetails, null, userName);
         }
 
         public static void Latency(string source, string message, long durationMs, string details = null)
@@ -234,6 +240,58 @@ namespace ConcesionaroCarros.Services
                 .Replace("\n", " ")
                 .Replace("\t", " ")
                 .Trim();
+        }
+
+        private static string BuildErrorMessage(string message, Exception ex)
+        {
+            var summary = BuildExceptionSummary(ex);
+            if (string.IsNullOrWhiteSpace(summary))
+                return message;
+
+            return string.IsNullOrWhiteSpace(message)
+                ? summary
+                : message + ": " + summary;
+        }
+
+        private static string BuildExceptionSummary(Exception ex)
+        {
+            if (ex == null)
+                return string.Empty;
+
+            var root = ex;
+            while (root.InnerException != null)
+                root = root.InnerException;
+
+            var typeName = root.GetType().Name;
+            var exceptionMessage = (root.Message ?? string.Empty).Trim();
+
+            if (string.IsNullOrWhiteSpace(exceptionMessage))
+                return typeName;
+
+            return typeName + " - " + exceptionMessage;
+        }
+
+        private static string BuildExceptionDetails(Exception ex)
+        {
+            if (ex == null)
+                return string.Empty;
+
+            var root = ex;
+            while (root.InnerException != null)
+                root = root.InnerException;
+
+            var details = "Tipo=" + root.GetType().FullName;
+
+            if (!string.IsNullOrWhiteSpace(root.Message))
+                details += " | Mensaje=" + root.Message.Trim();
+
+            if (!string.IsNullOrWhiteSpace(root.Source))
+                details += " | Fuente=" + root.Source.Trim();
+
+            if (!string.IsNullOrWhiteSpace(root.StackTrace))
+                details += " | Stack=" + root.StackTrace.Trim();
+
+            return details;
         }
 
         private sealed class LatencyScope : IDisposable

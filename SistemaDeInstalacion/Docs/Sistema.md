@@ -27,6 +27,7 @@ El sistema cubre hoy:
 - gestión de usuarios;
 - asignación de aplicativos;
 - ayuda documental interna por perfil;
+- configuración visual y cambio de tema, con guía funcional centralizada en [User, Configuración](help://users/user#configuracion);
 - logs funcionales y de soporte.
 
 ## Mapa general del producto
@@ -90,17 +91,23 @@ Pantalla inicial
 
 Este orden es importante porque evita empezar directamente por módulos internos sin haber explicado primero cómo entra realmente una persona al sistema.
 
+## Configuración
+
+La opción `Configuración` concentra los ajustes visuales y de preferencia de la aplicación, especialmente los cambios de tema disponibles para la experiencia de uso.
+
+La referencia funcional completa y vigente se mantiene en [User, Configuración](help://users/user#configuracion).
+
 ## Estructura documental oficial
 
 La documentación se distribuye así:
 
-| Ubicación | Documento | Uso principal |
+| Documento canónico | Documento | Uso principal |
 |---|---|---|
-| `Docs/Sistema.md` | `Sistema` | visión general del producto |
-| `Docs/users/User.md` | `User` | guía operativa para usuarios finales |
-| `Docs/Administradores/Administradores.md` | `Administradores` | guía operativa para administración |
-| `Docs/Developers/Developer.md` | `Developer` | guía técnica y de continuidad para desarrollo |
-| `Docs/Developers/BaseDeDatos.md` | `BaseDeDatos` | estructura y operación de la persistencia |
+| `help://sistema` | `Sistema` | visión general del producto |
+| `help://users/user` | `User` | guía operativa para usuarios finales |
+| `help://administradores/administradores` | `Administradores` | guía operativa para administración |
+| `help://developers/developer` | `Developer` | guía técnica y de continuidad para desarrollo |
+| `help://developers/base-de-datos` | `BaseDeDatos` | estructura y operación de la persistencia |
 
 ## Punto de partida recomendado
 
@@ -112,17 +119,17 @@ Si vas a operar el sistema:
 
 Según el rol:
 
-- consulta [User](Docs/users/User.md) si tu perfil es usuario final;
-- consulta [Administradores](Docs/Administradores/Administradores.md) si tu perfil es administrativo.
+- consulta [User](help://users/user) si tu perfil es usuario final;
+- consulta [Administradores](help://administradores/administradores) si tu perfil es administrativo.
 
 Si vas a mantener o evolucionar el producto:
 
-- empieza por [Developer](Docs/Developers/Developer.md);
-- continúa con [BaseDeDatos](Docs/Developers/BaseDeDatos.md).
+- empieza por [Developer](help://developers/developer);
+- continúa con [BaseDeDatos](help://developers/base-de-datos).
 
 ## Enlaces complementarios
 
-- [Guía de usuario](Docs/users/User.md)
-- [Guía de administradores](Docs/Administradores/Administradores.md)
-- [Guía técnica para desarrolladores](Docs/Developers/Developer.md)
-- [Guía de base de datos](Docs/Developers/BaseDeDatos.md)
+- [Guía de usuario](help://users/user)
+- [Guía de administradores](help://administradores/administradores)
+- [Guía técnica para desarrolladores](help://developers/developer)
+- [Guía de base de datos](help://developers/base-de-datos)
