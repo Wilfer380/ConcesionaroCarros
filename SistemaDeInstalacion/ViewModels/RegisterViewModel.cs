@@ -30,7 +30,7 @@ namespace ConcesionaroCarros.ViewModels
             if (string.IsNullOrWhiteSpace(Correo) || string.IsNullOrWhiteSpace(Password))
             {
                 LogService.Warning("Register", "Intento de registro sin credenciales completas");
-                MessageBox.Show("Debe ingresar correo y contrasena.");
+                MessageBox.Show(LocalizedText.Get("Register_IncompleteDataMessage", "Debe ingresar correo y contrasena."));
                 return;
             }
 
@@ -40,8 +40,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("Register", "Registro rechazado por dominio invalido", usuarioLog, Correo);
                 MessageBox.Show(
-                    "El correo debe terminar en @weg.net.",
-                    "Validacion de correo",
+                    LocalizedText.Get("Register_InvalidDomainMessage", "El correo debe terminar en @weg.net."),
+                    LocalizedText.Get("Common_EmailValidationTitle", "Validacion de correo"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -51,7 +51,7 @@ namespace ConcesionaroCarros.ViewModels
             if (string.IsNullOrWhiteSpace(usuarioPc))
             {
                 LogService.WarningForUser("Register", "No se pudo detectar el usuario del dispositivo", usuarioLog, Correo);
-                MessageBox.Show("No se pudo validar el usuario del dispositivo.");
+                MessageBox.Show(LocalizedText.Get("Register_DeviceUserValidationMessage", "No se pudo validar el usuario del dispositivo."));
                 return;
             }
 
@@ -104,8 +104,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("Register", "Registro rechazado por correo existente", usuarioLog, Correo);
                 MessageBox.Show(
-                    "El usuario ya se encuentra registrado con ese correo.",
-                    "Registro existente",
+                    LocalizedText.Get("Register_ExistingUserMessage", "El usuario ya se encuentra registrado con ese correo."),
+                    LocalizedText.Get("Register_ExistingUserTitle", "Registro existente"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return;
@@ -119,8 +119,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("Register", "Registro rechazado por correo duplicado", usuarioLog, Correo);
                 MessageBox.Show(
-                    "El usuario ya se encuentra registrado con ese correo.",
-                    "Registro existente",
+                    LocalizedText.Get("Register_ExistingUserMessage", "El usuario ya se encuentra registrado con ese correo."),
+                    LocalizedText.Get("Register_ExistingUserTitle", "Registro existente"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return;
@@ -129,15 +129,15 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.ErrorForUser("Register", "Error al registrar usuario", usuarioLog, ex, Correo);
                 MessageBox.Show(
-                    "No fue posible completar el registro en este momento. Intente nuevamente.",
-                    "Error de registro",
+                    LocalizedText.Get("Register_ErrorMessage", "No fue posible completar el registro en este momento. Intente nuevamente."),
+                    LocalizedText.Get("Register_ErrorTitle", "Error de registro"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
             }
 
             LogService.InfoForUser("Register", "Usuario registrado correctamente", usuarioLog, Correo);
-            MessageBox.Show("Registro exitoso");
+            MessageBox.Show(LocalizedText.Get("Register_SuccessMessage", "Registro exitoso"));
 
             // Se precargan credenciales solo para este paso.
             // El usuario debe marcar "Recordarme" en login para persistirlas.
@@ -213,7 +213,7 @@ namespace ConcesionaroCarros.ViewModels
 
             if (partes.Length == 0)
             {
-                nombres = "Usuario";
+                nombres = LocalizedText.Get("Common_DefaultUserName", "Usuario");
                 apellidos = string.Empty;
                 return;
             }

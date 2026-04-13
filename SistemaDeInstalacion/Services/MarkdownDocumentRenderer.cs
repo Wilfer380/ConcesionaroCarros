@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -170,7 +170,8 @@ namespace ConcesionaroCarros.Services
                 AgregarBloqueCodigo(doc, codeBuilder.ToString().TrimEnd(), theme);
 
             if (doc.Blocks.Count == 0)
-                doc.Blocks.Add(new Paragraph(new Run("No hay documentación disponible para mostrar.")));
+                doc.Blocks.Add(new Paragraph(new Run(
+                    LocalizedText.Get("Help_NoDocumentContentMessage", "No hay documentación disponible para mostrar."))));
 
             return doc;
         }
@@ -757,7 +758,7 @@ namespace ConcesionaroCarros.Services
             if (string.IsNullOrWhiteSpace(value))
                 return value ?? string.Empty;
 
-            if (value.IndexOf('Ã') < 0 && value.IndexOf('Â') < 0)
+            if (value.IndexOf("Ãƒ") < 0 && value.IndexOf("Ã‚") < 0)
                 return value;
 
             try
@@ -773,3 +774,4 @@ namespace ConcesionaroCarros.Services
         }
     }
 }
+

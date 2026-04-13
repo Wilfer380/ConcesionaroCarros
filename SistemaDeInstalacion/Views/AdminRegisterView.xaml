@@ -1,7 +1,7 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.AdminRegisterView"
+<Window x:Class="ConcesionaroCarros.Views.AdminRegisterView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WEG Installer Systems - Registro Administrador" Height="840" Width="520"
+        Title="{Binding WindowTitle}" Height="840" Width="520"
         MinHeight="840" MinWidth="520" MaxHeight="840" MaxWidth="520"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         WindowStyle="None" AllowsTransparency="True"
@@ -271,7 +271,7 @@
                 </Grid>
 
                 <Button Grid.Row="0"
-                        Content="&lt; Volver"
+                        Content="{Binding BackLabel}"
                         Width="120"
                         Height="30"
                         HorizontalAlignment="Left"
@@ -289,7 +289,7 @@
                             VerticalAlignment="Top"
                             Margin="0,-30,0,0">
 
-                     <TextBlock Text="Correo"
+                     <TextBlock Text="{Binding EmailLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="16"/>
@@ -297,7 +297,7 @@
                         <TextBox x:Name="txtCorreoAdmin"
                                  Style="{StaticResource FrostyInput}"
                                  Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="administrador@weg.net"
+                        <TextBlock Text="{Binding EmailPlaceholder}"
                                    Foreground="{StaticResource CorpMutedBrush}"
                                    Margin="18,0,0,0"
                                    VerticalAlignment="Center"
@@ -318,7 +318,7 @@
                         </TextBlock>
                     </Grid>
 
-                     <TextBlock Text="Rol"
+                     <TextBlock Text="{Binding RoleLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="16"/>
@@ -330,7 +330,7 @@
                               FontSize="16"
                               Style="{StaticResource AdminRegisterComboBoxStyle}"/>
 
-                     <TextBlock Text="Contrasena normal"
+                     <TextBlock Text="{Binding NormalPasswordLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="16"/>
@@ -387,7 +387,7 @@
                         </ToggleButton>
                     </Grid>
 
-                     <TextBlock Text="Contrasena administrador"
+                     <TextBlock Text="{Binding AdminPasswordLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="16"/>
@@ -444,7 +444,7 @@
                         </ToggleButton>
                     </Grid>
 
-                    <Button Content="Registrar administrador"
+                    <Button Content="{Binding RegisterAdminLabel}"
                             Margin="0,28,0,10"
                             Height="55"
                             Width="320"

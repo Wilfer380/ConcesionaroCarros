@@ -12,14 +12,27 @@ using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class AdminRegisterViewModel : BaseViewModel
+    public class AdminRegisterViewModel : BaseViewModel, ILocalizableViewModel
     {
         public string Correo { get; set; }
-        public string Rol { get; set; } = "Seleccionar";
+        public string Rol { get; set; }
         public string PasswordNormal { get; set; }
         public string PasswordAdmin { get; set; }
-        public ObservableCollection<string> RolesDisponibles { get; } =
-            new ObservableCollection<string> { "Seleccionar", RolesSistema.Administrador };
+        public ObservableCollection<SelectionOption> RolesDisponibles { get; } =
+            new ObservableCollection<SelectionOption>
+            {
+                new SelectionOption(null, "AdminRegister_RolePlaceholder"),
+                new SelectionOption(RolesSistema.Administrador, "Role_Administrador")
+            };
+
+        public string WindowTitle => LocalizedText.Get("AdminRegister_WindowTitle", "WEG Installer Systems - Admin Register");
+        public string BackLabel => LocalizedText.Get("AdminRegister_BackLabel", "< Back");
+        public string EmailLabel => LocalizedText.Get("AdminRegister_EmailLabel", "Email");
+        public string EmailPlaceholder => LocalizedText.Get("AdminRegister_EmailPlaceholder", "administrator@weg.net");
+        public string RoleLabel => LocalizedText.Get("AdminRegister_RoleLabel", "Role");
+        public string NormalPasswordLabel => LocalizedText.Get("AdminRegister_NormalPasswordLabel", "User password");
+        public string AdminPasswordLabel => LocalizedText.Get("AdminRegister_AdminPasswordLabel", "Administrator password");
+        public string RegisterAdminLabel => LocalizedText.Get("AdminRegister_RegisterButton", "Register administrator");
 
         public ICommand RegistrarAdminCommand { get; }
         public ICommand VolverLoginCommand { get; }
@@ -34,12 +47,13 @@ namespace ConcesionaroCarros.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Correo) ||
                 string.IsNullOrWhiteSpace(Rol) ||
-                string.Equals(Rol, "Seleccionar", StringComparison.OrdinalIgnoreCase) ||
                 string.IsNullOrWhiteSpace(PasswordNormal) ||
                 string.IsNullOrWhiteSpace(PasswordAdmin))
             {
                 LogService.Warning("AdminRegister", "Intento de registro admin con datos incompletos");
-                MessageBox.Show("Debe completar correo, rol, contrasena normal y contrasena de administrador.");
+                MessageBox.Show(LocalizedText.Get(
+                    "AdminRegister_IncompleteDataMessage",
+                    "Complete email, role, user password, and administrator password."));
                 return;
             }
 
@@ -51,8 +65,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("AdminRegister", "Registro admin rechazado por dominio invalido", usuarioLog, Correo);
                 MessageBox.Show(
-                    "El correo debe terminar en @weg.net.",
-                    "Validacion de correo",
+                    LocalizedText.Get("AdminRegister_InvalidDomainMessage", "Email must end with @weg.net."),
+                    LocalizedText.Get("Common_EmailValidationTitle", "Email validation"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -62,7 +76,7 @@ namespace ConcesionaroCarros.ViewModels
             if (string.IsNullOrWhiteSpace(usuarioPc))
             {
                 LogService.WarningForUser("AdminRegister", "No se pudo detectar usuario del dispositivo", usuarioLog, Correo);
-                MessageBox.Show("No se pudo detectar el usuario del dispositivo.");
+                MessageBox.Show(LocalizedText.Get("AdminRegister_DeviceUserMissingMessage", "Could not detect the device user."));
                 return;
             }
 
@@ -71,8 +85,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("AdminRegister", "No fue posible derivar usuario desde el correo", usuarioLog, Correo);
                 MessageBox.Show(
-                    "No fue posible obtener un usuario valido desde el correo.",
-                    "Validacion",
+                    LocalizedText.Get("AdminRegister_InvalidDerivedUserMessage", "Could not derive a valid user from the email."),
+                    LocalizedText.Get("Common_ValidationTitle", "Validation"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -139,8 +153,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.WarningForUser("AdminRegister", "Registro admin rechazado por duplicado", usuarioLog, Correo);
                 MessageBox.Show(
-                    "El administrador ya se encuentra registrado con ese correo.",
-                    "Registro existente",
+                    LocalizedText.Get("AdminRegister_AlreadyRegisteredMessage", "An administrator is already registered with that email."),
+                    LocalizedText.Get("AdminRegister_ExistingRegistrationTitle", "Existing registration"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return;
@@ -149,8 +163,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.ErrorForUser("AdminRegister", "Error al registrar administrador", usuarioLog, ex, $"{Correo}; Rol={rolSeleccionado}");
                 MessageBox.Show(
-                    "No fue posible completar el registro de administrador en este momento.",
-                    "Error de registro",
+                    LocalizedText.Get("AdminRegister_RegisterErrorMessage", "Could not complete the administrator registration right now."),
+                    LocalizedText.Get("AdminRegister_RegisterErrorTitle", "Registration error"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -158,8 +172,8 @@ namespace ConcesionaroCarros.ViewModels
 
             LogService.InfoForUser("AdminRegister", "Administrador registrado correctamente", usuarioLog, $"{Correo}; Rol={rolSeleccionado}; UsuarioSistema={usuarioSistemaLogin}");
             MessageBox.Show(
-                "Administrador registrado correctamente.",
-                "Registro exitoso",
+                LocalizedText.Get("AdminRegister_RegisterSuccessMessage", "Administrator registered successfully."),
+                LocalizedText.Get("AdminRegister_RegisterSuccessTitle", "Successful registration"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
 
@@ -242,7 +256,7 @@ namespace ConcesionaroCarros.ViewModels
 
             if (partes.Length == 0)
             {
-                nombres = "Usuario";
+                nombres = LocalizedText.Get("Common_DefaultUserName", "Usuario");
                 apellidos = string.Empty;
                 return;
             }
@@ -263,6 +277,40 @@ namespace ConcesionaroCarros.ViewModels
 
             nombres = string.Join(" ", partes, 0, 2);
             apellidos = string.Join(" ", partes, 2, partes.Length - 2);
+        }
+
+        public override void RefreshLocalization()
+        {
+            OnPropertyChanged(nameof(WindowTitle));
+            OnPropertyChanged(nameof(BackLabel));
+            OnPropertyChanged(nameof(EmailLabel));
+            OnPropertyChanged(nameof(EmailPlaceholder));
+            OnPropertyChanged(nameof(RoleLabel));
+            OnPropertyChanged(nameof(NormalPasswordLabel));
+            OnPropertyChanged(nameof(AdminPasswordLabel));
+            OnPropertyChanged(nameof(RegisterAdminLabel));
+
+            foreach (var option in RolesDisponibles)
+                option.RefreshLocalization();
+        }
+
+        public sealed class SelectionOption : BaseViewModel
+        {
+            private readonly string _resourceKey;
+
+            public SelectionOption(string value, string resourceKey)
+            {
+                Value = value;
+                _resourceKey = resourceKey;
+            }
+
+            public string Value { get; }
+            public string DisplayName => LocalizedText.Get(_resourceKey, Value ?? string.Empty);
+
+            public override void RefreshLocalization()
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
     }
 }

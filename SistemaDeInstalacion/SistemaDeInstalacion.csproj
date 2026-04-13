@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E0A8500E-F6FB-41CD-9D46-031E56905DB9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SistemaDeInstalacion</RootNamespace>
+    <RootNamespace>ConcesionaroCarros</RootNamespace>
     <AssemblyName>SistemaDeInstalacion</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -102,12 +102,15 @@
     <Compile Include="Db\InstaladorDbService.cs" />
     <Compile Include="Db\UsuariosDbService.cs" />
     <Compile Include="FontResolver.cs" />
+    <Compile Include="Markup\TranslateExtension.cs" />
     <Compile Include="Models\Administrador.cs" />
     <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\DocumentationService.cs" />
     <Compile Include="Services\AppLogEntry.cs" />
     <Compile Include="Services\GlobalCopyContextService.cs" />
+    <Compile Include="Services\LocalizationService.cs" />
+    <Compile Include="Services\LocalizedText.cs" />
     <Compile Include="Services\LogDashboardService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MarkdownDocumentRenderer.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="ViewModels\AdminLoginViewModel.cs" />
     <Compile Include="ViewModels\AdminRegisterViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
+    <Compile Include="ViewModels\ILocalizableViewModel.cs" />
     <Compile Include="ViewModels\InstaladoresViewModel.cs" />
     <Compile Include="ViewModels\FormularioInstaladorViewModel.cs" />
     <Compile Include="ViewModels\FormularioUsuarioViewModel.cs" />
@@ -308,6 +312,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.pt-BR.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <Content Include="Fonts\Roboto-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

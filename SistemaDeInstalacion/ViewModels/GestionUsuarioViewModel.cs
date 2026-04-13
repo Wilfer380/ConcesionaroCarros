@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class GestionUsuarioViewModel : BaseViewModel
+    public class GestionUsuarioViewModel : BaseViewModel, ILocalizableViewModel
     {
         private readonly UsuariosDbService _usuariosDb;
         private readonly AdministradoresDbService _administradoresDb;
@@ -80,6 +80,26 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand GuardarAsignacionCommand { get; }
         public ICommand OcultarPanelAsignacionCommand { get; }
 
+        public string UsersTabHeader => LocalizedText.Get("UserManagement_UsersTabHeader", "Users");
+        public string AddUserLabel => LocalizedText.Get("UserManagement_AddUserButton", "Add user");
+        public string FirstNameColumnHeader => LocalizedText.Get("UserManagement_FirstNameColumn", "First names");
+        public string LastNameColumnHeader => LocalizedText.Get("UserManagement_LastNameColumn", "Last names");
+        public string EmailColumnHeader => LocalizedText.Get("UserManagement_EmailColumn", "Email");
+        public string PhoneColumnHeader => LocalizedText.Get("UserManagement_PhoneColumn", "Phone");
+        public string RoleColumnHeader => LocalizedText.Get("UserManagement_RoleColumn", "Role");
+        public string ApplicationsColumnHeader => LocalizedText.Get("UserManagement_ApplicationsColumn", "Applications");
+        public string RegistrationDateColumnHeader => LocalizedText.Get("UserManagement_RegistrationDateColumn", "Registration date");
+        public string ActionsColumnHeader => LocalizedText.Get("UserManagement_ActionsColumn", "Actions");
+        public string EditLabel => LocalizedText.Get("Common_Edit", "Edit");
+        public string DeleteLabel => LocalizedText.Get("Common_Delete", "Delete");
+        public string AssignmentPanelTitle => LocalizedText.Get("UserManagement_AssignmentPanelTitle", "Application assignment by section");
+        public string SelectedUserLabel => LocalizedText.Get("UserManagement_SelectedUserLabel", "Selected user");
+        public string CurrentRoleLabel => LocalizedText.Get("UserManagement_CurrentRoleLabel", "Current role");
+        public string AvailableRolesGroupHeader => LocalizedText.Get("UserManagement_AvailableRolesHeader", "Available roles");
+        public string InstallerApplicationsGroupHeader => LocalizedText.Get("UserManagement_InstallerApplicationsHeader", "Installer applications");
+        public string CloseLabel => LocalizedText.Get("Common_Close", "Close");
+        public string SaveAssignmentLabel => LocalizedText.Get("UserManagement_SaveAssignmentButton", "Save assignment");
+
         public GestionUsuarioViewModel()
         {
             _usuariosDb = new UsuariosDbService();
@@ -118,8 +138,8 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     LogService.Warning("GestionUsuarios", "Edicion de usuario bloqueada por base ocupada", ConstruirDetalleUsuario(u));
                     MessageBox.Show(
-                        "La base de datos esta ocupada. Intente nuevamente.",
-                        "Aviso",
+                        LocalizedText.Get("Common_DatabaseBusyRetryMessage", "The database is busy. Please try again."),
+                        LocalizedText.Get("Common_NoticeTitle", "Notice"),
                         MessageBoxButton.OK,
                         MessageBoxImage.Warning);
                 }
@@ -127,8 +147,8 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     LogService.Error("GestionUsuarios", "Error al editar usuario", ex, ConstruirDetalleUsuario(u));
                     MessageBox.Show(
-                        "Ocurrio un error al editar el usuario.\n" + ex.Message,
-                        "Error",
+                        LocalizedText.Get("UserManagement_EditErrorMessage", "An error occurred while editing the user.") + "\n" + ex.Message,
+                        LocalizedText.Get("Common_ErrorTitle", "Error"),
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
@@ -209,7 +229,6 @@ namespace ConcesionaroCarros.ViewModels
                 RolesAsignables.Add(new RolAsignacionItem
                 {
                     CodigoRol = rol,
-                    Nombre = rol,
                     IsChecked = string.Equals(rolSeguro, rol, StringComparison.OrdinalIgnoreCase),
                     EsEditable = false
                 });
@@ -220,7 +239,6 @@ namespace ConcesionaroCarros.ViewModels
                 RolesAsignables.Add(new RolAsignacionItem
                 {
                     CodigoRol = rolSeguro,
-                    Nombre = rolSeguro,
                     IsChecked = true,
                     EsEditable = false
                 });
@@ -274,8 +292,8 @@ namespace ConcesionaroCarros.ViewModels
                 SelectedUsuario = Usuarios.FirstOrDefault(x => x.Id == idUsuario);
 
                 MessageBox.Show(
-                    "Asignacion guardada correctamente.",
-                    "Informacion",
+                    LocalizedText.Get("UserManagement_AssignmentSavedMessage", "Assignment saved successfully."),
+                    LocalizedText.Get("Common_InformationTitle", "Information"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
@@ -286,8 +304,8 @@ namespace ConcesionaroCarros.ViewModels
                     "No se pudo guardar la asignacion por base ocupada",
                     ConstruirDetalleUsuario(SelectedUsuario));
                 MessageBox.Show(
-                    "La base de datos esta ocupada. Intente guardar nuevamente.",
-                    "Aviso",
+                    LocalizedText.Get("Common_DatabaseBusySaveRetryMessage", "The database is busy. Please try saving again."),
+                    LocalizedText.Get("Common_NoticeTitle", "Notice"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
@@ -299,8 +317,8 @@ namespace ConcesionaroCarros.ViewModels
                     ex,
                     ConstruirDetalleUsuario(SelectedUsuario));
                 MessageBox.Show(
-                    "Ocurrio un error al guardar la asignacion.\n" + ex.Message,
-                    "Error",
+                    LocalizedText.Get("UserManagement_SaveAssignmentErrorMessage", "An error occurred while saving the assignment.") + "\n" + ex.Message,
+                    LocalizedText.Get("Common_ErrorTitle", "Error"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -333,6 +351,33 @@ namespace ConcesionaroCarros.ViewModels
             NombreUsuarioAsignacion = "";
             RolesAsignables.Clear();
             AplicativosAsignables.Clear();
+        }
+
+        public override void RefreshLocalization()
+        {
+            RaisePropertyChanges(
+                nameof(UsersTabHeader),
+                nameof(AddUserLabel),
+                nameof(FirstNameColumnHeader),
+                nameof(LastNameColumnHeader),
+                nameof(EmailColumnHeader),
+                nameof(PhoneColumnHeader),
+                nameof(RoleColumnHeader),
+                nameof(ApplicationsColumnHeader),
+                nameof(RegistrationDateColumnHeader),
+                nameof(ActionsColumnHeader),
+                nameof(EditLabel),
+                nameof(DeleteLabel),
+                nameof(AssignmentPanelTitle),
+                nameof(SelectedUserLabel),
+                nameof(CurrentRoleLabel),
+                nameof(AvailableRolesGroupHeader),
+                nameof(InstallerApplicationsGroupHeader),
+                nameof(CloseLabel),
+                nameof(SaveAssignmentLabel));
+
+            foreach (var role in RolesAsignables)
+                role.RefreshLocalization();
         }
 
         public void OcultarPanelAsignacion()
@@ -388,7 +433,7 @@ namespace ConcesionaroCarros.ViewModels
         private bool _esEditable = true;
 
         public string CodigoRol { get; set; }
-        public string Nombre { get; set; }
+        public string Nombre => LocalizedText.GetRoleDisplay(CodigoRol);
         public bool EsEditable
         {
             get => _esEditable;
@@ -407,6 +452,11 @@ namespace ConcesionaroCarros.ViewModels
                 _isChecked = value;
                 OnPropertyChanged();
             }
+        }
+
+        public override void RefreshLocalization()
+        {
+            OnPropertyChanged(nameof(Nombre));
         }
     }
 

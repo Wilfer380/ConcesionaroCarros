@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Threading;
+using ConcesionaroCarros.Services;
 
 namespace ConcesionaroCarros.Views
 {
@@ -41,7 +42,9 @@ namespace ConcesionaroCarros.Views
 
         private void ActualizarContador()
         {
-            txtCountdown.Text = "Esta ventana se cerrara en " + _secondsRemaining + " segundos.";
+            txtCountdown.Text = string.Format(
+                LocalizedText.Get("RecoveryPopup_Countdown", "Esta ventana se cerrará en {0} segundos."),
+                _secondsRemaining);
         }
     }
 }

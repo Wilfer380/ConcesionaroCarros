@@ -140,16 +140,16 @@ namespace ConcesionaroCarros.ViewModels
                         }
 
                         LogService.Error("Instaladores", "No se pudo ejecutar el instalador", ex, ConstruirDetalleInstalador(inst));
-                        MessageBox.Show("No se pudo ejecutar el instalador.",
-                                        "Error",
+                        MessageBox.Show(LocalizedText.Get("Installers_RunErrorMessage", "No se pudo ejecutar el instalador."),
+                                        LocalizedText.Get("Common_ErrorTitle", "Error"),
                                         MessageBoxButton.OK,
                                         MessageBoxImage.Error);
                     }
                     catch (Exception ex)
                     {
                         LogService.Error("Instaladores", "Error inesperado al ejecutar instalador", ex, ConstruirDetalleInstalador(inst));
-                        MessageBox.Show("Ocurrio un error inesperado al ejecutar el instalador.",
-                                        "Error",
+                        MessageBox.Show(LocalizedText.Get("Installers_RunUnexpectedErrorMessage", "Ocurrio un error inesperado al ejecutar el instalador."),
+                                        LocalizedText.Get("Common_ErrorTitle", "Error"),
                                         MessageBoxButton.OK,
                                         MessageBoxImage.Error);
                     }

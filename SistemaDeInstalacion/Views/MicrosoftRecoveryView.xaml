@@ -1,7 +1,8 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.MicrosoftRecoveryView"
+<Window x:Class="ConcesionaroCarros.Views.MicrosoftRecoveryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Validacion Microsoft"
+        xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
+        Title="{markup:Translate Recovery_WindowTitle}"
         Width="700"
         Height="720"
         MinWidth="700"
@@ -101,11 +102,11 @@
                                    FontSize="34"
                                    Foreground="{StaticResource CorpAccentBrush}"
                                    FontWeight="SemiBold"/>
-                        <TextBlock Text="Validacion de identidad"
+                        <TextBlock Text="{markup:Translate Recovery_Title}"
                                    FontSize="24"
                                    Margin="0,12,0,6"
                                    Foreground="{StaticResource CorpTextBrush}"/>
-                        <TextBlock Text="Recuperacion local con verificacion visual y cambio directo de contrasena."
+                        <TextBlock Text="{markup:Translate Recovery_Subtitle}"
                                    Foreground="{StaticResource CorpMutedBrush}"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
@@ -140,14 +141,14 @@
                               Padding="0,0,4,0">
                     <Grid>
                         <StackPanel Visibility="{Binding IsValidationStep, Converter={StaticResource BoolToVis}}">
-                            <TextBlock Text="Correo registrado"
+                            <TextBlock Text="{markup:Translate Recovery_RegisteredEmailLabel}"
                                        FontSize="14"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,0,0,6"/>
                             <TextBox Style="{StaticResource MsTextBox}"
                                      Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"
-                                     ToolTip="correo registrado en el sistema"/>
-                            <CheckBox Content="No soy un robot"
+                                      ToolTip="{markup:Translate Recovery_RegisteredEmailTooltip}"/>
+                            <CheckBox Content="{markup:Translate Recovery_NotRobotLabel}"
                                       IsChecked="{Binding NoSoyRobot}"
                                       Margin="0,20,0,0"
                                       FontSize="15"
@@ -158,14 +159,14 @@
                                     BorderBrush="{StaticResource CorpBorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="12">
-                                <TextBlock Text="Al validar, el sistema mostrara un codigo temporal en una ventana emergente durante 5 segundos y luego te permitira definir una nueva contrasena."
+                                <TextBlock Text="{markup:Translate Recovery_ValidationHint}"
                                            Foreground="{StaticResource CorpMutedBrush}"
                                            TextWrapping="Wrap"/>
                             </Border>
                         </StackPanel>
 
                         <StackPanel Visibility="{Binding IsPasswordStep, Converter={StaticResource BoolToVis}}">
-                            <TextBlock Text="Correo validado"
+                            <TextBlock Text="{markup:Translate Recovery_ValidatedEmailLabel}"
                                        FontSize="14"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,0,0,6"/>
@@ -173,28 +174,28 @@
                                      Text="{Binding Correo}"
                                      IsReadOnly="True"
                                      Background="{StaticResource CorpSurfaceBrush}"/>
-                            <TextBlock Text="Codigo de validacion"
+                            <TextBlock Text="{markup:Translate Recovery_CodeLabel}"
                                        FontSize="14"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <TextBox Style="{StaticResource MsTextBox}"
                                      Text="{Binding CodigoVerificacion, UpdateSourceTrigger=PropertyChanged}"
                                      MaxLength="6"/>
-                            <TextBlock Text="Nueva contrasena"
+                            <TextBlock Text="{markup:Translate Recovery_NewPasswordLabel}"
                                        FontSize="14"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <PasswordBox x:Name="txtNuevaPassword"
                                          Style="{StaticResource MsPasswordBox}"
                                          PasswordChanged="NuevaPasswordChanged"/>
-                            <TextBlock Text="Confirmar contrasena"
+                            <TextBlock Text="{markup:Translate Recovery_ConfirmPasswordLabel}"
                                        FontSize="14"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,18,0,6"/>
                             <PasswordBox x:Name="txtConfirmarPassword"
                                          Style="{StaticResource MsPasswordBox}"
                                          PasswordChanged="ConfirmarPasswordChanged"/>
-                            <TextBlock Text="La nueva contrasena se guardara directamente en la base de datos cuando el codigo sea correcto, y el login principal quedara precargado con las nuevas credenciales."
+                            <TextBlock Text="{markup:Translate Recovery_PasswordHint}"
                                        Foreground="{StaticResource CorpMutedBrush}"
                                        Margin="0,12,0,0"
                                        TextWrapping="Wrap"/>
@@ -212,12 +213,12 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     Visibility="{Binding IsValidationStep, Converter={StaticResource BoolToVis}}">
-                            <Button Content="Cancelar"
+                            <Button Content="{markup:Translate Common_Cancel}"
                                     Width="118"
                                     Style="{StaticResource SecondaryButton}"
                                     Margin="0,0,10,0"
                                     Command="{Binding CancelarCommand}"/>
-                            <Button Content="Validar"
+                            <Button Content="{markup:Translate Recovery_ValidateButton}"
                                     Width="128"
                                     Style="{StaticResource PrimaryButton}"
                                     Command="{Binding ValidarIdentidadCommand}"/>
@@ -226,17 +227,17 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right"
                                     Visibility="{Binding IsPasswordStep, Converter={StaticResource BoolToVis}}">
-                            <Button Content="Cancelar"
+                            <Button Content="{markup:Translate Common_Cancel}"
                                     Width="118"
                                     Style="{StaticResource SecondaryButton}"
                                     Margin="0,0,10,0"
                                     Command="{Binding CancelarCommand}"/>
-                            <Button Content="Volver"
+                            <Button Content="{markup:Translate Common_Back}"
                                     Width="118"
                                     Style="{StaticResource SecondaryButton}"
                                     Margin="0,0,10,0"
                                     Command="{Binding VolverCommand}"/>
-                            <Button Content="Cambiar contrasena"
+                            <Button Content="{markup:Translate Recovery_ChangePasswordButton}"
                                     Width="170"
                                     Style="{StaticResource PrimaryButton}"
                                     Command="{Binding CambiarPasswordCommand}"/>

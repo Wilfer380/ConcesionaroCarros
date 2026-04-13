@@ -1,6 +1,7 @@
 using ConcesionaroCarros.Commands;
 using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Models;
+using ConcesionaroCarros.Services;
 using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
@@ -143,19 +144,19 @@ namespace ConcesionaroCarros.ViewModels
 
             if (string.IsNullOrWhiteSpace(correo))
             {
-                MensajeEstado = "Ingresa el correo registrado para continuar.";
+                MensajeEstado = LocalizedText.Get("Recovery_MissingEmailMessage", "Ingresa el correo registrado para continuar.");
                 return;
             }
 
             if (!EsCorreoValido(correo))
             {
-                MensajeEstado = "Ingresa un correo valido.";
+                MensajeEstado = LocalizedText.Get("Recovery_InvalidEmailMessage", "Ingresa un correo valido.");
                 return;
             }
 
             if (!NoSoyRobot)
             {
-                MensajeEstado = "Debes confirmar la validacion 'No soy un robot'.";
+                MensajeEstado = LocalizedText.Get("Recovery_NotRobotRequiredMessage", "Debes confirmar la validacion 'No soy un robot'.");
                 return;
             }
 
@@ -166,18 +167,18 @@ namespace ConcesionaroCarros.ViewModels
 
                 if (_usuarioEncontrado == null)
                 {
-                    MensajeEstado = "No existe un usuario registrado con ese correo.";
+                    MensajeEstado = LocalizedText.Get("Recovery_UserNotFoundMessage", "No existe un usuario registrado con ese correo.");
                     return;
                 }
 
                 Correo = _usuarioEncontrado.Correo;
                 _codigoGenerado = GenerarCodigoTemporal();
-                MensajeEstado = "Identidad validada. Espera el codigo visual para continuar.";
+                MensajeEstado = LocalizedText.Get("Recovery_IdentityValidatedMessage", "Identidad validada. Espera el codigo visual para continuar.");
                 ShowCodeRequested?.Invoke(_codigoGenerado);
             }
             catch (Exception ex)
             {
-                MensajeEstado = "No se pudo validar el usuario. " + ex.Message;
+                MensajeEstado = LocalizedText.Get("Recovery_ValidationErrorPrefix", "No se pudo validar el usuario. ") + ex.Message;
             }
             finally
             {
@@ -192,43 +193,43 @@ namespace ConcesionaroCarros.ViewModels
 
             if (_usuarioEncontrado == null)
             {
-                MensajeEstado = "Primero valida el correo registrado.";
+                MensajeEstado = LocalizedText.Get("Recovery_ValidateEmailFirstMessage", "Primero valida el correo registrado.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(_codigoGenerado))
             {
-                MensajeEstado = "Primero solicita y visualiza el codigo de validacion.";
+                MensajeEstado = LocalizedText.Get("Recovery_RequestCodeFirstMessage", "Primero solicita y visualiza el codigo de validacion.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(CodigoVerificacion))
             {
-                MensajeEstado = "Debes ingresar el codigo de validacion mostrado.";
+                MensajeEstado = LocalizedText.Get("Recovery_MissingCodeMessage", "Debes ingresar el codigo de validacion mostrado.");
                 return;
             }
 
             if (!string.Equals((CodigoVerificacion ?? string.Empty).Trim(), _codigoGenerado, StringComparison.Ordinal))
             {
-                MensajeEstado = "El codigo de validacion no es correcto.";
+                MensajeEstado = LocalizedText.Get("Recovery_InvalidCodeMessage", "El codigo de validacion no es correcto.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(NuevaPassword) || string.IsNullOrWhiteSpace(ConfirmarPassword))
             {
-                MensajeEstado = "Debes completar la nueva contrasena y su confirmacion.";
+                MensajeEstado = LocalizedText.Get("Recovery_MissingPasswordsMessage", "Debes completar la nueva contrasena y su confirmacion.");
                 return;
             }
 
             if (NuevaPassword.Length < 6)
             {
-                MensajeEstado = "La nueva contrasena debe tener al menos 6 caracteres.";
+                MensajeEstado = LocalizedText.Get("Recovery_PasswordLengthMessage", "La nueva contrasena debe tener al menos 6 caracteres.");
                 return;
             }
 
             if (!string.Equals(NuevaPassword, ConfirmarPassword, StringComparison.Ordinal))
             {
-                MensajeEstado = "La confirmacion no coincide con la nueva contrasena.";
+                MensajeEstado = LocalizedText.Get("Recovery_PasswordMismatchMessage", "La confirmacion no coincide con la nueva contrasena.");
                 return;
             }
 
@@ -249,7 +250,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (Exception ex)
             {
-                MensajeEstado = "No se pudo actualizar la contrasena. " + ex.Message;
+                MensajeEstado = LocalizedText.Get("Recovery_UpdatePasswordErrorPrefix", "No se pudo actualizar la contrasena. ") + ex.Message;
             }
             finally
             {
@@ -280,7 +281,7 @@ namespace ConcesionaroCarros.ViewModels
             ConfirmarPassword = string.Empty;
             IsValidationStep = false;
             IsPasswordStep = true;
-            MensajeEstado = "Codigo mostrado correctamente. Ingresa ese codigo y define tu nueva contrasena.";
+            MensajeEstado = LocalizedText.Get("Recovery_CodeDisplayedMessage", "Codigo mostrado correctamente. Ingresa ese codigo y define tu nueva contrasena.");
         }
 
         private static bool EsCorreoValido(string correo)

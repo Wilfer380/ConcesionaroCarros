@@ -1,7 +1,8 @@
 <Window x:Class="ConcesionaroCarros.Views.RecoveryCodePopupView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Codigo de validacion"
+        xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
+        Title="{markup:Translate Recovery_CodeLabel}"
         Width="360"
         Height="240"
         WindowStartupLocation="CenterOwner"
@@ -16,7 +17,7 @@
             BorderThickness="1"
             CornerRadius="16">
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="Codigo de validacion"
+            <TextBlock Text="{markup:Translate Recovery_CodeLabel}"
                        FontSize="22"
                        FontWeight="SemiBold"
                        Foreground="{StaticResource CorpAccentBrush}"
@@ -27,7 +28,7 @@
                        FontWeight="Bold"
                        Foreground="{StaticResource CorpTextBrush}"
                        HorizontalAlignment="Center"/>
-            <TextBlock Text="Memoriza el codigo y continua con el cambio de contrasena."
+            <TextBlock Text="{markup:Translate RecoveryPopup_RememberCodeHint}"
                        TextAlignment="Center"
                        Foreground="{StaticResource CorpMutedBrush}"
                        TextWrapping="Wrap"/>

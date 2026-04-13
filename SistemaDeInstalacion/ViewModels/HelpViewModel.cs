@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class HelpViewModel : BaseViewModel
+    public class HelpViewModel : BaseViewModel, ILocalizableViewModel
     {
         private readonly DocumentationService _documentationService = new DocumentationService();
         private DocumentationDocumentItem _selectedDocument;
@@ -41,12 +41,12 @@ namespace ConcesionaroCarros.ViewModels
         public bool EsAdministrador { get; }
 
         public string TituloAyuda => EsAdministrador
-            ? "Centro de ayuda administrativo"
-            : "Centro de ayuda para usuarios";
+            ? LocalizedText.Get("Help_AdminTitle", "Centro de ayuda administrativo")
+            : LocalizedText.Get("Help_UserTitle", "Centro de ayuda para usuarios");
 
         public string SubtituloAyuda => EsAdministrador
-            ? "Consulta toda la documentacion del sistema organizada por carpetas y documentos."
-            : "Consulta unicamente la documentacion disponible para el usuario final.";
+            ? LocalizedText.Get("Help_AdminSubtitle", "Consulta toda la documentacion del sistema organizada por carpetas y documentos.")
+            : LocalizedText.Get("Help_UserSubtitle", "Consulta unicamente la documentacion disponible para el usuario final.");
 
         public string CorreoSoporte => "wandica@weg.net";
 
@@ -173,9 +173,9 @@ namespace ConcesionaroCarros.ViewModels
             catch (Exception ex)
             {
                 LimpiarDocumentoSeleccionado();
-                EmptyStateTitle = "No fue posible cargar la documentacion";
-                EmptyStateDescription = "Se produjo un error al inspeccionar la carpeta de ayuda configurada para este perfil.";
-                EmptyStateHint = "Detalle tecnico: " + ex.Message;
+                EmptyStateTitle = LocalizedText.Get("Help_LoadErrorTitle", "No fue posible cargar la documentacion");
+                EmptyStateDescription = LocalizedText.Get("Help_LoadErrorDescription", "Se produjo un error al inspeccionar la carpeta de ayuda configurada para este perfil.");
+                EmptyStateHint = LocalizedText.Get("Help_TechnicalDetailPrefix", "Detalle tecnico: ") + ex.Message;
                 return;
             }
 
@@ -214,15 +214,57 @@ namespace ConcesionaroCarros.ViewModels
 
             if (_allSections.SelectMany(x => x.Documents).Any())
             {
-                EmptyStateTitle = "Selecciona un documento";
-                EmptyStateDescription = "Usa el desplegable de navegacion para abrir una guia, manual o procedimiento cuando lo necesites.";
-                EmptyStateHint = "No se muestra contenido automaticamente para que elijas exactamente la documentacion que queres consultar.";
+                EmptyStateTitle = LocalizedText.Get("Help_EmptySelectTitle", "Selecciona un documento");
+                EmptyStateDescription = LocalizedText.Get("Help_EmptySelectDescription", "Usa el desplegable de navegacion para abrir una guia, manual o procedimiento cuando lo necesites.");
+                EmptyStateHint = LocalizedText.Get("Help_EmptySelectHint", "No se muestra contenido automaticamente para que elijas exactamente la documentacion que queres consultar.");
                 return;
             }
 
-            EmptyStateTitle = "Documentacion no disponible";
-            EmptyStateDescription = "No se encontraron archivos de ayuda para este perfil en la carpeta configurada.";
-            EmptyStateHint = "Revisa que la carpeta Docs exista en el directorio de ejecucion y contenga documentos habilitados para este usuario.";
+            EmptyStateTitle = LocalizedText.Get("Help_NoDocsTitle", "Documentacion no disponible");
+            EmptyStateDescription = LocalizedText.Get("Help_NoDocsDescription", "No se encontraron archivos de ayuda para este perfil en la carpeta configurada.");
+            EmptyStateHint = LocalizedText.Get("Help_NoDocsHint", "Revisa que la carpeta Docs exista en el directorio de ejecucion y contenga documentos habilitados para este usuario.");
+        }
+
+        public override void RefreshLocalization()
+        {
+            var selectedDocId = _selectedDocument?.DocId;
+            var selectedAnchor = _selectedDocumentAnchor;
+            var historySnapshot = _documentHistory
+                .Select(entry => new HelpDocumentHistoryEntry
+                {
+                    DocId = entry.DocId,
+                    Anchor = entry.Anchor
+                })
+                .ToList();
+            var historyIndex = _documentHistoryIndex;
+
+            CargarDocumentacion();
+
+            if (!string.IsNullOrWhiteSpace(selectedDocId) &&
+                _documentsByDocId.TryGetValue(selectedDocId, out var localizedDocument))
+            {
+                _documentHistory.Clear();
+
+                foreach (var historyEntry in historySnapshot.Where(entry =>
+                             !string.IsNullOrWhiteSpace(entry.DocId) &&
+                             _documentsByDocId.ContainsKey(entry.DocId)))
+                {
+                    _documentHistory.Add(new HelpDocumentHistoryEntry
+                    {
+                        DocId = historyEntry.DocId,
+                        Anchor = historyEntry.Anchor
+                    });
+                }
+
+                _documentHistoryIndex = _documentHistory.Count == 0
+                    ? -1
+                    : Math.Max(0, Math.Min(historyIndex, _documentHistory.Count - 1));
+
+                SeleccionarDocumento(localizedDocument, selectedAnchor, false);
+                ActualizarEstadoNavegacion();
+            }
+
+            RaisePropertyChanges(nameof(TituloAyuda), nameof(SubtituloAyuda), nameof(CorreoSoporte));
         }
 
         private void SeleccionarDocumento(DocumentationDocumentItem document)
@@ -436,7 +478,7 @@ namespace ConcesionaroCarros.ViewModels
             catch (Exception ex)
             {
                 SelectedDocumentFlow = CrearDocumentoDeError(
-                    "No fue posible renderizar el documento seleccionado.",
+                    LocalizedText.Get("Help_RenderErrorMessage", "No fue posible renderizar el documento seleccionado."),
                     ex.Message);
             }
         }
@@ -714,13 +756,16 @@ namespace ConcesionaroCarros.ViewModels
             try
             {
                 if (!File.Exists(fullPath))
-                    return "El archivo seleccionado no existe en el directorio de documentacion.";
+                    return LocalizedText.Get("Help_FileMissingMessage", "El archivo seleccionado no existe en el directorio de documentación.");
 
                 return File.ReadAllText(fullPath, Encoding.UTF8);
             }
             catch (Exception ex)
             {
-                return "No fue posible cargar el documento.\n\nDetalle tecnico:\n`" + ex.Message + "`";
+                return LocalizedText.Get("Help_ReadErrorMessage", "No fue posible cargar el documento.") +
+                       "\n\n" +
+                       LocalizedText.Get("Help_TechnicalDetailPrefix", "Detalle técnico: ") +
+                       "\n`" + ex.Message + "`";
             }
         }
 
