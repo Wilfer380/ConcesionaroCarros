@@ -414,14 +414,14 @@ namespace ConcesionaroCarros.Services
         private static IEnumerable<Inline> CrearInlines(string texto, Func<string, bool> linkHandler, MarkdownRenderTheme theme)
         {
             var result = new List<Inline>();
-            var pattern = "(`[^`]+`)|(\\[[^\\]]+\\]\\([^\\)]+\\))";
+            var pattern = "(`[^`]+`)|(\\*\\*.+?\\*\\*)|(\\[[^\\]]+\\]\\([^\\)]+\\))";
             var matches = Regex.Matches(texto ?? string.Empty, pattern);
             var lastIndex = 0;
 
             foreach (Match match in matches)
             {
                 if (match.Index > lastIndex)
-                    result.Add(new Run((texto ?? string.Empty).Substring(lastIndex, match.Index - lastIndex)));
+                    AgregarTextoConNegrita(result, (texto ?? string.Empty).Substring(lastIndex, match.Index - lastIndex));
 
                 var segment = match.Value;
                 if (segment.StartsWith("`") && segment.EndsWith("`"))
@@ -431,6 +431,13 @@ namespace ConcesionaroCarros.Services
                         FontFamily = new FontFamily("Consolas"),
                         Background = theme.InlineCodeBackground,
                         Foreground = theme.CodeForeground
+                    });
+                }
+                else if (segment.StartsWith("**") && segment.EndsWith("**") && segment.Length > 4)
+                {
+                    result.Add(new Run(segment.Substring(2, segment.Length - 4))
+                    {
+                        FontWeight = FontWeights.Bold
                     });
                 }
                 else
@@ -466,12 +473,37 @@ namespace ConcesionaroCarros.Services
             }
 
             if (lastIndex < (texto ?? string.Empty).Length)
-                result.Add(new Run((texto ?? string.Empty).Substring(lastIndex)));
+                AgregarTextoConNegrita(result, (texto ?? string.Empty).Substring(lastIndex));
 
             if (result.Count == 0)
-                result.Add(new Run(texto ?? string.Empty));
+                AgregarTextoConNegrita(result, texto ?? string.Empty);
 
             return result;
+        }
+
+        private static void AgregarTextoConNegrita(ICollection<Inline> inlines, string texto)
+        {
+            var value = texto ?? string.Empty;
+            var matches = Regex.Matches(value, @"\*\*(.+?)\*\*");
+            var lastIndex = 0;
+
+            foreach (Match match in matches)
+            {
+                if (match.Index > lastIndex)
+                    inlines.Add(new Run(value.Substring(lastIndex, match.Index - lastIndex)));
+
+                var boldText = match.Groups[1].Value;
+                if (!string.IsNullOrEmpty(boldText))
+                    inlines.Add(new Bold(new Run(boldText)));
+
+                lastIndex = match.Index + match.Length;
+            }
+
+            if (lastIndex < value.Length)
+                inlines.Add(new Run(value.Substring(lastIndex)));
+
+            if (matches.Count == 0 && value.Length > 0)
+                inlines.Add(new Run(value));
         }
     }
 

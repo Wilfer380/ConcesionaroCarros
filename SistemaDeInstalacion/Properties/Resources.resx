@@ -133,7 +133,7 @@
     <value>Debes ingresar el usuario de administrador.</value>
   </data>
   <data name="AdminLogin_NoAccountText" xml:space="preserve">
-    <value>No tienes cuenta administrativa?</value>
+    <value>¿No tienes cuenta administrativa?</value>
   </data>
   <data name="AdminLogin_NotRegisteredMessage" xml:space="preserve">
     <value>El usuario administrativo ingresado no se encuentra registrado. Verifica el dato e intenta nuevamente.</value>
@@ -187,7 +187,7 @@
     <value>Completa correo, rol, contraseña de usuario y contraseña de administrador.</value>
   </data>
   <data name="AdminRegister_InvalidDerivedUserMessage" xml:space="preserve">
-    <value>No fue posible derivar un usuario vÃ¡lido a partir del correo.</value>
+    <value>No fue posible derivar un usuario válido a partir del correo.</value>
   </data>
   <data name="AdminRegister_InvalidDomainMessage" xml:space="preserve">
     <value>El correo debe terminar en @weg.net.</value>
@@ -232,10 +232,10 @@
     <value>Copiar</value>
   </data>
   <data name="Common_DatabaseBusyRetryMessage" xml:space="preserve">
-    <value>La base de datos esta ocupada. Intenta nuevamente.</value>
+    <value>La base de datos está ocupada. Intenta nuevamente.</value>
   </data>
   <data name="Common_DatabaseBusySaveRetryMessage" xml:space="preserve">
-    <value>La base de datos esa¡ ocupada. Intenta guardar nuevamente.</value>
+    <value>La base de datos está ocupada. Intenta guardar nuevamente.</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
     <value>Eliminar</value>
@@ -244,7 +244,7 @@
     <value>Editar</value>
   </data>
   <data name="Common_EmailValidationTitle" xml:space="preserve">
-    <value>Validación  de correo</value>
+    <value>Validación de correo</value>
   </data>
   <data name="Common_ErrorTitle" xml:space="preserve">
     <value>Error</value>
@@ -271,10 +271,10 @@
     <value>Centro de ayuda administrativo</value>
   </data>
   <data name="Help_EmptySelectDescription" xml:space="preserve">
-    <value>Usa el selector de navegación para abrir una guia, manual o procedimiento cuando lo necesites.</value>
+    <value>Usa el selector de navegación para abrir una guía, manual o procedimiento cuando lo necesites.</value>
   </data>
   <data name="Help_EmptySelectHint" xml:space="preserve">
-    <value>No se muestra contenido automáticamente para que elijas exactamente la documentación que quierass consultar.</value>
+    <value>No se muestra contenido automáticamente para que elijas exactamente la documentación que quieras consultar.</value>
   </data>
   <data name="Help_EmptySelectTitle" xml:space="preserve">
     <value>Selecciona un documento</value>
@@ -283,10 +283,10 @@
     <value>Se produjo un error al inspeccionar la carpeta de ayuda configurada para este perfil.</value>
   </data>
   <data name="Help_LoadErrorTitle" xml:space="preserve">
-    <value>No fue posible cargar la documentaciÃ³n</value>
+    <value>No fue posible cargar la documentación</value>
   </data>
   <data name="Help_NavigationDescription" xml:space="preserve">
-    <value>ExplorÃ¡ documentos, manuales y procedimientos disponibles para tu perfil.</value>
+    <value>Explora documentos, manuales y procedimientos disponibles para tu perfil.</value>
   </data>
   <data name="Help_NavigationTitle" xml:space="preserve">
     <value>Navegación</value>
@@ -307,7 +307,7 @@
     <value>Documento anterior</value>
   </data>
   <data name="Help_QuickAccessTitle" xml:space="preserve">
-    <value>Acceso rapido</value>
+    <value>Acceso rápido</value>
   </data>
   <data name="Help_SupportDescription" xml:space="preserve">
     <value>Si necesitas asistencia adicional, contacta al responsable del sistema.</value>
@@ -316,10 +316,10 @@
     <value>Soporte</value>
   </data>
   <data name="Help_TechnicalDetailPrefix" xml:space="preserve">
-    <value>Detalle tecnico: </value>
+    <value>Detalle técnico: </value>
   </data>
   <data name="Help_UserSubtitle" xml:space="preserve">
-    <value>Consulta unicamente la documentación disponible para el usuario final.</value>
+    <value>Consulta únicamente la documentación disponible para el usuario final.</value>
   </data>
   <data name="Help_UserTitle" xml:space="preserve">
     <value>Centro de ayuda para usuarios</value>
@@ -370,7 +370,7 @@
     <value>No fue posible ejecutar el instalador.</value>
   </data>
   <data name="Installers_RunUnexpectedErrorMessage" xml:space="preserve">
-    <value>OcurriÃ³ un error inesperado al ejecutar el instalador.</value>
+    <value>Ocurrió un error inesperado al ejecutar el instalador.</value>
   </data>
   <data name="Installers_Subtitle" xml:space="preserve">
     <value>Administra y ejecuta los instaladores disponibles por carpeta.</value>
@@ -412,7 +412,7 @@
     <value>usuario o correo</value>
   </data>
   <data name="Login_WindowTitle" xml:space="preserve">
-    <value>WEG Installer Systems - Inicio de sesiÃ³n</value>
+    <value>WEG Installer Systems - Inicio de sesión</value>
   </data>
   <data name="Logs_AverageLatencyMetric" xml:space="preserve">
     <value>Latencia promedio</value>
@@ -466,7 +466,7 @@
     <value>Equipo</value>
   </data>
   <data name="Logs_MachineSelectedStatus" xml:space="preserve">
-    <value>Equipo {0} seleccionado. Ahora elegÃ­ una fecha.</value>
+    <value>Equipo {0} seleccionado. Ahora elige una fecha.</value>
   </data>
   <data name="Logs_MachinesMetric" xml:space="preserve">
     <value>Equipos</value>
@@ -514,7 +514,7 @@
     <value>Estado</value>
   </data>
   <data name="Logs_Subtitle" xml:space="preserve">
-    <value>InspeccionÃ¡ actividad, errores y latencias por equipo y fecha.</value>
+    <value>Inspecciona actividad, errores y latencias por equipo y fecha.</value>
   </data>
   <data name="Logs_Title" xml:space="preserve">
     <value>Centro de logs</value>
@@ -544,7 +544,7 @@
     <value>El código de validación no es correcto.</value>
   </data>
   <data name="Recovery_InvalidEmailMessage" xml:space="preserve">
-    <value>Ingresa un correo valido.</value>
+    <value>Ingresa un correo válido.</value>
   </data>
   <data name="Recovery_MissingCodeMessage" xml:space="preserve">
     <value>Debes ingresar el código de validación mostrado.</value>
@@ -610,7 +610,7 @@
     <value>Primero confirma tu correo y la validación manual.</value>
   </data>
   <data name="Recovery_WindowTitle" xml:space="preserve">
-    <value>WEG Installer Systems - RecuperaciÃ³n</value>
+    <value>WEG Installer Systems - Recuperación</value>
   </data>
   <data name="Register_BackLabel" xml:space="preserve">
     <value>&lt; Volver</value>
@@ -664,7 +664,7 @@
     <value>Administrador</value>
   </data>
   <data name="Role_Almacen" xml:space="preserve">
-    <value>Almacen</value>
+    <value>Almacén</value>
   </data>
   <data name="Role_Calidad" xml:space="preserve">
     <value>Calidad</value>
@@ -685,7 +685,7 @@
     <value>Industrial</value>
   </data>
   <data name="Role_Ingenieria" xml:space="preserve">
-    <value>Ingenierí­a</value>
+    <value>Ingeniería</value>
   </data>
   <data name="Role_Marketing" xml:space="preserve">
     <value>Marketing</value>
@@ -709,7 +709,7 @@
     <value>Ventas</value>
   </data>
   <data name="Settings_AppearanceDescription" xml:space="preserve">
-    <value>Elige­ como quieres ver la interfaz del sistema.</value>
+    <value>Elige cómo quieres ver la interfaz del sistema, siguiendo la animación.</value>
   </data>
   <data name="Settings_AppearanceTitle" xml:space="preserve">
     <value>Apariencia</value>
@@ -739,7 +739,7 @@
     <value>Configuración</value>
   </data>
   <data name="Shell_ConnectionStatusLabel" xml:space="preserve">
-    <value>Estado de conexión en linea</value>
+    <value>Estado de conexión en línea</value>
   </data>
   <data name="Shell_GestionUsuariosLabel" xml:space="preserve">
     <value>Gestión de usuarios</value>
@@ -757,7 +757,7 @@
     <value>WEG Installer Systems</value>
   </data>
   <data name="UserForm_CreateConflictMessage" xml:space="preserve">
-    <value>El correo ya esta registrado o la base de datos esta ocupada.</value>
+    <value>El correo ya está registrado o la base de datos está ocupada.</value>
   </data>
   <data name="UserForm_CreatedMessage" xml:space="preserve">
     <value>Usuario creado correctamente</value>
@@ -817,7 +817,7 @@
     <value>Agregar usuario</value>
   </data>
   <data name="UserManagement_ApplicationsColumn" xml:space="preserve">
-    <value>Aplicativos</value>
+    <value>Aplicaciones</value>
   </data>
   <data name="UserManagement_AssignmentPanelTitle" xml:space="preserve">
     <value>Asignación de aplicativos por sección</value>
@@ -841,7 +841,7 @@
     <value>Nombres</value>
   </data>
   <data name="UserManagement_InstallerApplicationsHeader" xml:space="preserve">
-    <value>Aplicativos instaladores</value>
+    <value>Aplicaciones instaladoras</value>
   </data>
   <data name="UserManagement_LastNameColumn" xml:space="preserve">
     <value>Apellidos</value>

@@ -298,10 +298,16 @@
                     </Grid>
 
                     <TextBlock Text="{markup:Translate UserForm_RoleLabel}" Style="{StaticResource FormLabel}"/>
-                    <ComboBox Style="{StaticResource FormularioUsuarioComboStyle}"
-                              IsEnabled="{Binding PuedeEditarRol}"
-                              ItemsSource="{Binding Roles}"
-                              SelectedItem="{Binding Rol}">
+                     <ComboBox Style="{StaticResource FormularioUsuarioComboStyle}"
+                               IsEnabled="{Binding PuedeEditarRol}"
+                               ItemsSource="{Binding Roles}"
+                               SelectedValue="{Binding Rol}"
+                               SelectedValuePath="Value">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                         <ComboBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>

@@ -4,6 +4,9 @@ namespace ConcesionaroCarros.Services
 {
     internal static class LocalizedText
     {
+        private const string CarpetaPuntoLocal = "Punto local de desarrollo planta";
+        private const string CarpetaDesarrolloGlobal = "Desarrollo global";
+
         public static string Get(string key, string fallback = null)
         {
             return LocalizationService.Instance.GetString(key, fallback);
@@ -54,9 +57,9 @@ namespace ConcesionaroCarros.Services
         {
             switch (folderCode)
             {
-                case ViewModels.FormularioInstaladorViewModel.CarpetaPuntoLocal:
+                case CarpetaPuntoLocal:
                     return Get("InstallerForm_LocalFolderOption", folderCode);
-                case ViewModels.FormularioInstaladorViewModel.CarpetaDesarrolloGlobal:
+                case CarpetaDesarrolloGlobal:
                     return Get("InstallerForm_GlobalFolderOption", folderCode);
                 default:
                     return folderCode ?? string.Empty;

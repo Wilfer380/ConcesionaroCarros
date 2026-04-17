@@ -173,7 +173,7 @@
   <data name="Logs_NoMachineSelected" xml:space="preserve"><value>no machine selected</value></data>
   <data name="Logs_NoRecentErrors" xml:space="preserve"><value>No recent errors</value></data>
   <data name="Logs_RefreshButton" xml:space="preserve"><value>Refresh</value></data>
-  <data name="Logs_SelectDateToLoadStatus" xml:space="preserve"><value>Select a machine date to load the logs.</value></data>
+  <data name="Logs_SelectDateToLoadStatus" xml:space="preserve"><value>Select a date for the machine to load the logs.</value></data>
   <data name="Logs_SelectMachineAndDateStatus" xml:space="preserve"><value>Select a machine and then a date to load the logs.</value></data>
   <data name="Logs_SelectMachineStatus" xml:space="preserve"><value>Select a machine to view its date folders.</value></data>
   <data name="Logs_SelectMachineToLoadStatus" xml:space="preserve"><value>Select a machine to load the logs.</value></data>
@@ -201,7 +201,7 @@
   <data name="Recovery_PasswordMismatchMessage" xml:space="preserve"><value>The confirmation does not match the new password.</value></data>
   <data name="Recovery_RegisteredEmailLabel" xml:space="preserve"><value>Registered email</value></data>
   <data name="Recovery_RegisteredEmailTooltip" xml:space="preserve"><value>Enter the same email used to register in the system.</value></data>
-  <data name="Recovery_RequestCodeFirstMessage" xml:space="preserve"><value>First request and display the validation code.</value></data>
+  <data name="Recovery_RequestCodeFirstMessage" xml:space="preserve"><value>First request and view the validation code.</value></data>
   <data name="Recovery_Subtitle" xml:space="preserve"><value>Validate your identity and update the password without leaving the flow.</value></data>
   <data name="Recovery_Title" xml:space="preserve"><value>Access recovery</value></data>
   <data name="Recovery_UpdatePasswordErrorPrefix" xml:space="preserve"><value>Could not update the password. </value></data>
@@ -244,7 +244,7 @@
   <data name="Role_SistemasTI" xml:space="preserve"><value>IT Systems</value></data>
   <data name="Role_SST" xml:space="preserve"><value>HSE</value></data>
   <data name="Role_Ventas" xml:space="preserve"><value>Sales</value></data>
-  <data name="Settings_AppearanceDescription" xml:space="preserve"><value>Choose how you want the system interface to look.</value></data>
+  <data name="Settings_AppearanceDescription" xml:space="preserve"><value>Choose how you want the system interface to look, following the animation.</value></data>
   <data name="Settings_AppearanceTitle" xml:space="preserve"><value>Appearance</value></data>
   <data name="Settings_DarkOption" xml:space="preserve"><value>Dark mode</value></data>
   <data name="Settings_LightOption" xml:space="preserve"><value>Light mode</value></data>

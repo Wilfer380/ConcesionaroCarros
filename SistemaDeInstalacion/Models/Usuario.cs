@@ -17,6 +17,7 @@ namespace ConcesionaroCarros.Models
 
         public string PasswordHash { get; set; }
         public string Rol { get; set; }
+        public string RolDisplay => ResolverRolDisplay(Rol);
 
         public DateTime FechaRegistro { get; set; }
         public string FotoPerfil { get; set; }
@@ -66,6 +67,17 @@ namespace ConcesionaroCarros.Models
                 .ToList();
 
             AplicativosJson = serializer.Serialize(lista);
+        }
+
+        private static string ResolverRolDisplay(string rol)
+        {
+            var localizedTextType = typeof(Usuario).Assembly.GetType("ConcesionaroCarros.Services.LocalizedText");
+            var getRoleDisplayMethod = localizedTextType?.GetMethod("GetRoleDisplay");
+            if (getRoleDisplayMethod == null)
+                return rol ?? string.Empty;
+
+            return Convert.ToString(getRoleDisplayMethod.Invoke(null, new object[] { rol }))
+                ?? string.Empty;
         }
     }
 }

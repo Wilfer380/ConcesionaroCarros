@@ -22,13 +22,16 @@ namespace ConcesionaroCarros.ViewModels
         public string Rol { get; set; }
         public bool PuedeEditarRol { get; set; } = true;
 
-        public ObservableCollection<string> Roles { get; } =
-            new ObservableCollection<string>(RolesSistema.Todos);
+        public ObservableCollection<RoleOption> Roles { get; } =
+            new ObservableCollection<RoleOption>();
 
         public FormularioUsuarioViewModel(Window window, Usuario usuario = null)
         {
             _window = window;
             _usuarioEditando = usuario;
+
+            foreach (var role in RolesSistema.Todos)
+                Roles.Add(new RoleOption(role));
 
             if (usuario == null)
                 return;
@@ -39,6 +42,15 @@ namespace ConcesionaroCarros.ViewModels
             Telefono = usuario.Telefono;
             Rol = usuario.Rol;
             PuedeEditarRol = !RolesSistema.EsAdministrador(usuario.Rol);
+        }
+
+        public override void RefreshLocalization()
+        {
+            foreach (var role in Roles)
+                role.RefreshLocalization();
+
+            OnPropertyChanged(nameof(Roles));
+            OnPropertyChanged(nameof(Rol));
         }
 
         public void Guardar(string password)
@@ -158,6 +170,22 @@ namespace ConcesionaroCarros.ViewModels
                 return "Sin usuario";
 
             return $"Id={usuario.Id}; Correo={usuario.Correo}; Rol={usuario.Rol}; Nombre={(usuario.Nombres + " " + usuario.Apellidos).Trim()}";
+        }
+
+        public sealed class RoleOption : BaseViewModel
+        {
+            public RoleOption(string value)
+            {
+                Value = value;
+            }
+
+            public string Value { get; }
+            public string DisplayName => LocalizedText.GetRoleDisplay(Value);
+
+            public override void RefreshLocalization()
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
     }
 }

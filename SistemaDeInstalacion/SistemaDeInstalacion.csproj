@@ -93,6 +93,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Controls\ThemeModeSlider.xaml.cs">
+      <DependentUpon>ThemeModeSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BooleanNegationConverter.cs" />
     <Compile Include="Converters\ColumnsByWidthConverter .cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
@@ -179,6 +182,10 @@
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ThemeModeSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -374,6 +381,11 @@
                       Lines="$(AutoBuildVersion)"
                       Overwrite="true"
                       ContinueOnError="WarnAndContinue" />
+    <Copy SourceFiles="Deploy\release-notes.txt"
+          DestinationFiles="$(InstallerRoot)\release-notes.txt"
+          SkipUnchangedFiles="true"
+          ContinueOnError="WarnAndContinue"
+          Condition="Exists('Deploy\release-notes.txt')" />
   </Target>
   <Target Name="CopyDocsAssetsToOutput" AfterTargets="Build">
     <ItemGroup>
