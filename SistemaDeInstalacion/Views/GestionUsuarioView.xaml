@@ -1,6 +1,7 @@
-﻿<UserControl x:Class="ConcesionaroCarros.Views.GestionUsuarioView"
+<UserControl x:Class="ConcesionaroCarros.Views.GestionUsuarioView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
              Background="{DynamicResource CorpWindowBrush}">
 
     <UserControl.Resources>
@@ -79,7 +80,7 @@
             <Grid Margin="24">
             <TabControl Background="Transparent"
                         Foreground="{DynamicResource CorpTextBrush}">
-            <TabItem Header="Usuarios">
+            <TabItem Header="{Binding UsersTabHeader}">
                 <Grid Margin="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -96,7 +97,7 @@
 
                         <Button Grid.Column="1"
                                 Style="{StaticResource PrimaryButton}"
-                                Content="Agregar usuario"
+                                Content="{Binding AddUserLabel}"
                                 Command="{Binding AgregarUsuarioCommand}"/>
                     </Grid>
 
@@ -133,26 +134,26 @@
                         </DataGrid.ColumnHeaderStyle>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nombres" Binding="{Binding Nombres}" Width="1.3*" MinWidth="120"/>
-                            <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}" Width="1.3*" MinWidth="120"/>
-                            <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="2.3*" MinWidth="170"/>
-                            <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="1.1*" MinWidth="110"/>
-                            <DataGridTextColumn Header="Rol" Binding="{Binding Rol}" Width="1.0*" MinWidth="110"/>
-                            <DataGridTextColumn Header="Aplicativos" Binding="{Binding AplicativosResumen}" Width="1.8*" MinWidth="160"/>
-                            <DataGridTextColumn Header="Fecha Registro" Binding="{Binding FechaRegistro}" Width="1.4*" MinWidth="130"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_FirstNameColumn}" Binding="{Binding Nombres}" Width="1.3*" MinWidth="120"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_LastNameColumn}" Binding="{Binding Apellidos}" Width="1.3*" MinWidth="120"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_EmailColumn}" Binding="{Binding Correo}" Width="2.3*" MinWidth="170"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_PhoneColumn}" Binding="{Binding Telefono}" Width="1.1*" MinWidth="110"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_RoleColumn}" Binding="{Binding RolDisplay}" Width="1.0*" MinWidth="110"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_ApplicationsColumn}" Binding="{Binding AplicativosResumen}" Width="1.8*" MinWidth="160"/>
+                            <DataGridTextColumn Header="{markup:Translate UserManagement_RegistrationDateColumn}" Binding="{Binding FechaRegistro}" Width="1.4*" MinWidth="130"/>
 
-                            <DataGridTemplateColumn Header="Acciones" Width="1.6*" MinWidth="190">
+                            <DataGridTemplateColumn Header="{markup:Translate UserManagement_ActionsColumn}" Width="1.6*" MinWidth="190">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource SecondaryButton}"
-                                                    Content="Editar"
+                                                    Content="{Binding DataContext.EditLabel, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     PreviewMouseDown="AccionButton_PreviewMouseDown"
                                                     Command="{Binding DataContext.EditarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding}"/>
 
                                             <Button Style="{StaticResource SecondaryButton}"
-                                                    Content="Eliminar"
+                                                    Content="{Binding DataContext.DeleteLabel, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     PreviewMouseDown="AccionButton_PreviewMouseDown"
                                                     Command="{Binding DataContext.EliminarUsuarioCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
@@ -178,7 +179,7 @@
 
                             <TextBlock Grid.Row="0"
                                        Style="{StaticResource SectionTitle}"
-                                       Text="Asignacion de aplicativos y cargo por seccion"/>
+                                       Text="{Binding AssignmentPanelTitle}"/>
 
                             <Grid Grid.Row="1" Margin="0,12,0,0">
                                 <Grid.ColumnDefinitions>
@@ -187,15 +188,15 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                                     <TextBlock Style="{StaticResource FieldLabel}" Text="Usuario seleccionado"/>
-                                     <TextBox Text="{Binding NombreUsuarioAsignacion}"
+                                     <TextBlock Style="{StaticResource FieldLabel}" Text="{Binding SelectedUserLabel}"/>
+                                     <TextBox Text="{Binding NombreUsuarioAsignacion, Mode=OneWay}"
                                               Style="{StaticResource AssignmentReadOnlyField}"/>
                                  </StackPanel>
 
                                 <StackPanel Grid.Column="1">
-                                     <TextBlock Style="{StaticResource FieldLabel}" Text="Cargo actual"/>
-                                     <TextBox Text="{Binding SelectedUsuario.Rol}"
-                                              Style="{StaticResource AssignmentReadOnlyField}"/>
+                                     <TextBlock Style="{StaticResource FieldLabel}" Text="{Binding CurrentRoleLabel}"/>
+                                     <TextBox Text="{Binding SelectedUsuario.RolDisplay, Mode=OneWay}"
+                                               Style="{StaticResource AssignmentReadOnlyField}"/>
                                  </StackPanel>
                              </Grid>
 
@@ -206,7 +207,7 @@
                                 </Grid.ColumnDefinitions>
 
                                  <GroupBox Grid.Column="0"
-                                           Header="Roles disponibles"
+                                           Header="{Binding AvailableRolesGroupHeader}"
                                            Margin="0,0,12,0"
                                            Foreground="{DynamicResource CorpTextBrush}">
                                      <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -229,7 +230,7 @@
                                 </GroupBox>
 
                                  <GroupBox Grid.Column="1"
-                                           Header="Aplicativos del instalador"
+                                           Header="{Binding InstallerApplicationsGroupHeader}"
                                            MinHeight="370"
                                            MaxHeight="390"
                                            Foreground="{DynamicResource CorpTextBrush}">
@@ -264,11 +265,11 @@
                                         HorizontalAlignment="Right"
                                         Margin="0,14,0,0">
                                 <Button Style="{StaticResource SecondaryButton}"
-                                        Content="Cerrar"
+                                        Content="{Binding CloseLabel}"
                                         Command="{Binding OcultarPanelAsignacionCommand}"/>
                                 <Button Style="{StaticResource PrimaryButton}"
                                         Margin="0"
-                                        Content="Guardar asignacion"
+                                        Content="{Binding SaveAssignmentLabel}"
                                         Command="{Binding GuardarAsignacionCommand}"/>
                             </StackPanel>
                         </Grid>

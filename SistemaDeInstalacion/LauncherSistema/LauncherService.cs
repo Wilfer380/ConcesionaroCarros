@@ -1,12 +1,15 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace LauncherSistema
 {
     internal static class LauncherService
     {
+        private const int RestoreWindowCommand = 9;
         private const string SharedRoot =
             "\\\\comde019\\DFSMDE\\PUBLIC\\CO_MDE_DISENO_DI\\RESPALDO DISE\u00d1OS\\SAP - Respaldo dise\u00f1os\\FORMATOS SAP\\InstallerSystem";
 
@@ -21,6 +24,12 @@ namespace LauncherSistema
         private static readonly string InstalledAppPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
             "SistemaDeInstalacion.exe");
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         public static void Ejecutar(string[] args)
         {
@@ -49,18 +58,18 @@ namespace LauncherSistema
                 !string.IsNullOrWhiteSpace(localVersion) &&
                 !string.Equals(serverVersion, localVersion, StringComparison.OrdinalIgnoreCase))
             {
-                var result = MessageBox.Show(
-                    $"Se encontro una nueva version disponible ({serverVersion}).{Environment.NewLine}{Environment.NewLine}Deseas actualizar ahora?",
-                    "Actualizacion disponible",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information);
-
-                if (result == DialogResult.Yes)
+                if (ConfirmarActualizacion(serverVersion, localVersion))
                 {
                     SavePendingUpdate(serverVersion);
                     EjecutarActualizacion();
-                    return;
                 }
+                else
+                {
+                    TryDeletePendingUpdate();
+                    AbrirAplicacionLocalConReintento();
+                }
+
+                return;
             }
 
             AbrirAplicacionLocalConReintento();
@@ -73,7 +82,11 @@ namespace LauncherSistema
                 if (!File.Exists(VersionPath))
                     return null;
 
-                return File.ReadAllText(VersionPath).Trim();
+                var lines = ReadVersionMetadataLines();
+                if (lines.Length == 0)
+                    return null;
+
+                return lines[0];
             }
             catch
             {
@@ -100,6 +113,17 @@ namespace LauncherSistema
             {
                 return null;
             }
+        }
+
+        private static string[] ReadVersionMetadataLines()
+        {
+            var content = File.ReadAllText(VersionPath);
+
+            return content
+                .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
+                .Select(line => line.Trim())
+                .SkipWhile(string.IsNullOrWhiteSpace)
+                .ToArray();
         }
 
         private static void SolicitarInstalacion()
@@ -150,7 +174,7 @@ namespace LauncherSistema
                 var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = SetupPath,
-                    Arguments = "/SP- /SILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART",
+                    Arguments = "/SP- /NOCANCEL /NORESTART /UPDATEFLOW=1",
                     UseShellExecute = true
                 });
 
@@ -177,6 +201,27 @@ namespace LauncherSistema
             }
 
             Environment.Exit(0);
+        }
+
+                private static bool ConfirmarActualizacion(string serverVersion, string localVersion)
+        {
+            var mensaje =
+                "Hay una nueva versión disponible de SistemaDeInstalacion." +
+                Environment.NewLine + Environment.NewLine +
+                "Versión instalada: " + (string.IsNullOrWhiteSpace(localVersion) ? "No disponible" : localVersion) +
+                Environment.NewLine +
+                "Versión disponible: " + serverVersion +
+                Environment.NewLine + Environment.NewLine +
+                "\u00BFDesea actualizar ahora?";
+
+            var result = MessageBox.Show(
+                mensaje,
+                "Nueva versión disponible",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+
+            return result == DialogResult.Yes;
         }
 
         private static bool EsInicioPostActualizacion(string[] args)
@@ -279,6 +324,23 @@ namespace LauncherSistema
             {
                 if (File.Exists(InstalledAppPath))
                 {
+                    var instanciaExistente = BuscarInstanciaExistente();
+                    if (instanciaExistente != null)
+                    {
+                        var result = MessageBox.Show(
+                            "La aplicacion ya esta abierta.\r\n\r\nÂ¿Desea ejecutar una nueva instancia?",
+                            "Aplicacion en ejecucion",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button2);
+
+                        if (result != DialogResult.Yes)
+                        {
+                            IntentarEnfocarInstancia(instanciaExistente);
+                            return;
+                        }
+                    }
+
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = InstalledAppPath,
@@ -294,6 +356,60 @@ namespace LauncherSistema
             }
 
             AbrirAplicacionLocal();
+        }
+
+        private static Process BuscarInstanciaExistente()
+        {
+            var processName = Path.GetFileNameWithoutExtension(InstalledAppPath);
+            var installedFullPath = Path.GetFullPath(InstalledAppPath);
+
+            foreach (var process in Process.GetProcessesByName(processName))
+            {
+                try
+                {
+                    if (process.HasExited)
+                        continue;
+
+                    var mainModule = process.MainModule;
+                    if (mainModule == null)
+                        continue;
+
+                    if (string.Equals(
+                        Path.GetFullPath(mainModule.FileName),
+                        installedFullPath,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        return process;
+                    }
+                }
+                catch
+                {
+                    // Si no se puede inspeccionar el proceso, se ignora y se sigue buscando.
+                }
+            }
+
+            return null;
+        }
+
+        private static void IntentarEnfocarInstancia(Process process)
+        {
+            if (process == null)
+                return;
+
+            try
+            {
+                process.Refresh();
+                var handle = process.MainWindowHandle;
+                if (handle == IntPtr.Zero)
+                    return;
+
+                ShowWindowAsync(handle, RestoreWindowCommand);
+                SetForegroundWindow(handle);
+            }
+            catch
+            {
+                // Mejor esfuerzo: si falla el foco, no se abre otra instancia.
+            }
         }
     }
 }

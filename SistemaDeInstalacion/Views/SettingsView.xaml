@@ -1,6 +1,8 @@
-﻿<UserControl x:Class="ConcesionaroCarros.Views.SettingsView"
+<UserControl x:Class="ConcesionaroCarros.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ConcesionaroCarros.Controls"
+             xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
              Background="Transparent">
 
     <UserControl.Resources>
@@ -10,44 +12,6 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="16"/>
         </Style>
-
-        <Style x:Key="ThemeOptionButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
-            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="0,0,16,16"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="RootBorder"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="14">
-                            <ContentPresenter/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="RootBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="RootBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
-                            </Trigger>
-                            <Trigger Property="Tag" Value="True">
-                                <Setter TargetName="RootBorder" Property="Background" Value="{DynamicResource CorpPanelStrongBrush}"/>
-                                <Setter TargetName="RootBorder" Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -55,12 +19,12 @@
             <StackPanel MaxWidth="720">
                 <Border Style="{StaticResource SettingsCardStyle}" Padding="28" Margin="0,0,0,18">
                     <StackPanel>
-                        <TextBlock Text="Configuración"
+                        <TextBlock Text="{markup:Translate Settings_Title}"
                                    Foreground="{DynamicResource CorpTextBrush}"
                                    FontSize="30"
                                    FontWeight="SemiBold"/>
 
-                        <TextBlock Text="Elegí una apariencia clara u oscura para trabajar con mejor comodidad visual."
+                        <TextBlock Text="{markup:Translate Settings_Subtitle}"
                                    Foreground="{DynamicResource CorpMutedBrush}"
                                    FontSize="14"
                                    Margin="0,8,0,0"
@@ -69,101 +33,32 @@
                 </Border>
 
                 <Border Style="{StaticResource SettingsCardStyle}" Padding="28">
-                    <StackPanel>
-                         <TextBlock Text="Apariencia"
-                                    Foreground="{DynamicResource CorpTextBrush}"
-                                    FontSize="22"
-                                    FontWeight="SemiBold"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                         <TextBlock Text="Al abrir la app se toma el tema del sistema. Desde acá podés cambiarlo cuando quieras."
-                                    Foreground="{DynamicResource CorpMutedBrush}"
-                                    Margin="0,8,0,20"
-                                    TextWrapping="Wrap"/>
+                        <TextBlock Text="{markup:Translate Settings_AppearanceTitle}"
+                                   Foreground="{DynamicResource CorpTextBrush}"
+                                   FontSize="22"
+                                   FontWeight="SemiBold"/>
 
-                         <WrapPanel>
-                             <Button Command="{Binding UseLightThemeCommand}"
-                                     Tag="{Binding IsLightSelected}"
-                                     Style="{StaticResource ThemeOptionButtonStyle}">
-                                <Grid Width="220" Height="160">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1"
+                                   Text="{markup:Translate Settings_AppearanceDescription}"
+                                   Foreground="{DynamicResource CorpMutedBrush}"
+                                   Margin="0,8,0,20"
+                                   TextWrapping="Wrap"/>
 
-                                    <Border Width="48"
-                                             Height="48"
-                                             HorizontalAlignment="Center"
-                                             Background="{DynamicResource CorpPanelBrush}"
-                                             BorderBrush="{DynamicResource CorpBorderBrush}"
-                                             BorderThickness="1"
-                                            CornerRadius="24">
-                                        <Grid>
-                                            <Ellipse Width="18"
-                                                     Height="18"
-                                                     Fill="{DynamicResource CorpAccentBrush}"/>
-                                            <Rectangle Width="3" Height="10" RadiusX="1.5" RadiusY="1.5" Fill="{DynamicResource CorpAccentBrush}" VerticalAlignment="Top" Margin="0,5,0,0"/>
-                                            <Rectangle Width="3" Height="10" RadiusX="1.5" RadiusY="1.5" Fill="{DynamicResource CorpAccentBrush}" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
-                                            <Rectangle Width="10" Height="3" RadiusX="1.5" RadiusY="1.5" Fill="{DynamicResource CorpAccentBrush}" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-                                            <Rectangle Width="10" Height="3" RadiusX="1.5" RadiusY="1.5" Fill="{DynamicResource CorpAccentBrush}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
-                                        </Grid>
-                                    </Border>
-
-                                     <TextBlock Grid.Row="1"
-                                                Margin="0,14,0,0"
-                                                Text="Claro"
-                                                Foreground="{DynamicResource CorpTextBrush}"
-                                                FontSize="16"
-                                                FontWeight="SemiBold"
-                                                HorizontalAlignment="Center"/>
-                                </Grid>
-                             </Button>
-
-                             <Button Command="{Binding UseDarkThemeCommand}"
-                                     Tag="{Binding IsDarkSelected}"
-                                     Style="{StaticResource ThemeOptionButtonStyle}">
-                                <Grid Width="220" Height="160">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Border Width="48"
-                                             Height="48"
-                                             HorizontalAlignment="Center"
-                                             Background="{DynamicResource CorpPanelBrush}"
-                                             BorderBrush="{DynamicResource CorpBorderBrush}"
-                                             BorderThickness="1"
-                                            CornerRadius="24">
-                                        <Grid>
-                                            <Ellipse Width="20"
-                                                     Height="20"
-                                                     Fill="{DynamicResource CorpAccentBrush}"
-                                                     HorizontalAlignment="Center"
-                                                     VerticalAlignment="Center"/>
-                                            <Ellipse Width="18"
-                                                     Height="18"
-                                                     Fill="{DynamicResource CorpPanelBrush}"
-                                                     HorizontalAlignment="Right"
-                                                     VerticalAlignment="Top"
-                                                     Margin="0,8,8,0"/>
-                                        </Grid>
-                                    </Border>
-
-                                     <TextBlock Grid.Row="1"
-                                                Margin="0,14,0,0"
-                                                Text="Oscuro"
-                                                Foreground="{DynamicResource CorpTextBrush}"
-                                                FontSize="16"
-                                                FontWeight="SemiBold"
-                                                HorizontalAlignment="Center"/>
-                                </Grid>
-                             </Button>
-                         </WrapPanel>
-                     </StackPanel>
-                 </Border>
-            </StackPanel>
+                        <controls:ThemeModeSlider Grid.Row="2"
+                                                  IsDarkThemeSelected="{Binding IsDarkThemeSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  LightLabel="{markup:Translate Settings_LightOption}"
+                                                  DarkLabel="{markup:Translate Settings_DarkOption}"
+                                                  HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </Border>
+             </StackPanel>
         </ScrollViewer>
 
         <Image Source="/Images/6 -Banner  -  Grid para correo 2026.png"

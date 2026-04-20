@@ -1,0 +1,5 @@
+Cambios incluidos en esta version:
+
+- Antes de actualizar, el launcher muestra la version instalada y la version disponible para confirmar la actualizacion.
+- Durante la actualizacion, el instalador muestra estas notas al inicio y espera 10 segundos antes de continuar automaticamente.
+- Si la aplicacion ya esta abierta, el launcher permite enfocar la ventana actual o abrir una nueva instancia.

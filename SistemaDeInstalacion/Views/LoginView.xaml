@@ -1,7 +1,8 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.LoginView"
+<Window x:Class="ConcesionaroCarros.Views.LoginView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WEG Installer Systems - Login" Height="740" Width="520"
+        xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
+        Title="{markup:Translate Login_WindowTitle}" Height="740" Width="520"
         MinHeight="720" MinWidth="520" MaxHeight="720" MaxWidth="520"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         WindowStyle="None" AllowsTransparency="True"
@@ -145,7 +146,7 @@
                             VerticalAlignment="Top"
                             Margin="0,-34,0,0">
 
-                <TextBlock Text="Usuario" 
+                <TextBlock Text="{markup:Translate Login_UserLabel}" 
                            Foreground="{StaticResource CorpTextBrush}" 
                            Margin="10,0,0,5"
                            FontSize="14"/>
@@ -161,10 +162,10 @@
                                Foreground="{StaticResource CorpMutedBrush}"
                                FontSize="15"
                                IsHitTestVisible="False"
-                               Text="usuario@weg.net"/>
+                               Text="{markup:Translate Login_UserPlaceholder}"/>
                 </Grid>
 
-                <TextBlock Text="Contraseña" 
+                <TextBlock Text="{markup:Translate Login_PasswordLabel}" 
                            Foreground="{StaticResource CorpTextBrush}" 
                            Margin="10,0,0,5" 
                            FontSize="14"/>
@@ -201,7 +202,7 @@
                     </ToggleButton>
                 </Grid>
 
-                <CheckBox Content="Recuérdame"
+                <CheckBox Content="{markup:Translate Login_RememberMeLabel}"
                           IsChecked="{Binding Recordarme}"
                           Foreground="{StaticResource CorpTextBrush}"
                           Margin="5,12,0,0"
@@ -209,17 +210,17 @@
 
                 <TextBlock Margin="0,15,0,0" 
                            HorizontalAlignment="Center">
-                    <Run Text="No tienes una cuenta? " 
+                    <Run Text="{markup:Translate Login_NoAccountText}" 
                          Foreground="{StaticResource CorpTextBrush}"/>
                     <Hyperlink Foreground="{StaticResource CorpAccentBrush}" 
                                FontWeight="Bold" 
                                TextDecorations="None"
                                Click="OpenRegister">
-                        Regístrate 
+                        <Run Text="{markup:Translate Login_RegisterLinkLabel}"/>
                     </Hyperlink>
                 </TextBlock>
 
-                <Button Content="Recuperar acceso"
+                <Button Content="{markup:Translate Login_RecoveryButton}"
                         Margin="0,14,0,0"
                         Height="42"
                         Width="220"
@@ -241,7 +242,7 @@
                 </Button>
 
 
-                <Button Content="Login" 
+                <Button Content="{markup:Translate Login_SubmitButton}" 
                         Margin="0,22,0,0" 
                         Height="55" 
                         Width="200" 

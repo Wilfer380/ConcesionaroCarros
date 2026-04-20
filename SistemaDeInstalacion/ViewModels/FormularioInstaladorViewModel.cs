@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class FormularioInstaladorViewModel : BaseViewModel
+    public class FormularioInstaladorViewModel : BaseViewModel, ILocalizableViewModel
     {
         public const string CarpetaPuntoLocal = "Punto local de desarrollo planta";
         public const string CarpetaDesarrolloGlobal = "Desarrollo global";
@@ -24,8 +24,12 @@ namespace ConcesionaroCarros.ViewModels
         public bool EsSoloLectura { get; private set; }
         public bool EsEdicion { get; private set; }
         public bool PuedeEditar => !EsSoloLectura;
-        public ObservableCollection<string> CarpetasDisponibles { get; } =
-            new ObservableCollection<string> { CarpetaPuntoLocal, CarpetaDesarrolloGlobal };
+        public ObservableCollection<FolderOption> CarpetasDisponibles { get; } =
+            new ObservableCollection<FolderOption>
+            {
+                new FolderOption(CarpetaPuntoLocal, "InstallerForm_LocalFolderOption"),
+                new FolderOption(CarpetaDesarrolloGlobal, "InstallerForm_GlobalFolderOption")
+            };
 
         // ?? CONTROL DE BOTONES
         public bool EsNuevo
@@ -37,9 +41,9 @@ namespace ConcesionaroCarros.ViewModels
         {
             get
             {
-                if (EsSoloLectura) return "Ver Instalador";
-                if (EsEdicion) return "Editar Instalador";
-                return "Nuevo Instalador";
+                if (EsSoloLectura) return LocalizedText.Get("InstallerForm_ViewTitle", "Ver Instalador");
+                if (EsEdicion) return LocalizedText.Get("InstallerForm_EditTitle", "Editar Instalador");
+                return LocalizedText.Get("InstallerForm_NewTitle", "Nuevo Instalador");
             }
         }
 
@@ -136,9 +140,36 @@ namespace ConcesionaroCarros.ViewModels
             return CarpetaDesarrolloGlobal;
         }
 
+        public override void RefreshLocalization()
+        {
+            OnPropertyChanged(nameof(TituloFormulario));
+
+            foreach (var folder in CarpetasDisponibles)
+                folder.RefreshLocalization();
+        }
+
         private string ConstruirDetalleInstalador()
         {
             return $"Id={Instalador?.Id ?? 0}; Nombre={Instalador?.Nombre}; Carpeta={Instalador?.Carpeta}; Ruta={Instalador?.Ruta}";
+        }
+
+        public sealed class FolderOption : BaseViewModel
+        {
+            private readonly string _resourceKey;
+
+            public FolderOption(string value, string resourceKey)
+            {
+                Value = value;
+                _resourceKey = resourceKey;
+            }
+
+            public string Value { get; }
+            public string DisplayName => LocalizedText.Get(_resourceKey, Value);
+
+            public override void RefreshLocalization()
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
     }
 }

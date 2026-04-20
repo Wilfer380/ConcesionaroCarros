@@ -3,7 +3,10 @@ using ConcesionaroCarros.Db;
 using ConcesionaroCarros.Services;
 using ConcesionaroCarros.Views;
 using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,6 +23,7 @@ namespace ConcesionaroCarros.ViewModels
 
         private object _currentView;
         private readonly UsuariosDbService _usuariosDb = new UsuariosDbService();
+        private readonly LocalizationService _localizationService = LocalizationService.Instance;
         private readonly string _nombreVisibleDispositivo;
         private readonly string _correoDispositivo;
 
@@ -72,6 +76,14 @@ namespace ConcesionaroCarros.ViewModels
         public bool PuedeVerLogs =>
             SesionUsuario.EsAdmin &&
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
+        public string ReleaseChannelLabel => "HOMOLOGATION";
+        public ReadOnlyObservableCollection<LocalizationService.LanguageOption> AvailableLanguages { get; }
+
+        public LocalizationService.LanguageOption SelectedLanguage
+        {
+            get => _localizationService.SelectedLanguage;
+            set => _localizationService.SelectedLanguage = value;
+        }
 
         public ICommand CerrarSesionCommand { get; }
         public ICommand ShowInstaladoresCommand { get; }
@@ -82,6 +94,7 @@ namespace ConcesionaroCarros.ViewModels
 
         public MainViewModel()
         {
+            AvailableLanguages = _localizationService.AvailableLanguages;
             _nombreVisibleDispositivo = WindowsProfileService.ObtenerNombreVisible();
             _correoDispositivo = WindowsProfileService.ObtenerCorreoPrincipal();
             if (string.IsNullOrWhiteSpace(_correoDispositivo))
@@ -90,6 +103,8 @@ namespace ConcesionaroCarros.ViewModels
                     Environment.UserName ?? string.Empty,
                     _nombreVisibleDispositivo);
             }
+
+            PropertyChangedEventManager.AddHandler(_localizationService, OnLocalizationPropertyChanged, nameof(LocalizationService.SelectedLanguage));
 
             ShowInstaladoresCommand = new RelayCommand(_ => MostrarInstaladores());
 
@@ -148,6 +163,11 @@ namespace ConcesionaroCarros.ViewModels
             MostrarInstaladores();
         }
 
+        private void OnLocalizationPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(SelectedLanguage));
+        }
+
         private void MostrarInstaladores()
         {
             LogService.Info("MainWindow", "Navegacion a instaladores");
@@ -168,5 +188,6 @@ namespace ConcesionaroCarros.ViewModels
 
             return correo.Substring(0, at).Trim();
         }
+
     }
 }

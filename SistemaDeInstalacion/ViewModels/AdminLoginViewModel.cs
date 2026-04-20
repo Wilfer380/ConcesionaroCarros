@@ -64,8 +64,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.Warning("AdminLogin", "Intento de login admin sin usuario");
                 MessageBox.Show(
-                    "Debe ingresar el usuario de administrador.",
-                    "Aviso",
+                    LocalizedText.Get("AdminLogin_MissingUserMessage", "Debe ingresar el usuario de administrador."),
+                    LocalizedText.Get("Common_NoticeTitle", "Aviso"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -80,8 +80,8 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.WarningForUser("AdminLogin", "Administrador no registrado", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 LogService.LatencyForUser("AdminLogin", "Login admin rechazado por usuario no registrado", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
-                    "El usuario administrativo ingresado no se encuentra registrado. Verifique el dato e intente nuevamente.",
-                    "Registro requerido",
+                    LocalizedText.Get("AdminLogin_NotRegisteredMessage", "El usuario administrativo ingresado no se encuentra registrado. Verifique el dato e intente nuevamente."),
+                    LocalizedText.Get("AdminLogin_RegistrationRequiredTitle", "Registro requerido"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
 
@@ -95,8 +95,8 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.WarningForUser("AdminLogin", "Credenciales de administrador invalidas", usuarioLog, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 LogService.LatencyForUser("AdminLogin", "Login admin rechazado por credenciales invalidas", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, usuarioIngreso));
                 MessageBox.Show(
-                    "La contrasena administrativa ingresada es incorrecta. Verifique el dato e intente nuevamente.",
-                    "Acceso denegado",
+                    LocalizedText.Get("AdminLogin_InvalidPasswordMessage", "La contrasena administrativa ingresada es incorrecta. Verifique el dato e intente nuevamente."),
+                    LocalizedText.Get("AdminLogin_AccessDeniedTitle", "Acceso denegado"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
@@ -110,8 +110,8 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.WarningForUser("AdminLogin", "Administrador sin usuario base asociado", usuarioLog, BuildLoginDetail(usuarioLog, admin.Correo));
                 LogService.LatencyForUser("AdminLogin", "Login admin rechazado por usuario base inexistente", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, admin.Correo));
                 MessageBox.Show(
-                    "No existe usuario base asociado a este administrador.",
-                    "Aviso",
+                    LocalizedText.Get("AdminLogin_MissingBaseUserMessage", "No existe usuario base asociado a este administrador."),
+                    LocalizedText.Get("Common_NoticeTitle", "Aviso"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;

@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SistemaDeInstalacion.Views"
+        xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
         mc:Ignorable="d"
-        Title="Panel" Height="450" Width="800">
+        Title="{markup:Translate Common_View}" Height="450" Width="800">
     <Grid>
         
     </Grid>
 </Window>
+
+

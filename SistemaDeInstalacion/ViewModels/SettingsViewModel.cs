@@ -24,12 +24,26 @@ namespace ConcesionaroCarros.ViewModels
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsLightSelected));
                 OnPropertyChanged(nameof(IsDarkSelected));
+                OnPropertyChanged(nameof(IsDarkThemeSelected));
                 OnPropertyChanged(nameof(ResolvedThemeMode));
             }
         }
 
         public bool IsLightSelected => string.Equals(ResolvedThemeMode, ThemeManager.LightMode, StringComparison.Ordinal);
         public bool IsDarkSelected => string.Equals(ResolvedThemeMode, ThemeManager.DarkMode, StringComparison.Ordinal);
+        public bool IsDarkThemeSelected
+        {
+            get => IsDarkSelected;
+            set
+            {
+                var targetTheme = value ? ThemeManager.DarkMode : ThemeManager.LightMode;
+                if (string.Equals(ResolvedThemeMode, targetTheme, StringComparison.Ordinal))
+                    return;
+
+                SetTheme(targetTheme);
+            }
+        }
+
         public string ResolvedThemeMode => ThemeManager.ResolveTheme(SelectedThemeMode);
 
         public SettingsViewModel()

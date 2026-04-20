@@ -59,5 +59,2327 @@ namespace ConcesionaroCarros.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acceso denegado.
+        /// </summary>
+        internal static string AdminLogin_AccessDeniedTitle {
+            get {
+                return ResourceManager.GetString("AdminLogin_AccessDeniedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt; Volver.
+        /// </summary>
+        internal static string AdminLogin_BackLabel {
+            get {
+                return ResourceManager.GetString("AdminLogin_BackLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña administrativa ingresada es incorrecta. Verifica el dato e intenta nuevamente..
+        /// </summary>
+        internal static string AdminLogin_InvalidPasswordMessage {
+            get {
+                return ResourceManager.GetString("AdminLogin_InvalidPasswordMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No existe un usuario base asociado a este administrador..
+        /// </summary>
+        internal static string AdminLogin_MissingBaseUserMessage {
+            get {
+                return ResourceManager.GetString("AdminLogin_MissingBaseUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes ingresar el usuario de administrador..
+        /// </summary>
+        internal static string AdminLogin_MissingUserMessage {
+            get {
+                return ResourceManager.GetString("AdminLogin_MissingUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No tienes cuenta administrativa?.
+        /// </summary>
+        internal static string AdminLogin_NoAccountText {
+            get {
+                return ResourceManager.GetString("AdminLogin_NoAccountText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario administrativo ingresado no se encuentra registrado. Verifica el dato e intenta nuevamente..
+        /// </summary>
+        internal static string AdminLogin_NotRegisteredMessage {
+            get {
+                return ResourceManager.GetString("AdminLogin_NotRegisteredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña administrativa.
+        /// </summary>
+        internal static string AdminLogin_PasswordLabel {
+            get {
+                return ResourceManager.GetString("AdminLogin_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registrarse.
+        /// </summary>
+        internal static string AdminLogin_RegisterLinkLabel {
+            get {
+                return ResourceManager.GetString("AdminLogin_RegisterLinkLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro requerido.
+        /// </summary>
+        internal static string AdminLogin_RegistrationRequiredTitle {
+            get {
+                return ResourceManager.GetString("AdminLogin_RegistrationRequiredTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recordarme.
+        /// </summary>
+        internal static string AdminLogin_RememberMeLabel {
+            get {
+                return ResourceManager.GetString("AdminLogin_RememberMeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresar.
+        /// </summary>
+        internal static string AdminLogin_SubmitButton {
+            get {
+                return ResourceManager.GetString("AdminLogin_SubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario administrador.
+        /// </summary>
+        internal static string AdminLogin_UserLabel {
+            get {
+                return ResourceManager.GetString("AdminLogin_UserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a usuario.admin.
+        /// </summary>
+        internal static string AdminLogin_UserPlaceholder {
+            get {
+                return ResourceManager.GetString("AdminLogin_UserPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Acceso administrativo.
+        /// </summary>
+        internal static string AdminLogin_WindowTitle {
+            get {
+                return ResourceManager.GetString("AdminLogin_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña de administrador.
+        /// </summary>
+        internal static string AdminRegister_AdminPasswordLabel {
+            get {
+                return ResourceManager.GetString("AdminRegister_AdminPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ya existe un administrador registrado con ese correo..
+        /// </summary>
+        internal static string AdminRegister_AlreadyRegisteredMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_AlreadyRegisteredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt; Volver.
+        /// </summary>
+        internal static string AdminRegister_BackLabel {
+            get {
+                return ResourceManager.GetString("AdminRegister_BackLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible detectar el usuario del dispositivo..
+        /// </summary>
+        internal static string AdminRegister_DeviceUserMissingMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_DeviceUserMissingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo.
+        /// </summary>
+        internal static string AdminRegister_EmailLabel {
+            get {
+                return ResourceManager.GetString("AdminRegister_EmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a administrador@weg.net.
+        /// </summary>
+        internal static string AdminRegister_EmailPlaceholder {
+            get {
+                return ResourceManager.GetString("AdminRegister_EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro existente.
+        /// </summary>
+        internal static string AdminRegister_ExistingRegistrationTitle {
+            get {
+                return ResourceManager.GetString("AdminRegister_ExistingRegistrationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Completa correo, rol, contraseña de usuario y contraseña de administrador..
+        /// </summary>
+        internal static string AdminRegister_IncompleteDataMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_IncompleteDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible derivar un usuario vÃ¡lido a partir del correo..
+        /// </summary>
+        internal static string AdminRegister_InvalidDerivedUserMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_InvalidDerivedUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo debe terminar en @weg.net..
+        /// </summary>
+        internal static string AdminRegister_InvalidDomainMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_InvalidDomainMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña de usuario.
+        /// </summary>
+        internal static string AdminRegister_NormalPasswordLabel {
+            get {
+                return ResourceManager.GetString("AdminRegister_NormalPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registrar administrador.
+        /// </summary>
+        internal static string AdminRegister_RegisterButton {
+            get {
+                return ResourceManager.GetString("AdminRegister_RegisterButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible completar el registro administrativo en este momento..
+        /// </summary>
+        internal static string AdminRegister_RegisterErrorMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_RegisterErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de registro.
+        /// </summary>
+        internal static string AdminRegister_RegisterErrorTitle {
+            get {
+                return ResourceManager.GetString("AdminRegister_RegisterErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Administrador registrado correctamente..
+        /// </summary>
+        internal static string AdminRegister_RegisterSuccessMessage {
+            get {
+                return ResourceManager.GetString("AdminRegister_RegisterSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro exitoso.
+        /// </summary>
+        internal static string AdminRegister_RegisterSuccessTitle {
+            get {
+                return ResourceManager.GetString("AdminRegister_RegisterSuccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rol.
+        /// </summary>
+        internal static string AdminRegister_RoleLabel {
+            get {
+                return ResourceManager.GetString("AdminRegister_RoleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un rol.
+        /// </summary>
+        internal static string AdminRegister_RolePlaceholder {
+            get {
+                return ResourceManager.GetString("AdminRegister_RolePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Registro administrativo.
+        /// </summary>
+        internal static string AdminRegister_WindowTitle {
+            get {
+                return ResourceManager.GetString("AdminRegister_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Volver.
+        /// </summary>
+        internal static string Common_Back {
+            get {
+                return ResourceManager.GetString("Common_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cancelar.
+        /// </summary>
+        internal static string Common_Cancel {
+            get {
+                return ResourceManager.GetString("Common_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar.
+        /// </summary>
+        internal static string Common_Close {
+            get {
+                return ResourceManager.GetString("Common_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Copiar.
+        /// </summary>
+        internal static string Common_Copy {
+            get {
+                return ResourceManager.GetString("Common_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La base de datos esta ocupada. Intenta nuevamente..
+        /// </summary>
+        internal static string Common_DatabaseBusyRetryMessage {
+            get {
+                return ResourceManager.GetString("Common_DatabaseBusyRetryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La base de datos esa¡ ocupada. Intenta guardar nuevamente..
+        /// </summary>
+        internal static string Common_DatabaseBusySaveRetryMessage {
+            get {
+                return ResourceManager.GetString("Common_DatabaseBusySaveRetryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario.
+        /// </summary>
+        internal static string Common_DefaultUserName {
+            get {
+                return ResourceManager.GetString("Common_DefaultUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eliminar.
+        /// </summary>
+        internal static string Common_Delete {
+            get {
+                return ResourceManager.GetString("Common_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Editar.
+        /// </summary>
+        internal static string Common_Edit {
+            get {
+                return ResourceManager.GetString("Common_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación  de correo.
+        /// </summary>
+        internal static string Common_EmailValidationTitle {
+            get {
+                return ResourceManager.GetString("Common_EmailValidationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error.
+        /// </summary>
+        internal static string Common_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Common_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Información.
+        /// </summary>
+        internal static string Common_InformationTitle {
+            get {
+                return ResourceManager.GetString("Common_InformationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aviso.
+        /// </summary>
+        internal static string Common_NoticeTitle {
+            get {
+                return ResourceManager.GetString("Common_NoticeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar.
+        /// </summary>
+        internal static string Common_Save {
+            get {
+                return ResourceManager.GetString("Common_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación.
+        /// </summary>
+        internal static string Common_ValidationTitle {
+            get {
+                return ResourceManager.GetString("Common_ValidationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ver.
+        /// </summary>
+        internal static string Common_View {
+            get {
+                return ResourceManager.GetString("Common_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Base de datos.
+        /// </summary>
+        internal static string Documentation_DatabaseTitle {
+            get {
+                return ResourceManager.GetString("Documentation_DatabaseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Consulta toda la documentación del sistema organizada por carpetas y documentos..
+        /// </summary>
+        internal static string Help_AdminSubtitle {
+            get {
+                return ResourceManager.GetString("Help_AdminSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Centro de ayuda administrativo.
+        /// </summary>
+        internal static string Help_AdminTitle {
+            get {
+                return ResourceManager.GetString("Help_AdminTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usa el selector de navegación para abrir una guia, manual o procedimiento cuando lo necesites..
+        /// </summary>
+        internal static string Help_EmptySelectDescription {
+            get {
+                return ResourceManager.GetString("Help_EmptySelectDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se muestra contenido automáticamente para que elijas exactamente la documentación que quierass consultar..
+        /// </summary>
+        internal static string Help_EmptySelectHint {
+            get {
+                return ResourceManager.GetString("Help_EmptySelectHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un documento.
+        /// </summary>
+        internal static string Help_EmptySelectTitle {
+            get {
+                return ResourceManager.GetString("Help_EmptySelectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El archivo seleccionado no existe en el directorio de documentación..
+        /// </summary>
+        internal static string Help_FileMissingMessage {
+            get {
+                return ResourceManager.GetString("Help_FileMissingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se produjo un error al inspeccionar la carpeta de ayuda configurada para este perfil..
+        /// </summary>
+        internal static string Help_LoadErrorDescription {
+            get {
+                return ResourceManager.GetString("Help_LoadErrorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible cargar la documentaciÃ³n.
+        /// </summary>
+        internal static string Help_LoadErrorTitle {
+            get {
+                return ResourceManager.GetString("Help_LoadErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ExplorÃ¡ documentos, manuales y procedimientos disponibles para tu perfil..
+        /// </summary>
+        internal static string Help_NavigationDescription {
+            get {
+                return ResourceManager.GetString("Help_NavigationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Navegación.
+        /// </summary>
+        internal static string Help_NavigationTitle {
+            get {
+                return ResourceManager.GetString("Help_NavigationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Siguiente documento.
+        /// </summary>
+        internal static string Help_NextDocumentTooltip {
+            get {
+                return ResourceManager.GetString("Help_NextDocumentTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se encontraron archivos de ayuda para este perfil en la carpeta configurada..
+        /// </summary>
+        internal static string Help_NoDocsDescription {
+            get {
+                return ResourceManager.GetString("Help_NoDocsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Revisa que la carpeta Docs exista en el directorio de ejecución y contenga documentos habilitados para este usuario..
+        /// </summary>
+        internal static string Help_NoDocsHint {
+            get {
+                return ResourceManager.GetString("Help_NoDocsHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Documentación no disponible.
+        /// </summary>
+        internal static string Help_NoDocsTitle {
+            get {
+                return ResourceManager.GetString("Help_NoDocsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay documentación disponible para mostrar..
+        /// </summary>
+        internal static string Help_NoDocumentContentMessage {
+            get {
+                return ResourceManager.GetString("Help_NoDocumentContentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Documento anterior.
+        /// </summary>
+        internal static string Help_PreviousDocumentTooltip {
+            get {
+                return ResourceManager.GetString("Help_PreviousDocumentTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acceso rapido.
+        /// </summary>
+        internal static string Help_QuickAccessTitle {
+            get {
+                return ResourceManager.GetString("Help_QuickAccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible cargar el documento..
+        /// </summary>
+        internal static string Help_ReadErrorMessage {
+            get {
+                return ResourceManager.GetString("Help_ReadErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible renderizar el documento seleccionado..
+        /// </summary>
+        internal static string Help_RenderErrorMessage {
+            get {
+                return ResourceManager.GetString("Help_RenderErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Si necesitas asistencia adicional, contacta al responsable del sistema..
+        /// </summary>
+        internal static string Help_SupportDescription {
+            get {
+                return ResourceManager.GetString("Help_SupportDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Soporte.
+        /// </summary>
+        internal static string Help_SupportTitle {
+            get {
+                return ResourceManager.GetString("Help_SupportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Detalle tecnico: .
+        /// </summary>
+        internal static string Help_TechnicalDetailPrefix {
+            get {
+                return ResourceManager.GetString("Help_TechnicalDetailPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Consulta unicamente la documentación disponible para el usuario final..
+        /// </summary>
+        internal static string Help_UserSubtitle {
+            get {
+                return ResourceManager.GetString("Help_UserSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Centro de ayuda para usuarios.
+        /// </summary>
+        internal static string Help_UserTitle {
+            get {
+                return ResourceManager.GetString("Help_UserTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Buscar ejecutable.
+        /// </summary>
+        internal static string InstallerForm_BrowseButton {
+            get {
+                return ResourceManager.GetString("InstallerForm_BrowseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Detalle.
+        /// </summary>
+        internal static string InstallerForm_DetailsLabel {
+            get {
+                return ResourceManager.GetString("InstallerForm_DetailsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Editar instalador.
+        /// </summary>
+        internal static string InstallerForm_EditTitle {
+            get {
+                return ResourceManager.GetString("InstallerForm_EditTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Carpeta.
+        /// </summary>
+        internal static string InstallerForm_FolderLabel {
+            get {
+                return ResourceManager.GetString("InstallerForm_FolderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Desarrollo global.
+        /// </summary>
+        internal static string InstallerForm_GlobalFolderOption {
+            get {
+                return ResourceManager.GetString("InstallerForm_GlobalFolderOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Punto local de desarrollo planta.
+        /// </summary>
+        internal static string InstallerForm_LocalFolderOption {
+            get {
+                return ResourceManager.GetString("InstallerForm_LocalFolderOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nombre.
+        /// </summary>
+        internal static string InstallerForm_NameLabel {
+            get {
+                return ResourceManager.GetString("InstallerForm_NameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nuevo instalador.
+        /// </summary>
+        internal static string InstallerForm_NewTitle {
+            get {
+                return ResourceManager.GetString("InstallerForm_NewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ruta.
+        /// </summary>
+        internal static string InstallerForm_PathLabel {
+            get {
+                return ResourceManager.GetString("InstallerForm_PathLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar cambios.
+        /// </summary>
+        internal static string InstallerForm_SaveChangesButton {
+            get {
+                return ResourceManager.GetString("InstallerForm_SaveChangesButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar instalador.
+        /// </summary>
+        internal static string InstallerForm_SaveNewButton {
+            get {
+                return ResourceManager.GetString("InstallerForm_SaveNewButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ver instalador.
+        /// </summary>
+        internal static string InstallerForm_ViewTitle {
+            get {
+                return ResourceManager.GetString("InstallerForm_ViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Examinar.
+        /// </summary>
+        internal static string Installers_BrowseButton {
+            get {
+                return ResourceManager.GetString("Installers_BrowseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Instalar.
+        /// </summary>
+        internal static string Installers_InstallButton {
+            get {
+                return ResourceManager.GetString("Installers_InstallButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible ejecutar el instalador..
+        /// </summary>
+        internal static string Installers_RunErrorMessage {
+            get {
+                return ResourceManager.GetString("Installers_RunErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a OcurriÃ³ un error inesperado al ejecutar el instalador..
+        /// </summary>
+        internal static string Installers_RunUnexpectedErrorMessage {
+            get {
+                return ResourceManager.GetString("Installers_RunUnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Administra y ejecuta los instaladores disponibles por carpeta..
+        /// </summary>
+        internal static string Installers_Subtitle {
+            get {
+                return ResourceManager.GetString("Installers_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Instaladores.
+        /// </summary>
+        internal static string Installers_Title {
+            get {
+                return ResourceManager.GetString("Installers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña ingresada es incorrecta. Verifica el dato e intenta nuevamente..
+        /// </summary>
+        internal static string Login_InvalidPasswordMessage {
+            get {
+                return ResourceManager.GetString("Login_InvalidPasswordMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes ingresar tu usuario o correo..
+        /// </summary>
+        internal static string Login_MissingUserMessage {
+            get {
+                return ResourceManager.GetString("Login_MissingUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿No tienes una cuenta registrada?.
+        /// </summary>
+        internal static string Login_NoAccountText {
+            get {
+                return ResourceManager.GetString("Login_NoAccountText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña.
+        /// </summary>
+        internal static string Login_PasswordLabel {
+            get {
+                return ResourceManager.GetString("Login_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperar acceso.
+        /// </summary>
+        internal static string Login_RecoveryButton {
+            get {
+                return ResourceManager.GetString("Login_RecoveryButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registrarse.
+        /// </summary>
+        internal static string Login_RegisterLinkLabel {
+            get {
+                return ResourceManager.GetString("Login_RegisterLinkLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recordarme.
+        /// </summary>
+        internal static string Login_RememberMeLabel {
+            get {
+                return ResourceManager.GetString("Login_RememberMeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresar.
+        /// </summary>
+        internal static string Login_SubmitButton {
+            get {
+                return ResourceManager.GetString("Login_SubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario o correo.
+        /// </summary>
+        internal static string Login_UserLabel {
+            get {
+                return ResourceManager.GetString("Login_UserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario o correo ingresado no se encuentra registrado. Verifica el dato e intenta nuevamente..
+        /// </summary>
+        internal static string Login_UserNotRegisteredMessage {
+            get {
+                return ResourceManager.GetString("Login_UserNotRegisteredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a usuario o correo.
+        /// </summary>
+        internal static string Login_UserPlaceholder {
+            get {
+                return ResourceManager.GetString("Login_UserPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Inicio de sesiÃ³n.
+        /// </summary>
+        internal static string Login_WindowTitle {
+            get {
+                return ResourceManager.GetString("Login_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Latencia promedio.
+        /// </summary>
+        internal static string Logs_AverageLatencyMetric {
+            get {
+                return ResourceManager.GetString("Logs_AverageLatencyMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha.
+        /// </summary>
+        internal static string Logs_DateColumn {
+            get {
+                return ResourceManager.GetString("Logs_DateColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a fecha {0}.
+        /// </summary>
+        internal static string Logs_DateFormat {
+            get {
+                return ResourceManager.GetString("Logs_DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha.
+        /// </summary>
+        internal static string Logs_DateLabel {
+            get {
+                return ResourceManager.GetString("Logs_DateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona la fecha a inspeccionar..
+        /// </summary>
+        internal static string Logs_DateTooltip {
+            get {
+                return ResourceManager.GetString("Logs_DateTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Detalle.
+        /// </summary>
+        internal static string Logs_DetailColumn {
+            get {
+                return ResourceManager.GetString("Logs_DetailColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Errores.
+        /// </summary>
+        internal static string Logs_ErrorsMetric {
+            get {
+                return ResourceManager.GetString("Logs_ErrorsMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eventos.
+        /// </summary>
+        internal static string Logs_EventsMetric {
+            get {
+                return ResourceManager.GetString("Logs_EventsMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible cargar los logs filtrados..
+        /// </summary>
+        internal static string Logs_FilteredLoadErrorStatus {
+            get {
+                return ResourceManager.GetString("Logs_FilteredLoadErrorStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible actualizar los filtros de logs..
+        /// </summary>
+        internal static string Logs_FilterRefreshErrorStatus {
+            get {
+                return ResourceManager.GetString("Logs_FilterRefreshErrorStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Latencia.
+        /// </summary>
+        internal static string Logs_LatencyColumn {
+            get {
+                return ResourceManager.GetString("Logs_LatencyColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nivel.
+        /// </summary>
+        internal static string Logs_LevelColumn {
+            get {
+                return ResourceManager.GetString("Logs_LevelColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Logs cargados: {0} eventos de {1}, {2}, desde {3}.
+        /// </summary>
+        internal static string Logs_LoadedStatus {
+            get {
+                return ResourceManager.GetString("Logs_LoadedStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible cargar los logs..
+        /// </summary>
+        internal static string Logs_LoadErrorStatus {
+            get {
+                return ResourceManager.GetString("Logs_LoadErrorStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Equipo.
+        /// </summary>
+        internal static string Logs_MachineColumn {
+            get {
+                return ResourceManager.GetString("Logs_MachineColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a equipo {0}.
+        /// </summary>
+        internal static string Logs_MachineFormat {
+            get {
+                return ResourceManager.GetString("Logs_MachineFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Equipo.
+        /// </summary>
+        internal static string Logs_MachineLabel {
+            get {
+                return ResourceManager.GetString("Logs_MachineLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Equipo {0} seleccionado. Ahora elegÃ­ una fecha..
+        /// </summary>
+        internal static string Logs_MachineSelectedStatus {
+            get {
+                return ResourceManager.GetString("Logs_MachineSelectedStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Equipos.
+        /// </summary>
+        internal static string Logs_MachinesMetric {
+            get {
+                return ResourceManager.GetString("Logs_MachinesMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona el equipo que quieras revisar..
+        /// </summary>
+        internal static string Logs_MachineTooltip {
+            get {
+                return ResourceManager.GetString("Logs_MachineTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mensaje.
+        /// </summary>
+        internal static string Logs_MessageColumn {
+            get {
+                return ResourceManager.GetString("Logs_MessageColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin datos.
+        /// </summary>
+        internal static string Logs_NoData {
+            get {
+                return ResourceManager.GetString("Logs_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a sin fecha seleccionada.
+        /// </summary>
+        internal static string Logs_NoDateSelected {
+            get {
+                return ResourceManager.GetString("Logs_NoDateSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El equipo {0} no tiene carpetas de logs disponibles..
+        /// </summary>
+        internal static string Logs_NoDatesForMachineStatus {
+            get {
+                return ResourceManager.GetString("Logs_NoDatesForMachineStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a sin equipo seleccionado.
+        /// </summary>
+        internal static string Logs_NoMachineSelected {
+            get {
+                return ResourceManager.GetString("Logs_NoMachineSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin errores recientes.
+        /// </summary>
+        internal static string Logs_NoRecentErrors {
+            get {
+                return ResourceManager.GetString("Logs_NoRecentErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actualizar.
+        /// </summary>
+        internal static string Logs_RefreshButton {
+            get {
+                return ResourceManager.GetString("Logs_RefreshButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona una fecha del equipo para cargar los logs..
+        /// </summary>
+        internal static string Logs_SelectDateToLoadStatus {
+            get {
+                return ResourceManager.GetString("Logs_SelectDateToLoadStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un equipo y luego una fecha para cargar los logs..
+        /// </summary>
+        internal static string Logs_SelectMachineAndDateStatus {
+            get {
+                return ResourceManager.GetString("Logs_SelectMachineAndDateStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un equipo para ver sus carpetas de fechas..
+        /// </summary>
+        internal static string Logs_SelectMachineStatus {
+            get {
+                return ResourceManager.GetString("Logs_SelectMachineStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona un equipo para cargar los logs..
+        /// </summary>
+        internal static string Logs_SelectMachineToLoadStatus {
+            get {
+                return ResourceManager.GetString("Logs_SelectMachineToLoadStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Origen.
+        /// </summary>
+        internal static string Logs_SourceColumn {
+            get {
+                return ResourceManager.GetString("Logs_SourceColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado.
+        /// </summary>
+        internal static string Logs_StatusLabel {
+            get {
+                return ResourceManager.GetString("Logs_StatusLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a InspeccionÃ¡ actividad, errores y latencias por equipo y fecha..
+        /// </summary>
+        internal static string Logs_Subtitle {
+            get {
+                return ResourceManager.GetString("Logs_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Centro de logs.
+        /// </summary>
+        internal static string Logs_Title {
+            get {
+                return ResourceManager.GetString("Logs_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario.
+        /// </summary>
+        internal static string Logs_UserColumn {
+            get {
+                return ResourceManager.GetString("Logs_UserColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Advertencias.
+        /// </summary>
+        internal static string Logs_WarningsMetric {
+            get {
+                return ResourceManager.GetString("Logs_WarningsMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar contraseña.
+        /// </summary>
+        internal static string Recovery_ChangePasswordButton {
+            get {
+                return ResourceManager.GetString("Recovery_ChangePasswordButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código mostrado correctamente. Ingresa ese código y define tu nueva contraseña..
+        /// </summary>
+        internal static string Recovery_CodeDisplayedMessage {
+            get {
+                return ResourceManager.GetString("Recovery_CodeDisplayedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código de validación.
+        /// </summary>
+        internal static string Recovery_CodeLabel {
+            get {
+                return ResourceManager.GetString("Recovery_CodeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirmar contraseña.
+        /// </summary>
+        internal static string Recovery_ConfirmPasswordLabel {
+            get {
+                return ResourceManager.GetString("Recovery_ConfirmPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Identidad validada. Espera el código visual para continuar..
+        /// </summary>
+        internal static string Recovery_IdentityValidatedMessage {
+            get {
+                return ResourceManager.GetString("Recovery_IdentityValidatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código de validación no es correcto..
+        /// </summary>
+        internal static string Recovery_InvalidCodeMessage {
+            get {
+                return ResourceManager.GetString("Recovery_InvalidCodeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa un correo valido..
+        /// </summary>
+        internal static string Recovery_InvalidEmailMessage {
+            get {
+                return ResourceManager.GetString("Recovery_InvalidEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes ingresar el código de validación mostrado..
+        /// </summary>
+        internal static string Recovery_MissingCodeMessage {
+            get {
+                return ResourceManager.GetString("Recovery_MissingCodeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el correo registrado para continuar..
+        /// </summary>
+        internal static string Recovery_MissingEmailMessage {
+            get {
+                return ResourceManager.GetString("Recovery_MissingEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes completar la nueva contraseña y su confirmación..
+        /// </summary>
+        internal static string Recovery_MissingPasswordsMessage {
+            get {
+                return ResourceManager.GetString("Recovery_MissingPasswordsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nueva contraseña.
+        /// </summary>
+        internal static string Recovery_NewPasswordLabel {
+            get {
+                return ResourceManager.GetString("Recovery_NewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No soy un robot.
+        /// </summary>
+        internal static string Recovery_NotRobotLabel {
+            get {
+                return ResourceManager.GetString("Recovery_NotRobotLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes confirmar la validación &quot;No soy un robot&quot;..
+        /// </summary>
+        internal static string Recovery_NotRobotRequiredMessage {
+            get {
+                return ResourceManager.GetString("Recovery_NotRobotRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe tener al menos 6 caracteres..
+        /// </summary>
+        internal static string Recovery_PasswordHint {
+            get {
+                return ResourceManager.GetString("Recovery_PasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La nueva contraseña debe tener al menos 6 caracteres..
+        /// </summary>
+        internal static string Recovery_PasswordLengthMessage {
+            get {
+                return ResourceManager.GetString("Recovery_PasswordLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La confirmación no coincide con la nueva contraseña..
+        /// </summary>
+        internal static string Recovery_PasswordMismatchMessage {
+            get {
+                return ResourceManager.GetString("Recovery_PasswordMismatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo registrado.
+        /// </summary>
+        internal static string Recovery_RegisteredEmailLabel {
+            get {
+                return ResourceManager.GetString("Recovery_RegisteredEmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa el mismo correo con el que te registraste en el sistema..
+        /// </summary>
+        internal static string Recovery_RegisteredEmailTooltip {
+            get {
+                return ResourceManager.GetString("Recovery_RegisteredEmailTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Primero solicita y visualiza el código de validación..
+        /// </summary>
+        internal static string Recovery_RequestCodeFirstMessage {
+            get {
+                return ResourceManager.GetString("Recovery_RequestCodeFirstMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Valida tu identidad y actualiza la contraseña sin salir del flujo..
+        /// </summary>
+        internal static string Recovery_Subtitle {
+            get {
+                return ResourceManager.GetString("Recovery_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación de acceso.
+        /// </summary>
+        internal static string Recovery_Title {
+            get {
+                return ResourceManager.GetString("Recovery_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible actualizar la contraseña. .
+        /// </summary>
+        internal static string Recovery_UpdatePasswordErrorPrefix {
+            get {
+                return ResourceManager.GetString("Recovery_UpdatePasswordErrorPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No existe un usuario registrado con ese correo..
+        /// </summary>
+        internal static string Recovery_UserNotFoundMessage {
+            get {
+                return ResourceManager.GetString("Recovery_UserNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validar identidad.
+        /// </summary>
+        internal static string Recovery_ValidateButton {
+            get {
+                return ResourceManager.GetString("Recovery_ValidateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo validado.
+        /// </summary>
+        internal static string Recovery_ValidatedEmailLabel {
+            get {
+                return ResourceManager.GetString("Recovery_ValidatedEmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Primero valida el correo registrado..
+        /// </summary>
+        internal static string Recovery_ValidateEmailFirstMessage {
+            get {
+                return ResourceManager.GetString("Recovery_ValidateEmailFirstMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible validar el usuario. .
+        /// </summary>
+        internal static string Recovery_ValidationErrorPrefix {
+            get {
+                return ResourceManager.GetString("Recovery_ValidationErrorPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Primero confirma tu correo y la validación manual..
+        /// </summary>
+        internal static string Recovery_ValidationHint {
+            get {
+                return ResourceManager.GetString("Recovery_ValidationHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems - RecuperaciÃ³n.
+        /// </summary>
+        internal static string Recovery_WindowTitle {
+            get {
+                return ResourceManager.GetString("Recovery_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Esta ventana se cerrará en {0} segundos..
+        /// </summary>
+        internal static string RecoveryPopup_Countdown {
+            get {
+                return ResourceManager.GetString("RecoveryPopup_Countdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Memoriza el código y continúa con el cambio de contraseña..
+        /// </summary>
+        internal static string RecoveryPopup_RememberCodeHint {
+            get {
+                return ResourceManager.GetString("RecoveryPopup_RememberCodeHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt; Volver.
+        /// </summary>
+        internal static string Register_BackLabel {
+            get {
+                return ResourceManager.GetString("Register_BackLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible validar el usuario del dispositivo..
+        /// </summary>
+        internal static string Register_DeviceUserValidationMessage {
+            get {
+                return ResourceManager.GetString("Register_DeviceUserValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo.
+        /// </summary>
+        internal static string Register_EmailLabel {
+            get {
+                return ResourceManager.GetString("Register_EmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a usuario@weg.net.
+        /// </summary>
+        internal static string Register_EmailPlaceholder {
+            get {
+                return ResourceManager.GetString("Register_EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible completar el registro en este momento. Intenta nuevamente..
+        /// </summary>
+        internal static string Register_ErrorMessage {
+            get {
+                return ResourceManager.GetString("Register_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de registro.
+        /// </summary>
+        internal static string Register_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Register_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario ya se encuentra registrado con ese correo..
+        /// </summary>
+        internal static string Register_ExistingUserMessage {
+            get {
+                return ResourceManager.GetString("Register_ExistingUserMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro existente.
+        /// </summary>
+        internal static string Register_ExistingUserTitle {
+            get {
+                return ResourceManager.GetString("Register_ExistingUserTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Debes ingresar correo y contraseña..
+        /// </summary>
+        internal static string Register_IncompleteDataMessage {
+            get {
+                return ResourceManager.GetString("Register_IncompleteDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo debe terminar en @weg.net..
+        /// </summary>
+        internal static string Register_InvalidDomainMessage {
+            get {
+                return ResourceManager.GetString("Register_InvalidDomainMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña.
+        /// </summary>
+        internal static string Register_PasswordLabel {
+            get {
+                return ResourceManager.GetString("Register_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registrarme.
+        /// </summary>
+        internal static string Register_SubmitButton {
+            get {
+                return ResourceManager.GetString("Register_SubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usa tu correo corporativo para habilitar el acceso al sistema..
+        /// </summary>
+        internal static string Register_Subtitle {
+            get {
+                return ResourceManager.GetString("Register_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro exitoso.
+        /// </summary>
+        internal static string Register_SuccessMessage {
+            get {
+                return ResourceManager.GetString("Register_SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Registro de usuario.
+        /// </summary>
+        internal static string Register_Title {
+            get {
+                return ResourceManager.GetString("Register_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Registro.
+        /// </summary>
+        internal static string Register_WindowTitle {
+            get {
+                return ResourceManager.GetString("Register_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Administrador.
+        /// </summary>
+        internal static string Role_Administrador {
+            get {
+                return ResourceManager.GetString("Role_Administrador", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Almacen.
+        /// </summary>
+        internal static string Role_Almacen {
+            get {
+                return ResourceManager.GetString("Role_Almacen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Calidad.
+        /// </summary>
+        internal static string Role_Calidad {
+            get {
+                return ResourceManager.GetString("Role_Calidad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Compras.
+        /// </summary>
+        internal static string Role_Compras {
+            get {
+                return ResourceManager.GetString("Role_Compras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contratos.
+        /// </summary>
+        internal static string Role_Contratos {
+            get {
+                return ResourceManager.GetString("Role_Contratos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Despachos.
+        /// </summary>
+        internal static string Role_Despachos {
+            get {
+                return ResourceManager.GetString("Role_Despachos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Gerencia.
+        /// </summary>
+        internal static string Role_Gerencia {
+            get {
+                return ResourceManager.GetString("Role_Gerencia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Industrial.
+        /// </summary>
+        internal static string Role_Industrial {
+            get {
+                return ResourceManager.GetString("Role_Industrial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingenierí­a.
+        /// </summary>
+        internal static string Role_Ingenieria {
+            get {
+                return ResourceManager.GetString("Role_Ingenieria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Marketing.
+        /// </summary>
+        internal static string Role_Marketing {
+            get {
+                return ResourceManager.GetString("Role_Marketing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a PCP.
+        /// </summary>
+        internal static string Role_PCP {
+            get {
+                return ResourceManager.GetString("Role_PCP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Producción.
+        /// </summary>
+        internal static string Role_Produccion {
+            get {
+                return ResourceManager.GetString("Role_Produccion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a RRHH.
+        /// </summary>
+        internal static string Role_RRHH {
+            get {
+                return ResourceManager.GetString("Role_RRHH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sistemas TI.
+        /// </summary>
+        internal static string Role_SistemasTI {
+            get {
+                return ResourceManager.GetString("Role_SistemasTI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a SST.
+        /// </summary>
+        internal static string Role_SST {
+            get {
+                return ResourceManager.GetString("Role_SST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ventas.
+        /// </summary>
+        internal static string Role_Ventas {
+            get {
+                return ResourceManager.GetString("Role_Ventas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Elige­ como quieres ver la interfaz del sistema..
+        /// </summary>
+        internal static string Settings_AppearanceDescription {
+            get {
+                return ResourceManager.GetString("Settings_AppearanceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apariencia.
+        /// </summary>
+        internal static string Settings_AppearanceTitle {
+            get {
+                return ResourceManager.GetString("Settings_AppearanceTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Modo oscuro.
+        /// </summary>
+        internal static string Settings_DarkOption {
+            get {
+                return ResourceManager.GetString("Settings_DarkOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Modo claro.
+        /// </summary>
+        internal static string Settings_LightOption {
+            get {
+                return ResourceManager.GetString("Settings_LightOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Personaliza la experiencia visual del sistema..
+        /// </summary>
+        internal static string Settings_Subtitle {
+            get {
+                return ResourceManager.GetString("Settings_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Configuración.
+        /// </summary>
+        internal static string Settings_Title {
+            get {
+                return ResourceManager.GetString("Settings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ayuda.
+        /// </summary>
+        internal static string Shell_AyudaLabel {
+            get {
+                return ResourceManager.GetString("Shell_AyudaLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Documentación y soporte.
+        /// </summary>
+        internal static string Shell_AyudaTooltip {
+            get {
+                return ResourceManager.GetString("Shell_AyudaTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar sesión.
+        /// </summary>
+        internal static string Shell_CerrarSesionLabel {
+            get {
+                return ResourceManager.GetString("Shell_CerrarSesionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Configuración.
+        /// </summary>
+        internal static string Shell_ConfiguracionLabel {
+            get {
+                return ResourceManager.GetString("Shell_ConfiguracionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado de conexión en linea.
+        /// </summary>
+        internal static string Shell_ConnectionStatusLabel {
+            get {
+                return ResourceManager.GetString("Shell_ConnectionStatusLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Gestión de usuarios.
+        /// </summary>
+        internal static string Shell_GestionUsuariosLabel {
+            get {
+                return ResourceManager.GetString("Shell_GestionUsuariosLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Instaladores.
+        /// </summary>
+        internal static string Shell_InstaladoresLabel {
+            get {
+                return ResourceManager.GetString("Shell_InstaladoresLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Logs.
+        /// </summary>
+        internal static string Shell_LogsLabel {
+            get {
+                return ResourceManager.GetString("Shell_LogsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Canal estable.
+        /// </summary>
+        internal static string Shell_VersionLabel {
+            get {
+                return ResourceManager.GetString("Shell_VersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a WEG Installer Systems.
+        /// </summary>
+        internal static string Shell_WindowTitle {
+            get {
+                return ResourceManager.GetString("Shell_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo ya esta registrado o la base de datos esta ocupada..
+        /// </summary>
+        internal static string UserForm_CreateConflictMessage {
+            get {
+                return ResourceManager.GetString("UserForm_CreateConflictMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario creado correctamente.
+        /// </summary>
+        internal static string UserForm_CreatedMessage {
+            get {
+                return ResourceManager.GetString("UserForm_CreatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo.
+        /// </summary>
+        internal static string UserForm_EmailLabel {
+            get {
+                return ResourceManager.GetString("UserForm_EmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a usuario@weg.net.
+        /// </summary>
+        internal static string UserForm_EmailPlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nombres.
+        /// </summary>
+        internal static string UserForm_FirstNameLabel {
+            get {
+                return ResourceManager.GetString("UserForm_FirstNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa nombres....
+        /// </summary>
+        internal static string UserForm_FirstNamePlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_FirstNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Completa todos los campos..
+        /// </summary>
+        internal static string UserForm_IncompleteFieldsMessage {
+            get {
+                return ResourceManager.GetString("UserForm_IncompleteFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apellidos.
+        /// </summary>
+        internal static string UserForm_LastNameLabel {
+            get {
+                return ResourceManager.GetString("UserForm_LastNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa apellidos....
+        /// </summary>
+        internal static string UserForm_LastNamePlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_LastNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa una contraseña..
+        /// </summary>
+        internal static string UserForm_MissingPasswordMessage {
+            get {
+                return ResourceManager.GetString("UserForm_MissingPasswordMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña.
+        /// </summary>
+        internal static string UserForm_PasswordLabel {
+            get {
+                return ResourceManager.GetString("UserForm_PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa una contraseña....
+        /// </summary>
+        internal static string UserForm_PasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Teléfono.
+        /// </summary>
+        internal static string UserForm_PhoneLabel {
+            get {
+                return ResourceManager.GetString("UserForm_PhoneLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a +57 300....
+        /// </summary>
+        internal static string UserForm_PhonePlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_PhonePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rol.
+        /// </summary>
+        internal static string UserForm_RoleLabel {
+            get {
+                return ResourceManager.GetString("UserForm_RoleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible guardar el usuario..
+        /// </summary>
+        internal static string UserForm_SaveErrorMessage {
+            get {
+                return ResourceManager.GetString("UserForm_SaveErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Formulario de usuario.
+        /// </summary>
+        internal static string UserForm_Title {
+            get {
+                return ResourceManager.GetString("UserForm_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario actualizado.
+        /// </summary>
+        internal static string UserForm_UpdatedMessage {
+            get {
+                return ResourceManager.GetString("UserForm_UpdatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acciones.
+        /// </summary>
+        internal static string UserManagement_ActionsColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_ActionsColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Agregar usuario.
+        /// </summary>
+        internal static string UserManagement_AddUserButton {
+            get {
+                return ResourceManager.GetString("UserManagement_AddUserButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aplicativos.
+        /// </summary>
+        internal static string UserManagement_ApplicationsColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_ApplicationsColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Asignación de aplicativos por sección.
+        /// </summary>
+        internal static string UserManagement_AssignmentPanelTitle {
+            get {
+                return ResourceManager.GetString("UserManagement_AssignmentPanelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Asignación guardada correctamente..
+        /// </summary>
+        internal static string UserManagement_AssignmentSavedMessage {
+            get {
+                return ResourceManager.GetString("UserManagement_AssignmentSavedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Roles disponibles.
+        /// </summary>
+        internal static string UserManagement_AvailableRolesHeader {
+            get {
+                return ResourceManager.GetString("UserManagement_AvailableRolesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rol actual.
+        /// </summary>
+        internal static string UserManagement_CurrentRoleLabel {
+            get {
+                return ResourceManager.GetString("UserManagement_CurrentRoleLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se produjo un error al editar el usuario..
+        /// </summary>
+        internal static string UserManagement_EditErrorMessage {
+            get {
+                return ResourceManager.GetString("UserManagement_EditErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo.
+        /// </summary>
+        internal static string UserManagement_EmailColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_EmailColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nombres.
+        /// </summary>
+        internal static string UserManagement_FirstNameColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_FirstNameColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aplicativos instaladores.
+        /// </summary>
+        internal static string UserManagement_InstallerApplicationsHeader {
+            get {
+                return ResourceManager.GetString("UserManagement_InstallerApplicationsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Apellidos.
+        /// </summary>
+        internal static string UserManagement_LastNameColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_LastNameColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Teléfono.
+        /// </summary>
+        internal static string UserManagement_PhoneColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_PhoneColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha de registro.
+        /// </summary>
+        internal static string UserManagement_RegistrationDateColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_RegistrationDateColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rol.
+        /// </summary>
+        internal static string UserManagement_RoleColumn {
+            get {
+                return ResourceManager.GetString("UserManagement_RoleColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar asignación.
+        /// </summary>
+        internal static string UserManagement_SaveAssignmentButton {
+            get {
+                return ResourceManager.GetString("UserManagement_SaveAssignmentButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se produjo un error al guardar la asignación..
+        /// </summary>
+        internal static string UserManagement_SaveAssignmentErrorMessage {
+            get {
+                return ResourceManager.GetString("UserManagement_SaveAssignmentErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario seleccionado.
+        /// </summary>
+        internal static string UserManagement_SelectedUserLabel {
+            get {
+                return ResourceManager.GetString("UserManagement_SelectedUserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuarios.
+        /// </summary>
+        internal static string UserManagement_UsersTabHeader {
+            get {
+                return ResourceManager.GetString("UserManagement_UsersTabHeader", resourceCulture);
+            }
+        }
     }
 }

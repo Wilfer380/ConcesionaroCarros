@@ -1,7 +1,8 @@
-﻿<Window x:Class="ConcesionaroCarros.Views.RegisterView"
+<Window x:Class="ConcesionaroCarros.Views.RegisterView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WEG Installer Systems - Registro" Height="720" Width="520"
+        xmlns:markup="clr-namespace:ConcesionaroCarros.Markup"
+        Title="{markup:Translate Register_WindowTitle}" Height="720" Width="520"
         MinHeight="720" MinWidth="520" MaxHeight="720" MaxWidth="520"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         WindowStyle="None" AllowsTransparency="True"
@@ -122,7 +123,7 @@
                 </Grid>
 
                 <Button Grid.Row="0"
-                        Content="&lt; Devolver"
+                        Content="{markup:Translate Register_BackLabel}"
                         Width="120"
                         Height="30"
                         HorizontalAlignment="Left"
@@ -140,17 +141,17 @@
                             VerticalAlignment="Top"
                             Margin="0,-30,0,0">
 
-                     <TextBlock Text="Registro de acceso al sistema"
+                     <TextBlock Text="{markup:Translate Register_Title}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="15"
                                 FontWeight="SemiBold"/>
-                     <TextBlock Text="Ingresa correo y contrasena para el registro."
+                     <TextBlock Text="{markup:Translate Register_Subtitle}"
                                 Foreground="{StaticResource CorpMutedBrush}"
                                 Margin="10,0,0,8"
                                 FontSize="13"/>
 
-                     <TextBlock Text="Correo"
+                     <TextBlock Text="{markup:Translate Register_EmailLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,8,0,5"
                                 FontSize="16"/>
@@ -158,7 +159,7 @@
                         <TextBox x:Name="txtCorreoRegistro"
                                  Style="{StaticResource FrostyInput}"
                                  Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="usuario@weg.net"
+                        <TextBlock Text="{markup:Translate Register_EmailPlaceholder}"
                                    Foreground="{StaticResource CorpMutedBrush}"
                                    Margin="18,0,0,0"
                                    VerticalAlignment="Center"
@@ -179,7 +180,7 @@
                         </TextBlock>
                     </Grid>
 
-                     <TextBlock Text="Contrasena"
+                     <TextBlock Text="{markup:Translate Register_PasswordLabel}"
                                 Foreground="{StaticResource CorpTextBrush}"
                                 Margin="10,0,0,5"
                                 FontSize="16"/>
@@ -236,7 +237,7 @@
                         </ToggleButton>
                     </Grid>
 
-                    <Button Content="Registrar"
+                    <Button Content="{markup:Translate Register_SubmitButton}"
                             Margin="0,28,0,10"
                             Height="55"
                             Width="260"

@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,783 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdminLogin_AccessDeniedTitle" xml:space="preserve">
+    <value>Acceso denegado</value>
+  </data>
+  <data name="AdminLogin_BackLabel" xml:space="preserve">
+    <value>&lt; Volver</value>
+  </data>
+  <data name="AdminLogin_InvalidPasswordMessage" xml:space="preserve">
+    <value>La contraseña administrativa ingresada es incorrecta. Verifica el dato e intenta nuevamente.</value>
+  </data>
+  <data name="AdminLogin_MissingBaseUserMessage" xml:space="preserve">
+    <value>No existe un usuario base asociado a este administrador.</value>
+  </data>
+  <data name="AdminLogin_MissingUserMessage" xml:space="preserve">
+    <value>Debes ingresar el usuario de administrador.</value>
+  </data>
+  <data name="AdminLogin_NoAccountText" xml:space="preserve">
+    <value>¿No tienes cuenta administrativa?</value>
+  </data>
+  <data name="AdminLogin_NotRegisteredMessage" xml:space="preserve">
+    <value>El usuario administrativo ingresado no se encuentra registrado. Verifica el dato e intenta nuevamente.</value>
+  </data>
+  <data name="AdminLogin_PasswordLabel" xml:space="preserve">
+    <value>Contraseña administrativa</value>
+  </data>
+  <data name="AdminLogin_RegisterLinkLabel" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="AdminLogin_RegistrationRequiredTitle" xml:space="preserve">
+    <value>Registro requerido</value>
+  </data>
+  <data name="AdminLogin_RememberMeLabel" xml:space="preserve">
+    <value>Recordarme</value>
+  </data>
+  <data name="AdminLogin_SubmitButton" xml:space="preserve">
+    <value>Ingresar</value>
+  </data>
+  <data name="AdminLogin_UserLabel" xml:space="preserve">
+    <value>Usuario administrador</value>
+  </data>
+  <data name="AdminLogin_UserPlaceholder" xml:space="preserve">
+    <value>usuario.admin</value>
+  </data>
+  <data name="AdminLogin_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems - Acceso administrativo</value>
+  </data>
+  <data name="AdminRegister_AdminPasswordLabel" xml:space="preserve">
+    <value>Contraseña de administrador</value>
+  </data>
+  <data name="AdminRegister_AlreadyRegisteredMessage" xml:space="preserve">
+    <value>Ya existe un administrador registrado con ese correo.</value>
+  </data>
+  <data name="AdminRegister_BackLabel" xml:space="preserve">
+    <value>&lt; Volver</value>
+  </data>
+  <data name="AdminRegister_DeviceUserMissingMessage" xml:space="preserve">
+    <value>No fue posible detectar el usuario del dispositivo.</value>
+  </data>
+  <data name="AdminRegister_EmailLabel" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="AdminRegister_EmailPlaceholder" xml:space="preserve">
+    <value>administrador@weg.net</value>
+  </data>
+  <data name="AdminRegister_ExistingRegistrationTitle" xml:space="preserve">
+    <value>Registro existente</value>
+  </data>
+  <data name="AdminRegister_IncompleteDataMessage" xml:space="preserve">
+    <value>Completa correo, rol, contraseña de usuario y contraseña de administrador.</value>
+  </data>
+  <data name="AdminRegister_InvalidDerivedUserMessage" xml:space="preserve">
+    <value>No fue posible derivar un usuario válido a partir del correo.</value>
+  </data>
+  <data name="AdminRegister_InvalidDomainMessage" xml:space="preserve">
+    <value>El correo debe terminar en @weg.net.</value>
+  </data>
+  <data name="AdminRegister_NormalPasswordLabel" xml:space="preserve">
+    <value>Contraseña de usuario</value>
+  </data>
+  <data name="AdminRegister_RegisterButton" xml:space="preserve">
+    <value>Registrar administrador</value>
+  </data>
+  <data name="AdminRegister_RegisterErrorMessage" xml:space="preserve">
+    <value>No fue posible completar el registro administrativo en este momento.</value>
+  </data>
+  <data name="AdminRegister_RegisterErrorTitle" xml:space="preserve">
+    <value>Error de registro</value>
+  </data>
+  <data name="AdminRegister_RegisterSuccessMessage" xml:space="preserve">
+    <value>Administrador registrado correctamente.</value>
+  </data>
+  <data name="AdminRegister_RegisterSuccessTitle" xml:space="preserve">
+    <value>Registro exitoso</value>
+  </data>
+  <data name="AdminRegister_RoleLabel" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="AdminRegister_RolePlaceholder" xml:space="preserve">
+    <value>Selecciona un rol</value>
+  </data>
+  <data name="AdminRegister_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems - Registro administrativo</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Common_Copy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="Common_DatabaseBusyRetryMessage" xml:space="preserve">
+    <value>La base de datos está ocupada. Intenta nuevamente.</value>
+  </data>
+  <data name="Common_DatabaseBusySaveRetryMessage" xml:space="preserve">
+    <value>La base de datos está ocupada. Intenta guardar nuevamente.</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Common_EmailValidationTitle" xml:space="preserve">
+    <value>Validación de correo</value>
+  </data>
+  <data name="Common_ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Common_InformationTitle" xml:space="preserve">
+    <value>Información</value>
+  </data>
+  <data name="Common_NoticeTitle" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Common_ValidationTitle" xml:space="preserve">
+    <value>Validación</value>
+  </data>
+  <data name="Common_View" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Help_AdminSubtitle" xml:space="preserve">
+    <value>Consulta toda la documentación del sistema organizada por carpetas y documentos.</value>
+  </data>
+  <data name="Help_AdminTitle" xml:space="preserve">
+    <value>Centro de ayuda administrativo</value>
+  </data>
+  <data name="Help_EmptySelectDescription" xml:space="preserve">
+    <value>Usa el selector de navegación para abrir una guía, manual o procedimiento cuando lo necesites.</value>
+  </data>
+  <data name="Help_EmptySelectHint" xml:space="preserve">
+    <value>No se muestra contenido automáticamente para que elijas exactamente la documentación que quieras consultar.</value>
+  </data>
+  <data name="Help_EmptySelectTitle" xml:space="preserve">
+    <value>Selecciona un documento</value>
+  </data>
+  <data name="Help_LoadErrorDescription" xml:space="preserve">
+    <value>Se produjo un error al inspeccionar la carpeta de ayuda configurada para este perfil.</value>
+  </data>
+  <data name="Help_LoadErrorTitle" xml:space="preserve">
+    <value>No fue posible cargar la documentación</value>
+  </data>
+  <data name="Help_NavigationDescription" xml:space="preserve">
+    <value>Explora documentos, manuales y procedimientos disponibles para tu perfil.</value>
+  </data>
+  <data name="Help_NavigationTitle" xml:space="preserve">
+    <value>Navegación</value>
+  </data>
+  <data name="Help_NextDocumentTooltip" xml:space="preserve">
+    <value>Siguiente documento</value>
+  </data>
+  <data name="Help_NoDocsDescription" xml:space="preserve">
+    <value>No se encontraron archivos de ayuda para este perfil en la carpeta configurada.</value>
+  </data>
+  <data name="Help_NoDocsHint" xml:space="preserve">
+    <value>Revisa que la carpeta Docs exista en el directorio de ejecución y contenga documentos habilitados para este usuario.</value>
+  </data>
+  <data name="Help_NoDocsTitle" xml:space="preserve">
+    <value>Documentación no disponible</value>
+  </data>
+  <data name="Help_PreviousDocumentTooltip" xml:space="preserve">
+    <value>Documento anterior</value>
+  </data>
+  <data name="Help_QuickAccessTitle" xml:space="preserve">
+    <value>Acceso rápido</value>
+  </data>
+  <data name="Help_SupportDescription" xml:space="preserve">
+    <value>Si necesitas asistencia adicional, contacta al responsable del sistema.</value>
+  </data>
+  <data name="Help_SupportTitle" xml:space="preserve">
+    <value>Soporte</value>
+  </data>
+  <data name="Help_TechnicalDetailPrefix" xml:space="preserve">
+    <value>Detalle técnico: </value>
+  </data>
+  <data name="Help_UserSubtitle" xml:space="preserve">
+    <value>Consulta únicamente la documentación disponible para el usuario final.</value>
+  </data>
+  <data name="Help_UserTitle" xml:space="preserve">
+    <value>Centro de ayuda para usuarios</value>
+  </data>
+  <data name="InstallerForm_BrowseButton" xml:space="preserve">
+    <value>Buscar ejecutable</value>
+  </data>
+  <data name="InstallerForm_DetailsLabel" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="InstallerForm_EditTitle" xml:space="preserve">
+    <value>Editar instalador</value>
+  </data>
+  <data name="InstallerForm_FolderLabel" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="InstallerForm_GlobalFolderOption" xml:space="preserve">
+    <value>Desarrollo global</value>
+  </data>
+  <data name="InstallerForm_LocalFolderOption" xml:space="preserve">
+    <value>Punto local de desarrollo planta</value>
+  </data>
+  <data name="InstallerForm_NameLabel" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="InstallerForm_NewTitle" xml:space="preserve">
+    <value>Nuevo instalador</value>
+  </data>
+  <data name="InstallerForm_PathLabel" xml:space="preserve">
+    <value>Ruta</value>
+  </data>
+  <data name="InstallerForm_SaveChangesButton" xml:space="preserve">
+    <value>Guardar cambios</value>
+  </data>
+  <data name="InstallerForm_SaveNewButton" xml:space="preserve">
+    <value>Guardar instalador</value>
+  </data>
+  <data name="InstallerForm_ViewTitle" xml:space="preserve">
+    <value>Ver instalador</value>
+  </data>
+  <data name="Installers_BrowseButton" xml:space="preserve">
+    <value>Examinar</value>
+  </data>
+  <data name="Installers_InstallButton" xml:space="preserve">
+    <value>Instalar</value>
+  </data>
+  <data name="Installers_RunErrorMessage" xml:space="preserve">
+    <value>No fue posible ejecutar el instalador.</value>
+  </data>
+  <data name="Installers_RunUnexpectedErrorMessage" xml:space="preserve">
+    <value>Ocurrió un error inesperado al ejecutar el instalador.</value>
+  </data>
+  <data name="Installers_Subtitle" xml:space="preserve">
+    <value>Administra y ejecuta los instaladores disponibles por carpeta.</value>
+  </data>
+  <data name="Installers_Title" xml:space="preserve">
+    <value>Instaladores</value>
+  </data>
+  <data name="Login_InvalidPasswordMessage" xml:space="preserve">
+    <value>La contraseña ingresada es incorrecta. Verifica el dato e intenta nuevamente.</value>
+  </data>
+  <data name="Login_MissingUserMessage" xml:space="preserve">
+    <value>Debes ingresar tu usuario o correo.</value>
+  </data>
+  <data name="Login_NoAccountText" xml:space="preserve">
+    <value>¿No tienes una cuenta registrada?</value>
+  </data>
+  <data name="Login_PasswordLabel" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Login_RecoveryButton" xml:space="preserve">
+    <value>Recuperar acceso</value>
+  </data>
+  <data name="Login_RegisterLinkLabel" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Login_RememberMeLabel" xml:space="preserve">
+    <value>Recordarme</value>
+  </data>
+  <data name="Login_SubmitButton" xml:space="preserve">
+    <value>Ingresar</value>
+  </data>
+  <data name="Login_UserLabel" xml:space="preserve">
+    <value>Usuario o correo</value>
+  </data>
+  <data name="Login_UserNotRegisteredMessage" xml:space="preserve">
+    <value>El usuario o correo ingresado no se encuentra registrado. Verifica el dato e intenta nuevamente.</value>
+  </data>
+  <data name="Login_UserPlaceholder" xml:space="preserve">
+    <value>usuario o correo</value>
+  </data>
+  <data name="Login_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems - Inicio de sesión</value>
+  </data>
+  <data name="Logs_AverageLatencyMetric" xml:space="preserve">
+    <value>Latencia promedio</value>
+  </data>
+  <data name="Logs_DateColumn" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Logs_DateFormat" xml:space="preserve">
+    <value>fecha {0}</value>
+  </data>
+  <data name="Logs_DateLabel" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Logs_DateTooltip" xml:space="preserve">
+    <value>Selecciona la fecha a inspeccionar.</value>
+  </data>
+  <data name="Logs_DetailColumn" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="Logs_ErrorsMetric" xml:space="preserve">
+    <value>Errores</value>
+  </data>
+  <data name="Logs_EventsMetric" xml:space="preserve">
+    <value>Eventos</value>
+  </data>
+  <data name="Logs_FilteredLoadErrorStatus" xml:space="preserve">
+    <value>No fue posible cargar los logs filtrados.</value>
+  </data>
+  <data name="Logs_FilterRefreshErrorStatus" xml:space="preserve">
+    <value>No fue posible actualizar los filtros de logs.</value>
+  </data>
+  <data name="Logs_LatencyColumn" xml:space="preserve">
+    <value>Latencia</value>
+  </data>
+  <data name="Logs_LevelColumn" xml:space="preserve">
+    <value>Nivel</value>
+  </data>
+  <data name="Logs_LoadedStatus" xml:space="preserve">
+    <value>Logs cargados: {0} eventos de {1}, {2}, desde {3}</value>
+  </data>
+  <data name="Logs_LoadErrorStatus" xml:space="preserve">
+    <value>No fue posible cargar los logs.</value>
+  </data>
+  <data name="Logs_MachineColumn" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="Logs_MachineFormat" xml:space="preserve">
+    <value>equipo {0}</value>
+  </data>
+  <data name="Logs_MachineLabel" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="Logs_MachineSelectedStatus" xml:space="preserve">
+    <value>Equipo {0} seleccionado. Ahora elige una fecha.</value>
+  </data>
+  <data name="Logs_MachinesMetric" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Logs_MachineTooltip" xml:space="preserve">
+    <value>Selecciona el equipo que quieras revisar.</value>
+  </data>
+  <data name="Logs_MessageColumn" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="Logs_NoData" xml:space="preserve">
+    <value>Sin datos</value>
+  </data>
+  <data name="Logs_NoDateSelected" xml:space="preserve">
+    <value>sin fecha seleccionada</value>
+  </data>
+  <data name="Logs_NoDatesForMachineStatus" xml:space="preserve">
+    <value>El equipo {0} no tiene carpetas de logs disponibles.</value>
+  </data>
+  <data name="Logs_NoMachineSelected" xml:space="preserve">
+    <value>sin equipo seleccionado</value>
+  </data>
+  <data name="Logs_NoRecentErrors" xml:space="preserve">
+    <value>Sin errores recientes</value>
+  </data>
+  <data name="Logs_RefreshButton" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="Logs_SelectDateToLoadStatus" xml:space="preserve">
+    <value>Selecciona una fecha del equipo para cargar los logs.</value>
+  </data>
+  <data name="Logs_SelectMachineAndDateStatus" xml:space="preserve">
+    <value>Selecciona un equipo y luego una fecha para cargar los logs.</value>
+  </data>
+  <data name="Logs_SelectMachineStatus" xml:space="preserve">
+    <value>Selecciona un equipo para ver sus carpetas de fechas.</value>
+  </data>
+  <data name="Logs_SelectMachineToLoadStatus" xml:space="preserve">
+    <value>Selecciona un equipo para cargar los logs.</value>
+  </data>
+  <data name="Logs_SourceColumn" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Logs_StatusLabel" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Logs_Subtitle" xml:space="preserve">
+    <value>Inspecciona actividad, errores y latencias por equipo y fecha.</value>
+  </data>
+  <data name="Logs_Title" xml:space="preserve">
+    <value>Centro de logs</value>
+  </data>
+  <data name="Logs_UserColumn" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="Logs_WarningsMetric" xml:space="preserve">
+    <value>Advertencias</value>
+  </data>
+  <data name="Recovery_ChangePasswordButton" xml:space="preserve">
+    <value>Cambiar contraseña</value>
+  </data>
+  <data name="Recovery_CodeDisplayedMessage" xml:space="preserve">
+    <value>Código mostrado correctamente. Ingresa ese código y define tu nueva contraseña.</value>
+  </data>
+  <data name="Recovery_CodeLabel" xml:space="preserve">
+    <value>Código de validación</value>
+  </data>
+  <data name="Recovery_ConfirmPasswordLabel" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="Recovery_IdentityValidatedMessage" xml:space="preserve">
+    <value>Identidad validada. Espera el código visual para continuar.</value>
+  </data>
+  <data name="Recovery_InvalidCodeMessage" xml:space="preserve">
+    <value>El código de validación no es correcto.</value>
+  </data>
+  <data name="Recovery_InvalidEmailMessage" xml:space="preserve">
+    <value>Ingresa un correo válido.</value>
+  </data>
+  <data name="Recovery_MissingCodeMessage" xml:space="preserve">
+    <value>Debes ingresar el código de validación mostrado.</value>
+  </data>
+  <data name="Recovery_MissingEmailMessage" xml:space="preserve">
+    <value>Ingresa el correo registrado para continuar.</value>
+  </data>
+  <data name="Recovery_MissingPasswordsMessage" xml:space="preserve">
+    <value>Debes completar la nueva contraseña y su confirmación.</value>
+  </data>
+  <data name="Recovery_NewPasswordLabel" xml:space="preserve">
+    <value>Nueva contraseña</value>
+  </data>
+  <data name="Recovery_NotRobotLabel" xml:space="preserve">
+    <value>No soy un robot</value>
+  </data>
+  <data name="Recovery_NotRobotRequiredMessage" xml:space="preserve">
+    <value>Debes confirmar la validación "No soy un robot".</value>
+  </data>
+  <data name="Recovery_PasswordHint" xml:space="preserve">
+    <value>La contraseña debe tener al menos 6 caracteres.</value>
+  </data>
+  <data name="Recovery_PasswordLengthMessage" xml:space="preserve">
+    <value>La nueva contraseña debe tener al menos 6 caracteres.</value>
+  </data>
+  <data name="Recovery_PasswordMismatchMessage" xml:space="preserve">
+    <value>La confirmación no coincide con la nueva contraseña.</value>
+  </data>
+  <data name="Recovery_RegisteredEmailLabel" xml:space="preserve">
+    <value>Correo registrado</value>
+  </data>
+  <data name="Recovery_RegisteredEmailTooltip" xml:space="preserve">
+    <value>Ingresa el mismo correo con el que te registraste en el sistema.</value>
+  </data>
+  <data name="Recovery_RequestCodeFirstMessage" xml:space="preserve">
+    <value>Primero solicita y visualiza el código de validación.</value>
+  </data>
+  <data name="Recovery_Subtitle" xml:space="preserve">
+    <value>Valida tu identidad y actualiza la contraseña sin salir del flujo.</value>
+  </data>
+  <data name="Recovery_Title" xml:space="preserve">
+    <value>Recuperación de acceso</value>
+  </data>
+  <data name="Recovery_UpdatePasswordErrorPrefix" xml:space="preserve">
+    <value>No fue posible actualizar la contraseña. </value>
+  </data>
+  <data name="Recovery_UserNotFoundMessage" xml:space="preserve">
+    <value>No existe un usuario registrado con ese correo.</value>
+  </data>
+  <data name="Recovery_ValidateButton" xml:space="preserve">
+    <value>Validar identidad</value>
+  </data>
+  <data name="Recovery_ValidatedEmailLabel" xml:space="preserve">
+    <value>Correo validado</value>
+  </data>
+  <data name="Recovery_ValidateEmailFirstMessage" xml:space="preserve">
+    <value>Primero valida el correo registrado.</value>
+  </data>
+  <data name="Recovery_ValidationErrorPrefix" xml:space="preserve">
+    <value>No fue posible validar el usuario. </value>
+  </data>
+  <data name="Recovery_ValidationHint" xml:space="preserve">
+    <value>Primero confirma tu correo y la validación manual.</value>
+  </data>
+  <data name="Recovery_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems - Recuperación</value>
+  </data>
+  <data name="Register_BackLabel" xml:space="preserve">
+    <value>&lt; Volver</value>
+  </data>
+  <data name="Register_DeviceUserValidationMessage" xml:space="preserve">
+    <value>No fue posible validar el usuario del dispositivo.</value>
+  </data>
+  <data name="Register_EmailLabel" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="Register_EmailPlaceholder" xml:space="preserve">
+    <value>usuario@weg.net</value>
+  </data>
+  <data name="Register_ErrorMessage" xml:space="preserve">
+    <value>No fue posible completar el registro en este momento. Intenta nuevamente.</value>
+  </data>
+  <data name="Register_ErrorTitle" xml:space="preserve">
+    <value>Error de registro</value>
+  </data>
+  <data name="Register_ExistingUserMessage" xml:space="preserve">
+    <value>El usuario ya se encuentra registrado con ese correo.</value>
+  </data>
+  <data name="Register_ExistingUserTitle" xml:space="preserve">
+    <value>Registro existente</value>
+  </data>
+  <data name="Register_IncompleteDataMessage" xml:space="preserve">
+    <value>Debes ingresar correo y contraseña.</value>
+  </data>
+  <data name="Register_InvalidDomainMessage" xml:space="preserve">
+    <value>El correo debe terminar en @weg.net.</value>
+  </data>
+  <data name="Register_PasswordLabel" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Register_SubmitButton" xml:space="preserve">
+    <value>Registrarme</value>
+  </data>
+  <data name="Register_Subtitle" xml:space="preserve">
+    <value>Usa tu correo corporativo para habilitar el acceso al sistema.</value>
+  </data>
+  <data name="Register_SuccessMessage" xml:space="preserve">
+    <value>Registro exitoso</value>
+  </data>
+  <data name="Register_Title" xml:space="preserve">
+    <value>Registro de usuario</value>
+  </data>
+  <data name="Register_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems - Registro</value>
+  </data>
+  <data name="Role_Administrador" xml:space="preserve">
+    <value>Administrador</value>
+  </data>
+  <data name="Role_Almacen" xml:space="preserve">
+    <value>Almacén</value>
+  </data>
+  <data name="Role_Calidad" xml:space="preserve">
+    <value>Calidad</value>
+  </data>
+  <data name="Role_Compras" xml:space="preserve">
+    <value>Compras</value>
+  </data>
+  <data name="Role_Contratos" xml:space="preserve">
+    <value>Contratos</value>
+  </data>
+  <data name="Role_Despachos" xml:space="preserve">
+    <value>Despachos</value>
+  </data>
+  <data name="Role_Gerencia" xml:space="preserve">
+    <value>Gerencia</value>
+  </data>
+  <data name="Role_Industrial" xml:space="preserve">
+    <value>Industrial</value>
+  </data>
+  <data name="Role_Ingenieria" xml:space="preserve">
+    <value>Ingeniería</value>
+  </data>
+  <data name="Role_Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Role_PCP" xml:space="preserve">
+    <value>PCP</value>
+  </data>
+  <data name="Role_Produccion" xml:space="preserve">
+    <value>Producción</value>
+  </data>
+  <data name="Role_RRHH" xml:space="preserve">
+    <value>RRHH</value>
+  </data>
+  <data name="Role_SistemasTI" xml:space="preserve">
+    <value>Sistemas TI</value>
+  </data>
+  <data name="Role_SST" xml:space="preserve">
+    <value>SST</value>
+  </data>
+  <data name="Role_Ventas" xml:space="preserve">
+    <value>Ventas</value>
+  </data>
+  <data name="Settings_AppearanceDescription" xml:space="preserve">
+    <value>Elige cómo quieres ver la interfaz del sistema, siguiendo la animación.</value>
+  </data>
+  <data name="Settings_AppearanceTitle" xml:space="preserve">
+    <value>Apariencia</value>
+  </data>
+  <data name="Settings_DarkOption" xml:space="preserve">
+    <value>Modo oscuro</value>
+  </data>
+  <data name="Settings_LightOption" xml:space="preserve">
+    <value>Modo claro</value>
+  </data>
+  <data name="Settings_Subtitle" xml:space="preserve">
+    <value>Personaliza la experiencia visual del sistema.</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Shell_AyudaLabel" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
+  <data name="Shell_AyudaTooltip" xml:space="preserve">
+    <value>Documentación y soporte</value>
+  </data>
+  <data name="Shell_CerrarSesionLabel" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="Shell_ConfiguracionLabel" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Shell_ConnectionStatusLabel" xml:space="preserve">
+    <value>Estado de conexión en línea</value>
+  </data>
+  <data name="Shell_GestionUsuariosLabel" xml:space="preserve">
+    <value>Gestión de usuarios</value>
+  </data>
+  <data name="Shell_InstaladoresLabel" xml:space="preserve">
+    <value>Instaladores</value>
+  </data>
+  <data name="Shell_LogsLabel" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="Shell_VersionLabel" xml:space="preserve">
+    <value>Canal estable</value>
+  </data>
+  <data name="Shell_WindowTitle" xml:space="preserve">
+    <value>WEG Installer Systems</value>
+  </data>
+  <data name="UserForm_CreateConflictMessage" xml:space="preserve">
+    <value>El correo ya está registrado o la base de datos está ocupada.</value>
+  </data>
+  <data name="UserForm_CreatedMessage" xml:space="preserve">
+    <value>Usuario creado correctamente</value>
+  </data>
+  <data name="UserForm_EmailLabel" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="UserForm_EmailPlaceholder" xml:space="preserve">
+    <value>usuario@weg.net</value>
+  </data>
+  <data name="UserForm_FirstNameLabel" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="UserForm_FirstNamePlaceholder" xml:space="preserve">
+    <value>Ingresa nombres...</value>
+  </data>
+  <data name="UserForm_IncompleteFieldsMessage" xml:space="preserve">
+    <value>Completa todos los campos.</value>
+  </data>
+  <data name="UserForm_LastNameLabel" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="UserForm_LastNamePlaceholder" xml:space="preserve">
+    <value>Ingresa apellidos...</value>
+  </data>
+  <data name="UserForm_MissingPasswordMessage" xml:space="preserve">
+    <value>Ingresa una contraseña.</value>
+  </data>
+  <data name="UserForm_PasswordLabel" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="UserForm_PasswordPlaceholder" xml:space="preserve">
+    <value>Ingresa una contraseña...</value>
+  </data>
+  <data name="UserForm_PhoneLabel" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="UserForm_PhonePlaceholder" xml:space="preserve">
+    <value>+57 300...</value>
+  </data>
+  <data name="UserForm_RoleLabel" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="UserForm_SaveErrorMessage" xml:space="preserve">
+    <value>No fue posible guardar el usuario.</value>
+  </data>
+  <data name="UserForm_Title" xml:space="preserve">
+    <value>Formulario de usuario</value>
+  </data>
+  <data name="UserForm_UpdatedMessage" xml:space="preserve">
+    <value>Usuario actualizado</value>
+  </data>
+  <data name="UserManagement_ActionsColumn" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="UserManagement_AddUserButton" xml:space="preserve">
+    <value>Agregar usuario</value>
+  </data>
+  <data name="UserManagement_ApplicationsColumn" xml:space="preserve">
+    <value>Aplicaciones</value>
+  </data>
+  <data name="UserManagement_AssignmentPanelTitle" xml:space="preserve">
+    <value>Asignación de aplicativos por sección</value>
+  </data>
+  <data name="UserManagement_AssignmentSavedMessage" xml:space="preserve">
+    <value>Asignación guardada correctamente.</value>
+  </data>
+  <data name="UserManagement_AvailableRolesHeader" xml:space="preserve">
+    <value>Roles disponibles</value>
+  </data>
+  <data name="UserManagement_CurrentRoleLabel" xml:space="preserve">
+    <value>Rol actual</value>
+  </data>
+  <data name="UserManagement_EditErrorMessage" xml:space="preserve">
+    <value>Se produjo un error al editar el usuario.</value>
+  </data>
+  <data name="UserManagement_EmailColumn" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="UserManagement_FirstNameColumn" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="UserManagement_InstallerApplicationsHeader" xml:space="preserve">
+    <value>Aplicaciones instaladoras</value>
+  </data>
+  <data name="UserManagement_LastNameColumn" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="UserManagement_PhoneColumn" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="UserManagement_RegistrationDateColumn" xml:space="preserve">
+    <value>Fecha de registro</value>
+  </data>
+  <data name="UserManagement_RoleColumn" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="UserManagement_SaveAssignmentButton" xml:space="preserve">
+    <value>Guardar asignación</value>
+  </data>
+  <data name="UserManagement_SaveAssignmentErrorMessage" xml:space="preserve">
+    <value>Se produjo un error al guardar la asignación.</value>
+  </data>
+  <data name="UserManagement_SelectedUserLabel" xml:space="preserve">
+    <value>Usuario seleccionado</value>
+  </data>
+  <data name="UserManagement_UsersTabHeader" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="RecoveryPopup_RememberCodeHint" xml:space="preserve">
+    <value>Memoriza el código y continúa con el cambio de contraseña.</value>
+  </data>
+  <data name="RecoveryPopup_Countdown" xml:space="preserve">
+    <value>Esta ventana se cerrará en {0} segundos.</value>
+  </data>
+  <data name="Common_DefaultUserName" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="Help_FileMissingMessage" xml:space="preserve">
+    <value>El archivo seleccionado no existe en el directorio de documentación.</value>
+  </data>
+  <data name="Help_ReadErrorMessage" xml:space="preserve">
+    <value>No fue posible cargar el documento.</value>
+  </data>
+  <data name="Help_RenderErrorMessage" xml:space="preserve">
+    <value>No fue posible renderizar el documento seleccionado.</value>
+  </data>
+  <data name="Help_NoDocumentContentMessage" xml:space="preserve">
+    <value>No hay documentación disponible para mostrar.</value>
+  </data>
+  <data name="Documentation_DatabaseTitle" xml:space="preserve">
+    <value>Base de datos</value>
+  </data>
 </root>

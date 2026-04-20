@@ -22,13 +22,16 @@ namespace ConcesionaroCarros.ViewModels
         public string Rol { get; set; }
         public bool PuedeEditarRol { get; set; } = true;
 
-        public ObservableCollection<string> Roles { get; } =
-            new ObservableCollection<string>(RolesSistema.Todos);
+        public ObservableCollection<RoleOption> Roles { get; } =
+            new ObservableCollection<RoleOption>();
 
         public FormularioUsuarioViewModel(Window window, Usuario usuario = null)
         {
             _window = window;
             _usuarioEditando = usuario;
+
+            foreach (var role in RolesSistema.Todos)
+                Roles.Add(new RoleOption(role));
 
             if (usuario == null)
                 return;
@@ -41,6 +44,15 @@ namespace ConcesionaroCarros.ViewModels
             PuedeEditarRol = !RolesSistema.EsAdministrador(usuario.Rol);
         }
 
+        public override void RefreshLocalization()
+        {
+            foreach (var role in Roles)
+                role.RefreshLocalization();
+
+            OnPropertyChanged(nameof(Roles));
+            OnPropertyChanged(nameof(Rol));
+        }
+
         public void Guardar(string password)
         {
             try
@@ -50,7 +62,7 @@ namespace ConcesionaroCarros.ViewModels
                     string.IsNullOrWhiteSpace(Rol))
                 {
                     LogService.Warning("FormularioUsuario", "Intento de guardar usuario con campos incompletos", ConstruirDetalleUsuario());
-                    MessageBox.Show("Complete todos los campos");
+                    MessageBox.Show(LocalizedText.Get("UserForm_IncompleteFieldsMessage", "Complete todos los campos"));
                     return;
                 }
 
@@ -66,8 +78,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.Warning("FormularioUsuario", "No se pudo guardar usuario por base ocupada", ConstruirDetalleUsuario());
                 MessageBox.Show(
-                    "La base de datos esta ocupada. Intente guardar nuevamente.",
-                    "Aviso",
+                    LocalizedText.Get("Common_DatabaseBusySaveRetryMessage", "La base de datos esta ocupada. Intente guardar nuevamente."),
+                    LocalizedText.Get("Common_NoticeTitle", "Aviso"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
@@ -76,7 +88,7 @@ namespace ConcesionaroCarros.ViewModels
                 LogService.Warning("FormularioUsuario", "Validacion de usuario rechazada", ConstruirDetalleUsuario() + " | " + ex.Message);
                 MessageBox.Show(
                     ex.Message,
-                    "Aviso",
+                    LocalizedText.Get("Common_NoticeTitle", "Aviso"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
@@ -84,8 +96,8 @@ namespace ConcesionaroCarros.ViewModels
             {
                 LogService.Error("FormularioUsuario", "Error al guardar usuario", ex, ConstruirDetalleUsuario());
                 MessageBox.Show(
-                    "No fue posible guardar el usuario.\n" + ex.Message,
-                    "Error",
+                    LocalizedText.Get("UserForm_SaveErrorMessage", "No fue posible guardar el usuario.") + "\n" + ex.Message,
+                    LocalizedText.Get("Common_ErrorTitle", "Error"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -105,7 +117,7 @@ namespace ConcesionaroCarros.ViewModels
             _usuariosDb.Actualizar(_usuarioEditando);
             LogService.Info("FormularioUsuario", "Usuario actualizado", ConstruirDetalleUsuario(_usuarioEditando));
 
-            MessageBox.Show("Usuario actualizado");
+            MessageBox.Show(LocalizedText.Get("UserForm_UpdatedMessage", "Usuario actualizado"));
             _window.Close();
         }
 
@@ -114,7 +126,7 @@ namespace ConcesionaroCarros.ViewModels
             if (string.IsNullOrWhiteSpace(password))
             {
                 LogService.Warning("FormularioUsuario", "Intento de crear usuario sin contrasena", ConstruirDetalleUsuario());
-                MessageBox.Show("Ingrese contrasena");
+                MessageBox.Show(LocalizedText.Get("UserForm_MissingPasswordMessage", "Ingrese contrasena"));
                 return;
             }
 
@@ -130,12 +142,12 @@ namespace ConcesionaroCarros.ViewModels
             if (!_usuariosDb.Registrar(usuario, password))
             {
                 LogService.Warning("FormularioUsuario", "No se pudo crear usuario por correo duplicado o bloqueo", ConstruirDetalleUsuario(usuario));
-                MessageBox.Show("Correo ya registrado o base de datos ocupada.");
+                MessageBox.Show(LocalizedText.Get("UserForm_CreateConflictMessage", "Correo ya registrado o base de datos ocupada."));
                 return;
             }
 
             LogService.Info("FormularioUsuario", "Usuario creado correctamente", ConstruirDetalleUsuario(usuario));
-            MessageBox.Show("Usuario creado correctamente");
+            MessageBox.Show(LocalizedText.Get("UserForm_CreatedMessage", "Usuario creado correctamente"));
             _window.Close();
         }
 
@@ -158,6 +170,22 @@ namespace ConcesionaroCarros.ViewModels
                 return "Sin usuario";
 
             return $"Id={usuario.Id}; Correo={usuario.Correo}; Rol={usuario.Rol}; Nombre={(usuario.Nombres + " " + usuario.Apellidos).Trim()}";
+        }
+
+        public sealed class RoleOption : BaseViewModel
+        {
+            public RoleOption(string value)
+            {
+                Value = value;
+            }
+
+            public string Value { get; }
+            public string DisplayName => LocalizedText.GetRoleDisplay(Value);
+
+            public override void RefreshLocalization()
+            {
+                OnPropertyChanged(nameof(DisplayName));
+            }
         }
     }
 }

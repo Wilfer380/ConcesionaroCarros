@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class LogsViewModel : BaseViewModel, IDisposable
+    public class LogsViewModel : BaseViewModel, IDisposable, ILocalizableViewModel
     {
         private static readonly HashSet<string> DeveloperUsers =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -187,16 +187,21 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     ResetEntriesView();
                     TotalEquipos = _dashboardService.GetAvailableMachines().Count;
-                    StatusMessage = "Selecciona un equipo y luego una fecha para cargar los logs.";
-                    UltimoError = "Sin errores recientes";
+                    StatusMessage = LocalizedText.Get("Logs_SelectMachineAndDateStatus", "Selecciona un equipo y luego una fecha para cargar los logs.");
+                    UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
                 }
             }
             catch (Exception ex)
             {
                 _isRefreshingFilters = false;
-                StatusMessage = "No fue posible cargar los logs.";
+                StatusMessage = LocalizedText.Get("Logs_LoadErrorStatus", "No fue posible cargar los logs.");
                 UltimoError = ex.Message;
             }
+        }
+
+        public override void RefreshLocalization()
+        {
+            Refresh();
         }
 
         public void Dispose()
@@ -260,20 +265,20 @@ namespace ConcesionaroCarros.ViewModels
 
                 if (string.IsNullOrWhiteSpace(SelectedMachineFilter))
                 {
-                    StatusMessage = "Selecciona un equipo para ver sus carpetas de fechas.";
-                    UltimoError = "Sin errores recientes";
+                    StatusMessage = LocalizedText.Get("Logs_SelectMachineStatus", "Selecciona un equipo para ver sus carpetas de fechas.");
+                    UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
                     return;
                 }
 
                 StatusMessage = AvailableDates.Count == 0
-                    ? $"El equipo {SelectedMachineFilter} no tiene carpetas de logs disponibles."
-                    : $"Equipo {SelectedMachineFilter} seleccionado. Ahora elige una fecha.";
-                UltimoError = "Sin errores recientes";
+                    ? string.Format(LocalizedText.Get("Logs_NoDatesForMachineStatus", "El equipo {0} no tiene carpetas de logs disponibles."), SelectedMachineFilter)
+                    : string.Format(LocalizedText.Get("Logs_MachineSelectedStatus", "Equipo {0} seleccionado. Ahora elige una fecha."), SelectedMachineFilter);
+                UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
             }
             catch (Exception ex)
             {
                 _isRefreshingFilters = false;
-                StatusMessage = "No fue posible actualizar los filtros de logs.";
+                StatusMessage = LocalizedText.Get("Logs_FilterRefreshErrorStatus", "No fue posible actualizar los filtros de logs.");
                 UltimoError = ex.Message;
             }
         }
@@ -286,9 +291,9 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     ResetEntriesView();
                     StatusMessage = string.IsNullOrWhiteSpace(SelectedMachineFilter)
-                        ? "Selecciona un equipo para cargar los logs."
-                        : "Selecciona una fecha del equipo para cargar los logs.";
-                    UltimoError = "Sin errores recientes";
+                        ? LocalizedText.Get("Logs_SelectMachineToLoadStatus", "Selecciona un equipo para cargar los logs.")
+                        : LocalizedText.Get("Logs_SelectDateToLoadStatus", "Selecciona una fecha del equipo para cargar los logs.");
+                    UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
                     return;
                 }
 
@@ -304,10 +309,10 @@ namespace ConcesionaroCarros.ViewModels
                 TotalAdvertencias = summary.WarningCount;
                 TotalEquipos = _dashboardService.GetAvailableMachines().Count;
                 LatenciaPromedio = summary.AverageLatencyMs <= 0
-                    ? "Sin datos"
+                    ? LocalizedText.Get("Logs_NoData", "Sin datos")
                     : summary.AverageLatencyMs.ToString("N0") + " ms";
                 UltimoError = summary.LatestError == null
-                    ? "Sin errores recientes"
+                    ? LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes")
                     : $"{summary.LatestError.Timestamp:yyyy-MM-dd HH:mm:ss} - {summary.LatestError.Message}";
 
                 ApplyFilters();
@@ -315,7 +320,7 @@ namespace ConcesionaroCarros.ViewModels
             }
             catch (Exception ex)
             {
-                StatusMessage = "No fue posible cargar los logs filtrados.";
+                StatusMessage = LocalizedText.Get("Logs_FilteredLoadErrorStatus", "No fue posible cargar los logs filtrados.");
                 UltimoError = ex.Message;
             }
         }
@@ -340,8 +345,8 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     _isRefreshingFilters = false;
                     ResetEntriesView();
-                    StatusMessage = "Selecciona un equipo y luego una fecha para cargar los logs.";
-                    UltimoError = "Sin errores recientes";
+                    StatusMessage = LocalizedText.Get("Logs_SelectMachineAndDateStatus", "Selecciona un equipo y luego una fecha para cargar los logs.");
+                    UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
                     return;
                 }
 
@@ -370,9 +375,9 @@ namespace ConcesionaroCarros.ViewModels
                 {
                     ResetEntriesView();
                     StatusMessage = string.IsNullOrWhiteSpace(SelectedMachineFilter)
-                        ? "Selecciona un equipo para cargar los logs."
-                        : "Selecciona una fecha del equipo para cargar los logs.";
-                    UltimoError = "Sin errores recientes";
+                        ? LocalizedText.Get("Logs_SelectMachineToLoadStatus", "Selecciona un equipo para cargar los logs.")
+                        : LocalizedText.Get("Logs_SelectDateToLoadStatus", "Selecciona una fecha del equipo para cargar los logs.");
+                    UltimoError = LocalizedText.Get("Logs_NoRecentErrors", "Sin errores recientes");
                 }
             }
             catch
@@ -384,14 +389,19 @@ namespace ConcesionaroCarros.ViewModels
         private string BuildStatusMessage(int count)
         {
             var machineText = string.IsNullOrWhiteSpace(SelectedMachineFilter)
-                ? "sin equipo seleccionado"
-                : $"equipo {SelectedMachineFilter}";
+                ? LocalizedText.Get("Logs_NoMachineSelected", "sin equipo seleccionado")
+                : string.Format(LocalizedText.Get("Logs_MachineFormat", "equipo {0}"), SelectedMachineFilter);
 
             var dateText = string.IsNullOrWhiteSpace(SelectedDateFilter)
-                ? "sin fecha seleccionada"
-                : $"fecha {SelectedDateFilter}";
+                ? LocalizedText.Get("Logs_NoDateSelected", "sin fecha seleccionada")
+                : string.Format(LocalizedText.Get("Logs_DateFormat", "fecha {0}"), SelectedDateFilter);
 
-            return $"Logs cargados: {count} eventos de {machineText}, {dateText}, desde {LogService.PrimaryLogsDirectory}";
+            return string.Format(
+                LocalizedText.Get("Logs_LoadedStatus", "Logs cargados: {0} eventos de {1}, {2}, desde {3}"),
+                count,
+                machineText,
+                dateText,
+                LogService.PrimaryLogsDirectory);
         }
 
         private void ResetEntriesView()
@@ -401,7 +411,7 @@ namespace ConcesionaroCarros.ViewModels
             TotalEventos = 0;
             TotalErrores = 0;
             TotalAdvertencias = 0;
-            LatenciaPromedio = "Sin datos";
+            LatenciaPromedio = LocalizedText.Get("Logs_NoData", "Sin datos");
         }
 
         private void AutoSelectCurrentDeveloperContext()
