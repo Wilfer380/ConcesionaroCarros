@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\AdminLoginViewModel.cs" />
     <Compile Include="ViewModels\AdminRegisterViewModel.cs" />
+    <Compile Include="ViewModels\DeveloperAccountsViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\ILocalizableViewModel.cs" />
     <Compile Include="ViewModels\InstaladoresViewModel.cs" />
@@ -160,6 +161,9 @@
     </Compile>
     <Compile Include="Views\GestionUsuarioView.xaml.cs">
       <DependentUpon>GestionUsuarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeveloperAccountsView.xaml.cs">
+      <DependentUpon>DeveloperAccountsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
@@ -222,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GestionUsuarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeveloperAccountsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
