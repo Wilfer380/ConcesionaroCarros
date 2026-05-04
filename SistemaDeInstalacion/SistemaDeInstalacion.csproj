@@ -120,6 +120,7 @@
     <Compile Include="Services\LocalizedText.cs" />
     <Compile Include="Services\LogDashboardService.cs" />
     <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\OperationalHealthService.cs" />
     <Compile Include="Services\MarkdownDocumentRenderer.cs" />
     <Compile Include="Services\PrivilegedProfile.cs" />
     <Compile Include="Services\RolesSistema.cs" />

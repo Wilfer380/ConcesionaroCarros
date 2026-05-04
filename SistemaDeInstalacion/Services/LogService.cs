@@ -10,6 +10,7 @@ namespace ConcesionaroCarros.Services
         private static readonly object SyncRoot = new object();
 
         public static string PrimaryLogsDirectory => ResolvePrimaryLogsDirectory();
+        public static string FallbackLogsDirectory => ResolveFallbackLogsDirectory();
 
         public static void Info(string source, string message, string details = null)
         {
@@ -71,6 +72,11 @@ namespace ConcesionaroCarros.Services
         public static void LatencyForUser(string source, string message, string userName, long durationMs, string details = null)
         {
             Write("LATENCY", source, message, details, durationMs, userName);
+        }
+
+        public static void Health(string source, string message, string details = null)
+        {
+            Write("HEALTH", source, message, details, null, null);
         }
 
         public static IDisposable TrackLatency(string source, string message, string details = null)
@@ -149,10 +155,7 @@ namespace ConcesionaroCarros.Services
             }
             catch
             {
-                var fallbackRoot = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "SistemaDeInstalacion",
-                    "LogsFallback");
+                var fallbackRoot = FallbackLogsDirectory;
 
                 EnsureDirectoryWritable(Path.Combine(fallbackRoot, Environment.MachineName));
                 return BuildLogFilePath(fallbackRoot, timestamp);
@@ -190,6 +193,14 @@ namespace ConcesionaroCarros.Services
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "SistemaDeInstalacion",
                 "Logs");
+        }
+
+        private static string ResolveFallbackLogsDirectory()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "SistemaDeInstalacion",
+                "LogsFallback");
         }
 
         private static string ResolveLogUserName()
