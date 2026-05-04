@@ -36,6 +36,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <InstallerRoot>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISE&#209;OS\SAP - Respaldo dise&#241;os\FORMATOS SAP\InstallerSystem</InstallerRoot>
     <InstallerPublishDir>$(InstallerRoot)\publish</InstallerPublishDir>
+    <!-- Version semantica visible al usuario en launcher e instalador. -->
+    <ReleaseVersion>1.0.0.15</ReleaseVersion>
     <AutoBuildVersion>$([System.DateTime]::UtcNow.ToString("yyyy.Mdd.HHmm.ss"))</AutoBuildVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -370,7 +372,7 @@
       <Output TaskParameter="Assemblies" ItemName="BuiltAssemblyIdentity" />
     </GetAssemblyIdentity>
     <WriteLinesToFile File="$(OutputPath)build.version"
-                      Lines="$(AutoBuildVersion)"
+                      Lines="$(ReleaseVersion)"
                       Overwrite="true" />
     <ItemGroup>
       <InstallerPublishFiles Include="$(OutputPath)**\*"
@@ -382,7 +384,7 @@
           SkipUnchangedFiles="true"
           ContinueOnError="WarnAndContinue" />
     <WriteLinesToFile File="$(InstallerRoot)\version.txt"
-                      Lines="$(AutoBuildVersion)"
+                      Lines="$(ReleaseVersion)"
                       Overwrite="true"
                       ContinueOnError="WarnAndContinue" />
     <Copy SourceFiles="Deploy\release-notes.txt"

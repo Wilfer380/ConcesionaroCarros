@@ -2,7 +2,7 @@
 
 [Setup]
 AppName=SistemaDeInstalacion
-AppVersion=1.0.0.8
+AppVersion=1.0.0.15
 DefaultDirName={pf}\SistemaDeInstalacion
 DefaultGroupName=SistemaDeInstalacion
 OutputDir={#InstallerRoot}
@@ -15,6 +15,8 @@ WizardStyle=modern
 Source: "{#InstallerRoot}\publish\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe.config"; DestDir: "{app}"; Flags: skipifsourcedoesntexist ignoreversion
+; Release notes embebidas en el instalador para que el flujo visible no dependa de archivos externos.
+Source: "{#SourcePath}\release-notes.txt"; Flags: dontcopy
 
 [Icons]
 Name: "{group}\SistemaDeInstalacion"; Filename: "{app}\LauncherSistema.exe"
@@ -67,11 +69,17 @@ end;
 
 function GetReleaseNotesPath(): String;
 begin
-  Result := AddBackslash(ExtractFileDir(ExpandConstant('{srcexe}'))) + 'release-notes.txt';
+  Result := AddBackslash(ExpandConstant('{tmp}')) + 'release-notes.txt';
 end;
 
 function GetReleaseNotesText(): String;
 begin
+  try
+    ExtractTemporaryFile('release-notes.txt');
+  except
+    // Si por alguna razón no está embebido, seguimos con fallback.
+  end;
+
   Result := ReadTextFileOrDefault(
     GetReleaseNotesPath(),
     'No se encontraron release notes para esta versi' + #243 + 'n.' + #13#10#13#10 +
@@ -147,4 +155,15 @@ procedure CurPageChanged(CurPageID: Integer);
 begin
   if CurPageID = wpInstalling then
     ShowUpdateAnnouncement();
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssPostInstall then
+  begin
+    SaveStringToFile(
+      ExpandConstant('{app}\build.version'),
+      '{#SetupSetting("AppVersion")}',
+      False);
+  end;
 end;
