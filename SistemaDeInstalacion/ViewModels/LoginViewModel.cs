@@ -127,6 +127,7 @@ namespace ConcesionaroCarros.ViewModels
         {
             SesionUsuario.UsuarioActual = usuario;
             SesionUsuario.ModoAdministrador = false;
+            SesionUsuario.PerfilPrivilegiado = PrivilegedProfile.None;
 
             new MainWindow().Show();
             Application.Current.Windows[0]?.Close();

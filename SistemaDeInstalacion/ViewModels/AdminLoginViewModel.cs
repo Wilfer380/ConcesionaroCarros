@@ -18,6 +18,7 @@ namespace ConcesionaroCarros.ViewModels
         private static readonly byte[] Entropy =
             Encoding.UTF8.GetBytes("ConcesionaroCarros.AdminLogin.v1");
 
+        private readonly DeveloperAccountsDbService _developerAccountsDb = new DeveloperAccountsDbService();
         private readonly AdministradoresDbService _adminsDb = new AdministradoresDbService();
         private readonly UsuariosDbService _usuariosDb = new UsuariosDbService();
         private readonly string _rememberPath =
@@ -102,6 +103,13 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
+            var developerDisabled = _developerAccountsDb.IsDisabledDeveloper(admin.Correo);
+            if (developerDisabled)
+            {
+                usuarioLog = ResolveLogUserName(admin.Correo, Environment.UserName ?? string.Empty, WindowsProfileService.ObtenerCorreoPrincipal());
+                LogService.WarningForUser("AdminLogin", "Developer deshabilitado: ingreso como administrador", usuarioLog, BuildLoginDetail(usuarioLog, admin.Correo));
+            }
+
             var usuarioNormal = _usuariosDb.ObtenerPorCorreo(admin.Correo);
             if (usuarioNormal == null)
             {
@@ -117,7 +125,9 @@ namespace ConcesionaroCarros.ViewModels
                 return;
             }
 
-            if (!RolesSistema.EsAdministrador(usuarioNormal.Rol))
+            var isDeveloper = !developerDisabled && _developerAccountsDb.IsDeveloperEmail(admin.Correo);
+
+            if (!isDeveloper && !RolesSistema.EsAdministrador(usuarioNormal.Rol))
                 usuarioNormal.Rol = RolesSistema.Administrador;
 
             if (Recordarme)
@@ -131,6 +141,7 @@ namespace ConcesionaroCarros.ViewModels
             LogService.LatencyForUser("AdminLogin", "Login admin exitoso", usuarioLog, stopwatch.ElapsedMilliseconds, BuildLoginDetail(usuarioLog, admin.Correo));
             SesionUsuario.UsuarioActual = usuarioNormal;
             SesionUsuario.ModoAdministrador = true;
+            SesionUsuario.PerfilPrivilegiado = isDeveloper ? PrivilegedProfile.Developer : PrivilegedProfile.Admin;
             new MainWindow().Show();
             CerrarVentanaActual();
         }

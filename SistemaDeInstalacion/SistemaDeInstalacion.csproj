@@ -105,6 +105,7 @@
     <Compile Include="Db\AdministradoresDbService.cs" />
     <Compile Include="Db\DatabaseConnectionProvider.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
+    <Compile Include="Db\DeveloperAccountsDbService.cs" />
     <Compile Include="Db\InstaladorDbService.cs" />
     <Compile Include="Db\UsuariosDbService.cs" />
     <Compile Include="FontResolver.cs" />
@@ -120,8 +121,10 @@
     <Compile Include="Services\LogDashboardService.cs" />
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MarkdownDocumentRenderer.cs" />
+    <Compile Include="Services\PrivilegedProfile.cs" />
     <Compile Include="Services\RolesSistema.cs" />
     <Compile Include="Services\SesionUsuario.cs" />
+    <Compile Include="Services\SuperAdminPolicy.cs" />
     <Compile Include="Services\ModalOverlayScope.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowsProfileService.cs" />
