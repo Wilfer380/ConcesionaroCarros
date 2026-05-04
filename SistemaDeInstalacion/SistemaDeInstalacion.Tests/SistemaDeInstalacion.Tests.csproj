@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Compile Include="..\Db\AdministradoresDbService.cs" Link="Source\Db\AdministradoresDbService.cs" />
+    <Compile Include="..\Db\DatabaseConnectionProvider.cs" Link="Source\Db\DatabaseConnectionProvider.cs" />
     <Compile Include="..\Db\DatabaseInitializer.cs" Link="Source\Db\DatabaseInitializer.cs" />
     <Compile Include="..\Db\InstaladorDbService.cs" Link="Source\Db\InstaladorDbService.cs" />
     <Compile Include="..\Db\UsuariosDbService.cs" Link="Source\Db\UsuariosDbService.cs" />

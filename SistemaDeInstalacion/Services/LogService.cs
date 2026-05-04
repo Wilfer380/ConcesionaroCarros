@@ -1,5 +1,5 @@
+using ConcesionaroCarros.Db;
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 
@@ -7,7 +7,6 @@ namespace ConcesionaroCarros.Services
 {
     public static class LogService
     {
-        private const string SharedDatabasePathKey = "CC_SHARED_DATABASE_PATH";
         private static readonly object SyncRoot = new object();
 
         public static string PrimaryLogsDirectory => ResolvePrimaryLogsDirectory();
@@ -182,18 +181,10 @@ namespace ConcesionaroCarros.Services
 
         private static string ResolvePrimaryLogsDirectory()
         {
-            var configuredDbPath = ConfigurationManager.AppSettings[SharedDatabasePathKey];
-            if (!string.IsNullOrWhiteSpace(configuredDbPath))
-            {
-                configuredDbPath = Environment.ExpandEnvironmentVariables(configuredDbPath.Trim());
-                if (Path.IsPathRooted(configuredDbPath))
-                {
-                    var dbDirectory = Path.GetDirectoryName(configuredDbPath);
-                    var installerRoot = Directory.GetParent(dbDirectory ?? string.Empty)?.FullName;
-                    if (!string.IsNullOrWhiteSpace(installerRoot))
-                        return Path.Combine(installerRoot, "Logs");
-                }
-            }
+            var databaseProvider = DatabaseConnectionProvider.Instance;
+            var installerRoot = Directory.GetParent(databaseProvider.DatabaseDirectory)?.FullName;
+            if (databaseProvider.IsRootedConfiguredDatabasePath && !string.IsNullOrWhiteSpace(installerRoot))
+                return Path.Combine(installerRoot, "Logs");
 
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

@@ -101,6 +101,7 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Db\AdministradoresDbService.cs" />
+    <Compile Include="Db\DatabaseConnectionProvider.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
     <Compile Include="Db\InstaladorDbService.cs" />
     <Compile Include="Db\UsuariosDbService.cs" />
@@ -285,6 +286,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Docs\Developers\BaseDeDatos.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Docs\Developers\BranchEnvironmentWorkflow.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Docs\Developers\Developer.md">
