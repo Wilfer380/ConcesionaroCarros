@@ -86,7 +86,18 @@ namespace LauncherSistema
                 if (lines.Length == 0)
                     return null;
 
-                return lines[0];
+                var firstLine = (lines[0] ?? string.Empty).Trim();
+                if (IsSemVerLike(firstLine))
+                    return firstLine;
+
+                if (lines.Length > 1)
+                {
+                    var secondLine = (lines[1] ?? string.Empty).Trim();
+                    if (IsSemVerLike(secondLine))
+                        return secondLine;
+                }
+
+                return firstLine;
             }
             catch
             {
@@ -99,7 +110,11 @@ namespace LauncherSistema
             try
             {
                 if (File.Exists(InstalledBuildVersionPath))
-                    return File.ReadAllText(InstalledBuildVersionPath).Trim();
+                {
+                    var installedVersion = File.ReadAllText(InstalledBuildVersionPath).Trim();
+                    if (IsSemVerLike(installedVersion))
+                        return installedVersion;
+                }
 
                 if (!File.Exists(InstalledAppPath))
                     return null;
@@ -124,6 +139,27 @@ namespace LauncherSistema
                 .Select(line => line.Trim())
                 .SkipWhile(string.IsNullOrWhiteSpace)
                 .ToArray();
+        }
+
+        private static bool IsSemVerLike(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
+            var parts = value.Trim().Split('.');
+            if (parts.Length < 3 || parts.Length > 4)
+                return false;
+
+            if (!int.TryParse(parts[0], out var major) || major >= 1000)
+                return false;
+
+            foreach (var part in parts)
+            {
+                if (!int.TryParse(part, out var number) || number < 0)
+                    return false;
+            }
+
+            return true;
         }
 
         private static void SolicitarInstalacion()
@@ -208,9 +244,9 @@ namespace LauncherSistema
             var mensaje =
                 "Hay una nueva versión disponible de SistemaDeInstalacion." +
                 Environment.NewLine + Environment.NewLine +
-                "Versión instalada: " + (string.IsNullOrWhiteSpace(localVersion) ? "No disponible" : localVersion) +
+                "Versión instalada: " + FormatVersionForUi(localVersion) +
                 Environment.NewLine +
-                "Versión disponible: " + serverVersion +
+                "Versión disponible: " + FormatVersionForUi(serverVersion) +
                 Environment.NewLine + Environment.NewLine +
                 "\u00BFDesea actualizar ahora?";
 
@@ -222,6 +258,17 @@ namespace LauncherSistema
                 MessageBoxDefaultButton.Button1);
 
             return result == DialogResult.Yes;
+        }
+
+        private static string FormatVersionForUi(string version)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return "No disponible";
+
+            var cleanVersion = version.Trim();
+            return IsSemVerLike(cleanVersion)
+                ? cleanVersion
+                : "build " + cleanVersion;
         }
 
         private static bool EsInicioPostActualizacion(string[] args)

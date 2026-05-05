@@ -1,8 +1,52 @@
 #define InstallerRoot "\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem"
+#define ReleaseNotesFile "release-notes.txt"
+#define ReleaseNotesGenerator "GenerateReleaseNotes.ps1"
+#define BumpVersionScript "BumpReleaseVersion.ps1"
+#define VersionFileName "release.version.txt"
+
+#define BumpPs1 (SourcePath + "\\" + BumpVersionScript)
+#define ReleaseNotesPs1 (SourcePath + "\\" + ReleaseNotesGenerator)
+#define ReleaseNotesOut (SourcePath + "\\" + ReleaseNotesFile)
+#define IssFullPath (SourcePath + "\\SetupSistema.iss")
+#define ServerVersionTxt (InstallerRoot + "\\version.txt")
+#define CsprojFullPath (SourcePath + "\\..\\SistemaDeInstalacion.csproj")
+#define VersionFilePath (SourcePath + "\\" + VersionFileName)
+
+#define BumpExitCode Exec( \
+  "powershell.exe", \
+  "-NoProfile -ExecutionPolicy Bypass -File " + """" + BumpPs1 + """" + \
+  " -CsprojPath " + """" + CsprojFullPath + """" + \
+  " -OutVersionFile " + """" + VersionFilePath + """" , \
+  SourcePath, \
+  1 \
+)
+
+#if BumpExitCode != 0
+  #error Version bump failed. Run Deploy\BumpReleaseVersion.ps1 manually to see details.
+#endif
+
+#define _vh FileOpen(VersionFilePath)
+#define AppVer FileRead(_vh)
+#expr FileClose(_vh)
+
+#define ReleaseNotesExitCode Exec( \
+  "powershell.exe", \
+  "-NoProfile -ExecutionPolicy Bypass -File " + """" + ReleaseNotesPs1 + """" + \
+  " -IssPath " + """" + IssFullPath + """" + \
+  " -AppVersion " + """" + AppVer + """" + \
+  " -OutFile " + """" + ReleaseNotesOut + """" + \
+  " -ServerVersionFile " + """" + ServerVersionTxt + """" , \
+  SourcePath, \
+  1 \
+)
+
+#if ReleaseNotesExitCode != 0
+  #error Release notes generator failed. Run Deploy\GenerateReleaseNotes.ps1 manually to see details.
+#endif
 
 [Setup]
 AppName=SistemaDeInstalacion
-AppVersion=1.0.0.8
+AppVersion={#AppVer}
 DefaultDirName={pf}\SistemaDeInstalacion
 DefaultGroupName=SistemaDeInstalacion
 OutputDir={#InstallerRoot}
@@ -15,6 +59,8 @@ WizardStyle=modern
 Source: "{#InstallerRoot}\publish\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe.config"; DestDir: "{app}"; Flags: skipifsourcedoesntexist ignoreversion
+; Release notes embebidas en el instalador para que el flujo visible no dependa de archivos externos.
+Source: "{#SourcePath}\release-notes.txt"; Flags: dontcopy
 
 [Icons]
 Name: "{group}\SistemaDeInstalacion"; Filename: "{app}\LauncherSistema.exe"
@@ -67,11 +113,17 @@ end;
 
 function GetReleaseNotesPath(): String;
 begin
-  Result := AddBackslash(ExtractFileDir(ExpandConstant('{srcexe}'))) + 'release-notes.txt';
+  Result := AddBackslash(ExpandConstant('{tmp}')) + 'release-notes.txt';
 end;
 
 function GetReleaseNotesText(): String;
 begin
+  try
+    ExtractTemporaryFile('release-notes.txt');
+  except
+    // Si por alguna razón no está embebido, seguimos con fallback.
+  end;
+
   Result := ReadTextFileOrDefault(
     GetReleaseNotesPath(),
     'No se encontraron release notes para esta versi' + #243 + 'n.' + #13#10#13#10 +
@@ -147,4 +199,15 @@ procedure CurPageChanged(CurPageID: Integer);
 begin
   if CurPageID = wpInstalling then
     ShowUpdateAnnouncement();
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssPostInstall then
+  begin
+    SaveStringToFile(
+      ExpandConstant('{app}\build.version'),
+      '{#SetupSetting("AppVersion")}',
+      False);
+  end;
 end;

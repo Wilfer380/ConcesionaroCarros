@@ -1,6 +1,5 @@
 using Microsoft.Data.Sqlite;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 
@@ -8,9 +7,6 @@ namespace ConcesionaroCarros.Db
 {
     public static class DatabaseInitializer
     {
-        private const string DefaultDbFileName = "WegInstaladores.db";
-        private const string SharedDatabasePathKey = "CC_SHARED_DATABASE_PATH";
-
         private static readonly string[] LegacyDbFileNames =
         {
             "WegInstallerSystems.db",
@@ -18,10 +14,10 @@ namespace ConcesionaroCarros.Db
             "carros.db"
         };
 
-        public static string CurrentDbPath => ResolveCurrentDbPath();
+        public static string CurrentDbPath => DatabaseConnectionProvider.Instance.DatabasePath;
 
         public static string ConnectionString =>
-            $"Data Source={CurrentDbPath}";
+            DatabaseConnectionProvider.Instance.ConnectionString;
 
         public static void Initialize()
         {
@@ -75,6 +71,15 @@ namespace ConcesionaroCarros.Db
                         ValidadoMicrosoft INTEGER NOT NULL DEFAULT 0,
                         FechaRecuperacion TEXT NOT NULL
                     );
+
+                    CREATE TABLE IF NOT EXISTS DeveloperAccount (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Email TEXT NOT NULL UNIQUE,
+                        Enabled INTEGER NOT NULL DEFAULT 1,
+                        CreatedAt TEXT,
+                        CreatedBy TEXT,
+                        Notes TEXT
+                    );
                     ";
 
                     cmd.ExecuteNonQuery();
@@ -103,6 +108,7 @@ namespace ConcesionaroCarros.Db
 
                 MigrarTablaAdministradoresLegacy(connection);
                 EliminarTablasLegacy(connection);
+                SeedDeveloperAccounts(connection);
 
                 using (var cmd = connection.CreateCommand())
                 {
@@ -159,20 +165,6 @@ namespace ConcesionaroCarros.Db
                 return;
 
             Directory.CreateDirectory(directory);
-        }
-
-        private static string ResolveCurrentDbPath()
-        {
-            var configuredPath = ConfigurationManager.AppSettings[SharedDatabasePathKey];
-            if (string.IsNullOrWhiteSpace(configuredPath))
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DefaultDbFileName);
-
-            configuredPath = Environment.ExpandEnvironmentVariables(configuredPath.Trim());
-
-            if (Path.IsPathRooted(configuredPath))
-                return configuredPath;
-
-            return Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuredPath));
         }
 
         private static string[] ResolveLegacyDbPaths()
@@ -292,6 +284,22 @@ namespace ConcesionaroCarros.Db
                 cmd.Parameters.AddWithValue("$name", tableName);
                 var result = cmd.ExecuteScalar();
                 return result != null && result != DBNull.Value;
+            }
+        }
+
+        private static void SeedDeveloperAccounts(SqliteConnection connection)
+        {
+            if (connection == null)
+                return;
+
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = @"
+INSERT OR IGNORE INTO DeveloperAccount (Email, Enabled, CreatedAt, CreatedBy, Notes)
+VALUES
+  ('wandica@weg.net', 1, datetime('now'), 'system', 'seed'),
+  ('maicolj@weg.net', 1, datetime('now'), 'system', 'seed');";
+                cmd.ExecuteNonQuery();
             }
         }
     }

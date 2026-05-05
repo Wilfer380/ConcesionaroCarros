@@ -36,6 +36,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <InstallerRoot>\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISE&#209;OS\SAP - Respaldo dise&#241;os\FORMATOS SAP\InstallerSystem</InstallerRoot>
     <InstallerPublishDir>$(InstallerRoot)\publish</InstallerPublishDir>
+    <!-- Version semantica visible al usuario en launcher e instalador. -->
+    <ReleaseVersion>1.0.0.15</ReleaseVersion>
     <AutoBuildVersion>$([System.DateTime]::UtcNow.ToString("yyyy.Mdd.HHmm.ss"))</AutoBuildVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -101,7 +103,9 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Db\AdministradoresDbService.cs" />
+    <Compile Include="Db\DatabaseConnectionProvider.cs" />
     <Compile Include="Db\DatabaseInitializer.cs" />
+    <Compile Include="Db\DeveloperAccountsDbService.cs" />
     <Compile Include="Db\InstaladorDbService.cs" />
     <Compile Include="Db\UsuariosDbService.cs" />
     <Compile Include="FontResolver.cs" />
@@ -110,21 +114,27 @@
     <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\DocumentationService.cs" />
+    <Compile Include="Services\DocumentationProfile.cs" />
     <Compile Include="Services\AppLogEntry.cs" />
     <Compile Include="Services\GlobalCopyContextService.cs" />
+    <Compile Include="Services\GitBranchService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\LocalizedText.cs" />
     <Compile Include="Services\LogDashboardService.cs" />
     <Compile Include="Services\LogService.cs" />
+    <Compile Include="Services\OperationalHealthService.cs" />
     <Compile Include="Services\MarkdownDocumentRenderer.cs" />
+    <Compile Include="Services\PrivilegedProfile.cs" />
     <Compile Include="Services\RolesSistema.cs" />
     <Compile Include="Services\SesionUsuario.cs" />
+    <Compile Include="Services\SuperAdminPolicy.cs" />
     <Compile Include="Services\ModalOverlayScope.cs" />
     <Compile Include="Services\ThemeManager.cs" />
     <Compile Include="Services\WindowsProfileService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\AdminLoginViewModel.cs" />
     <Compile Include="ViewModels\AdminRegisterViewModel.cs" />
+    <Compile Include="ViewModels\DeveloperAccountsViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\ILocalizableViewModel.cs" />
     <Compile Include="ViewModels\InstaladoresViewModel.cs" />
@@ -154,6 +164,9 @@
     </Compile>
     <Compile Include="Views\GestionUsuarioView.xaml.cs">
       <DependentUpon>GestionUsuarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeveloperAccountsView.xaml.cs">
+      <DependentUpon>DeveloperAccountsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
@@ -216,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GestionUsuarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeveloperAccountsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -285,6 +302,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Docs\Developers\BaseDeDatos.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Docs\Developers\BranchEnvironmentWorkflow.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Docs\Developers\Developer.md">
@@ -366,8 +386,9 @@
       <Output TaskParameter="Assemblies" ItemName="BuiltAssemblyIdentity" />
     </GetAssemblyIdentity>
     <WriteLinesToFile File="$(OutputPath)build.version"
-                      Lines="$(AutoBuildVersion)"
+                      Lines="$(ReleaseVersion)"
                       Overwrite="true" />
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Deploy\StampBranch.ps1&quot; -OutFile &quot;$(OutputPath)build.branch&quot;" />
     <ItemGroup>
       <InstallerPublishFiles Include="$(OutputPath)**\*"
                              Exclude="$(OutputPath)app.publish\**;$(OutputPath)*.application;$(OutputPath)*.exe.manifest;$(OutputPath)publish.htm" />
@@ -378,7 +399,7 @@
           SkipUnchangedFiles="true"
           ContinueOnError="WarnAndContinue" />
     <WriteLinesToFile File="$(InstallerRoot)\version.txt"
-                      Lines="$(AutoBuildVersion)"
+                      Lines="$(ReleaseVersion)"
                       Overwrite="true"
                       ContinueOnError="WarnAndContinue" />
     <Copy SourceFiles="Deploy\release-notes.txt"

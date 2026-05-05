@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
@@ -25,10 +26,25 @@
     <Compile Include="..\Db\DatabaseInitializer.cs" Link="Source\Db\DatabaseInitializer.cs" />
     <Compile Include="..\Db\InstaladorDbService.cs" Link="Source\Db\InstaladorDbService.cs" />
     <Compile Include="..\Db\UsuariosDbService.cs" Link="Source\Db\UsuariosDbService.cs" />
+    <Compile Include="..\Commands\RelayCommand.cs" Link="Source\Commands\RelayCommand.cs" />
     <Compile Include="..\Models\Administrador.cs" Link="Source\Models\Administrador.cs" />
     <Compile Include="..\Models\Instalador.cs" Link="Source\Models\Instalador.cs" />
     <Compile Include="..\Models\Usuario.cs" Link="Source\Models\Usuario.cs" />
+    <Compile Include="..\Properties\Resources.Designer.cs" Link="Source\Properties\Resources.Designer.cs" />
+    <Compile Include="..\Services\AppLogEntry.cs" Link="Source\Services\AppLogEntry.cs" />
+    <Compile Include="..\Services\LocalizationService.cs" Link="Source\Services\LocalizationService.cs" />
+    <Compile Include="..\Services\LocalizedText.cs" Link="Source\Services\LocalizedText.cs" />
+    <Compile Include="..\Services\LogDashboardService.cs" Link="Source\Services\LogDashboardService.cs" />
+    <Compile Include="..\Services\LogService.cs" Link="Source\Services\LogService.cs" />
+    <Compile Include="..\Services\PrivilegedProfile.cs" Link="Source\Services\PrivilegedProfile.cs" />
+    <Compile Include="..\Services\DocumentationProfile.cs" Link="Source\Services\DocumentationProfile.cs" />
+    <Compile Include="..\Services\SuperAdminPolicy.cs" Link="Source\Services\SuperAdminPolicy.cs" />
     <Compile Include="..\Services\RolesSistema.cs" Link="Source\Services\RolesSistema.cs" />
+    <Compile Include="..\Services\SesionUsuario.cs" Link="Source\Services\SesionUsuario.cs" />
+    <Compile Include="..\Services\WindowsProfileService.cs" Link="Source\Services\WindowsProfileService.cs" />
+    <Compile Include="..\ViewModels\BaseViewModel.cs" Link="Source\ViewModels\BaseViewModel.cs" />
+    <Compile Include="..\ViewModels\ILocalizableViewModel.cs" Link="Source\ViewModels\ILocalizableViewModel.cs" />
+    <Compile Include="..\ViewModels\LogsViewModel.cs" Link="Source\ViewModels\LogsViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
