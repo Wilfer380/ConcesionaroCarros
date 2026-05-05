@@ -71,6 +71,15 @@ namespace ConcesionaroCarros.Db
                         ValidadoMicrosoft INTEGER NOT NULL DEFAULT 0,
                         FechaRecuperacion TEXT NOT NULL
                     );
+
+                    CREATE TABLE IF NOT EXISTS DeveloperAccount (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Email TEXT NOT NULL UNIQUE,
+                        Enabled INTEGER NOT NULL DEFAULT 1,
+                        CreatedAt TEXT,
+                        CreatedBy TEXT,
+                        Notes TEXT
+                    );
                     ";
 
                     cmd.ExecuteNonQuery();
@@ -99,6 +108,7 @@ namespace ConcesionaroCarros.Db
 
                 MigrarTablaAdministradoresLegacy(connection);
                 EliminarTablasLegacy(connection);
+                SeedDeveloperAccounts(connection);
 
                 using (var cmd = connection.CreateCommand())
                 {
@@ -274,6 +284,22 @@ namespace ConcesionaroCarros.Db
                 cmd.Parameters.AddWithValue("$name", tableName);
                 var result = cmd.ExecuteScalar();
                 return result != null && result != DBNull.Value;
+            }
+        }
+
+        private static void SeedDeveloperAccounts(SqliteConnection connection)
+        {
+            if (connection == null)
+                return;
+
+            using (var cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = @"
+INSERT OR IGNORE INTO DeveloperAccount (Email, Enabled, CreatedAt, CreatedBy, Notes)
+VALUES
+  ('wandica@weg.net', 1, datetime('now'), 'system', 'seed'),
+  ('maicolj@weg.net', 1, datetime('now'), 'system', 'seed');";
+                cmd.ExecuteNonQuery();
             }
         }
     }

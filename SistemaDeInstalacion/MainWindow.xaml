@@ -265,6 +265,12 @@
                             Style="{StaticResource MenuLogsStyle}"
                             Command="{Binding ShowLogsCommand}"/>
 
+                    <Button Content="{Binding DeveloperAccountsLabel}"
+                            ToolTip="{Binding DeveloperAccountsTooltip}"
+                            Visibility="{Binding EsSuperAdmin, Converter={StaticResource BoolToVisibility}}"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowDeveloperAccountsCommand}"/>
+
                     <Separator Background="{DynamicResource CorpBorderBrush}" Margin="20,15"/>
 
                     <Button Content="{markup:Translate Shell_ConfiguracionLabel}"

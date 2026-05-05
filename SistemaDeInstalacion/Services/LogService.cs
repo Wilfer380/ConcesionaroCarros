@@ -1,15 +1,24 @@
-using ConcesionaroCarros.Db;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace ConcesionaroCarros.Services
 {
     public static class LogService
     {
+        private const string SharedDatabasePathKey = "CC_SHARED_DATABASE_PATH";
         private static readonly object SyncRoot = new object();
 
+        /// <summary>
+        /// Stream en vivo para dashboards/telemetría en la misma instancia de la app.
+        /// Best-effort: un handler defectuoso NO debe romper el logging.
+        /// </summary>
+        public static event Action<AppLogEntry> LogWritten;
+
         public static string PrimaryLogsDirectory => ResolvePrimaryLogsDirectory();
+        public static string FallbackLogsDirectory => ResolveFallbackLogsDirectory();
 
         public static void Info(string source, string message, string details = null)
         {
@@ -73,6 +82,34 @@ namespace ConcesionaroCarros.Services
             Write("LATENCY", source, message, details, durationMs, userName);
         }
 
+        public static void Session(string source, string message, string userName, string details = null)
+        {
+            Write("SESSION", source, message, details, null, userName);
+        }
+
+        public static void Health(string source, string message, string details = null)
+        {
+            Write("HEALTH", source, message, details, null, null);
+        }
+
+        public static void Validation(string source, string rule, bool isAccepted, string details = null, string userName = null)
+        {
+            // IMPORTANT: keep semantic tokens stable across UI languages so dashboards can parse results reliably.
+            var message = isAccepted
+                ? LocalizedText.Get("Logs_ValidationAcceptedMessage", "Validación aceptada")
+                : LocalizedText.Get("Logs_ValidationRejectedMessage", "Validación rechazada");
+
+            var semanticPrefix = string.IsNullOrWhiteSpace(rule)
+                ? "event=validation|accepted=" + (isAccepted ? "true" : "false")
+                : "event=validation|rule=" + rule.Trim() + "|accepted=" + (isAccepted ? "true" : "false");
+
+            var semanticDetails = string.IsNullOrWhiteSpace(details)
+                ? semanticPrefix
+                : semanticPrefix + " | " + details;
+
+            Write("VALIDATION", source, message, semanticDetails, null, userName);
+        }
+
         public static IDisposable TrackLatency(string source, string message, string details = null)
         {
             return new LatencyScope(source, message, details);
@@ -132,10 +169,35 @@ namespace ConcesionaroCarros.Services
 
                     File.AppendAllText(path, line + Environment.NewLine);
                 }
+
+                TryRaiseLogWritten(new AppLogEntry
+                {
+                    Timestamp = timestamp,
+                    Level = level,
+                    MachineName = Environment.MachineName,
+                    UserName = !string.IsNullOrWhiteSpace(userName) ? userName : ResolveLogUserName(),
+                    Source = source,
+                    DurationMs = durationMs,
+                    Message = message,
+                    Details = details,
+                    LogFilePath = path
+                });
             }
             catch
             {
                 // El log nunca debe tumbar la aplicación.
+            }
+        }
+
+        private static void TryRaiseLogWritten(AppLogEntry entry)
+        {
+            try
+            {
+                LogWritten?.Invoke(entry);
+            }
+            catch
+            {
+                // Best-effort.
             }
         }
 
@@ -149,14 +211,19 @@ namespace ConcesionaroCarros.Services
             }
             catch
             {
-                var fallbackRoot = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "SistemaDeInstalacion",
-                    "LogsFallback");
+                var fallbackRoot = FallbackLogsDirectory;
 
                 EnsureDirectoryWritable(Path.Combine(fallbackRoot, Environment.MachineName));
                 return BuildLogFilePath(fallbackRoot, timestamp);
             }
+        }
+
+        public static string[] GetReadableLogsDirectories()
+        {
+            return new[] { PrimaryLogsDirectory, FallbackLogsDirectory }
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
         }
 
         private static string BuildLogFilePath(string root, DateTime timestamp)
@@ -181,15 +248,31 @@ namespace ConcesionaroCarros.Services
 
         private static string ResolvePrimaryLogsDirectory()
         {
-            var databaseProvider = DatabaseConnectionProvider.Instance;
-            var installerRoot = Directory.GetParent(databaseProvider.DatabaseDirectory)?.FullName;
-            if (databaseProvider.IsRootedConfiguredDatabasePath && !string.IsNullOrWhiteSpace(installerRoot))
-                return Path.Combine(installerRoot, "Logs");
+            var configuredDbPath = ConfigurationManager.AppSettings[SharedDatabasePathKey];
+            if (!string.IsNullOrWhiteSpace(configuredDbPath))
+            {
+                configuredDbPath = Environment.ExpandEnvironmentVariables(configuredDbPath.Trim());
+                if (Path.IsPathRooted(configuredDbPath))
+                {
+                    var dbDirectory = Path.GetDirectoryName(configuredDbPath);
+                    var installerRoot = Directory.GetParent(dbDirectory ?? string.Empty)?.FullName;
+                    if (!string.IsNullOrWhiteSpace(installerRoot))
+                        return Path.Combine(installerRoot, "Logs");
+                }
+            }
 
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "SistemaDeInstalacion",
                 "Logs");
+        }
+
+        private static string ResolveFallbackLogsDirectory()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "SistemaDeInstalacion",
+                "LogsFallback");
         }
 
         private static string ResolveLogUserName()

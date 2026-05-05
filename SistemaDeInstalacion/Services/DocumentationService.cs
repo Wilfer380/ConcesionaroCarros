@@ -8,7 +8,7 @@ namespace ConcesionaroCarros.Services
 {
     public sealed class DocumentationService
     {
-        public IReadOnlyList<DocumentationSectionDefinition> CargarSecciones(bool esAdministrador)
+        public IReadOnlyList<DocumentationSectionDefinition> CargarSecciones(DocumentationProfile profile)
         {
             var docsRoot = ResolverDocsRoot();
             var secciones = new List<DocumentationSectionDefinition>();
@@ -18,7 +18,7 @@ namespace ConcesionaroCarros.Services
 
             var culture = LocalizationService.Instance.CurrentCulture;
 
-            if (esAdministrador)
+            if (profile == DocumentationProfile.Admin || profile == DocumentationProfile.Developer)
             {
                 AgregarSeccion(
                     secciones,
@@ -34,22 +34,30 @@ namespace ConcesionaroCarros.Services
                         "sistema",
                         "Sistema.md",
                         TextoPorIdioma(culture, "Sistema", "System", "Sistema")));
+            }
 
-                AgregarSeccion(
-                    secciones,
-                    Path.Combine(docsRoot, "users"),
-                    TextoPorIdioma(culture, "Usuario", "User", "Usu\u00E1rio"),
-                    @"Docs\users",
-                    TextoPorIdioma(culture,
+            AgregarSeccion(
+                secciones,
+                Path.Combine(docsRoot, "users"),
+                TextoPorIdioma(culture, "Usuario", "User", "Usu\u00E1rio"),
+                @"Docs\users",
+                profile == DocumentationProfile.User
+                    ? TextoPorIdioma(culture,
+                        "Gu\u00EDa operativa disponible para usuarios finales.",
+                        "Operational guide available for end users.",
+                        "Guia operacional dispon\u00EDvel para usu\u00E1rios finais.")
+                    : TextoPorIdioma(culture,
                         "Gu\u00EDa operativa para usuarios finales del sistema.",
                         "Operational guide for end users of the system.",
                         "Guia operacional para usu\u00E1rios finais do sistema."),
-                    culture,
-                    new DocumentationDocumentRegistration(
-                        "users/user",
-                        "User.md",
-                        TextoPorIdioma(culture, "User", "User", "Usu\u00E1rio")));
+                culture,
+                new DocumentationDocumentRegistration(
+                    "users/user",
+                    "User.md",
+                    TextoPorIdioma(culture, "User", "User", "Usu\u00E1rio")));
 
+            if (profile == DocumentationProfile.Developer)
+            {
                 AgregarSeccion(
                     secciones,
                     Path.Combine(docsRoot, "Developers"),
@@ -68,7 +76,10 @@ namespace ConcesionaroCarros.Services
                         "developers/base-de-datos",
                         "BaseDeDatos.md",
                         TextoPorIdioma(culture, "Base de datos", "Database", "Banco de dados")));
+            }
 
+            if (profile == DocumentationProfile.Admin)
+            {
                 AgregarSeccion(
                     secciones,
                     Path.Combine(docsRoot, "Administradores"),
@@ -83,24 +94,7 @@ namespace ConcesionaroCarros.Services
                         "administradores/administradores",
                         "Administradores.md",
                         TextoPorIdioma(culture, "Administradores", "Administrators", "Administradores")));
-
-                return secciones;
             }
-
-            AgregarSeccion(
-                secciones,
-                Path.Combine(docsRoot, "users"),
-                TextoPorIdioma(culture, "Usuario", "User", "Usu\u00E1rio"),
-                @"Docs\users",
-                TextoPorIdioma(culture,
-                    "Gu\u00EDa operativa disponible para usuarios finales.",
-                    "Operational guide available for end users.",
-                    "Guia operacional dispon\u00EDvel para usu\u00E1rios finais."),
-                culture,
-                new DocumentationDocumentRegistration(
-                    "users/user",
-                    "User.md",
-                    TextoPorIdioma(culture, "User", "User", "Usu\u00E1rio")));
 
             return secciones;
         }
