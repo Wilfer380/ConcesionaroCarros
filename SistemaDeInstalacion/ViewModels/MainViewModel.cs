@@ -75,7 +75,7 @@ namespace ConcesionaroCarros.ViewModels
         public bool EsAdministrador => SesionUsuario.EsAdmin;
         public bool EsSuperAdmin => SesionUsuario.EsSuperAdmin;
         public bool PuedeVerLogs =>
-            SesionUsuario.EsAdmin &&
+            SesionUsuario.EsDeveloper &&
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
         public string ReleaseChannelLabel => "HOMOLOGATION";
         public string DeveloperAccountsLabel => LocalizedText.Get("Shell_DeveloperAccountsLabel", "Developers");
