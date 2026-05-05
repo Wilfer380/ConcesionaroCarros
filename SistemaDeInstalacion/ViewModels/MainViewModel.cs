@@ -73,10 +73,13 @@ namespace ConcesionaroCarros.ViewModels
         }
 
         public bool EsAdministrador => SesionUsuario.EsAdmin;
+        public bool EsSuperAdmin => SesionUsuario.EsSuperAdmin;
         public bool PuedeVerLogs =>
             SesionUsuario.EsAdmin &&
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
         public string ReleaseChannelLabel => "HOMOLOGATION";
+        public string DeveloperAccountsLabel => LocalizedText.Get("Shell_DeveloperAccountsLabel", "Developers");
+        public string DeveloperAccountsTooltip => LocalizedText.Get("Shell_DeveloperAccountsTooltip", "Gestión de developers (solo Super Admin).");
         public ReadOnlyObservableCollection<LocalizationService.LanguageOption> AvailableLanguages { get; }
 
         public LocalizationService.LanguageOption SelectedLanguage
@@ -91,6 +94,7 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand ShowLogsCommand { get; }
         public ICommand ShowAyudaCommand { get; }
         public ICommand ShowSettingsCommand { get; }
+        public ICommand ShowDeveloperAccountsCommand { get; }
 
         public MainViewModel()
         {
@@ -124,7 +128,7 @@ namespace ConcesionaroCarros.ViewModels
                 VistaActiva = "Ayuda";
                 CurrentView = new HelpView
                 {
-                    DataContext = new HelpViewModel(EsAdministrador)
+                    DataContext = new HelpViewModel(SesionUsuario.PerfilPrivilegiado)
                 };
             });
 
@@ -138,6 +142,19 @@ namespace ConcesionaroCarros.ViewModels
                 CurrentView = new LogsView
                 {
                     DataContext = new LogsViewModel()
+                };
+            });
+
+            ShowDeveloperAccountsCommand = new RelayCommand(_ =>
+            {
+                if (!EsSuperAdmin)
+                    return;
+
+                LogService.Info("MainWindow", "Navegacion a gestion de developers");
+                VistaActiva = "Developers";
+                CurrentView = new DeveloperAccountsView
+                {
+                    DataContext = new DeveloperAccountsViewModel()
                 };
             });
 

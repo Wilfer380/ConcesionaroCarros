@@ -20,6 +20,7 @@ namespace ConcesionaroCarros.ViewModels
         private readonly UsuariosDbService _usuariosDb;
         private readonly AdministradoresDbService _administradoresDb;
         private readonly InstaladorDbService _instaladorDb;
+        private readonly DeveloperAccountsDbService _developerAccountsDb = new DeveloperAccountsDbService();
 
         public ObservableCollection<Usuario> Usuarios { get; set; }
 
@@ -118,6 +119,12 @@ namespace ConcesionaroCarros.ViewModels
                 if (!(usuario is Usuario u))
                     return;
 
+                if (!SesionUsuario.EsSuperAdmin && (RolesSistema.EsAdministrador(u.Rol) || _developerAccountsDb.IsReservedEmail(u.Correo)))
+                {
+                    MessageBox.Show(LocalizedText.Get("UserManagement_EditForbiddenAdminDeveloper", "No tiene permisos para editar administradores o developers."));
+                    return;
+                }
+
                 try
                 {
                     var correoAnterior = u.Correo;
@@ -162,6 +169,24 @@ namespace ConcesionaroCarros.ViewModels
             {
                 if (usuario is Usuario u)
                 {
+                    if (SuperAdminPolicy.IsSuperAdminEmail(u.Correo))
+                    {
+                        MessageBox.Show(LocalizedText.Get("UserManagement_CannotDeleteSuperAdmin", "No se puede eliminar el Super Admin."));
+                        return;
+                    }
+
+                    if (!SesionUsuario.EsSuperAdmin && RolesSistema.EsAdministrador(u.Rol))
+                    {
+                        MessageBox.Show(LocalizedText.Get("UserManagement_CannotDeleteAdmin", "No tiene permisos para eliminar administradores."));
+                        return;
+                    }
+
+                    if (_developerAccountsDb.IsReservedEmail(u.Correo))
+                    {
+                        MessageBox.Show(LocalizedText.Get("UserManagement_CannotDeleteDeveloper", "Este usuario está reservado como Developer. Deshabilítalo desde la gestión de Developers."));
+                        return;
+                    }
+
                     _administradoresDb.EliminarPorCorreo(u.Correo);
                     _usuariosDb.EliminarConDependencias(u.Id, u.Correo);
                     Usuarios.Remove(u);
@@ -400,7 +425,17 @@ namespace ConcesionaroCarros.ViewModels
 
         private void CargarDatos()
         {
-            Usuarios = new ObservableCollection<Usuario>(_usuariosDb.ObtenerTodos());
+            var developerEmails = new HashSet<string>(
+                _developerAccountsDb.ListEnabledEmails() ?? Array.Empty<string>(),
+                StringComparer.OrdinalIgnoreCase);
+
+            var usuarios = (_usuariosDb.ObtenerTodos() ?? Enumerable.Empty<Usuario>())
+                .Where(u => u != null)
+                .Where(u => !SuperAdminPolicy.IsSuperAdminEmail(u.Correo))
+                .Where(u => !developerEmails.Contains((u.Correo ?? string.Empty).Trim()))
+                .ToList();
+
+            Usuarios = new ObservableCollection<Usuario>(usuarios);
             OnPropertyChanged(nameof(Usuarios));
         }
 

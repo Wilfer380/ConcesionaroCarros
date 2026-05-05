@@ -1,0 +1,58 @@
+<UserControl x:Class="ConcesionaroCarros.Views.DeveloperAccountsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <UserControl.Resources>
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource CorpSurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="24"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="880">
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="{Binding Title}" FontSize="28" FontWeight="SemiBold" Foreground="{DynamicResource CorpTextBrush}"/>
+                    <TextBlock Text="{Binding Subtitle}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource CorpMutedBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="{Binding EmailLabel}" FontWeight="SemiBold" Foreground="{DynamicResource CorpTextBrush}"/>
+                        <TextBox Text="{Binding NewDeveloperEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="{Binding NotesLabel}" FontWeight="SemiBold" Foreground="{DynamicResource CorpTextBrush}"/>
+                        <TextBox Text="{Binding NewDeveloperNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Column="4" Content="{Binding AddLabel}" Command="{Binding AddDeveloperCommand}" MinWidth="100" Height="32" Margin="0,22,0,0"/>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <DataGrid ItemsSource="{Binding Developers}" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Estado" Binding="{Binding StatusLabel}" Width="140" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Creado por" Binding="{Binding CreatedBy}" Width="160" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Notas" Binding="{Binding Notes}" Width="*" IsReadOnly="True"/>
+                        <DataGridCheckBoxColumn Header="Activo" Binding="{Binding Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="90"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
