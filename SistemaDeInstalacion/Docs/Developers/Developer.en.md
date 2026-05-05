@@ -153,7 +153,7 @@ This defines a central rule of the system: role alone is not enough; the user mu
 
 - `MostrarInstaladores()` loads `InstaladoresView` as default view;
 - `ShowGestionUsuariosCommand` only works if `EsAdmin` is `true`;
-- `ShowLogsCommand` requires admin mode and an allowed support email;
+- `ShowLogsCommand` exposes the logs center behind a developer/support-only restriction; the canonical detail is in [Step 12. Logs and support diagnostics](help://developers/developer#step-12-logs-and-support-diagnostics);
 - `ShowAyudaCommand` loads `HelpViewModel(EsAdministrador)` and filters documentation by profile and language;
 - `ShowSettingsCommand` loads `SettingsView`;
 - `CerrarSesionCommand` clears the session, returns to `LoginView`, and closes the current window.
@@ -264,21 +264,55 @@ The functional reference of the settings screen is in [Settings](help://users/us
 
 ## Step 12. Logs and support diagnostics
 
-The logs subsystem combines central storage, dashboard parsing, and support restrictions.
+The current logs metrics flow is split across `LogService` (write path), `LogDashboardService` (aggregation), `LogsViewModel` (filters, refresh, drill-down), and `LogsView.xaml` + `LogsView.xaml.cs` (rendering and hover behavior).
 
 Key files:
 
 - `Services/LogService.cs`
 - `Services/LogDashboardService.cs`
+- `Services/AppLogEntry.cs`
 - `ViewModels/LogsViewModel.cs`
 - `Views/LogsView.xaml`
+- `Views/LogsView.xaml.cs`
 
-Important rules:
+Developer-only constraints verified from code:
 
-- logs are visible only to whitelisted support emails in administrator mode;
-- log files are organized by machine and date;
-- the dashboard shows metrics, events, and detailed technical errors;
-- existing log entries are historical data, so changing UI language does not rewrite past event text.
+- `MainViewModel.PuedeVerLogs` only opens the logs center when `SesionUsuario.EsAdmin` is `true` and the current email is in `AllowedLogViewerEmails` (`wandica@weg.net`, `maicolj@weg.net`);
+- `LogsViewModel` applies a developer-biased default machine context only when `LogService.ResolveCurrentAuditUserName()` resolves to `wandica` or `maicolj`.
+
+In practice, these metrics are developer/support diagnostics, not a screen intended for end users or general administrators.
+
+Technical data flow:
+
+1. `LogService.Write()` persists 8 tab-separated columns: timestamp, level, machine, user, source, `DurationMs`, message, and details.
+2. The primary root is derived from `CC_SHARED_DATABASE_PATH`; if write access fails, logging falls back to `%LocalAppData%\SistemaDeInstalacion\LogsFallback`.
+3. Files are stored as `Logs/<Machine>/<yyyy-MM-dd>/events.log`.
+4. `LogDashboardService` reads every readable root returned by `LogService.GetReadableLogsDirectories()`, parses `.log` files into `AppLogEntry`, and extracts semantic tokens from `Details` with `key=value|...` pairs.
+5. Semantic metrics come from those log details, not from `SQLite`. The parser looks for tokens such as `event=validation`, `accepted=false`, `signal=heartbeat`, `dependency=...`, `state=degraded`, and `interval_minutes=...`.
+6. Older Spanish logs remain supported through the `evento=` -> `event=` compatibility mapping.
+
+Current metrics implementation:
+
+1. `GetDashboardSnapshot()` loads `baseEntries` by machine + time range, then applies severity/source/user/search filters to produce `filteredEntries`.
+2. Top cards come from `LogDashboardSummary`: visible events, errors, warnings, and P95 latency. Average latency is also computed and reused in the narrative sections.
+3. `BuildExecutiveStatus()` computes observable coverage over five base signals: `health`, `heartbeat`, `dependencies`, `session`, and `validation`.
+4. `BuildStatusSections()` creates the visible narrative sections: `incidents`, `validations`, `latency`, `activity`, and `health`, each with facts, timeline segments, and trend cells.
+5. `BuildDistribution()` produces top-6 activity blocks by source, user, and machine from `filteredEntries`.
+6. `BuildLatencyDistribution()` groups entries with `DurationMs` into `< 250 ms`, `250-499 ms`, `500-999 ms`, `1-2 s`, and `>= 2 s`.
+7. `BuildCriticalEvents()` exposes the last 8 visible critical events (`ERROR`, `WARNING`, rejected `VALIDATION`, and degraded/unhealthy `HEALTH` signals).
+8. `InstrumentationStatus` is intentionally honest: if a signal is missing, the dashboard reports the instrumentation gap instead of inventing uptime.
+
+UI / ViewModel / service interaction:
+
+1. `LogsViewModel` builds `LogDashboardQuery`, requests snapshots, and applies them into bindable collections used by `LogsView.xaml`.
+2. Real-time mode forces the `2h` window, subscribes to `LogService.LogWritten`, debounces refreshes by `150 ms`, and also keeps a `2 s` auto-refresh timer.
+3. Source, user, and machine metric blocks are clickable and apply contextual filters; latency blocks are hover-only.
+4. `LogsView.xaml.cs` manages persistent hover sessions and delegates hover card composition to `PreviewMetricHover()`, `PreviewFactHover()`, and `PreviewNarrativeSegment()`.
+5. Incident and narrative drill-down only reshape the current filtered view; they do not modify persisted logs.
+
+Current implementation note: `LogDashboardSnapshot` still exposes `ErrorSeries` and `WarningSeries`, but the present XAML no longer binds those collections directly. The visible dashboard now prioritizes `StatusSections`, distributions, contextual hover, incident timeline, and the filtered grid.
+
+Historical log entries remain immutable data; changing UI language does not rewrite previously persisted messages.
 
 ## Build, release, and operational workflow
 
