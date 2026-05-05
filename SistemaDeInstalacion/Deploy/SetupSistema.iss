@@ -1,8 +1,52 @@
 #define InstallerRoot "\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem"
+#define ReleaseNotesFile "release-notes.txt"
+#define ReleaseNotesGenerator "GenerateReleaseNotes.ps1"
+#define BumpVersionScript "BumpReleaseVersion.ps1"
+#define VersionFileName "release.version.txt"
+
+#define BumpPs1 (SourcePath + "\\" + BumpVersionScript)
+#define ReleaseNotesPs1 (SourcePath + "\\" + ReleaseNotesGenerator)
+#define ReleaseNotesOut (SourcePath + "\\" + ReleaseNotesFile)
+#define IssFullPath (SourcePath + "\\SetupSistema.iss")
+#define ServerVersionTxt (InstallerRoot + "\\version.txt")
+#define CsprojFullPath (SourcePath + "\\..\\SistemaDeInstalacion.csproj")
+#define VersionFilePath (SourcePath + "\\" + VersionFileName)
+
+#define BumpExitCode Exec( \
+  "powershell.exe", \
+  "-NoProfile -ExecutionPolicy Bypass -File " + """" + BumpPs1 + """" + \
+  " -CsprojPath " + """" + CsprojFullPath + """" + \
+  " -OutVersionFile " + """" + VersionFilePath + """" , \
+  SourcePath, \
+  1 \
+)
+
+#if BumpExitCode != 0
+  #error Version bump failed. Run Deploy\BumpReleaseVersion.ps1 manually to see details.
+#endif
+
+#define _vh FileOpen(VersionFilePath)
+#define AppVer FileRead(_vh)
+#expr FileClose(_vh)
+
+#define ReleaseNotesExitCode Exec( \
+  "powershell.exe", \
+  "-NoProfile -ExecutionPolicy Bypass -File " + """" + ReleaseNotesPs1 + """" + \
+  " -IssPath " + """" + IssFullPath + """" + \
+  " -AppVersion " + """" + AppVer + """" + \
+  " -OutFile " + """" + ReleaseNotesOut + """" + \
+  " -ServerVersionFile " + """" + ServerVersionTxt + """" , \
+  SourcePath, \
+  1 \
+)
+
+#if ReleaseNotesExitCode != 0
+  #error Release notes generator failed. Run Deploy\GenerateReleaseNotes.ps1 manually to see details.
+#endif
 
 [Setup]
 AppName=SistemaDeInstalacion
-AppVersion=1.0.0.15
+AppVersion={#AppVer}
 DefaultDirName={pf}\SistemaDeInstalacion
 DefaultGroupName=SistemaDeInstalacion
 OutputDir={#InstallerRoot}
