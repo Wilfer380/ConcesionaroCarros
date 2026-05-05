@@ -186,7 +186,7 @@ Esto define una regla central del sistema: el rol no alcanza; hace falta haber p
 
 - `MostrarInstaladores()` carga `InstaladoresView` como vista por defecto;
 - `ShowGestionUsuariosCommand` solo funciona si `EsAdministrador` es `true`;
-- `ShowLogsCommand` exige admin y además correo permitido en `AllowedLogViewerEmails`;
+- `ShowLogsCommand` expone el centro de logs con una restricción específica de soporte/desarrollo; el detalle canónico queda en [Paso 12. Logs y observabilidad local](help://developers/developer#paso-12-logs-y-observabilidad-local);
 - `ShowAyudaCommand` carga `HelpViewModel(EsAdministrador)` para filtrar la documentación por perfil;
 - `ShowSettingsCommand` carga `SettingsView` con `SettingsViewModel`, fija `VistaActiva = "Configuracion"` y queda expuesto en el menú lateral antes de `Cerrar sesión` según `MainWindow.xaml`;
 - `CerrarSesionCommand` limpia la sesión, vuelve a `LoginView` y cierra la ventana actual.
@@ -362,7 +362,7 @@ Implicación técnica:
 
 ## Paso 12. Logs y observabilidad local
 
-El logging está centralizado en `LogService` y la consulta visual en `LogsViewModel` + `LogDashboardService`.
+El logging sigue centralizado en `LogService`, pero la lectura de métricas actual ya no es una lista plana de eventos. El flujo real queda repartido entre `LogDashboardService` (agregación), `LogsViewModel` (estado/filtros/refresco) y `LogsView.xaml` (render + hover + drill-down).
 
 Archivos clave:
 
@@ -371,16 +371,55 @@ Archivos clave:
 - `Services/AppLogEntry.cs`
 - `ViewModels/LogsViewModel.cs`
 - `Views/LogsView.xaml`
+- `Views/LogsView.xaml.cs`
 
-Comportamiento real:
+### Restricción developer-only confirmada por código
 
-1. `LogService` escribe líneas tabuladas con timestamp, nivel, equipo, usuario, source, latencia, mensaje y detalles;
-2. el directorio principal se deriva de `CC_SHARED_DATABASE_PATH`; si no es escribible, cae a `%LocalAppData%\SistemaDeInstalacion\LogsFallback`;
-3. los logs se organizan por equipo y fecha: `Logs/<Machine>/<yyyy-MM-dd>/events.log`;
-4. `LogDashboardService` parsea archivos `.log`, arma resumenes y expone filtros por equipo/fecha;
-5. `LogsViewModel` solo es accesible para admins cuyo correo esté en `AllowedLogViewerEmails` de `MainViewModel`.
+Estas métricas NO están pensadas para usuarios finales ni para cualquier admin genérico. En el código actual quedan expuestas solo dentro del centro de logs, y ese centro solo abre cuando se cumplen ambas condiciones:
 
-El subsistema no depende de `SQLite`, pero si de escritura a disco. Si el share principal falla, sigue logueando localmente.
+1. `SesionUsuario.EsAdmin` es `true`;
+2. el correo de sesión está hardcodeado en `MainViewModel.AllowedLogViewerEmails` (`wandica@weg.net`, `maicolj@weg.net`).
+
+Además, `LogsViewModel` aplica un contexto inicial especial solo si `LogService.ResolveCurrentAuditUserName()` coincide con `DeveloperUsers` (`wandica`, `maicolj`): busca el último evento visible de ese developer y preselecciona su equipo. O sea: la pantalla completa ya está restringida a soporte/desarrollo, y la experiencia por defecto además está sesgada a esos developers hardcodeados.
+
+### Fuente de datos y formato real
+
+1. `LogService.Write()` persiste líneas tabuladas con 8 columnas: timestamp, nivel, equipo, usuario, source, `DurationMs`, mensaje y detalles.
+2. La ruta primaria sale de `CC_SHARED_DATABASE_PATH`: toma el directorio de la base, sube un nivel y usa `Logs`. Si falla la escritura, cae a `%LocalAppData%\SistemaDeInstalacion\LogsFallback`.
+3. La estructura física es `Logs/<Machine>/<yyyy-MM-dd>/events.log`.
+4. `LogDashboardService` lee ambos roots retornados por `LogService.GetReadableLogsDirectories()` y parsea cada `.log` en `AppLogEntry` con `ParseFile()`.
+5. Las métricas semánticas no salen de `SQLite`. Salen del texto de `Details`, donde el parser busca tokens `key=value` separados por `|` como `event=validation`, `accepted=false`, `signal=heartbeat`, `dependency=sql`, `state=degraded` o `interval_minutes=5`.
+6. Hay compatibilidad hacia atrás para logs viejos en español: `GetSemanticValue()` mapea `evento=` hacia `event=`.
+
+### Flujo técnico de snapshot y filtros
+
+1. `LogsViewModel` arma un `LogDashboardQuery` con equipo, rango, severidad, módulo, usuario y texto libre.
+2. `LogDashboardService.GetDashboardSnapshot()` primero carga `baseEntries` solo por equipo + ventana temporal, y recién después aplica filtros adicionales para producir `filteredEntries`.
+3. Esa separación importa: la cobertura e inferencia health usan `baseEntries`, mientras que los contadores visibles, distribuciones y grilla usan `filteredEntries`.
+4. El modo `realtime` fija `SelectedTimeRangeKey = "2h"`; el modo `history` restaura el último rango histórico elegido.
+5. En tiempo real, `LogsViewModel` se suscribe a `LogService.LogWritten`, debouncing de `150 ms`, y además mantiene auto-refresh cada `2 s`. No consulta DB ni servicios remotos: vuelve a pedir un snapshot al agregador.
+
+### Métricas implementadas hoy
+
+1. Tarjetas superiores desde `LogDashboardSummary`: eventos visibles (`TotalEvents`), errores (`ErrorCount`), advertencias (`WarningCount`) y P95 (`P95LatencyMs`). El promedio (`AverageLatencyMs`) también se calcula y se reutiliza en secciones narrativas.
+2. Estado ejecutivo desde `BuildExecutiveStatus()`: cobertura observable `0..5` sobre cinco señales base (`health`, `heartbeat`, `dependencies`, `session`, `validation`) más etiquetas y detalles de última señal, heartbeat, dependencias e incidentes.
+3. Secciones narrativas desde `BuildStatusSections()`: `incidents`, `validations`, `latency`, `activity` y `health`. Cada una expone `Summary`, `Detail`, `Facts`, `TimelineSegments` y `TrendCells`.
+4. Distribuciones por actividad desde `BuildDistribution()`: top 6 por `Source`, `UserName` y `MachineName`, siempre calculadas sobre `filteredEntries`.
+5. Distribución de latencia desde `BuildLatencyDistribution()`: bandas `< 250 ms`, `250-499 ms`, `500-999 ms`, `1-2 s` y `>= 2 s`, usando solo entradas con `DurationMs`.
+6. Timeline de incidentes desde `BuildCriticalEvents()`: últimos 8 eventos críticos visibles (`ERROR`, `WARNING`, `VALIDATION` rechazada, incidentes/degradaciones `HEALTH`).
+7. La instrumentación visible (`InstrumentationStatus`) no inventa salud: cuando faltan señales, el dashboard muestra explícitamente gaps de cobertura en vez de fabricar uptime.
+
+Detalle importante del estado actual: el snapshot todavía expone `ErrorSeries` y `WarningSeries`, pero `LogsView.xaml` ya no bindéa esas colecciones de forma directa. La UI actual prioriza `StatusSections`, distribuciones, hover contextual, timeline de incidentes y grilla filtrada.
+
+### Interacción UI -> ViewModel -> Service
+
+1. `LogsView.xaml` bindea las colecciones del snapshot aplicado por `LogsViewModel`: tarjetas, filtros, `StatusSections`, distribuciones, timeline y `FilteredEntries`.
+2. Los bloques de `SourceActivity`, `UserActivity` y `MachineActivity` son botones: click aplica filtros contextuales (`ApplySourceFilterCommand`, `ApplyUserFilterCommand`, `ApplyMachineFilterCommand`).
+3. Los bloques de latencia no hacen drill-down por click; solo disparan hover informativo.
+4. `LogsView.xaml.cs` controla sesiones de hover persistente y delega a `LogsViewModel.PreviewMetricHover()`, `PreviewFactHover()` y `PreviewNarrativeSegment()` para construir la `DashboardHoverCard`.
+5. El drill-down de timeline usa `ApplyIncidentDrillDown()` y `ApplyNarrativeSegmentDrillDown()`, que sincronizan la lista de incidentes y la grilla inferior con el segmento seleccionado sin tocar la persistencia.
+
+El subsistema no depende de `SQLite`, pero sí de escritura/lectura a disco. Si el share principal falla, sigue logueando localmente y el dashboard intenta leer tanto el root primario como el fallback.
 
 ## Persistencia y modelo de datos
 
@@ -446,9 +485,8 @@ Eso explica por qué el launcher y la app principal deben leerse como un product
 3. Los permisos de aplicativos dependen de rutas serializadas en JSON. No hay integridad referencial entre usuario e instalador.
 4. `CC_CORPORATE_EMAIL_DOMAIN` existe en configuración, pero `RegisterViewModel` y `AdminRegisterViewModel` validan `@weg.net` de forma hardcodeada. Hay duplicación de regla.
 5. El nombre `MicrosoftRecoveryViewModel` hoy sobrepromete: el flujo real es local, con código visual y sin validación Microsoft efectiva.
-6. `MainViewModel.AllowedLogViewerEmails` hardcodea correos autorizados para logs. Es una política embebida en código, no una configuración del sistema.
-7. La solución contiene una segunda copia de documentación bajo `LauncherSistema/Docs`. Si ambas se editan por separado, la ayuda puede derivar en contenido divergente según artefacto o empaquetado.
-8. El `RootNamespace` del `.csproj` es `SistemaDeInstalacion`, pero el código principal usa namespace `ConcesionaroCarros`. No rompe por sí mismo, pero es una inconsistencia histórica que complica lectura y tooling.
+6. La solución contiene una segunda copia de documentación bajo `LauncherSistema/Docs`. Si ambas se editan por separado, la ayuda puede derivar en contenido divergente según artefacto o empaquetado.
+7. El `RootNamespace` del `.csproj` es `SistemaDeInstalacion`, pero el código principal usa namespace `ConcesionaroCarros`. No rompe por sí mismo, pero es una inconsistencia histórica que complica lectura y tooling.
 
 ## Referencias técnicas
 

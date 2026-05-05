@@ -114,8 +114,10 @@
     <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\DocumentationService.cs" />
+    <Compile Include="Services\DocumentationProfile.cs" />
     <Compile Include="Services\AppLogEntry.cs" />
     <Compile Include="Services\GlobalCopyContextService.cs" />
+    <Compile Include="Services\GitBranchService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\LocalizedText.cs" />
     <Compile Include="Services\LogDashboardService.cs" />
@@ -386,6 +388,7 @@
     <WriteLinesToFile File="$(OutputPath)build.version"
                       Lines="$(ReleaseVersion)"
                       Overwrite="true" />
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Deploy\StampBranch.ps1&quot; -OutFile &quot;$(OutputPath)build.branch&quot;" />
     <ItemGroup>
       <InstallerPublishFiles Include="$(OutputPath)**\*"
                              Exclude="$(OutputPath)app.publish\**;$(OutputPath)*.application;$(OutputPath)*.exe.manifest;$(OutputPath)publish.htm" />

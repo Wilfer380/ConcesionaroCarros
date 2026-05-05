@@ -786,6 +786,18 @@
   <data name="UserForm_MissingPasswordMessage" xml:space="preserve">
     <value>Ingresa una contraseña.</value>
   </data>
+  <data name="UserForm_AdminPasswordLabel" xml:space="preserve">
+    <value>Contraseña administrativa</value>
+  </data>
+  <data name="UserForm_AdminPasswordPlaceholder" xml:space="preserve">
+    <value>Ingresa la contraseña administrativa...</value>
+  </data>
+  <data name="UserForm_MissingAdminPasswordMessage" xml:space="preserve">
+    <value>Ingresa la contraseña administrativa.</value>
+  </data>
+  <data name="UserForm_AdminCreateErrorMessage" xml:space="preserve">
+    <value>No fue posible crear el administrador en este momento.</value>
+  </data>
   <data name="UserForm_PasswordLabel" xml:space="preserve">
     <value>Contraseña</value>
   </data>
@@ -891,4 +903,201 @@
   <data name="Documentation_DatabaseTitle" xml:space="preserve">
     <value>Base de datos</value>
   </data>
+  <data name="Logs_Dashboard_HeaderTitle" xml:space="preserve"><value>Dashboard de métricas y logs</value></data>
+  <data name="Logs_Dashboard_HeaderSubtitle" xml:space="preserve"><value>Lectura operativa en tiempo real e histórica usando únicamente señales reales observables.</value></data>
+  <data name="Logs_Dashboard_ClearFiltersButton" xml:space="preserve"><value>Limpiar filtros</value></data>
+  <data name="Logs_Dashboard_WindowLabel" xml:space="preserve"><value>Ventana</value></data>
+  <data name="Logs_Dashboard_CoverageLabel" xml:space="preserve"><value>Cobertura</value></data>
+  <data name="Logs_Dashboard_LatestSignalLabel" xml:space="preserve"><value>Última señal</value></data>
+  <data name="Logs_Dashboard_HeartbeatLabel" xml:space="preserve"><value>Heartbeat</value></data>
+  <data name="Logs_Dashboard_DependenciesLabel" xml:space="preserve"><value>Dependencias</value></data>
+  <data name="Logs_Dashboard_HealthIncidentsLabel" xml:space="preserve"><value>Incidentes health</value></data>
+  <data name="Logs_Dashboard_VisibleEventsMetric" xml:space="preserve"><value>Eventos visibles</value></data>
+  <data name="Logs_Dashboard_P95LatencyMetric" xml:space="preserve"><value>Latencia P95</value></data>
+  <data name="Logs_Dashboard_FiltersTitle" xml:space="preserve"><value>Filtros operativos</value></data>
+  <data name="Logs_Dashboard_FiltersSubtitle" xml:space="preserve"><value>Los cambios de idioma deben respetar los mismos filtros, drill-down y refrescos existentes.</value></data>
+  <data name="Logs_Dashboard_RealTimeView" xml:space="preserve"><value>Tiempo real</value></data>
+  <data name="Logs_Dashboard_HistoryView" xml:space="preserve"><value>Histórico</value></data>
+  <data name="Logs_Dashboard_RangeFilter" xml:space="preserve"><value>Rango</value></data>
+  <data name="Logs_Dashboard_SeverityFilter" xml:space="preserve"><value>Severidad</value></data>
+  <data name="Logs_Dashboard_ModuleFilter" xml:space="preserve"><value>Módulo</value></data>
+  <data name="Logs_Dashboard_SearchFilter" xml:space="preserve"><value>Búsqueda</value></data>
+  <data name="Logs_Dashboard_ByFamilyTitle" xml:space="preserve"><value>Lectura ejecutiva por familia</value></data>
+  <data name="Logs_Dashboard_ByFamilySubtitle" xml:space="preserve"><value>Resumen honesto por incidentes, validaciones, latencia, actividad y salud operativa.</value></data>
+  <data name="Logs_Dashboard_HistoricalBands" xml:space="preserve"><value>Bandas históricas</value></data>
+  <data name="Logs_Dashboard_TimelineStart" xml:space="preserve"><value>Inicio</value></data>
+  <data name="Logs_Dashboard_TimelineNow" xml:space="preserve"><value>Ahora</value></data>
+  <data name="Logs_Dashboard_NarrativePeriodTitle" xml:space="preserve"><value>Fecha / periodo</value></data>
+  <data name="Logs_Dashboard_DurationTitle" xml:space="preserve"><value>Duración</value></data>
+  <data name="Logs_Dashboard_CoverageTitle" xml:space="preserve"><value>Cobertura</value></data>
+  <data name="Logs_Dashboard_RecoveryTitle" xml:space="preserve"><value>Recuperación</value></data>
+  <data name="Logs_Dashboard_SegmentFactsTitle" xml:space="preserve"><value>Facts del segmento</value></data>
+  <data name="Logs_Dashboard_RelatedIncidentsTitle" xml:space="preserve"><value>Incidentes / hechos relacionados</value></data>
+  <data name="Logs_Dashboard_ViewRelatedEventsButton" xml:space="preserve"><value>Ver eventos relacionados</value></data>
+  <data name="Logs_Dashboard_ClearContextButton" xml:space="preserve"><value>Limpiar contexto</value></data>
+  <data name="Logs_Dashboard_DistributionsTitle" xml:space="preserve"><value>Distribuciones y drill-down</value></data>
+  <data name="Logs_Dashboard_DistributionsSubtitle" xml:space="preserve"><value>Los accesos rápidos siguen filtrando la grilla inferior por módulo, usuario o equipo real.</value></data>
+  <data name="Logs_Dashboard_HoverReadingTitle" xml:space="preserve"><value>Lectura dinámica en hover</value></data>
+  <data name="Logs_Dashboard_DurationOrValidityTitle" xml:space="preserve"><value>Duración / vigencia</value></data>
+  <data name="Logs_Dashboard_SourceActivityTitle" xml:space="preserve"><value>Actividad por módulo</value></data>
+  <data name="Logs_Dashboard_SourceActivitySubtitle" xml:space="preserve"><value>Click para focalizar la grilla y revisar trazas del módulo.</value></data>
+  <data name="Logs_Dashboard_UserActivityTitle" xml:space="preserve"><value>Actividad por usuario</value></data>
+  <data name="Logs_Dashboard_UserActivitySubtitle" xml:space="preserve"><value>Click para abrir el foco de actividad por operador.</value></data>
+  <data name="Logs_Dashboard_MachineActivityTitle" xml:space="preserve"><value>Actividad por equipo</value></data>
+  <data name="Logs_Dashboard_MachineActivitySubtitle" xml:space="preserve"><value>Click para concentrar el análisis por equipo físico.</value></data>
+  <data name="Logs_Dashboard_TeamTaxonomyTitle" xml:space="preserve"><value>Taxonomía team</value></data>
+  <data name="Logs_Dashboard_TeamTaxonomySubtitle" xml:space="preserve"><value>No hay taxonomía de equipo de negocio en la telemetría actual.</value></data>
+  <data name="Logs_Dashboard_HonestRepresentationTitle" xml:space="preserve"><value>Representación honesta</value></data>
+  <data name="Logs_Dashboard_InsufficientSignalTitle" xml:space="preserve"><value>Señal insuficiente</value></data>
+  <data name="Logs_Dashboard_TeamTaxonomyDetail" xml:space="preserve"><value>Para team real hace falta una dimensión adicional en los logs; esta página no la inventa.</value></data>
+  <data name="Logs_Dashboard_ObservablePerformanceTitle" xml:space="preserve"><value>Rendimiento observable</value></data>
+  <data name="Logs_Dashboard_ObservablePerformanceSubtitle" xml:space="preserve"><value>Bandas nativas de latencia sin librerías externas ni gráficos artificiales.</value></data>
+  <data name="Logs_Dashboard_LatencyDistributionTitle" xml:space="preserve"><value>Distribución de latencia</value></data>
+  <data name="Logs_Dashboard_TimelineTitle" xml:space="preserve"><value>Timeline de incidentes y eventos</value></data>
+  <data name="Logs_Dashboard_TimelineSubtitle" xml:space="preserve"><value>Lista inferior priorizada para seguimiento rápido. Click en un evento para bajar con filtros a la grilla.</value></data>
+  <data name="Logs_Dashboard_TimelineBackTooltip" xml:space="preserve"><value>Volver al registro completo</value></data>
+  <data name="Logs_Dashboard_StatusTitle" xml:space="preserve"><value>Estado del dashboard</value></data>
+  <data name="Logs_Dashboard_FilteredTracesTitle" xml:space="preserve"><value>Trazas filtradas</value></data>
+  <data name="Logs_Dashboard_FilteredTracesSubtitle" xml:space="preserve"><value>Tabla de detalle final para investigación, auditoría y drill-down desde los paneles superiores.</value></data>
+  <data name="Logs_TimeRange_RealTime2Hours" xml:space="preserve"><value>Tiempo real (últimas 2 horas)</value></data>
+  <data name="Logs_TimeRange_Last24Hours" xml:space="preserve"><value>Últimas 24 horas</value></data>
+  <data name="Logs_TimeRange_Last7Days" xml:space="preserve"><value>Últimos 7 días</value></data>
+  <data name="Logs_TimeRange_Last30Days" xml:space="preserve"><value>Últimos 30 días</value></data>
+  <data name="Logs_TimeRange_AllHistory" xml:space="preserve"><value>Todo el histórico</value></data>
+  <data name="Logs_Filter_AllMachines" xml:space="preserve"><value>Todos los equipos</value></data>
+  <data name="Logs_Filter_AllSeverities" xml:space="preserve"><value>Todas las severidades</value></data>
+  <data name="Logs_Filter_AllSources" xml:space="preserve"><value>Todos los módulos</value></data>
+  <data name="Logs_Filter_AllUsers" xml:space="preserve"><value>Todos los usuarios</value></data>
+  <data name="Logs_Filter_AllMachines_Lower" xml:space="preserve"><value>todos los equipos</value></data>
+  <data name="Logs_Filter_AllSeverities_Lower" xml:space="preserve"><value>todas las severidades</value></data>
+  <data name="Logs_Filter_AllSources_Lower" xml:space="preserve"><value>todos los módulos</value></data>
+  <data name="Logs_Filter_AllUsers_Lower" xml:space="preserve"><value>todos los usuarios</value></data>
+  <data name="Logs_Dashboard_GenericBlock" xml:space="preserve"><value>Bloque del dashboard</value></data>
+  <data name="Logs_Dashboard_NoDataValue" xml:space="preserve"><value>Sin dato</value></data>
+  <data name="Logs_Dashboard_NoVisibleValue" xml:space="preserve"><value>Sin valor visible.</value></data>
+  <data name="Logs_Dashboard_HoverShortLabel" xml:space="preserve"><value>Hover</value></data>
+  <data name="Logs_Dashboard_NoClickRequired" xml:space="preserve"><value>Sin click obligatorio</value></data>
+  <data name="Logs_Dashboard_DefaultHoverSummary" xml:space="preserve"><value>Pasá por encima de cualquier segmento o bloque relevante y el contexto queda visible acá sin depender de tooltips cortos.</value></data>
+  <data name="Logs_Dashboard_DefaultHoverDetail" xml:space="preserve"><value>Los segmentos narrativos muestran detalle vivo en el panel superior. Las distribuciones, facts y bloques auxiliares actualizan esta tarjeta mientras dure el hover.</value></data>
+  <data name="Logs_Dashboard_HoverDurationLabel" xml:space="preserve"><value>Mientras dure el hover</value></data>
+  <data name="Logs_Dashboard_DefaultHoverActionHint" xml:space="preserve"><value>Click solo como acción secundaria para filtrar o fijar contexto; leer no debería requerir clicks.</value></data>
+  <data name="Logs_Dashboard_ExecutiveStatusTitle" xml:space="preserve"><value>Estado ejecutivo del rango filtrado</value></data>
+  <data name="Logs_Dashboard_PartialCoverage" xml:space="preserve"><value>Cobertura parcial</value></data>
+  <data name="Logs_Dashboard_NoCoverage" xml:space="preserve"><value>Sin cobertura</value></data>
+  <data name="Logs_Dashboard_NoRecentSignal" xml:space="preserve"><value>Sin señal reciente</value></data>
+  <data name="Logs_Dashboard_NoHeartbeatObservable" xml:space="preserve"><value>Sin heartbeat observable</value></data>
+  <data name="Logs_Dashboard_NoRecentHealthIncidents" xml:space="preserve"><value>Sin incidentes health recientes</value></data>
+  <data name="Logs_Dashboard_NoVisibleHealthDegradations" xml:space="preserve"><value>No hay degradaciones health visibles.</value></data>
+  <data name="Logs_ValidationAcceptedMessage" xml:space="preserve"><value>Validación aceptada</value></data>
+  <data name="Logs_ValidationRejectedMessage" xml:space="preserve"><value>Validación rechazada</value></data>
+  <data name="Logs_AppStartedInfo" xml:space="preserve"><value>Inicio de aplicación</value></data>
+  <data name="Logs_AppStartedHealth" xml:space="preserve"><value>Aplicación iniciada</value></data>
+  <data name="Logs_DbInitCompleted" xml:space="preserve"><value>Inicialización de base de datos completada</value></data>
+  <data name="Logs_MainInitCompleted" xml:space="preserve"><value>Inicialización principal completada</value></data>
+  <data name="Logs_MainInitFailed" xml:space="preserve"><value>Inicialización principal falló</value></data>
+  <data name="Logs_MainInitFailedObservable" xml:space="preserve"><value>Inicialización principal con falla observable</value></data>
+  <data name="Logs_HeartbeatStopped" xml:space="preserve"><value>Heartbeat finalizado</value></data>
+  <data name="Logs_AppClosedInfo" xml:space="preserve"><value>Cierre de aplicación</value></data>
+  <data name="Logs_AppClosedHealth" xml:space="preserve"><value>Aplicación finalizada</value></data>
+  <data name="Logs_UnhandledUiException" xml:space="preserve"><value>Excepción no controlada en interfaz</value></data>
+  <data name="Logs_UnhandledDomainException" xml:space="preserve"><value>Excepción no controlada del dominio</value></data>
+  <data name="Logs_UserSessionStarted" xml:space="preserve"><value>Sesión de usuario iniciada</value></data>
+  <data name="Logs_AdminSessionStarted" xml:space="preserve"><value>Sesión administrativa iniciada</value></data>
+  <data name="Logs_SessionEnded" xml:space="preserve"><value>Sesión cerrada</value></data>
+  <data name="Logs_Dashboard_InstrumentationNoteNoHealth" xml:space="preserve"><value>Disponibilidad real aún no instrumentada; solo se muestran eventos de app/health cuando existen.</value></data>
+  <data name="Logs_Dashboard_InstrumentationNoteNoHeartbeat" xml:space="preserve"><value>Heartbeat de escritorio aún no es visible para todo el histórico filtrado.</value></data>
+  <data name="Logs_Dashboard_InstrumentationNoteNoDependencies" xml:space="preserve"><value>Dependencias críticas aún no tienen cobertura observable completa en la ventana actual.</value></data>
+  <data name="Logs_Dashboard_InstrumentationNoteNoSessions" xml:space="preserve"><value>Sesiones persistidas aún no están capturadas; por ahora se infiere actividad desde login/logout.</value></data>
+  <data name="Logs_Dashboard_InstrumentationNotePartialValidations" xml:space="preserve"><value>Validaciones semánticamente explotables aún son parciales.</value></data>
+  <data name="Logs_Dashboard_NoObservableDataSummary" xml:space="preserve"><value>Sin datos observables</value></data>
+  <data name="Logs_Dashboard_NoObservableDataExplanation" xml:space="preserve"><value>No hay señales reales en este período, así que el dashboard no inventa salud ni recuperación.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageSummary" xml:space="preserve"><value>Cobertura parcial en el período</value></data>
+  <data name="Logs_Dashboard_NoCoverageObservable" xml:space="preserve"><value>Sin cobertura observable</value></data>
+  <data name="Logs_Dashboard_NoIncidentObservable" xml:space="preserve"><value>Sin incidente observable</value></data>
+  <data name="Logs_Dashboard_RecoveryNotObservable" xml:space="preserve"><value>Recuperación no observable</value></data>
+  <data name="Logs_Dashboard_ObservableDurationUnderMinute" xml:space="preserve"><value>Duración observable &lt; 1 min</value></data>
+  <data name="Logs_Dashboard_ObservableDurationMinutesFormat" xml:space="preserve"><value>Duración observable {0} min</value></data>
+  <data name="Logs_Dashboard_ObservableDurationHoursFormat" xml:space="preserve"><value>Duración observable {0} h</value></data>
+  <data name="Logs_Dashboard_HealthReportsStateFormat" xml:space="preserve"><value>{0} reporta {1}</value></data>
+  <data name="Logs_Dashboard_SlowOperationDetectedFormat" xml:space="preserve"><value>Operación lenta detectada en {0}</value></data>
+  <data name="Logs_Dashboard_ValidationObservedFormat" xml:space="preserve"><value>Validación observada en {0}</value></data>
+  <data name="Logs_Dashboard_ContextPrefix" xml:space="preserve"><value>Contexto: </value></data>
+  <data name="Logs_Dashboard_AffectedStatePrefix" xml:space="preserve"><value>Estado afectado: </value></data>
+  <data name="Logs_Dashboard_DependencyModulePrefix" xml:space="preserve"><value>Dependencia/módulo: </value></data>
+  <data name="Logs_Dashboard_PrimaryEventPrefix" xml:space="preserve"><value>Evento principal: </value></data>
+  <data name="Logs_Dashboard_RecoveryObservedPrefix" xml:space="preserve"><value>Recuperación observada: </value></data>
+  <data name="Logs_Dashboard_RecoveryNotObservableWithTelemetry" xml:space="preserve"><value>Recuperación no observable con la telemetría actual.</value></data>
+  <data name="Logs_Dashboard_RelatedEventsForDrillDownFormat" xml:space="preserve"><value>El bucket contiene {0} eventos relacionados para drill-down.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageSilenceWarning" xml:space="preserve"><value>La cobertura del período es parcial, así que no conviene sobreinterpretar silencio como salud.</value></data>
+  <data name="Logs_Dashboard_FactSeverityBucketHint" xml:space="preserve"><value>Clasificación dominante del bucket.</value></data>
+  <data name="Logs_Dashboard_FactState" xml:space="preserve"><value>Estado</value></data>
+  <data name="Logs_Dashboard_FactNarrativeReadingHint" xml:space="preserve"><value>Lectura narrativa derivada de señales reales.</value></data>
+  <data name="Logs_Dashboard_FactRecovery" xml:space="preserve"><value>Recuperación</value></data>
+  <data name="Logs_Dashboard_NoClosureObservable" xml:space="preserve"><value>Sin cierre observable</value></data>
+  <data name="Logs_Dashboard_PartialCoverageWindowHint" xml:space="preserve"><value>La ventana no cubre toda la señal esperada.</value></data>
+  <data name="Logs_Dashboard_ObservableSignalsBucketHint" xml:space="preserve"><value>Hay señales observables para este bucket.</value></data>
+  <data name="Logs_Dashboard_FactEvents" xml:space="preserve"><value>Eventos</value></data>
+  <data name="Logs_Dashboard_NoEventsForFamily" xml:space="preserve"><value>Sin eventos para esta familia.</value></data>
+  <data name="Logs_Dashboard_ActivityWithoutDominantIncident" xml:space="preserve"><value>Actividad observable sin incidente dominante</value></data>
+  <data name="Logs_Dashboard_NoIncidentObservableInPeriod" xml:space="preserve"><value>Sin incidente observable en el período</value></data>
+  <data name="Logs_Dashboard_ActivityEventsNoIncidentEscalationFormat" xml:space="preserve"><value>Hay {0} eventos observables en el bucket, pero ninguno requiere escalarse como incidente.</value></data>
+  <data name="Logs_Dashboard_TelemetryNoAnomalyForFamily" xml:space="preserve"><value>Hay telemetría en el período, pero no aparece una señal anómala para esta familia.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageHealthExplanation" xml:space="preserve"><value>Hay actividad general en el bucket, pero no una señal health/dependency suficiente para afirmar salud operativa completa.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageLatencyExplanation" xml:space="preserve"><value>Hay eventos en el bucket, pero sin duraciones suficientes para describir rendimiento completo.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageValidationsExplanation" xml:space="preserve"><value>La app tuvo actividad en el bucket, pero no surgieron validaciones explotables para lectura de calidad.</value></data>
+  <data name="Logs_Dashboard_PartialCoverageGenericFormat" xml:space="preserve"><value>Se detectaron {0} eventos en el período, aunque la cobertura para esta familia sigue siendo parcial.</value></data>
+  <data name="Logs_Dashboard_NoReferenceShort" xml:space="preserve"><value>Sin referencia</value></data>
+  <data name="Logs_Dashboard_LessThanOneMinuteAgo" xml:space="preserve"><value>hace &lt; 1 min</value></data>
+  <data name="Logs_Dashboard_MinutesAgoFormat" xml:space="preserve"><value>hace {0} min</value></data>
+  <data name="Logs_Dashboard_HoursAgoFormat" xml:space="preserve"><value>hace {0} h</value></data>
+  <data name="Logs_Dashboard_DaysAgoFormat" xml:space="preserve"><value>hace {0} d</value></data>
+  <data name="Logs_Dashboard_NoHeartbeatShort" xml:space="preserve"><value>Sin heartbeat</value></data>
+  <data name="Logs_Dashboard_NoRecentSignalCurrentFilter" xml:space="preserve"><value>Sin señal reciente en el filtro actual; revisá rango, equipo o cobertura de instrumentación.</value></data>
+  <data name="Logs_Dashboard_ExecutiveAttentionHealthFormat" xml:space="preserve"><value>Atención operativa: se detectan dependencias o salud en falla visible. Última señal {0}; cobertura observable {1}/5.</value></data>
+  <data name="Logs_Dashboard_ExecutiveAttentionErrorsFormat" xml:space="preserve"><value>Atención operativa: {0} errores visibles sobre {1} eventos, con cobertura observable {2}/5.</value></data>
+  <data name="Logs_Dashboard_ExecutiveReviewWarningsFormat" xml:space="preserve"><value>Operación bajo revisión: sin errores visibles, pero con {0} advertencias y cobertura observable {1}/5.</value></data>
+  <data name="Logs_Dashboard_ExecutiveReviewHealthFormat" xml:space="preserve"><value>Operación bajo revisión: última señal {0}, heartbeat {1} y dependencias {2}.</value></data>
+  <data name="Logs_Dashboard_ExecutiveOperationalFormat" xml:space="preserve"><value>Operación observable dentro del rango seleccionado, con {0} eventos y cobertura base {1}/5.</value></data>
+  <data name="AdminRegister_DeveloperAccountForbidden" xml:space="preserve"><value>Ese correo está reservado para el perfil Developer y no puede registrarse como administrador.</value></data>
+  <data name="Help_DeveloperTitle" xml:space="preserve"><value>Centro de ayuda para developer</value></data>
+  <data name="Help_DeveloperSubtitle" xml:space="preserve"><value>Consulta la documentación técnica habilitada para continuidad de desarrollo, soporte e investigación.</value></data>
+  <data name="Logs_DeveloperSessionStarted" xml:space="preserve"><value>Sesión de developer iniciada</value></data>
+  <data name="Logs_Audit_UserCreated" xml:space="preserve"><value>Se creó el usuario {0} con rol {1}.</value></data>
+  <data name="Logs_Audit_UserUpdated" xml:space="preserve"><value>Se actualizó el usuario {0}.</value></data>
+  <data name="Logs_Audit_UserDeleted" xml:space="preserve"><value>Se eliminó el usuario {0}.</value></data>
+  <data name="Logs_Audit_InstallerCreated" xml:space="preserve"><value>Se agregó un instalador: {0}.</value></data>
+  <data name="Logs_Audit_InstallerUpdated" xml:space="preserve"><value>Se actualizó el instalador {0}.</value></data>
+  <data name="Logs_Audit_InstallerDeleted" xml:space="preserve"><value>Se eliminó el instalador {0}.</value></data>
+  <data name="Logs_Audit_DeveloperEnabled" xml:space="preserve"><value>Se habilitó el acceso Developer para {0}.</value></data>
+  <data name="Logs_Audit_DeveloperDisabled" xml:space="preserve"><value>Se deshabilitó el acceso Developer para {0}.</value></data>
+  <data name="Logs_Audit_LanguageChanged" xml:space="preserve"><value>Se cambió el idioma de la aplicación a {0}.</value></data>
+  <data name="Shell_DeveloperAccountsLabel" xml:space="preserve"><value>Developers</value></data>
+  <data name="Shell_DeveloperAccountsTooltip" xml:space="preserve"><value>Gestión de developers (solo Super Admin).</value></data>
+  <data name="DeveloperAccounts_Title" xml:space="preserve"><value>Gestión de Developers</value></data>
+  <data name="DeveloperAccounts_Subtitle" xml:space="preserve"><value>Alta y baja de cuentas Developer. Disponible solo para el Super Admin.</value></data>
+  <data name="DeveloperAccounts_EmailLabel" xml:space="preserve"><value>Correo developer</value></data>
+  <data name="DeveloperAccounts_NotesLabel" xml:space="preserve"><value>Notas (opcional)</value></data>
+  <data name="DeveloperAccounts_AddLabel" xml:space="preserve"><value>Agregar</value></data>
+  <data name="DeveloperAccounts_RefreshLabel" xml:space="preserve"><value>Actualizar</value></data>
+  <data name="DeveloperAccounts_DisableLabel" xml:space="preserve"><value>Deshabilitar</value></data>
+  <data name="DeveloperAccounts_EnableLabel" xml:space="preserve"><value>Habilitar</value></data>
+  <data name="DeveloperAccounts_EmailHeader" xml:space="preserve"><value>Correo</value></data>
+  <data name="DeveloperAccounts_EnabledHeader" xml:space="preserve"><value>Habilitado</value></data>
+  <data name="DeveloperAccounts_CreatedAtHeader" xml:space="preserve"><value>Creado</value></data>
+  <data name="DeveloperAccounts_CreatedByHeader" xml:space="preserve"><value>Creado por</value></data>
+  <data name="DeveloperAccounts_ActionsHeader" xml:space="preserve"><value>Acciones</value></data>
+  <data name="DeveloperAccounts_StatusEnabled" xml:space="preserve"><value>Habilitado</value></data>
+  <data name="DeveloperAccounts_StatusDisabled" xml:space="preserve"><value>Deshabilitado</value></data>
+  <data name="AdminLogin_DeveloperDisabledMessage" xml:space="preserve"><value>La cuenta Developer está deshabilitada. Contacte al Super Admin.</value></data>
+  <data name="UserManagement_CannotDeleteDeveloper" xml:space="preserve"><value>Este usuario está reservado como Developer. Deshabilítalo desde la gestión de Developers.</value></data>
+  <data name="UserManagement_CannotDeleteSuperAdmin" xml:space="preserve"><value>No se puede eliminar el Super Admin.</value></data>
+  <data name="UserManagement_CannotDeleteAdmin" xml:space="preserve"><value>No tiene permisos para eliminar administradores.</value></data>
+  <data name="UserManagement_EditForbiddenAdminDeveloper" xml:space="preserve"><value>No tiene permisos para editar administradores o developers.</value></data>
+  <data name="DeveloperAccounts_EmptyEmailMessage" xml:space="preserve"><value>Ingrese un correo válido.</value></data>
+  <data name="DeveloperAccounts_InvalidDomainMessage" xml:space="preserve"><value>El correo debe terminar en @weg.net.</value></data>
+  <data name="DeveloperAccounts_SuperAdminCannotBeDeveloper" xml:space="preserve"><value>El Super Admin no puede registrarse como Developer.</value></data>
+  <data name="DeveloperAccounts_CannotDisableSuperAdmin" xml:space="preserve"><value>No se puede deshabilitar el Super Admin.</value></data>
+  <data name="DeveloperAccounts_SaveError" xml:space="preserve"><value>No fue posible guardar el developer en este momento.</value></data>
+  <data name="DeveloperAccounts_TabHeader" xml:space="preserve"><value>Developers</value></data>
+  <data name="DeveloperAccounts_MissingBaseUser" xml:space="preserve"><value>Primero debe existir un usuario base con este correo (para definir contraseña). Créelo desde Gestión de usuarios y luego habilítelo como Developer.</value></data>
 </root>
