@@ -114,8 +114,10 @@
     <Compile Include="Models\Instalador.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Services\DocumentationService.cs" />
+    <Compile Include="Services\DocumentationProfile.cs" />
     <Compile Include="Services\AppLogEntry.cs" />
     <Compile Include="Services\GlobalCopyContextService.cs" />
+    <Compile Include="Services\GitBranchService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\LocalizedText.cs" />
     <Compile Include="Services\LogDashboardService.cs" />

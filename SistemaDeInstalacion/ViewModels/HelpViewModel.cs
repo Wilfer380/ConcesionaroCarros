@@ -38,15 +38,21 @@ namespace ConcesionaroCarros.ViewModels
         public ObservableCollection<HelpSectionNavigationOption> SectionOptions { get; } =
             new ObservableCollection<HelpSectionNavigationOption>();
 
-        public bool EsAdministrador { get; }
+        public DocumentationProfile Profile { get; }
 
-        public string TituloAyuda => EsAdministrador
-            ? LocalizedText.Get("Help_AdminTitle", "Centro de ayuda administrativo")
-            : LocalizedText.Get("Help_UserTitle", "Centro de ayuda para usuarios");
+        public string TituloAyuda =>
+            Profile == DocumentationProfile.Developer
+                ? LocalizedText.Get("Help_DeveloperTitle", "Centro de ayuda para developer")
+                : Profile == DocumentationProfile.Admin
+                    ? LocalizedText.Get("Help_AdminTitle", "Centro de ayuda administrativo")
+                    : LocalizedText.Get("Help_UserTitle", "Centro de ayuda para usuarios");
 
-        public string SubtituloAyuda => EsAdministrador
-            ? LocalizedText.Get("Help_AdminSubtitle", "Consulta toda la documentacion del sistema organizada por carpetas y documentos.")
-            : LocalizedText.Get("Help_UserSubtitle", "Consulta unicamente la documentacion disponible para el usuario final.");
+        public string SubtituloAyuda =>
+            Profile == DocumentationProfile.Developer
+                ? LocalizedText.Get("Help_DeveloperSubtitle", "Consulta la documentación técnica habilitada para continuidad de desarrollo, soporte e investigación.")
+                : Profile == DocumentationProfile.Admin
+                    ? LocalizedText.Get("Help_AdminSubtitle", "Consulta la documentación administrativa del sistema organizada por carpetas y documentos.")
+                    : LocalizedText.Get("Help_UserSubtitle", "Consulta únicamente la documentación disponible para el usuario final.");
 
         public string CorreoSoporte => "wandica@weg.net";
 
@@ -147,9 +153,13 @@ namespace ConcesionaroCarros.ViewModels
         public ICommand NavigateForwardCommand { get; }
         public HelpDocumentNavigationState PendingNavigationState => _pendingNavigationState;
 
-        public HelpViewModel(bool esAdministrador)
+        public HelpViewModel(PrivilegedProfile privilegedProfile)
         {
-            EsAdministrador = esAdministrador;
+            Profile = privilegedProfile == PrivilegedProfile.Developer
+                ? DocumentationProfile.Developer
+                : privilegedProfile == PrivilegedProfile.Admin
+                    ? DocumentationProfile.Admin
+                    : DocumentationProfile.User;
             NavigateBackCommand = new RelayCommand(_ => NavegarHistorial(-1));
             NavigateForwardCommand = new RelayCommand(_ => NavegarHistorial(1));
             CargarDocumentacion();
@@ -168,7 +178,7 @@ namespace ConcesionaroCarros.ViewModels
 
             try
             {
-                sections = _documentationService.CargarSecciones(EsAdministrador);
+                sections = _documentationService.CargarSecciones(Profile);
             }
             catch (Exception ex)
             {

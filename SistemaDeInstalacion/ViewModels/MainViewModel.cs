@@ -128,7 +128,7 @@ namespace ConcesionaroCarros.ViewModels
                 VistaActiva = "Ayuda";
                 CurrentView = new HelpView
                 {
-                    DataContext = new HelpViewModel(EsAdministrador)
+                    DataContext = new HelpViewModel(SesionUsuario.PerfilPrivilegiado)
                 };
             });
 
