@@ -1,4 +1,5 @@
 using ConcesionaroCarros.ViewModels;
+using System;
 using System.Windows;
 
 namespace ConcesionaroCarros
@@ -12,6 +13,13 @@ namespace ConcesionaroCarros
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+            Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            if (DataContext is IDisposable disposable)
+                disposable.Dispose();
         }
     }
 }

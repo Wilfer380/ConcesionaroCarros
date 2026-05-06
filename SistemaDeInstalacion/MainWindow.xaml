@@ -307,7 +307,7 @@
 
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Center"
-                               Text="HOMOLOGATION"
+                               Text="{Binding ReleaseChannelLabel}"
                                Foreground="{DynamicResource CorpAccentBrush}"
                                FontStyle="Italic"
                                FontWeight="Bold"

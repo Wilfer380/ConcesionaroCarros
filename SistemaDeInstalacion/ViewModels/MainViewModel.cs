@@ -9,11 +9,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace ConcesionaroCarros.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel, IDisposable
     {
+        private const string ReleaseChannelFallback = "LOCAL";
+        private static readonly TimeSpan ReleaseChannelRefreshInterval = TimeSpan.FromSeconds(3);
+
         private static readonly HashSet<string> AllowedLogViewerEmails =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
@@ -24,8 +28,10 @@ namespace ConcesionaroCarros.ViewModels
         private object _currentView;
         private readonly UsuariosDbService _usuariosDb = new UsuariosDbService();
         private readonly LocalizationService _localizationService = LocalizationService.Instance;
+        private readonly DispatcherTimer _releaseChannelRefreshTimer;
         private readonly string _nombreVisibleDispositivo;
         private readonly string _correoDispositivo;
+        private string _releaseChannelLabel;
 
         public object CurrentView
         {
@@ -77,7 +83,7 @@ namespace ConcesionaroCarros.ViewModels
         public bool PuedeVerLogs =>
             SesionUsuario.EsDeveloper &&
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
-        public string ReleaseChannelLabel => "HOMOLOGATION";
+        public string ReleaseChannelLabel => _releaseChannelLabel;
         public string DeveloperAccountsLabel => LocalizedText.Get("Shell_DeveloperAccountsLabel", "Developers");
         public string DeveloperAccountsTooltip => LocalizedText.Get("Shell_DeveloperAccountsTooltip", "Gestión de developers (solo Super Admin).");
         public ReadOnlyObservableCollection<LocalizationService.LanguageOption> AvailableLanguages { get; }
@@ -99,6 +105,14 @@ namespace ConcesionaroCarros.ViewModels
         public MainViewModel()
         {
             AvailableLanguages = _localizationService.AvailableLanguages;
+            _releaseChannelLabel = ResolveReleaseChannelLabel();
+            _releaseChannelRefreshTimer = new DispatcherTimer
+            {
+                Interval = ReleaseChannelRefreshInterval
+            };
+            _releaseChannelRefreshTimer.Tick += ReleaseChannelRefreshTimer_Tick;
+            _releaseChannelRefreshTimer.Start();
+
             _nombreVisibleDispositivo = WindowsProfileService.ObtenerNombreVisible();
             _correoDispositivo = WindowsProfileService.ObtenerCorreoPrincipal();
             if (string.IsNullOrWhiteSpace(_correoDispositivo))
@@ -180,9 +194,31 @@ namespace ConcesionaroCarros.ViewModels
             MostrarInstaladores();
         }
 
+        public void Dispose()
+        {
+            _releaseChannelRefreshTimer.Stop();
+            _releaseChannelRefreshTimer.Tick -= ReleaseChannelRefreshTimer_Tick;
+            PropertyChangedEventManager.RemoveHandler(_localizationService, OnLocalizationPropertyChanged, nameof(LocalizationService.SelectedLanguage));
+        }
+
         private void OnLocalizationPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(SelectedLanguage));
+        }
+
+        private void ReleaseChannelRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            var currentLabel = ResolveReleaseChannelLabel();
+            if (string.Equals(_releaseChannelLabel, currentLabel, StringComparison.Ordinal))
+                return;
+
+            _releaseChannelLabel = currentLabel;
+            OnPropertyChanged(nameof(ReleaseChannelLabel));
+        }
+
+        private static string ResolveReleaseChannelLabel()
+        {
+            return GitBranchService.GetCurrentBranchLabel(ReleaseChannelFallback);
         }
 
         private void MostrarInstaladores()
