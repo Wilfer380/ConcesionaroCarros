@@ -165,7 +165,7 @@
                                  x:Name="txtUsuarioAdmin"
                                  Tag="&#xE77B;"
                                  TextChanged="UsuarioAdminTextChanged"
-                                 Text="{Binding Usuario}"/>
+                                 Text="{Binding Usuario, UpdateSourceTrigger=PropertyChanged}"/>
                          <TextBlock x:Name="txtUsuarioAdminPlaceholder"
                                     Margin="56,0,0,0"
                                     VerticalAlignment="Center"
