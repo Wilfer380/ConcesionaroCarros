@@ -17,6 +17,25 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
         </Style>
+
+        <Style x:Key="DeveloperInputStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource CorpPanelBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="DeveloperPrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource CorpAccentBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CorpTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CorpAccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -39,13 +58,13 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="{Binding EmailLabel}" FontWeight="SemiBold" Foreground="{DynamicResource CorpTextBrush}"/>
-                        <TextBox Text="{Binding NewDeveloperEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0"/>
+                        <TextBox Text="{Binding NewDeveloperEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0" Style="{StaticResource DeveloperInputStyle}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="{Binding NotesLabel}" FontWeight="SemiBold" Foreground="{DynamicResource CorpTextBrush}"/>
-                        <TextBox Text="{Binding NewDeveloperNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0"/>
+                        <TextBox Text="{Binding NewDeveloperNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="32" Margin="0,6,0,0" Style="{StaticResource DeveloperInputStyle}"/>
                     </StackPanel>
-                    <Button Grid.Column="4" Content="{Binding AddLabel}" Command="{Binding AddDeveloperCommand}" MinWidth="100" Height="32" Margin="0,22,0,0"/>
+                    <Button Grid.Column="4" Content="{Binding AddLabel}" Command="{Binding AddDeveloperCommand}" MinWidth="100" Height="32" Margin="0,22,0,0" Style="{StaticResource DeveloperPrimaryButtonStyle}"/>
                 </Grid>
             </Border>
 
