@@ -84,6 +84,7 @@ namespace ConcesionaroCarros.ViewModels
             SesionUsuario.EsDeveloper &&
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
         public string ReleaseChannelLabel => _releaseChannelLabel;
+        public bool IsSensitiveReleaseChannel => GitBranchService.IsSensitiveBranchLabel(_releaseChannelLabel);
         public string DeveloperAccountsLabel => LocalizedText.Get("Shell_DeveloperAccountsLabel", "Developers");
         public string DeveloperAccountsTooltip => LocalizedText.Get("Shell_DeveloperAccountsTooltip", "Gestión de developers (solo Super Admin).");
         public ReadOnlyObservableCollection<LocalizationService.LanguageOption> AvailableLanguages { get; }
@@ -214,6 +215,7 @@ namespace ConcesionaroCarros.ViewModels
 
             _releaseChannelLabel = currentLabel;
             OnPropertyChanged(nameof(ReleaseChannelLabel));
+            OnPropertyChanged(nameof(IsSensitiveReleaseChannel));
         }
 
         private static string ResolveReleaseChannelLabel()

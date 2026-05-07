@@ -206,6 +206,19 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style x:Key="FooterBranchLabelStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource CorpAccentBrush}"/>
+                <Setter Property="FontStyle" Value="Italic"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSensitiveReleaseChannel}" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource CorpDangerBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </Window.Resources>
 
     <Grid>
@@ -308,11 +321,7 @@
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Center"
                                Text="{Binding ReleaseChannelLabel}"
-                               Foreground="{DynamicResource CorpAccentBrush}"
-                               FontStyle="Italic"
-                               FontWeight="Bold"
-                               FontSize="13"
-                               TextTrimming="CharacterEllipsis"/>
+                               Style="{StaticResource FooterBranchLabelStyle}"/>
 
                     <ComboBox Grid.Column="3"
                               VerticalAlignment="Center"
