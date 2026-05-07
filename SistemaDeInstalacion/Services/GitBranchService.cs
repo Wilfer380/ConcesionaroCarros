@@ -13,6 +13,9 @@ namespace ConcesionaroCarros.Services
         private const string BranchStampFileName = "build.branch";
         private const string RefsHeadsPrefix = "refs/heads/";
         private const string OriginPrefix = "origin/";
+        private const string ProgramTranslationBranch = "ProgramTranslation";
+        private const string HomologationBranch = "homologation";
+        private const string ProductionBranch = "production";
 
         public static string GetBranchLabel(string fallback = "RELEASE")
         {
@@ -39,7 +42,7 @@ namespace ConcesionaroCarros.Services
                 var gitDir = FindGitDirectory(baseDir);
                 var gitHeadBranch = ReadGitHeadBranch(gitDir);
                 if (!string.IsNullOrWhiteSpace(gitHeadBranch))
-                    return Normalize(gitHeadBranch, fallback);
+                    return FormatBranchLabel(gitHeadBranch, fallback);
 
                 // 2) En entornos instalados (sin .git), usamos una "firma" generada al compilar/publicar.
                 // Esto asegura que el footer muestre la rama real (ProgramTranslation, etc.)
@@ -49,7 +52,7 @@ namespace ConcesionaroCarros.Services
                 {
                     var stamped = (File.ReadAllText(stampPath) ?? string.Empty).Trim();
                     if (!string.IsNullOrWhiteSpace(stamped))
-                        return Normalize(stamped, fallback);
+                        return FormatBranchLabel(stamped, fallback);
                 }
             }
             catch
@@ -58,6 +61,36 @@ namespace ConcesionaroCarros.Services
             }
 
             return fallback;
+        }
+
+        public static string FormatBranchLabel(string value, string fallback = "RELEASE")
+        {
+            var text = Normalize(value, fallback);
+            if (string.IsNullOrWhiteSpace(text) || string.Equals(text, fallback, StringComparison.Ordinal))
+                return text;
+
+            var separator = text.IndexOf('/');
+            var baseName = separator >= 0 ? text.Substring(0, separator) : text;
+
+            if (IsBranch(baseName, HomologationBranch))
+                return separator >= 0 ? HomologationBranch + text.Substring(separator) : HomologationBranch;
+
+            if (IsBranch(baseName, ProductionBranch))
+                return separator >= 0 ? ProductionBranch + text.Substring(separator) : ProductionBranch;
+
+            if (IsProgramTranslationWorkBranch(baseName))
+                return ProgramTranslationBranch + "/" + text;
+
+            return text;
+        }
+
+        public static bool IsSensitiveBranchLabel(string label)
+        {
+            var text = Normalize(label, string.Empty);
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+
+            return IsSensitiveSubbranch(text, HomologationBranch) || IsSensitiveSubbranch(text, ProductionBranch);
         }
 
         private static string FindGitDirectory(string startPath)
@@ -116,6 +149,21 @@ namespace ConcesionaroCarros.Services
             return head.Length >= 7 ? head.Substring(0, 7) : null;
         }
 
+        private static bool IsSensitiveSubbranch(string label, string baseBranch)
+        {
+            return label.StartsWith(baseBranch + "/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsBranch(string value, string branchName)
+        {
+            return string.Equals(value, branchName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsProgramTranslationWorkBranch(string value)
+        {
+            return IsBranch(value, "fix") || IsBranch(value, "feat") || IsBranch(value, "docs");
+        }
+
         private static string Normalize(string value, string fallback)
         {
             var text = (value ?? string.Empty).Trim();
@@ -130,8 +178,7 @@ namespace ConcesionaroCarros.Services
             if (text.StartsWith(OriginPrefix, StringComparison.OrdinalIgnoreCase))
                 text = text.Substring(OriginPrefix.Length);
 
-            // Queremos etiqueta consistente (como se ve hoy: mayúsculas).
-            return text.ToUpperInvariant();
+            return text;
         }
     }
 }
