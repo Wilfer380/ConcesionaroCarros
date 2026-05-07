@@ -38,6 +38,7 @@
     <Compile Include="..\Services\LogService.cs" Link="Source\Services\LogService.cs" />
     <Compile Include="..\Services\PrivilegedProfile.cs" Link="Source\Services\PrivilegedProfile.cs" />
     <Compile Include="..\Services\DocumentationProfile.cs" Link="Source\Services\DocumentationProfile.cs" />
+    <Compile Include="..\Services\GitBranchService.cs" Link="Source\Services\GitBranchService.cs" />
     <Compile Include="..\Services\SuperAdminPolicy.cs" Link="Source\Services\SuperAdminPolicy.cs" />
     <Compile Include="..\Services\RolesSistema.cs" Link="Source\Services\RolesSistema.cs" />
     <Compile Include="..\Services\SesionUsuario.cs" Link="Source\Services\SesionUsuario.cs" />
