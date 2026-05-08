@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ConcesionaroCarros.Services
@@ -34,15 +35,24 @@ namespace ConcesionaroCarros.Services
 
         public static string GetCurrentBranchLabel(string fallback = "RELEASE")
         {
+            return GetCurrentBranchLabelFromDirectory(AppDomain.CurrentDomain.BaseDirectory, fallback);
+        }
+
+        public static string GetCurrentBranchLabelFromDirectory(string baseDir, string fallback = "RELEASE")
+        {
             try
             {
-                var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-
                 // 1) Si estamos corriendo desde un workspace, leemos .git/HEAD.
                 var gitDir = FindGitDirectory(baseDir);
                 var gitHeadBranch = ReadGitHeadBranch(gitDir);
                 if (!string.IsNullOrWhiteSpace(gitHeadBranch))
+                {
+                    var lineageLabel = TryResolveHomologationLineage(gitDir, gitHeadBranch);
+                    if (!string.IsNullOrWhiteSpace(lineageLabel))
+                        return lineageLabel;
+
                     return FormatBranchLabel(gitHeadBranch, fallback);
+                }
 
                 // 2) En entornos instalados (sin .git), usamos una "firma" generada al compilar/publicar.
                 // Esto asegura que el footer muestre la rama real (ProgramTranslation, etc.)
@@ -161,6 +171,73 @@ namespace ConcesionaroCarros.Services
 
             // Detached HEAD: HEAD contiene un hash.
             return head.Length >= 7 ? head.Substring(0, 7) : null;
+        }
+
+        private static string TryResolveHomologationLineage(string gitDir, string currentBranch)
+        {
+            if (string.IsNullOrWhiteSpace(gitDir))
+                return null;
+
+            var branch = Normalize(currentBranch, string.Empty);
+            if (string.IsNullOrWhiteSpace(branch))
+                return null;
+
+            if (IsBranch(branch, HomologationBranch))
+                return "Homologation";
+
+            var chain = new List<string>();
+            var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            while (!string.IsNullOrWhiteSpace(branch))
+            {
+                if (!visited.Add(branch))
+                    return null;
+
+                if (IsBranch(branch, HomologationBranch))
+                {
+                    chain.Reverse();
+                    return chain.Count == 0 ? "Homologation" : "Homologation/" + string.Join("/", chain);
+                }
+
+                chain.Add(branch);
+                branch = ReadCreatedFromBranch(gitDir, branch);
+            }
+
+            return null;
+        }
+
+        private static string ReadCreatedFromBranch(string gitDir, string branch)
+        {
+            try
+            {
+                var logPath = Path.Combine(
+                    gitDir,
+                    "logs",
+                    "refs",
+                    "heads",
+                    branch.Replace('/', Path.DirectorySeparatorChar));
+
+                if (!File.Exists(logPath))
+                    return null;
+
+                const string createdFromMarker = "branch: Created from ";
+                foreach (var line in File.ReadAllLines(logPath))
+                {
+                    var markerIndex = line.IndexOf(createdFromMarker, StringComparison.OrdinalIgnoreCase);
+                    if (markerIndex < 0)
+                        continue;
+
+                    var parent = line.Substring(markerIndex + createdFromMarker.Length).Trim();
+                    parent = Normalize(parent, string.Empty);
+                    return string.IsNullOrWhiteSpace(parent) ? null : parent;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+            return null;
         }
 
         private static bool IsSensitiveSubbranch(string label, string baseBranch)
