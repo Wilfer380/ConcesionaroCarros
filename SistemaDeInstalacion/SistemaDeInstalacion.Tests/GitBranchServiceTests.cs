@@ -39,5 +39,30 @@ namespace SistemaDeInstalacion.Tests
             Assert.AreEqual(expected, GitBranchService.FormatBranchLabel(branchName, "LOCAL"));
             Assert.IsFalse(GitBranchService.IsSensitiveBranchLabel(expected));
         }
+
+        [DataTestMethod]
+        [DataRow("homologation", "homologation", "")]
+        [DataRow("production", "production", "")]
+        [DataRow("ProgramTranslation", "ProgramTranslation", "")]
+        [DataRow("homologation/feature-x", "homologation", "/feature-x")]
+        [DataRow("production/fix-x", "production", "/fix-x")]
+        [DataRow("ProgramTranslation/feat/login", "ProgramTranslation", "/feat/login")]
+        public void SplitBranchLabel_SeparatesBaseBranchFromSuffix(string label, string expectedBase, string expectedSuffix)
+        {
+            Assert.AreEqual(expectedBase, GitBranchService.GetBranchLabelBase(label));
+            Assert.AreEqual(expectedSuffix, GitBranchService.GetBranchLabelSuffix(label));
+        }
+
+        [DataTestMethod]
+        [DataRow("feat/login", "ProgramTranslation", "/feat/login")]
+        [DataRow("fix/login", "ProgramTranslation", "/fix/login")]
+        [DataRow("docs/setup", "ProgramTranslation", "/docs/setup")]
+        public void SplitBranchLabel_UsesFormattedOfficialBranches(string branchName, string expectedBase, string expectedSuffix)
+        {
+            var label = GitBranchService.FormatBranchLabel(branchName, "LOCAL");
+
+            Assert.AreEqual(expectedBase, GitBranchService.GetBranchLabelBase(label));
+            Assert.AreEqual(expectedSuffix, GitBranchService.GetBranchLabelSuffix(label));
+        }
     }
 }

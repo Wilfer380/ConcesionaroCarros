@@ -93,6 +93,20 @@ namespace ConcesionaroCarros.Services
             return IsSensitiveSubbranch(text, HomologationBranch) || IsSensitiveSubbranch(text, ProductionBranch);
         }
 
+        public static string GetBranchLabelBase(string label)
+        {
+            var text = Normalize(label, string.Empty);
+            var separator = text.IndexOf('/');
+            return separator >= 0 ? text.Substring(0, separator) : text;
+        }
+
+        public static string GetBranchLabelSuffix(string label)
+        {
+            var text = Normalize(label, string.Empty);
+            var separator = text.IndexOf('/');
+            return separator >= 0 ? text.Substring(separator) : string.Empty;
+        }
+
         private static string FindGitDirectory(string startPath)
         {
             if (string.IsNullOrWhiteSpace(startPath))
