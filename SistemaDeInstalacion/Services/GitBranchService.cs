@@ -47,7 +47,7 @@ namespace ConcesionaroCarros.Services
                 var gitHeadBranch = ReadGitHeadBranch(gitDir);
                 if (!string.IsNullOrWhiteSpace(gitHeadBranch))
                 {
-                    var lineageLabel = TryResolveHomologationLineage(gitDir, gitHeadBranch);
+                    var lineageLabel = TryResolveEnvironmentLineage(gitDir, gitHeadBranch);
                     if (!string.IsNullOrWhiteSpace(lineageLabel))
                         return lineageLabel;
 
@@ -83,10 +83,10 @@ namespace ConcesionaroCarros.Services
             var baseName = separator >= 0 ? text.Substring(0, separator) : text;
 
             if (IsBranch(baseName, HomologationBranch))
-                return separator >= 0 ? HomologationBranch + text.Substring(separator) : HomologationBranch;
+                return separator >= 0 ? "Homologation" + text.Substring(separator) : "Homologation";
 
             if (IsBranch(baseName, ProductionBranch))
-                return separator >= 0 ? ProductionBranch + text.Substring(separator) : ProductionBranch;
+                return separator >= 0 ? "Production" + text.Substring(separator) : "Production";
 
             if (IsProgramTranslationWorkBranch(baseName))
                 return ProgramTranslationBranch + "/" + text;
@@ -115,6 +115,26 @@ namespace ConcesionaroCarros.Services
             var text = Normalize(label, string.Empty);
             var separator = text.IndexOf('/');
             return separator >= 0 ? text.Substring(separator) : string.Empty;
+        }
+
+        public static string GetBranchLabelWorkSegment(string label)
+        {
+            var suffix = GetBranchLabelSuffix(label);
+            if (string.IsNullOrWhiteSpace(suffix))
+                return string.Empty;
+
+            var separator = suffix.IndexOf('/', 1);
+            return separator >= 0 ? suffix.Substring(0, separator) : suffix;
+        }
+
+        public static string GetBranchLabelFeatureSegment(string label)
+        {
+            var suffix = GetBranchLabelSuffix(label);
+            if (string.IsNullOrWhiteSpace(suffix))
+                return string.Empty;
+
+            var separator = suffix.IndexOf('/', 1);
+            return separator >= 0 ? suffix.Substring(separator) : string.Empty;
         }
 
         private static string FindGitDirectory(string startPath)
@@ -173,7 +193,7 @@ namespace ConcesionaroCarros.Services
             return head.Length >= 7 ? head.Substring(0, 7) : null;
         }
 
-        private static string TryResolveHomologationLineage(string gitDir, string currentBranch)
+        private static string TryResolveEnvironmentLineage(string gitDir, string currentBranch)
         {
             if (string.IsNullOrWhiteSpace(gitDir))
                 return null;
@@ -182,8 +202,9 @@ namespace ConcesionaroCarros.Services
             if (string.IsNullOrWhiteSpace(branch))
                 return null;
 
-            if (IsBranch(branch, HomologationBranch))
-                return "Homologation";
+            string environmentLabel;
+            if (TryGetEnvironmentLabel(branch, out environmentLabel))
+                return environmentLabel;
 
             var chain = new List<string>();
             var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -193,10 +214,10 @@ namespace ConcesionaroCarros.Services
                 if (!visited.Add(branch))
                     return null;
 
-                if (IsBranch(branch, HomologationBranch))
+                if (TryGetEnvironmentLabel(branch, out environmentLabel))
                 {
                     chain.Reverse();
-                    return chain.Count == 0 ? "Homologation" : "Homologation/" + string.Join("/", chain);
+                    return chain.Count == 0 ? environmentLabel : environmentLabel + "/" + string.Join("/", chain);
                 }
 
                 chain.Add(branch);
@@ -204,6 +225,30 @@ namespace ConcesionaroCarros.Services
             }
 
             return null;
+        }
+
+        private static bool TryGetEnvironmentLabel(string branch, out string label)
+        {
+            if (IsBranch(branch, ProgramTranslationBranch))
+            {
+                label = ProgramTranslationBranch;
+                return true;
+            }
+
+            if (IsBranch(branch, HomologationBranch))
+            {
+                label = "Homologation";
+                return true;
+            }
+
+            if (IsBranch(branch, ProductionBranch))
+            {
+                label = "Production";
+                return true;
+            }
+
+            label = null;
+            return false;
         }
 
         private static string ReadCreatedFromBranch(string gitDir, string branch)

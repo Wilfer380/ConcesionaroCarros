@@ -9,20 +9,20 @@ namespace SistemaDeInstalacion.Tests
     public class GitBranchServiceTests
     {
         [DataTestMethod]
-        [DataRow("homologation", "homologation")]
-        [DataRow("Homologation", "homologation")]
-        [DataRow("production", "production")]
-        [DataRow("refs/heads/production", "production")]
-        public void FormatBranchLabel_DisplaysSensitiveBaseBranchesInLowercase(string branchName, string expected)
+        [DataRow("homologation", "Homologation")]
+        [DataRow("Homologation", "Homologation")]
+        [DataRow("production", "Production")]
+        [DataRow("refs/heads/production", "Production")]
+        public void FormatBranchLabel_DisplaysSensitiveBaseBranchesAsEnvironmentLabels(string branchName, string expected)
         {
             Assert.AreEqual(expected, GitBranchService.FormatBranchLabel(branchName, "LOCAL"));
             Assert.IsFalse(GitBranchService.IsSensitiveBranchLabel(expected));
         }
 
         [DataTestMethod]
-        [DataRow("homologation/fix-login", "homologation/fix-login")]
-        [DataRow("origin/homologation/fix-login", "homologation/fix-login")]
-        [DataRow("refs/heads/production/release-check", "production/release-check")]
+        [DataRow("homologation/fix-login", "Homologation/fix-login")]
+        [DataRow("origin/homologation/fix-login", "Homologation/fix-login")]
+        [DataRow("refs/heads/production/release-check", "Production/release-check")]
         public void FormatBranchLabel_DisplaysSensitiveSubbranchesWithSensitiveStyle(string branchName, string expected)
         {
             Assert.AreEqual(expected, GitBranchService.FormatBranchLabel(branchName, "LOCAL"));
@@ -43,17 +43,29 @@ namespace SistemaDeInstalacion.Tests
         }
 
         [DataTestMethod]
-        [DataRow("homologation", "homologation", "")]
-        [DataRow("production", "production", "")]
+        [DataRow("Homologation", "Homologation", "")]
+        [DataRow("Production", "Production", "")]
         [DataRow("ProgramTranslation", "ProgramTranslation", "")]
-        [DataRow("homologation/feature-x", "homologation", "/feature-x")]
-        [DataRow("production/fix-x", "production", "/fix-x")]
+        [DataRow("Homologation/feature-x", "Homologation", "/feature-x")]
+        [DataRow("Production/fix-x", "Production", "/fix-x")]
         [DataRow("ProgramTranslation/feat/login", "ProgramTranslation", "/feat/login")]
         [DataRow("Homologation/RamaTrabajo/fix-numero1", "Homologation", "/RamaTrabajo/fix-numero1")]
         public void SplitBranchLabel_SeparatesBaseBranchFromSuffix(string label, string expectedBase, string expectedSuffix)
         {
             Assert.AreEqual(expectedBase, GitBranchService.GetBranchLabelBase(label));
             Assert.AreEqual(expectedSuffix, GitBranchService.GetBranchLabelSuffix(label));
+        }
+
+        [DataTestMethod]
+        [DataRow("ProgramTranslation", "", "")]
+        [DataRow("ProgramTranslation/RamaTrabajo", "/RamaTrabajo", "")]
+        [DataRow("ProgramTranslation/RamaTrabajo/fix-numero1", "/RamaTrabajo", "/fix-numero1")]
+        [DataRow("Homologation/RamaTrabajo/fix-numero1", "/RamaTrabajo", "/fix-numero1")]
+        [DataRow("Production/RamaTrabajo/fix-numero1", "/RamaTrabajo", "/fix-numero1")]
+        public void SplitBranchLabel_SeparatesWorkAndFeatureSegments(string label, string expectedWorkSegment, string expectedFeatureSegment)
+        {
+            Assert.AreEqual(expectedWorkSegment, GitBranchService.GetBranchLabelWorkSegment(label));
+            Assert.AreEqual(expectedFeatureSegment, GitBranchService.GetBranchLabelFeatureSegment(label));
         }
 
         [DataTestMethod]
@@ -144,6 +156,28 @@ namespace SistemaDeInstalacion.Tests
             }
         }
 
+        [DataTestMethod]
+        [DataRow("ProgramTranslation", "ProgramTranslation/RamaTrabajo/fix-numero1")]
+        [DataRow("homologation", "Homologation/RamaTrabajo/fix-numero1")]
+        [DataRow("production", "Production/RamaTrabajo/fix-numero1")]
+        public void GetCurrentBranchLabelFromDirectory_DisplaysNestedEnvironmentChildLineage(string environmentBranch, string expectedLabel)
+        {
+            var workspace = CreateGitWorkspace("fix-numero1");
+            try
+            {
+                WriteCreatedFrom(workspace.GitDir, "RamaTrabajo", environmentBranch);
+                WriteCreatedFrom(workspace.GitDir, "fix-numero1", "RamaTrabajo");
+
+                Assert.AreEqual(
+                    expectedLabel,
+                    GitBranchService.GetCurrentBranchLabelFromDirectory(workspace.Root, "LOCAL"));
+            }
+            finally
+            {
+                Directory.Delete(workspace.Root, true);
+            }
+        }
+
         [TestMethod]
         public void GetCurrentBranchLabelFromDirectory_DisplaysSlashBranchHomologationChildLineage()
         {
@@ -204,6 +238,8 @@ namespace SistemaDeInstalacion.Tests
 
             Assert.AreEqual("Homologation", GitBranchService.GetBranchLabelBase(label));
             Assert.AreEqual("/RamaTrabajo/fix-numero1", GitBranchService.GetBranchLabelSuffix(label));
+            Assert.AreEqual("/RamaTrabajo", GitBranchService.GetBranchLabelWorkSegment(label));
+            Assert.AreEqual("/fix-numero1", GitBranchService.GetBranchLabelFeatureSegment(label));
         }
 
         private static GitWorkspace CreateGitWorkspace(string currentBranch)
