@@ -85,7 +85,8 @@ namespace ConcesionaroCarros.ViewModels
             AllowedLogViewerEmails.Contains((SesionUsuario.UsuarioActual?.Correo ?? string.Empty).Trim());
         public string ReleaseChannelLabel => _releaseChannelLabel;
         public string ReleaseChannelBaseLabel => GitBranchService.GetBranchLabelBase(_releaseChannelLabel);
-        public string ReleaseChannelSuffixLabel => GitBranchService.GetBranchLabelSuffix(_releaseChannelLabel);
+        public string ReleaseChannelWorkSegmentLabel => GitBranchService.GetBranchLabelWorkSegment(_releaseChannelLabel);
+        public string ReleaseChannelFeatureSegmentLabel => GitBranchService.GetBranchLabelFeatureSegment(_releaseChannelLabel);
         public bool IsSensitiveReleaseChannel => GitBranchService.IsSensitiveBranchLabel(_releaseChannelLabel);
         public string DeveloperAccountsLabel => LocalizedText.Get("Shell_DeveloperAccountsLabel", "Developers");
         public string DeveloperAccountsTooltip => LocalizedText.Get("Shell_DeveloperAccountsTooltip", "Gestión de developers (solo Super Admin).");
@@ -218,7 +219,8 @@ namespace ConcesionaroCarros.ViewModels
             _releaseChannelLabel = currentLabel;
             OnPropertyChanged(nameof(ReleaseChannelLabel));
             OnPropertyChanged(nameof(ReleaseChannelBaseLabel));
-            OnPropertyChanged(nameof(ReleaseChannelSuffixLabel));
+            OnPropertyChanged(nameof(ReleaseChannelWorkSegmentLabel));
+            OnPropertyChanged(nameof(ReleaseChannelFeatureSegmentLabel));
             OnPropertyChanged(nameof(IsSensitiveReleaseChannel));
         }
 
