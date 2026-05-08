@@ -315,7 +315,14 @@
 
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Center"
-                               Style="{StaticResource FooterBranchLabelStyle}"><Run Text="{Binding ReleaseChannelBaseLabel, Mode=OneWay}"/><Run Text="{Binding ReleaseChannelSuffixLabel, Mode=OneWay}" Foreground="{DynamicResource CorpDangerBrush}"/></TextBlock>
+                               Style="{StaticResource FooterBranchLabelStyle}">
+                        <Run Text="{Binding ReleaseChannelBaseLabel, Mode=OneWay}"
+                              Foreground="{DynamicResource CorpAccentBrush}"/>
+                        <Run Text="{Binding ReleaseChannelWorkSegmentLabel, Mode=OneWay}"
+                             Foreground="#F59E0B"/>
+                        <Run Text="{Binding ReleaseChannelFeatureSegmentLabel, Mode=OneWay}"
+                              Foreground="{DynamicResource CorpDangerBrush}"/>
+                    </TextBlock>
 
                     <ComboBox Grid.Column="3"
                               VerticalAlignment="Center"
