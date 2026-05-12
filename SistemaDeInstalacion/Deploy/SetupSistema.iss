@@ -1,22 +1,56 @@
-#define InstallerRoot "\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem"
-#define ReleaseNotesFile "release-notes.txt"
+#ifndef InstallerRoot
+  #define InstallerRoot "\\comde019\DFSMDE\PUBLIC\CO_MDE_DISENO_DI\RESPALDO DISEÑOS\SAP - Respaldo diseños\FORMATOS SAP\InstallerSystem"
+#endif
+#ifndef SourceRoot
+  #define SourceRoot InstallerRoot
+#endif
+#ifndef OutputDir
+  #define OutputDir InstallerRoot
+#endif
+#ifndef OutputBaseFilename
+  #define OutputBaseFilename "SetupSistema"
+#endif
+#ifndef ChannelName
+  #define ChannelName ""
+#endif
+#ifndef ServerVersionFile
+  #define ServerVersionFile (InstallerRoot + "\\version.txt")
+#endif
+#ifndef ReleaseNotesFile
+  #define ReleaseNotesFile "release-notes.txt"
+#endif
+#ifndef ReleaseNotesOut
+  #define ReleaseNotesOut (SourcePath + "\\" + ReleaseNotesFile)
+#endif
+#ifndef NoVersionIncrement
+  #define NoVersionIncrement "0"
+#endif
 #define ReleaseNotesGenerator "GenerateReleaseNotes.ps1"
 #define BumpVersionScript "BumpReleaseVersion.ps1"
 #define VersionFileName "release.version.txt"
 
 #define BumpPs1 (SourcePath + "\\" + BumpVersionScript)
 #define ReleaseNotesPs1 (SourcePath + "\\" + ReleaseNotesGenerator)
-#define ReleaseNotesOut (SourcePath + "\\" + ReleaseNotesFile)
 #define IssFullPath (SourcePath + "\\SetupSistema.iss")
-#define ServerVersionTxt (InstallerRoot + "\\version.txt")
+#define ServerVersionTxt ServerVersionFile
 #define CsprojFullPath (SourcePath + "\\..\\SistemaDeInstalacion.csproj")
 #define VersionFilePath (SourcePath + "\\" + VersionFileName)
+#if Len(ChannelName) == 0
+  #define ShortcutDisplayName "SistemaDeInstalacion"
+#else
+  #define ShortcutDisplayName ChannelName + " SistemaDeInstalacion"
+#endif
+#if NoVersionIncrement == "1"
+  #define BumpVersionArgs " -NoIncrement"
+#else
+  #define BumpVersionArgs ""
+#endif
 
 #define BumpExitCode Exec( \
   "powershell.exe", \
   "-NoProfile -ExecutionPolicy Bypass -File " + """" + BumpPs1 + """" + \
   " -CsprojPath " + """" + CsprojFullPath + """" + \
-  " -OutVersionFile " + """" + VersionFilePath + """" , \
+  " -OutVersionFile " + """" + VersionFilePath + """" + BumpVersionArgs, \
   SourcePath, \
   1 \
 )
@@ -49,22 +83,22 @@ AppName=SistemaDeInstalacion
 AppVersion={#AppVer}
 DefaultDirName={pf}\SistemaDeInstalacion
 DefaultGroupName=SistemaDeInstalacion
-OutputDir={#InstallerRoot}
-OutputBaseFilename=SetupSistema
+OutputDir={#OutputDir}
+OutputBaseFilename={#OutputBaseFilename}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
 [Files]
-Source: "{#InstallerRoot}\publish\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
-Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#InstallerRoot}\LauncherSistema\LauncherSistema.exe.config"; DestDir: "{app}"; Flags: skipifsourcedoesntexist ignoreversion
+Source: "{#SourceRoot}\publish\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
+Source: "{#SourceRoot}\LauncherSistema\LauncherSistema.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceRoot}\LauncherSistema\LauncherSistema.exe.config"; DestDir: "{app}"; Flags: skipifsourcedoesntexist ignoreversion
 ; Release notes embebidas en el instalador para que el flujo visible no dependa de archivos externos.
-Source: "{#SourcePath}\release-notes.txt"; Flags: dontcopy
+Source: "{#ReleaseNotesOut}"; DestName: "release-notes.txt"; Flags: dontcopy
 
 [Icons]
-Name: "{group}\SistemaDeInstalacion"; Filename: "{app}\LauncherSistema.exe"
-Name: "{commondesktop}\SistemaDeInstalacion"; Filename: "{app}\LauncherSistema.exe"
+Name: "{group}\{#ShortcutDisplayName}"; Filename: "{app}\LauncherSistema.exe"
+Name: "{userdesktop}\{#ShortcutDisplayName}"; Filename: "{app}\LauncherSistema.exe"
 
 [Run]
 Filename: "{app}\LauncherSistema.exe"; Parameters: "--post-update"; Description: "Abrir sistema"; WorkingDir: "{app}"; Flags: nowait
