@@ -90,12 +90,19 @@ namespace ConcesionaroCarros.Services
             if (string.IsNullOrWhiteSpace(key))
                 return string.Empty;
 
-            var value = Resources.ResourceManager.GetString(key, CurrentCulture);
-            if (!string.IsNullOrWhiteSpace(value))
-                return value;
+            try
+            {
+                var value = Resources.ResourceManager.GetString(key, CurrentCulture);
+                if (!string.IsNullOrWhiteSpace(value))
+                    return value;
 
-            value = Resources.ResourceManager.GetString(key, DefaultCulture);
-            return !string.IsNullOrWhiteSpace(value) ? value : $"[{key}]";
+                value = Resources.ResourceManager.GetString(key, DefaultCulture);
+                return !string.IsNullOrWhiteSpace(value) ? value : $"[{key}]";
+            }
+            catch (System.Resources.MissingManifestResourceException)
+            {
+                return $"[{key}]";
+            }
         }
 
         private void ApplyCulture(CultureInfo culture, bool notify)
