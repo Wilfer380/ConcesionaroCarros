@@ -39,7 +39,7 @@ namespace ConcesionaroCarros.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConcesionaroCarros.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SistemaDeInstalacion.Tests.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,6 +79,15 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La cuenta Developer está deshabilitada. Contacte al Super Admin..
+        /// </summary>
+        internal static string AdminLogin_DeveloperDisabledMessage {
+            get {
+                return ResourceManager.GetString("AdminLogin_DeveloperDisabledMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La contraseña administrativa ingresada es incorrecta. Verifica el dato e intenta nuevamente..
         /// </summary>
         internal static string AdminLogin_InvalidPasswordMessage {
@@ -106,7 +115,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No tienes cuenta administrativa?.
+        ///   Busca una cadena traducida similar a ¿No tienes cuenta administrativa?.
         /// </summary>
         internal static string AdminLogin_NoAccountText {
             get {
@@ -223,6 +232,15 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ese correo está reservado para el perfil Developer y no puede registrarse como administrador..
+        /// </summary>
+        internal static string AdminRegister_DeveloperAccountForbidden {
+            get {
+                return ResourceManager.GetString("AdminRegister_DeveloperAccountForbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No fue posible detectar el usuario del dispositivo..
         /// </summary>
         internal static string AdminRegister_DeviceUserMissingMessage {
@@ -268,7 +286,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible derivar un usuario vÃ¡lido a partir del correo..
+        ///   Busca una cadena traducida similar a No fue posible derivar un usuario válido a partir del correo..
         /// </summary>
         internal static string AdminRegister_InvalidDerivedUserMessage {
             get {
@@ -403,7 +421,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a La base de datos esta ocupada. Intenta nuevamente..
+        ///   Busca una cadena traducida similar a La base de datos está ocupada. Intenta nuevamente..
         /// </summary>
         internal static string Common_DatabaseBusyRetryMessage {
             get {
@@ -412,7 +430,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a La base de datos esa¡ ocupada. Intenta guardar nuevamente..
+        ///   Busca una cadena traducida similar a La base de datos está ocupada. Intenta guardar nuevamente..
         /// </summary>
         internal static string Common_DatabaseBusySaveRetryMessage {
             get {
@@ -448,7 +466,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Validación  de correo.
+        ///   Busca una cadena traducida similar a Validación de correo.
         /// </summary>
         internal static string Common_EmailValidationTitle {
             get {
@@ -511,6 +529,204 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Acciones.
+        /// </summary>
+        internal static string DeveloperAccounts_ActionsHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_ActionsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Agregar.
+        /// </summary>
+        internal static string DeveloperAccounts_AddLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_AddLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se puede deshabilitar el Super Admin..
+        /// </summary>
+        internal static string DeveloperAccounts_CannotDisableSuperAdmin {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_CannotDisableSuperAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Creado.
+        /// </summary>
+        internal static string DeveloperAccounts_CreatedAtHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_CreatedAtHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Creado por.
+        /// </summary>
+        internal static string DeveloperAccounts_CreatedByHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_CreatedByHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Deshabilitar.
+        /// </summary>
+        internal static string DeveloperAccounts_DisableLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_DisableLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo.
+        /// </summary>
+        internal static string DeveloperAccounts_EmailHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_EmailHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Correo developer.
+        /// </summary>
+        internal static string DeveloperAccounts_EmailLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_EmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingrese un correo válido..
+        /// </summary>
+        internal static string DeveloperAccounts_EmptyEmailMessage {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_EmptyEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Habilitado.
+        /// </summary>
+        internal static string DeveloperAccounts_EnabledHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_EnabledHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Habilitar.
+        /// </summary>
+        internal static string DeveloperAccounts_EnableLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_EnableLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo debe terminar en @weg.net..
+        /// </summary>
+        internal static string DeveloperAccounts_InvalidDomainMessage {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_InvalidDomainMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Primero debe existir un usuario base con este correo (para definir contraseña). Créelo desde Gestión de usuarios y luego habilítelo como Developer..
+        /// </summary>
+        internal static string DeveloperAccounts_MissingBaseUser {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_MissingBaseUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Notas (opcional).
+        /// </summary>
+        internal static string DeveloperAccounts_NotesLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_NotesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actualizar.
+        /// </summary>
+        internal static string DeveloperAccounts_RefreshLabel {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_RefreshLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No fue posible guardar el developer en este momento..
+        /// </summary>
+        internal static string DeveloperAccounts_SaveError {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_SaveError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Deshabilitado.
+        /// </summary>
+        internal static string DeveloperAccounts_StatusDisabled {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_StatusDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Habilitado.
+        /// </summary>
+        internal static string DeveloperAccounts_StatusEnabled {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_StatusEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Alta y baja de cuentas Developer. Disponible solo para el Super Admin..
+        /// </summary>
+        internal static string DeveloperAccounts_Subtitle {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El Super Admin no puede registrarse como Developer..
+        /// </summary>
+        internal static string DeveloperAccounts_SuperAdminCannotBeDeveloper {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_SuperAdminCannotBeDeveloper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Developers.
+        /// </summary>
+        internal static string DeveloperAccounts_TabHeader {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_TabHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Gestión de Developers.
+        /// </summary>
+        internal static string DeveloperAccounts_Title {
+            get {
+                return ResourceManager.GetString("DeveloperAccounts_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Base de datos.
         /// </summary>
         internal static string Documentation_DatabaseTitle {
@@ -538,7 +754,25 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Usa el selector de navegación para abrir una guia, manual o procedimiento cuando lo necesites..
+        ///   Busca una cadena traducida similar a Consulta la documentación técnica habilitada para continuidad de desarrollo, soporte e investigación..
+        /// </summary>
+        internal static string Help_DeveloperSubtitle {
+            get {
+                return ResourceManager.GetString("Help_DeveloperSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Centro de ayuda para developer.
+        /// </summary>
+        internal static string Help_DeveloperTitle {
+            get {
+                return ResourceManager.GetString("Help_DeveloperTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usa el selector de navegación para abrir una guía, manual o procedimiento cuando lo necesites..
         /// </summary>
         internal static string Help_EmptySelectDescription {
             get {
@@ -547,7 +781,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No se muestra contenido automáticamente para que elijas exactamente la documentación que quierass consultar..
+        ///   Busca una cadena traducida similar a No se muestra contenido automáticamente para que elijas exactamente la documentación que quieras consultar..
         /// </summary>
         internal static string Help_EmptySelectHint {
             get {
@@ -583,7 +817,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a No fue posible cargar la documentaciÃ³n.
+        ///   Busca una cadena traducida similar a No fue posible cargar la documentación.
         /// </summary>
         internal static string Help_LoadErrorTitle {
             get {
@@ -592,7 +826,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ExplorÃ¡ documentos, manuales y procedimientos disponibles para tu perfil..
+        ///   Busca una cadena traducida similar a Explora documentos, manuales y procedimientos disponibles para tu perfil..
         /// </summary>
         internal static string Help_NavigationDescription {
             get {
@@ -664,7 +898,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Acceso rapido.
+        ///   Busca una cadena traducida similar a Acceso rápido.
         /// </summary>
         internal static string Help_QuickAccessTitle {
             get {
@@ -709,7 +943,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Detalle tecnico: .
+        ///   Busca una cadena traducida similar a Detalle técnico: .
         /// </summary>
         internal static string Help_TechnicalDetailPrefix {
             get {
@@ -718,7 +952,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Consulta unicamente la documentación disponible para el usuario final..
+        ///   Busca una cadena traducida similar a Consulta únicamente la documentación disponible para el usuario final..
         /// </summary>
         internal static string Help_UserSubtitle {
             get {
@@ -871,7 +1105,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a OcurriÃ³ un error inesperado al ejecutar el instalador..
+        ///   Busca una cadena traducida similar a Ocurrió un error inesperado al ejecutar el instalador..
         /// </summary>
         internal static string Installers_RunUnexpectedErrorMessage {
             get {
@@ -997,11 +1231,137 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a WEG Installer Systems - Inicio de sesiÃ³n.
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Inicio de sesión.
         /// </summary>
         internal static string Login_WindowTitle {
             get {
                 return ResourceManager.GetString("Login_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sesión administrativa iniciada.
+        /// </summary>
+        internal static string Logs_AdminSessionStarted {
+            get {
+                return ResourceManager.GetString("Logs_AdminSessionStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aplicación finalizada.
+        /// </summary>
+        internal static string Logs_AppClosedHealth {
+            get {
+                return ResourceManager.GetString("Logs_AppClosedHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cierre de aplicación.
+        /// </summary>
+        internal static string Logs_AppClosedInfo {
+            get {
+                return ResourceManager.GetString("Logs_AppClosedInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aplicación iniciada.
+        /// </summary>
+        internal static string Logs_AppStartedHealth {
+            get {
+                return ResourceManager.GetString("Logs_AppStartedHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inicio de aplicación.
+        /// </summary>
+        internal static string Logs_AppStartedInfo {
+            get {
+                return ResourceManager.GetString("Logs_AppStartedInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se deshabilitó el acceso Developer para {0}..
+        /// </summary>
+        internal static string Logs_Audit_DeveloperDisabled {
+            get {
+                return ResourceManager.GetString("Logs_Audit_DeveloperDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se habilitó el acceso Developer para {0}..
+        /// </summary>
+        internal static string Logs_Audit_DeveloperEnabled {
+            get {
+                return ResourceManager.GetString("Logs_Audit_DeveloperEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se agregó un instalador: {0}..
+        /// </summary>
+        internal static string Logs_Audit_InstallerCreated {
+            get {
+                return ResourceManager.GetString("Logs_Audit_InstallerCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se eliminó el instalador {0}..
+        /// </summary>
+        internal static string Logs_Audit_InstallerDeleted {
+            get {
+                return ResourceManager.GetString("Logs_Audit_InstallerDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se actualizó el instalador {0}..
+        /// </summary>
+        internal static string Logs_Audit_InstallerUpdated {
+            get {
+                return ResourceManager.GetString("Logs_Audit_InstallerUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se cambió el idioma de la aplicación a {0}..
+        /// </summary>
+        internal static string Logs_Audit_LanguageChanged {
+            get {
+                return ResourceManager.GetString("Logs_Audit_LanguageChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se creó el usuario {0} con rol {1}..
+        /// </summary>
+        internal static string Logs_Audit_UserCreated {
+            get {
+                return ResourceManager.GetString("Logs_Audit_UserCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se eliminó el usuario {0}..
+        /// </summary>
+        internal static string Logs_Audit_UserDeleted {
+            get {
+                return ResourceManager.GetString("Logs_Audit_UserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se actualizó el usuario {0}..
+        /// </summary>
+        internal static string Logs_Audit_UserUpdated {
+            get {
+                return ResourceManager.GetString("Logs_Audit_UserUpdated", resourceCulture);
             }
         }
         
@@ -1011,6 +1371,1140 @@ namespace ConcesionaroCarros.Properties {
         internal static string Logs_AverageLatencyMetric {
             get {
                 return ResourceManager.GetString("Logs_AverageLatencyMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay {0} eventos observables en el bucket, pero ninguno requiere escalarse como incidente..
+        /// </summary>
+        internal static string Logs_Dashboard_ActivityEventsNoIncidentEscalationFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ActivityEventsNoIncidentEscalationFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actividad observable sin incidente dominante.
+        /// </summary>
+        internal static string Logs_Dashboard_ActivityWithoutDominantIncident {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ActivityWithoutDominantIncident", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado afectado: .
+        /// </summary>
+        internal static string Logs_Dashboard_AffectedStatePrefix {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_AffectedStatePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Resumen honesto por incidentes, validaciones, latencia, actividad y salud operativa..
+        /// </summary>
+        internal static string Logs_Dashboard_ByFamilySubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ByFamilySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lectura ejecutiva por familia.
+        /// </summary>
+        internal static string Logs_Dashboard_ByFamilyTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ByFamilyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Limpiar contexto.
+        /// </summary>
+        internal static string Logs_Dashboard_ClearContextButton {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ClearContextButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Limpiar filtros.
+        /// </summary>
+        internal static string Logs_Dashboard_ClearFiltersButton {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ClearFiltersButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contexto: .
+        /// </summary>
+        internal static string Logs_Dashboard_ContextPrefix {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ContextPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cobertura.
+        /// </summary>
+        internal static string Logs_Dashboard_CoverageLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_CoverageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cobertura.
+        /// </summary>
+        internal static string Logs_Dashboard_CoverageTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_CoverageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a hace {0} d.
+        /// </summary>
+        internal static string Logs_Dashboard_DaysAgoFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DaysAgoFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Click solo como acción secundaria para filtrar o fijar contexto; leer no debería requerir clicks..
+        /// </summary>
+        internal static string Logs_Dashboard_DefaultHoverActionHint {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DefaultHoverActionHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los segmentos narrativos muestran detalle vivo en el panel superior. Las distribuciones, facts y bloques auxiliares actualizan esta tarjeta mientras dure el hover..
+        /// </summary>
+        internal static string Logs_Dashboard_DefaultHoverDetail {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DefaultHoverDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pasá por encima de cualquier segmento o bloque relevante y el contexto queda visible acá sin depender de tooltips cortos..
+        /// </summary>
+        internal static string Logs_Dashboard_DefaultHoverSummary {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DefaultHoverSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dependencias.
+        /// </summary>
+        internal static string Logs_Dashboard_DependenciesLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DependenciesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dependencia/módulo: .
+        /// </summary>
+        internal static string Logs_Dashboard_DependencyModulePrefix {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DependencyModulePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los accesos rápidos siguen filtrando la grilla inferior por módulo, usuario o equipo real..
+        /// </summary>
+        internal static string Logs_Dashboard_DistributionsSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DistributionsSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Distribuciones y drill-down.
+        /// </summary>
+        internal static string Logs_Dashboard_DistributionsTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DistributionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Duración / vigencia.
+        /// </summary>
+        internal static string Logs_Dashboard_DurationOrValidityTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DurationOrValidityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Duración.
+        /// </summary>
+        internal static string Logs_Dashboard_DurationTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_DurationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Atención operativa: {0} errores visibles sobre {1} eventos, con cobertura observable {2}/5..
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveAttentionErrorsFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveAttentionErrorsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Atención operativa: se detectan dependencias o salud en falla visible. Última señal {0}; cobertura observable {1}/5..
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveAttentionHealthFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveAttentionHealthFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Operación observable dentro del rango seleccionado, con {0} eventos y cobertura base {1}/5..
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveOperationalFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveOperationalFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Operación bajo revisión: última señal {0}, heartbeat {1} y dependencias {2}..
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveReviewHealthFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveReviewHealthFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Operación bajo revisión: sin errores visibles, pero con {0} advertencias y cobertura observable {1}/5..
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveReviewWarningsFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveReviewWarningsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado ejecutivo del rango filtrado.
+        /// </summary>
+        internal static string Logs_Dashboard_ExecutiveStatusTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ExecutiveStatusTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eventos.
+        /// </summary>
+        internal static string Logs_Dashboard_FactEvents {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FactEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lectura narrativa derivada de señales reales..
+        /// </summary>
+        internal static string Logs_Dashboard_FactNarrativeReadingHint {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FactNarrativeReadingHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación.
+        /// </summary>
+        internal static string Logs_Dashboard_FactRecovery {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FactRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clasificación dominante del bucket..
+        /// </summary>
+        internal static string Logs_Dashboard_FactSeverityBucketHint {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FactSeverityBucketHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado.
+        /// </summary>
+        internal static string Logs_Dashboard_FactState {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FactState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tabla de detalle final para investigación, auditoría y drill-down desde los paneles superiores..
+        /// </summary>
+        internal static string Logs_Dashboard_FilteredTracesSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FilteredTracesSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Trazas filtradas.
+        /// </summary>
+        internal static string Logs_Dashboard_FilteredTracesTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FilteredTracesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los cambios de idioma deben respetar los mismos filtros, drill-down y refrescos existentes..
+        /// </summary>
+        internal static string Logs_Dashboard_FiltersSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FiltersSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Filtros operativos.
+        /// </summary>
+        internal static string Logs_Dashboard_FiltersTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_FiltersTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bloque del dashboard.
+        /// </summary>
+        internal static string Logs_Dashboard_GenericBlock {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_GenericBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lectura operativa en tiempo real e histórica usando únicamente señales reales observables..
+        /// </summary>
+        internal static string Logs_Dashboard_HeaderSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HeaderSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dashboard de métricas y logs.
+        /// </summary>
+        internal static string Logs_Dashboard_HeaderTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HeaderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incidentes health.
+        /// </summary>
+        internal static string Logs_Dashboard_HealthIncidentsLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HealthIncidentsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} reporta {1}.
+        /// </summary>
+        internal static string Logs_Dashboard_HealthReportsStateFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HealthReportsStateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Heartbeat.
+        /// </summary>
+        internal static string Logs_Dashboard_HeartbeatLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HeartbeatLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bandas históricas.
+        /// </summary>
+        internal static string Logs_Dashboard_HistoricalBands {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HistoricalBands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Histórico.
+        /// </summary>
+        internal static string Logs_Dashboard_HistoryView {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HistoryView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Representación honesta.
+        /// </summary>
+        internal static string Logs_Dashboard_HonestRepresentationTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HonestRepresentationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a hace {0} h.
+        /// </summary>
+        internal static string Logs_Dashboard_HoursAgoFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HoursAgoFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mientras dure el hover.
+        /// </summary>
+        internal static string Logs_Dashboard_HoverDurationLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HoverDurationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lectura dinámica en hover.
+        /// </summary>
+        internal static string Logs_Dashboard_HoverReadingTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HoverReadingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hover.
+        /// </summary>
+        internal static string Logs_Dashboard_HoverShortLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_HoverShortLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dependencias críticas aún no tienen cobertura observable completa en la ventana actual..
+        /// </summary>
+        internal static string Logs_Dashboard_InstrumentationNoteNoDependencies {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InstrumentationNoteNoDependencies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Disponibilidad real aún no instrumentada; solo se muestran eventos de app/health cuando existen..
+        /// </summary>
+        internal static string Logs_Dashboard_InstrumentationNoteNoHealth {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InstrumentationNoteNoHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Heartbeat de escritorio aún no es visible para todo el histórico filtrado..
+        /// </summary>
+        internal static string Logs_Dashboard_InstrumentationNoteNoHeartbeat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InstrumentationNoteNoHeartbeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sesiones persistidas aún no están capturadas; por ahora se infiere actividad desde login/logout..
+        /// </summary>
+        internal static string Logs_Dashboard_InstrumentationNoteNoSessions {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InstrumentationNoteNoSessions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validaciones semánticamente explotables aún son parciales..
+        /// </summary>
+        internal static string Logs_Dashboard_InstrumentationNotePartialValidations {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InstrumentationNotePartialValidations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Señal insuficiente.
+        /// </summary>
+        internal static string Logs_Dashboard_InsufficientSignalTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_InsufficientSignalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Distribución de latencia.
+        /// </summary>
+        internal static string Logs_Dashboard_LatencyDistributionTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_LatencyDistributionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Última señal.
+        /// </summary>
+        internal static string Logs_Dashboard_LatestSignalLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_LatestSignalLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a hace &lt; 1 min.
+        /// </summary>
+        internal static string Logs_Dashboard_LessThanOneMinuteAgo {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_LessThanOneMinuteAgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Click para concentrar el análisis por equipo físico..
+        /// </summary>
+        internal static string Logs_Dashboard_MachineActivitySubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_MachineActivitySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actividad por equipo.
+        /// </summary>
+        internal static string Logs_Dashboard_MachineActivityTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_MachineActivityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a hace {0} min.
+        /// </summary>
+        internal static string Logs_Dashboard_MinutesAgoFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_MinutesAgoFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Módulo.
+        /// </summary>
+        internal static string Logs_Dashboard_ModuleFilter {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ModuleFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fecha / periodo.
+        /// </summary>
+        internal static string Logs_Dashboard_NarrativePeriodTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NarrativePeriodTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin click obligatorio.
+        /// </summary>
+        internal static string Logs_Dashboard_NoClickRequired {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoClickRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin cierre observable.
+        /// </summary>
+        internal static string Logs_Dashboard_NoClosureObservable {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoClosureObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin cobertura.
+        /// </summary>
+        internal static string Logs_Dashboard_NoCoverage {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoCoverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin cobertura observable.
+        /// </summary>
+        internal static string Logs_Dashboard_NoCoverageObservable {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoCoverageObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin dato.
+        /// </summary>
+        internal static string Logs_Dashboard_NoDataValue {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoDataValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin eventos para esta familia..
+        /// </summary>
+        internal static string Logs_Dashboard_NoEventsForFamily {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoEventsForFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin heartbeat observable.
+        /// </summary>
+        internal static string Logs_Dashboard_NoHeartbeatObservable {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoHeartbeatObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin heartbeat.
+        /// </summary>
+        internal static string Logs_Dashboard_NoHeartbeatShort {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoHeartbeatShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin incidente observable.
+        /// </summary>
+        internal static string Logs_Dashboard_NoIncidentObservable {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoIncidentObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin incidente observable en el período.
+        /// </summary>
+        internal static string Logs_Dashboard_NoIncidentObservableInPeriod {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoIncidentObservableInPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay señales reales en este período, así que el dashboard no inventa salud ni recuperación..
+        /// </summary>
+        internal static string Logs_Dashboard_NoObservableDataExplanation {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoObservableDataExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin datos observables.
+        /// </summary>
+        internal static string Logs_Dashboard_NoObservableDataSummary {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoObservableDataSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin incidentes health recientes.
+        /// </summary>
+        internal static string Logs_Dashboard_NoRecentHealthIncidents {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoRecentHealthIncidents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin señal reciente.
+        /// </summary>
+        internal static string Logs_Dashboard_NoRecentSignal {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoRecentSignal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin señal reciente en el filtro actual; revisá rango, equipo o cobertura de instrumentación..
+        /// </summary>
+        internal static string Logs_Dashboard_NoRecentSignalCurrentFilter {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoRecentSignalCurrentFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin referencia.
+        /// </summary>
+        internal static string Logs_Dashboard_NoReferenceShort {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoReferenceShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay degradaciones health visibles..
+        /// </summary>
+        internal static string Logs_Dashboard_NoVisibleHealthDegradations {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoVisibleHealthDegradations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sin valor visible..
+        /// </summary>
+        internal static string Logs_Dashboard_NoVisibleValue {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_NoVisibleValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Duración observable {0} h.
+        /// </summary>
+        internal static string Logs_Dashboard_ObservableDurationHoursFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservableDurationHoursFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Duración observable {0} min.
+        /// </summary>
+        internal static string Logs_Dashboard_ObservableDurationMinutesFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservableDurationMinutesFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Duración observable &lt; 1 min.
+        /// </summary>
+        internal static string Logs_Dashboard_ObservableDurationUnderMinute {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservableDurationUnderMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bandas nativas de latencia sin librerías externas ni gráficos artificiales..
+        /// </summary>
+        internal static string Logs_Dashboard_ObservablePerformanceSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservablePerformanceSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rendimiento observable.
+        /// </summary>
+        internal static string Logs_Dashboard_ObservablePerformanceTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservablePerformanceTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay señales observables para este bucket..
+        /// </summary>
+        internal static string Logs_Dashboard_ObservableSignalsBucketHint {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ObservableSignalsBucketHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Latencia P95.
+        /// </summary>
+        internal static string Logs_Dashboard_P95LatencyMetric {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_P95LatencyMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cobertura parcial.
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverage {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se detectaron {0} eventos en el período, aunque la cobertura para esta familia sigue siendo parcial..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageGenericFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageGenericFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay actividad general en el bucket, pero no una señal health/dependency suficiente para afirmar salud operativa completa..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageHealthExplanation {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageHealthExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay eventos en el bucket, pero sin duraciones suficientes para describir rendimiento completo..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageLatencyExplanation {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageLatencyExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La cobertura del período es parcial, así que no conviene sobreinterpretar silencio como salud..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageSilenceWarning {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageSilenceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cobertura parcial en el período.
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageSummary {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La app tuvo actividad en el bucket, pero no surgieron validaciones explotables para lectura de calidad..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageValidationsExplanation {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageValidationsExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La ventana no cubre toda la señal esperada..
+        /// </summary>
+        internal static string Logs_Dashboard_PartialCoverageWindowHint {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PartialCoverageWindowHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Evento principal: .
+        /// </summary>
+        internal static string Logs_Dashboard_PrimaryEventPrefix {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_PrimaryEventPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rango.
+        /// </summary>
+        internal static string Logs_Dashboard_RangeFilter {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RangeFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tiempo real.
+        /// </summary>
+        internal static string Logs_Dashboard_RealTimeView {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RealTimeView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación no observable.
+        /// </summary>
+        internal static string Logs_Dashboard_RecoveryNotObservable {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RecoveryNotObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación no observable con la telemetría actual..
+        /// </summary>
+        internal static string Logs_Dashboard_RecoveryNotObservableWithTelemetry {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RecoveryNotObservableWithTelemetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación observada: .
+        /// </summary>
+        internal static string Logs_Dashboard_RecoveryObservedPrefix {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RecoveryObservedPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recuperación.
+        /// </summary>
+        internal static string Logs_Dashboard_RecoveryTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RecoveryTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El bucket contiene {0} eventos relacionados para drill-down..
+        /// </summary>
+        internal static string Logs_Dashboard_RelatedEventsForDrillDownFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RelatedEventsForDrillDownFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incidentes / hechos relacionados.
+        /// </summary>
+        internal static string Logs_Dashboard_RelatedIncidentsTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_RelatedIncidentsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Búsqueda.
+        /// </summary>
+        internal static string Logs_Dashboard_SearchFilter {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SearchFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Facts del segmento.
+        /// </summary>
+        internal static string Logs_Dashboard_SegmentFactsTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SegmentFactsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Severidad.
+        /// </summary>
+        internal static string Logs_Dashboard_SeverityFilter {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SeverityFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Operación lenta detectada en {0}.
+        /// </summary>
+        internal static string Logs_Dashboard_SlowOperationDetectedFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SlowOperationDetectedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Click para focalizar la grilla y revisar trazas del módulo..
+        /// </summary>
+        internal static string Logs_Dashboard_SourceActivitySubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SourceActivitySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actividad por módulo.
+        /// </summary>
+        internal static string Logs_Dashboard_SourceActivityTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_SourceActivityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Estado del dashboard.
+        /// </summary>
+        internal static string Logs_Dashboard_StatusTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_StatusTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Para team real hace falta una dimensión adicional en los logs; esta página no la inventa..
+        /// </summary>
+        internal static string Logs_Dashboard_TeamTaxonomyDetail {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TeamTaxonomyDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No hay taxonomía de equipo de negocio en la telemetría actual..
+        /// </summary>
+        internal static string Logs_Dashboard_TeamTaxonomySubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TeamTaxonomySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Taxonomía team.
+        /// </summary>
+        internal static string Logs_Dashboard_TeamTaxonomyTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TeamTaxonomyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hay telemetría en el período, pero no aparece una señal anómala para esta familia..
+        /// </summary>
+        internal static string Logs_Dashboard_TelemetryNoAnomalyForFamily {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TelemetryNoAnomalyForFamily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Volver al registro completo.
+        /// </summary>
+        internal static string Logs_Dashboard_TimelineBackTooltip {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TimelineBackTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ahora.
+        /// </summary>
+        internal static string Logs_Dashboard_TimelineNow {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TimelineNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inicio.
+        /// </summary>
+        internal static string Logs_Dashboard_TimelineStart {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TimelineStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lista inferior priorizada para seguimiento rápido. Click en un evento para bajar con filtros a la grilla..
+        /// </summary>
+        internal static string Logs_Dashboard_TimelineSubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TimelineSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Timeline de incidentes y eventos.
+        /// </summary>
+        internal static string Logs_Dashboard_TimelineTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_TimelineTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Click para abrir el foco de actividad por operador..
+        /// </summary>
+        internal static string Logs_Dashboard_UserActivitySubtitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_UserActivitySubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actividad por usuario.
+        /// </summary>
+        internal static string Logs_Dashboard_UserActivityTitle {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_UserActivityTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación observada en {0}.
+        /// </summary>
+        internal static string Logs_Dashboard_ValidationObservedFormat {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ValidationObservedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ver eventos relacionados.
+        /// </summary>
+        internal static string Logs_Dashboard_ViewRelatedEventsButton {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_ViewRelatedEventsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eventos visibles.
+        /// </summary>
+        internal static string Logs_Dashboard_VisibleEventsMetric {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_VisibleEventsMetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ventana.
+        /// </summary>
+        internal static string Logs_Dashboard_WindowLabel {
+            get {
+                return ResourceManager.GetString("Logs_Dashboard_WindowLabel", resourceCulture);
             }
         }
         
@@ -1051,11 +2545,29 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Inicialización de base de datos completada.
+        /// </summary>
+        internal static string Logs_DbInitCompleted {
+            get {
+                return ResourceManager.GetString("Logs_DbInitCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Detalle.
         /// </summary>
         internal static string Logs_DetailColumn {
             get {
                 return ResourceManager.GetString("Logs_DetailColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sesión de developer iniciada.
+        /// </summary>
+        internal static string Logs_DeveloperSessionStarted {
+            get {
+                return ResourceManager.GetString("Logs_DeveloperSessionStarted", resourceCulture);
             }
         }
         
@@ -1078,6 +2590,78 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Todos los equipos.
+        /// </summary>
+        internal static string Logs_Filter_AllMachines {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllMachines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a todos los equipos.
+        /// </summary>
+        internal static string Logs_Filter_AllMachines_Lower {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllMachines_Lower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Todas las severidades.
+        /// </summary>
+        internal static string Logs_Filter_AllSeverities {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllSeverities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a todas las severidades.
+        /// </summary>
+        internal static string Logs_Filter_AllSeverities_Lower {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllSeverities_Lower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Todos los módulos.
+        /// </summary>
+        internal static string Logs_Filter_AllSources {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a todos los módulos.
+        /// </summary>
+        internal static string Logs_Filter_AllSources_Lower {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllSources_Lower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Todos los usuarios.
+        /// </summary>
+        internal static string Logs_Filter_AllUsers {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a todos los usuarios.
+        /// </summary>
+        internal static string Logs_Filter_AllUsers_Lower {
+            get {
+                return ResourceManager.GetString("Logs_Filter_AllUsers_Lower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No fue posible cargar los logs filtrados..
         /// </summary>
         internal static string Logs_FilteredLoadErrorStatus {
@@ -1092,6 +2676,15 @@ namespace ConcesionaroCarros.Properties {
         internal static string Logs_FilterRefreshErrorStatus {
             get {
                 return ResourceManager.GetString("Logs_FilterRefreshErrorStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Heartbeat finalizado.
+        /// </summary>
+        internal static string Logs_HeartbeatStopped {
+            get {
+                return ResourceManager.GetString("Logs_HeartbeatStopped", resourceCulture);
             }
         }
         
@@ -1159,7 +2752,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Equipo {0} seleccionado. Ahora elegÃ­ una fecha..
+        ///   Busca una cadena traducida similar a Equipo {0} seleccionado. Ahora elige una fecha..
         /// </summary>
         internal static string Logs_MachineSelectedStatus {
             get {
@@ -1182,6 +2775,33 @@ namespace ConcesionaroCarros.Properties {
         internal static string Logs_MachineTooltip {
             get {
                 return ResourceManager.GetString("Logs_MachineTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inicialización principal completada.
+        /// </summary>
+        internal static string Logs_MainInitCompleted {
+            get {
+                return ResourceManager.GetString("Logs_MainInitCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inicialización principal falló.
+        /// </summary>
+        internal static string Logs_MainInitFailed {
+            get {
+                return ResourceManager.GetString("Logs_MainInitFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inicialización principal con falla observable.
+        /// </summary>
+        internal static string Logs_MainInitFailedObservable {
+            get {
+                return ResourceManager.GetString("Logs_MainInitFailedObservable", resourceCulture);
             }
         }
         
@@ -1285,6 +2905,15 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Sesión cerrada.
+        /// </summary>
+        internal static string Logs_SessionEnded {
+            get {
+                return ResourceManager.GetString("Logs_SessionEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Origen.
         /// </summary>
         internal static string Logs_SourceColumn {
@@ -1303,11 +2932,56 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a InspeccionÃ¡ actividad, errores y latencias por equipo y fecha..
+        ///   Busca una cadena traducida similar a Inspecciona actividad, errores y latencias por equipo y fecha..
         /// </summary>
         internal static string Logs_Subtitle {
             get {
                 return ResourceManager.GetString("Logs_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Todo el histórico.
+        /// </summary>
+        internal static string Logs_TimeRange_AllHistory {
+            get {
+                return ResourceManager.GetString("Logs_TimeRange_AllHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Últimas 24 horas.
+        /// </summary>
+        internal static string Logs_TimeRange_Last24Hours {
+            get {
+                return ResourceManager.GetString("Logs_TimeRange_Last24Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Últimos 30 días.
+        /// </summary>
+        internal static string Logs_TimeRange_Last30Days {
+            get {
+                return ResourceManager.GetString("Logs_TimeRange_Last30Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Últimos 7 días.
+        /// </summary>
+        internal static string Logs_TimeRange_Last7Days {
+            get {
+                return ResourceManager.GetString("Logs_TimeRange_Last7Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tiempo real (últimas 2 horas).
+        /// </summary>
+        internal static string Logs_TimeRange_RealTime2Hours {
+            get {
+                return ResourceManager.GetString("Logs_TimeRange_RealTime2Hours", resourceCulture);
             }
         }
         
@@ -1321,11 +2995,56 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Excepción no controlada del dominio.
+        /// </summary>
+        internal static string Logs_UnhandledDomainException {
+            get {
+                return ResourceManager.GetString("Logs_UnhandledDomainException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Excepción no controlada en interfaz.
+        /// </summary>
+        internal static string Logs_UnhandledUiException {
+            get {
+                return ResourceManager.GetString("Logs_UnhandledUiException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Usuario.
         /// </summary>
         internal static string Logs_UserColumn {
             get {
                 return ResourceManager.GetString("Logs_UserColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sesión de usuario iniciada.
+        /// </summary>
+        internal static string Logs_UserSessionStarted {
+            get {
+                return ResourceManager.GetString("Logs_UserSessionStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación aceptada.
+        /// </summary>
+        internal static string Logs_ValidationAcceptedMessage {
+            get {
+                return ResourceManager.GetString("Logs_ValidationAcceptedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación rechazada.
+        /// </summary>
+        internal static string Logs_ValidationRejectedMessage {
+            get {
+                return ResourceManager.GetString("Logs_ValidationRejectedMessage", resourceCulture);
             }
         }
         
@@ -1393,7 +3112,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ingresa un correo valido..
+        ///   Busca una cadena traducida similar a Ingresa un correo válido..
         /// </summary>
         internal static string Recovery_InvalidEmailMessage {
             get {
@@ -1591,7 +3310,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a WEG Installer Systems - RecuperaciÃ³n.
+        ///   Busca una cadena traducida similar a WEG Installer Systems - Recuperación.
         /// </summary>
         internal static string Recovery_WindowTitle {
             get {
@@ -1771,7 +3490,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Almacen.
+        ///   Busca una cadena traducida similar a Almacén.
         /// </summary>
         internal static string Role_Almacen {
             get {
@@ -1834,7 +3553,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Ingenierí­a.
+        ///   Busca una cadena traducida similar a Ingeniería.
         /// </summary>
         internal static string Role_Ingenieria {
             get {
@@ -1906,7 +3625,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Elige­ como quieres ver la interfaz del sistema..
+        ///   Busca una cadena traducida similar a Elige cómo quieres ver la interfaz del sistema, siguiendo la animación..
         /// </summary>
         internal static string Settings_AppearanceDescription {
             get {
@@ -1996,11 +3715,29 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Estado de conexión en linea.
+        ///   Busca una cadena traducida similar a Estado de conexión en línea.
         /// </summary>
         internal static string Shell_ConnectionStatusLabel {
             get {
                 return ResourceManager.GetString("Shell_ConnectionStatusLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Developers.
+        /// </summary>
+        internal static string Shell_DeveloperAccountsLabel {
+            get {
+                return ResourceManager.GetString("Shell_DeveloperAccountsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Gestión de developers (solo Super Admin)..
+        /// </summary>
+        internal static string Shell_DeveloperAccountsTooltip {
+            get {
+                return ResourceManager.GetString("Shell_DeveloperAccountsTooltip", resourceCulture);
             }
         }
         
@@ -2050,7 +3787,34 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El correo ya esta registrado o la base de datos esta ocupada..
+        ///   Busca una cadena traducida similar a No fue posible crear el administrador en este momento..
+        /// </summary>
+        internal static string UserForm_AdminCreateErrorMessage {
+            get {
+                return ResourceManager.GetString("UserForm_AdminCreateErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contraseña administrativa.
+        /// </summary>
+        internal static string UserForm_AdminPasswordLabel {
+            get {
+                return ResourceManager.GetString("UserForm_AdminPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa la contraseña administrativa....
+        /// </summary>
+        internal static string UserForm_AdminPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("UserForm_AdminPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo ya está registrado o la base de datos está ocupada..
         /// </summary>
         internal static string UserForm_CreateConflictMessage {
             get {
@@ -2127,6 +3891,15 @@ namespace ConcesionaroCarros.Properties {
         internal static string UserForm_LastNamePlaceholder {
             get {
                 return ResourceManager.GetString("UserForm_LastNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ingresa la contraseña administrativa..
+        /// </summary>
+        internal static string UserForm_MissingAdminPasswordMessage {
+            get {
+                return ResourceManager.GetString("UserForm_MissingAdminPasswordMessage", resourceCulture);
             }
         }
         
@@ -2230,7 +4003,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Aplicativos.
+        ///   Busca una cadena traducida similar a Aplicaciones.
         /// </summary>
         internal static string UserManagement_ApplicationsColumn {
             get {
@@ -2266,6 +4039,33 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No tiene permisos para eliminar administradores..
+        /// </summary>
+        internal static string UserManagement_CannotDeleteAdmin {
+            get {
+                return ResourceManager.GetString("UserManagement_CannotDeleteAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Este usuario está reservado como Developer. Deshabilítalo desde la gestión de Developers..
+        /// </summary>
+        internal static string UserManagement_CannotDeleteDeveloper {
+            get {
+                return ResourceManager.GetString("UserManagement_CannotDeleteDeveloper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se puede eliminar el Super Admin..
+        /// </summary>
+        internal static string UserManagement_CannotDeleteSuperAdmin {
+            get {
+                return ResourceManager.GetString("UserManagement_CannotDeleteSuperAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Rol actual.
         /// </summary>
         internal static string UserManagement_CurrentRoleLabel {
@@ -2280,6 +4080,15 @@ namespace ConcesionaroCarros.Properties {
         internal static string UserManagement_EditErrorMessage {
             get {
                 return ResourceManager.GetString("UserManagement_EditErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No tiene permisos para editar administradores o developers..
+        /// </summary>
+        internal static string UserManagement_EditForbiddenAdminDeveloper {
+            get {
+                return ResourceManager.GetString("UserManagement_EditForbiddenAdminDeveloper", resourceCulture);
             }
         }
         
@@ -2302,7 +4111,7 @@ namespace ConcesionaroCarros.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Aplicativos instaladores.
+        ///   Busca una cadena traducida similar a Aplicaciones instaladoras.
         /// </summary>
         internal static string UserManagement_InstallerApplicationsHeader {
             get {
