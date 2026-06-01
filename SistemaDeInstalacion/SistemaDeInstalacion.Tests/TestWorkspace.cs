@@ -1,3 +1,5 @@
+using ConcesionaroCarros.Db;
+using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
 
@@ -6,6 +8,8 @@ namespace SistemaDeInstalacion.Tests
     internal sealed class TestWorkspace : IDisposable
     {
         private readonly string _originalCurrentDirectory;
+        private readonly string _originalBranchName;
+        private readonly string _originalTestDatabasePath;
         private static readonly string[] ManagedDatabaseFiles =
         {
             "WegInstaladores.db",
@@ -17,10 +21,18 @@ namespace SistemaDeInstalacion.Tests
         public TestWorkspace()
         {
             _originalCurrentDirectory = Environment.CurrentDirectory;
+            _originalBranchName = Environment.GetEnvironmentVariable(DatabaseConnectionProvider.BranchNameKey);
+            _originalTestDatabasePath = Environment.GetEnvironmentVariable(DatabaseConnectionProvider.TestDatabasePathKey);
             RootPath = AppDomain.CurrentDomain.BaseDirectory;
+
+            Environment.SetEnvironmentVariable(DatabaseConnectionProvider.BranchNameKey, "feature/test-workspace");
+            Environment.SetEnvironmentVariable(DatabaseConnectionProvider.TestDatabasePathKey, CurrentDatabasePath);
 
             CleanupKnownFiles();
             Environment.CurrentDirectory = RootPath;
+
+            DatabaseInitializer.Initialize();
+            ResetDatabaseContents();
         }
 
         public string RootPath { get; }
@@ -34,6 +46,9 @@ namespace SistemaDeInstalacion.Tests
 
         public void Dispose()
         {
+            ResetDatabaseContents();
+            Environment.SetEnvironmentVariable(DatabaseConnectionProvider.BranchNameKey, _originalBranchName);
+            Environment.SetEnvironmentVariable(DatabaseConnectionProvider.TestDatabasePathKey, _originalTestDatabasePath);
             Environment.CurrentDirectory = _originalCurrentDirectory;
             CleanupKnownFiles();
         }
@@ -52,6 +67,33 @@ namespace SistemaDeInstalacion.Tests
                 {
                     // Si algun proceso deja un archivo abierto, no bloqueamos el resultado del test.
                 }
+            }
+        }
+
+        private void ResetDatabaseContents()
+        {
+            try
+            {
+                using (var conn = new SqliteConnection(DatabaseInitializer.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+                        DELETE FROM PasswordRecoveryLog;
+                        DELETE FROM Usuarios;
+                        DELETE FROM Instaladores;
+                        DELETE FROM Administrador;
+                        DELETE FROM sqlite_sequence WHERE name IN ('PasswordRecoveryLog', 'Usuarios', 'Instaladores', 'Administrador');
+                        ";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+                // If the DB doesn't exist yet or is locked, the next init will repair it.
             }
         }
     }

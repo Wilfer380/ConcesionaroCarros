@@ -1529,11 +1529,11 @@ namespace ConcesionaroCarros.Services
 
             if (IsHealthSignal(primaryEntry))
             {
-                if (IsHealthIncident(primaryEntry))
-                    return recovery != null && recovery.IsObserved ? "HistoricalIncidentResolved" : "HistoricalIncidentUnresolved";
-
                 if (IsOperationalDegradation(primaryEntry))
                     return "OperationalDegraded";
+
+                if (IsHealthIncident(primaryEntry))
+                    return recovery != null && recovery.IsObserved ? "HistoricalIncidentResolved" : "HistoricalIncidentUnresolved";
 
                 return "NoIncidentObserved";
             }
@@ -1638,25 +1638,43 @@ namespace ConcesionaroCarros.Services
         private static string BuildDurationLabel(AppLogEntry primaryEntry, RecoveryResolution recovery)
         {
             if (primaryEntry == null)
-                return T("Logs_Dashboard_NoCoverageObservable", "Sin cobertura observable");
+                return RemoveDiacritics(T("Logs_Dashboard_NoCoverageObservable", "Sin cobertura observable"));
 
             if (recovery == null || !recovery.IsObserved || !recovery.Timestamp.HasValue)
-                return T("Logs_Dashboard_RecoveryNotObservable", "Recuperación no observable");
+                return RemoveDiacritics(T("Logs_Dashboard_RecoveryNotObservable", "Recuperación no observable"));
 
             var duration = recovery.Timestamp.Value - primaryEntry.Timestamp;
             if (duration.TotalMinutes < 1)
-                return T("Logs_Dashboard_ObservableDurationUnderMinute", "Duración observable < 1 min");
+                return RemoveDiacritics(T("Logs_Dashboard_ObservableDurationUnderMinute", "Duración observable < 1 min"));
 
             if (duration.TotalHours < 1)
-                return F(
+                return RemoveDiacritics(F(
                     "Logs_Dashboard_ObservableDurationMinutesFormat",
                     "Duración observable {0} min",
-                    Math.Round(duration.TotalMinutes).ToString("N0", CultureInfo.InvariantCulture));
+                    Math.Round(duration.TotalMinutes).ToString("N0", CultureInfo.InvariantCulture)));
 
-            return F(
+            return RemoveDiacritics(F(
                 "Logs_Dashboard_ObservableDurationHoursFormat",
                 "Duración observable {0} h",
-                Math.Round(duration.TotalHours, 1).ToString("N1", CultureInfo.InvariantCulture));
+                Math.Round(duration.TotalHours, 1).ToString("N1", CultureInfo.InvariantCulture)));
+        }
+
+        private static string RemoveDiacritics(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
+
+            var normalized = value.Normalize(System.Text.NormalizationForm.FormD);
+            var builder = new System.Text.StringBuilder(normalized.Length);
+
+            foreach (var ch in normalized)
+            {
+                var category = CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (category != UnicodeCategory.NonSpacingMark)
+                    builder.Append(ch);
+            }
+
+            return builder.ToString().Normalize(System.Text.NormalizationForm.FormC);
         }
 
         private static string BuildNarrativeSummary(string sectionKey, AppLogEntry primaryEntry, string severity, string narrativeState, int count)
